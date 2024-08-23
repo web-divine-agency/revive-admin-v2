@@ -5,8 +5,13 @@ import 'font-awesome/css/font-awesome.min.css';
 import view_icon from '../../assets/images/view_icon.png';
 import edit_icon from '../../assets/images/edit_icon.png';
 import delete_icon from '../../assets/images/delete_icon.png';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function UsersList() {
+  const navigate = useNavigate();
+
   const columns = [
     {
       name: 'Name',
@@ -119,9 +124,9 @@ function UsersList() {
               <option value="">Admins</option>
             </select>
             <input id='search-bar' type="text" placeholder='Search' />
-            <button className='btn btn-primary float-end add-user-btn'> <i className="fa fa-plus"></i>Add New User</button>
+            <button onClick={()=>navigate("/add-new-user")} className='btn btn-primary float-end add-user-btn'> <i className="fa fa-plus"></i>Add New User</button>
           </div>
-          <div className="data-table-container">
+          <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
               columns={columns}

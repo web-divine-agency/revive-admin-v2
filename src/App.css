@@ -32,7 +32,7 @@ select{
   border: 1px solid #DFDFDF;
  margin-left: 30px;
 }
-.data-table-container {
+.container-content {
   border: 1px solid #ccc;
   border-radius: 20px; 
   margin: 20px;
