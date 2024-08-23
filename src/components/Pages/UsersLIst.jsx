@@ -41,7 +41,7 @@ function UsersList() {
       name: 'John Doe',
       email: 'john@example.com',
       username: 'johndoe',
-      branch: 'Sales',
+      branch: 'Manila',
       action: (
         <>
           <img src={view_icon} alt="view" width="25" height="25" />
@@ -55,7 +55,7 @@ function UsersList() {
       name: 'Jane Doe',
       email: 'jane@example.com',
       username: 'janedoe',
-      branch: 'Marketing',
+      branch: 'Manila',
       action: (
         <>
           <img src={view_icon} alt="view" width="25" height="25" />
@@ -69,7 +69,7 @@ function UsersList() {
       name: 'David Smith',
       email: 'david@example.com',
       username: 'davidsmit',
-      branch: 'Finance',
+      branch: 'Manila',
       action: (
         <>
           <img src={view_icon} alt="view" width="25" height="25" />
@@ -83,7 +83,7 @@ function UsersList() {
       name: 'Sarah Johnson',
       email: 'sarah@example.com',
       username: 'sarahjohnson',
-      branch: 'HR',
+      branch: 'Manila',
       action: (
         <>
           <img src={view_icon} alt="view" width="25" height="25" />
@@ -97,7 +97,7 @@ function UsersList() {
       name: 'Michael Brown',
       email: 'michael@example.com',
       username: 'michaelbrown',
-      branch: 'IT',
+      branch: 'Manila',
       action: (
         <>
           <img src={view_icon} alt="view" width="25" height="25" />
