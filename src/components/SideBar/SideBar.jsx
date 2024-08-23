@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SidebarData } from './SideBarData';
+import { SidebarData }  from './SideBarData';
 import './SideBar.css';
 import { IconContext } from 'react-icons';
 import branches from '../../assets/images/branches.png';

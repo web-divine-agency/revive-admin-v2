@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function UsersLIst() {
+function UsersList() {
   return (
     <div className='userlist'>
     <div>UsersLIst</div>
@@ -9,4 +9,4 @@ function UsersLIst() {
   )
 }
 
-export default UsersLIst;
+export default UsersList;
