@@ -28,28 +28,24 @@ export const SidebarData = [
     title: 'Staff Logs',
     path: '/staff-logs',
     icon: <img src={staff_logs} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-
     cName: 'nav-text'
   },
   {
     title: 'Tickets History',
     path: '/tickets-history',
     icon: <img src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-
     cName: 'nav-text'
   },
   {
     title: 'Branches',
     path: 'branches',
     icon: <img src={branches} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-
     cName: 'nav-text'
   },
   {
     title: 'Logout',
     path: '/',
     icon: <img src={log_out} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-
     cName: 'nav-text'
   }
 ];
