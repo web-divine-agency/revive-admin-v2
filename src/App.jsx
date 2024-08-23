@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
@@ -8,6 +9,7 @@ import StaffLogs from './components/Pages/StaffLogs';
 import TicketsHistory from './components/Pages/TicketsHistory';
 import UsersManagement from './components/Pages/UsersManagement';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 
 function Layout() {

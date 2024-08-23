@@ -1,8 +1,11 @@
 import React from 'react'
+import '../../App.css';
 
 function UsersManagement() {
   return (
-    <div>UsersManagement</div>
+    <div className="container">
+    
+  </div>
   )
 }
 

@@ -1,9 +1,13 @@
-*{
+/* *{
     border: 1px solid red;
-}
+} */
 .logo {
     position: absolute;
     top: 0px;
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
   
 }
 h1{
@@ -23,6 +27,7 @@ h1{
     transition: 850ms;
     align-items: center;
     flex-direction: column;
+  
 
 }
 .nav-menu.active {
