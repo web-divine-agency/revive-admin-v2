@@ -8,6 +8,7 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
+    margin-left: 0px !important;
 
 }
 .custom-login::before {
@@ -40,8 +41,7 @@
 
 input {
     background-color: #EFEFEF;
-    border-color: #EFEFEF;
-    border-width: 1px;
+    border: 1.5px solid #D9D9D9; 
     color: #000000;
 
 }
