@@ -16,21 +16,14 @@ body{
   border: 2px solid #DFDFDF;
   border-radius: 20px;
   padding: 2rem 2rem 2rem 2rem;
-  height: 80vh;
+  height: auto;
   margin-left: 7.8rem !important;
   margin-top: 3rem !important;
+  margin-bottom: 20px !important;
   
 }
 
-select {
-  padding: 5px;
-  border: 1px solid #DFDFDF;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  background-color: #FFFFFF;
-  color: #626262;
-  width: 10rem;
-}
+
 
 #search-bar {
   padding: 5px 20px;
@@ -101,9 +94,18 @@ i {
 
 select {
   height: 38px;
-  width: 200px;
+  width: 208px;
   background-color: #EFEFEF !important;
+  padding: 5px;
+  border: 1px solid #DFDFDF;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  background-color: #FFFFFF;
+  color: #626262;
+ 
 }
+
+
 
 label {
   color: #626262;
@@ -113,6 +115,7 @@ label {
 
 input {
   background-color: #EFEFEF !important;
+  border: 1.5px solid #D9D9D9 !important;
 }
 
 .dataTables_wrapper .profile-image {
