@@ -11,6 +11,7 @@ import UsersManagement from './components/Pages/UsersManagement';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import AddNewUser from './components/Pages/AddNewUser';
+import EditUser from './components/Pages/EditUser';
 
 
 function Layout() {
@@ -25,6 +26,7 @@ function Layout() {
         <Route path="/tickets-history" element={<TicketsHistory />} />
         <Route path="/branches" element={<Branches />} />
         <Route path="/add-new-user" element={<AddNewUser />} />
+        <Route path="/edit-user" element={<EditUser />} />
         <Route index element={<Login />} />
       </Routes>
     </>

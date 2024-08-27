@@ -2,18 +2,21 @@
   border: 1px solid red;;
 } */
 #root {
-margin: 0 auto;
+  margin: 0 auto;
 
 }
-.container{
-border: 2px solid #DFDFDF;
-border-radius: 20px;
-padding: 2rem 2rem 2rem 2rem;
-height:80vh;
-margin-left: 7.8rem !important;
-margin-top: 3rem !important;
+
+/* Users List Style */
+.container {
+  border: 2px solid #DFDFDF;
+  border-radius: 20px;
+  padding: 2rem 2rem 2rem 2rem;
+  height: 80vh;
+  margin-left: 7.8rem !important;
+  margin-top: 3rem !important;
 }
-select{
+
+select {
   padding: 5px;
   border: 1px solid #DFDFDF;
   border-radius: 5px;
@@ -22,6 +25,7 @@ select{
   color: #626262;
   width: 10rem;
 }
+
 #search-bar {
   padding: 5px 20px;
   border: none;
@@ -30,55 +34,124 @@ select{
   color: #626262;
   cursor: pointer;
   border: 1px solid #DFDFDF;
- margin-left: 30px;
+  margin-left: 30px;
 }
+
 .container-content {
   border: 1px solid #ccc;
-  border-radius: 20px; 
+  border-radius: 20px;
   margin: 20px;
   min-width: 1015px;
 }
 
-h3{
+h3 {
   padding: 0px 0px 10px 20px;
+  font-size: 25px !important;
+  font-weight: 700 !important;
 }
 
 .data-table-container .rdt_TableRow {
-  border-bottom: 1px solid #ddd; 
+  border-bottom: 1px solid #ddd;
 }
 
-.dataTables_wrapper .rdt_TableCell{
-  font-size:15px;
+.dataTables_wrapper .rdt_TableCell {
+  font-size: 15px;
   color: #000000;
 }
-.dataTables_wrapper .rdt_TableHead{
-  font-size:15px;
+
+.dataTables_wrapper .rdt_TableHead {
+  font-size: 15px;
   color: #626262;
 }
-.top-filter{
+
+.top-filter {
   padding: 0px 20px 0px 20px;
 }
 
-.add-user-btn{
-background-color: #0B3A07 !important;
-border-color: #0B3A07 !important;
-justify-content: center !important;
-display: flex !important;
+.add-user-btn {
+  background-color: #0B3A07 !important;
+  border-color: #0B3A07 !important;
+  justify-content: center !important;
+  display: flex !important;
 }
-i{
+
+i {
   font-size: 24px !important;
 
   margin-right: 10px;
 }
 
+.submit-btn {
+  background-color: #0B3A07;
+  color: #FFFFFF;
+  font-size: 14px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 8px 30px;
+  display: flex;
+  margin: auto;
+}
 
+select {
+  height: 38px;
+  width: 200px;
+  background-color: #EFEFEF !important;
+}
+
+label {
+  color: #626262;
+  font-size: 15px !important;
+  font-weight: 600;
+}
+
+input {
+  background-color: #EFEFEF !important;
+}
+
+.dataTables_wrapper .profile-image {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  height: 50px !important;
+  width: 50px !important;
+  margin: 5px 0px 5px 0px;
+
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 50px;
+  text-align: center;
+
+}
+.profile-container h2{
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.profile-container h5{
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+.profile-container p{
+  font-size: 20px;
+ color: #626262;
+ line-height: 20px;
+}
 
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .container-content {
     border: 1px solid #ccc;
-    border-radius: 20px; 
+    border-radius: 20px;
     margin: 20px;
     min-width: 760px;
   }
-  
+
 }
+
+/* end of Users List style */
