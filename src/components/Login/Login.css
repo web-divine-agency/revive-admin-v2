@@ -1,4 +1,4 @@
-/* *{
+/* * {
     border: 1px solid red;
 } */
 
@@ -10,7 +10,9 @@
     z-index: 1;
     margin-left: 0px !important;
 
+
 }
+
 .custom-login::before {
     content: '';
     position: absolute;
@@ -41,7 +43,7 @@
 
 input {
     background-color: #EFEFEF;
-    border: 1.5px solid #D9D9D9; 
+    border: 1.5px solid #D9D9D9;
     color: #000000;
 
 }
@@ -57,7 +59,7 @@ label {
     color: #FFFFFF;
     border-radius: 50px;
     font-size: 20px;
-border-color: #0ABAA6;
+    border-color: #0ABAA6;
     text-transform: capitalize;
     margin-top: 30px !important;
 }
@@ -77,5 +79,3 @@ border-color: #0ABAA6;
     top: 70px;
     left: 80px;
 }
-
-   

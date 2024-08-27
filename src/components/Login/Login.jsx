@@ -12,7 +12,6 @@ function Login() {
     const login = (event) => {
         event.preventDefault();
         console.log(`Login attempt with username: ${username}, password: ${password}`);
-        // Add your logic to check username and password
     };
 
     return (
