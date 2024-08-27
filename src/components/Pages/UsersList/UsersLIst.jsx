@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import DataTable from 'react-data-table-component';
-import '../../App.css';
+import '../../../App.css';
 import 'font-awesome/css/font-awesome.min.css';
-import view_icon from '../../assets/images/view_icon.png';
-import edit_icon from '../../assets/images/edit_icon.png';
-import delete_icon from '../../assets/images/delete_icon.png';
-import man from '../../assets/images/man.png';
-import woman from '../../assets/images/woman.png';
+import view_icon from '../../../assets/images/view_icon.png';
+import edit_icon from '../../../assets/images/edit_icon.png';
+import delete_icon from '../../../assets/images/delete_icon.png';
+import man from '../../../assets/images/man.png';
+import woman from '../../../assets/images/woman.png';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 
@@ -122,7 +122,7 @@ function UsersList() {
             })}
             style={{ cursor: 'pointer' }}
           />
-          <img className='ml-3' src={edit_icon} alt="edit" width="25" height="25" />
+          <img className='ml-3' src={edit_icon} onClick={() => navigate("/edit-user")} alt="edit" width="25" height="25" />
           <img className='ml-3' src={delete_icon} alt="delete" width="25" height="25" />
         </>
       )

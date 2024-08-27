@@ -3,15 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
-import UsersList from './components/Pages/UsersLIst';
+import UsersList from './components/Pages/UsersList/UsersLIst';
 import Branches from './components/Pages/Branches';
 import StaffLogs from './components/Pages/StaffLogs';
 import TicketsHistory from './components/Pages/TicketsHistory';
 import UsersManagement from './components/Pages/UsersManagement';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import AddNewUser from './components/Pages/AddNewUser';
-import EditUser from './components/Pages/EditUser';
+import AddNewUser from './components/Pages/UsersList/AddNewUser';
+import EditUser from './components/Pages/UsersList/EditUser';
 
 
 function Layout() {
