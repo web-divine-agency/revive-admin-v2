@@ -9,21 +9,61 @@ import man from '../../../assets/images/man.png';
 import woman from '../../../assets/images/woman.png';
 import { useNavigate } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+
 
 function UsersList() {
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+
+
+  // View modal(user)
   const handleViewClick = (user) => {
     setSelectedUser(user);
     setShowModal(true);
   };
 
+  // Close view modal(user)
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
+  //handle deleting of user
+  const handleDeleteUserClick = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this? This action can’t be undone",
+      showCancelButton: true,
+      confirmButtonColor: "#EC221F",
+      cancelButtonColor: "#00000000",
+      cancelTextColor: "#000000",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        container: 'custom-container',
+        confirmButton: 'custom-confirm-button',
+        cancelButton: 'custom-cancel-button',
+        title: 'custom-swal-title',
+
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Success!",
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#0ABAA6",
+          customClass: {
+            confirmButton: 'custom-success-confirm-button',
+            title: 'custom-swal-title'
+          }
+        });
+      }
+    });
+  };
+
+  // Table columns
   const columns = [
     {
       name: 'Name',
@@ -66,6 +106,7 @@ function UsersList() {
     }
   ];
 
+  // Table data
   const data = [
     {
       id: 1,
@@ -93,7 +134,7 @@ function UsersList() {
             style={{ cursor: 'pointer' }}
           />
           <img className='ml-3' src={edit_icon} onClick={() => navigate("/edit-user")} alt="edit" width="25" height="25" />
-          <img className='ml-3' src={delete_icon} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} alt="delete" width="25" height="25" onClick={handleDeleteUserClick} />
         </>
       )
     },
@@ -103,7 +144,7 @@ function UsersList() {
       email: 'jane@example.com',
       username: 'janedoe',
       branch: 'Quezon City',
-      role: 'Admin',
+      role: 'Staff',
       profileImage: woman,
       action: (
         <>
@@ -117,13 +158,13 @@ function UsersList() {
               email: 'jane@example.com',
               username: 'janedoe',
               branch: 'Quezon City',
-              role: 'Admin',
+              role: 'Staff',
               profileImage: woman
             })}
             style={{ cursor: 'pointer' }}
           />
           <img className='ml-3' src={edit_icon} onClick={() => navigate("/edit-user")} alt="edit" width="25" height="25" />
-          <img className='ml-3' src={delete_icon} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} alt="delete" width="25" height="25" onClick={handleDeleteUserClick} />
         </>
       )
     }
@@ -135,7 +176,7 @@ function UsersList() {
         <div className="col-lg-12 col-md-6">
           <h3>Users List</h3>
           <div className='top-filter'>
-            <select name="" id="">
+            <select name="" id="filter">
               <option value="">All Users</option>
               <option value="">Staffs</option>
               <option value="">Admins</option>
@@ -155,6 +196,7 @@ function UsersList() {
         </div>
       </div>
 
+      {/* View User Modal */}
       {selectedUser && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
@@ -175,30 +217,15 @@ function UsersList() {
               <h2>{selectedUser.name}</h2>
               <div className='user-details'>
                 <h5>Username:<p>{selectedUser.username}</p></h5>
-
                 <h5>Role: <p>{selectedUser.role}</p></h5>
-
                 <h5>Branch: <p>{selectedUser.branch}</p></h5>
-
                 <h5>Email:<p>{selectedUser.email}</p></h5>
-
-
               </div>
-              {/* <p>Username: <br /> {selectedUser.username} </p>
-              
-              <p>Role: <br /> {selectedUser.role}</p>
-              <p>Email: <br />{selectedUser.email}</p>
-              <p>Branch: <br />{selectedUser.branch}</p> */}
-
             </div>
           </Modal.Body>
-          {/* <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Modal.Footer> */}
         </Modal>
       )}
+
     </div>
   );
 }

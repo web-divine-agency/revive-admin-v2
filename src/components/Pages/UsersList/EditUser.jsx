@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 function EditUser() {
-    const { userId } = useParams(); // Assuming you're using React Router for routing
+    const { userId } = useParams(); 
     const [lastname, setLastname] = useState('');
     const [firstname, setFirstname] = useState('');
     const [branch, setBranch] = useState('');

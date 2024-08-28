@@ -11,7 +11,8 @@ body{
   justify-content: center;
   min-height: 100vh;
 }
-/* Users List Style */
+
+/* Components Style */
 .container {
   border: 2px solid #DFDFDF;
   border-radius: 20px;
@@ -153,6 +154,31 @@ input {
  line-height: 20px;
 }
 
+.branch-container{
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  /* align-items: center; */
+  cursor: pointer;
+  margin-bottom: 50px;
+}
+.branch-container h2{
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.branch-container h5{
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 13px;
+}
+.branch-container p{
+  font-size: 17px;
+ color: #626262;
+ line-height: 5px;
+}
+
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .container-content {
     border: 1px solid #ccc;
@@ -163,4 +189,36 @@ input {
 
 }
 
-/* end of Users List style */
+/* end component style */
+
+
+/* swal custom style */
+.custom-cancel-button{
+  border: 1px solid #000000;
+  color: #000000;
+  height: 40px;
+  width: 139px;
+  padding: 5px;
+  border-radius: 8px;
+
+}
+.custom-confirm-button{
+  height: 40px;
+  width: 139px;
+  padding: 5px;
+  border-radius: 8px;
+}
+.custom-swal-title{
+  font-size: 30px;
+  font-weight: 700;
+  color: #000000;
+}
+.custom-success-confirm-button{
+  color: black;
+  font-size: 16px;
+  height: 40px;
+  width: 139px;
+  padding: 5px;
+
+}
+/* end of swal custom style */

@@ -6,17 +6,18 @@ import view_icon from '../../../assets/images/view_icon.png';
 import edit_icon from '../../../assets/images/edit_icon.png';
 import delete_icon from '../../../assets/images/delete_icon.png';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
-import Swal from 'sweetalert2';
+import { Modal } from 'react-bootstrap';
+import Swal from 'sweetalert2'
 
-function UserRoleManagement() {
+
+function Branches() {
   const navigate = useNavigate();
-  const [selectedUserRole, setSelectedUserRole] = useState(null);
+  const [selectedBranches, setSelectedBranches] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   //modal view
   const handleViewClick = (role) => {
-    setSelectedUserRole(role);
+    setSelectedBranches(role);
     setShowModal(true);
   };
   //close modal
@@ -24,8 +25,8 @@ function UserRoleManagement() {
     setShowModal(false);
   };
 
-  //handle deleting of user role
-  const handleDeleteRoleClick = () => {
+  //handle deleting of branch
+  const handleDeleteBranchClick = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
@@ -57,12 +58,18 @@ function UserRoleManagement() {
     });
   };
 
+
   //table columns
   const columns = [
     {
-      name: 'Name',
-      selector: row => row.name,
+      name: 'Branch',
+      selector: row => row.branch,
       sortable: true
+    },
+    {
+      name: 'Status',
+      selector: row => row.status,
+      sortable: false
     },
     {
       name: 'Action',
@@ -75,9 +82,8 @@ function UserRoleManagement() {
   const data = [
     {
       id: 1,
-      name: 'Staff',
       branch: 'Manila',
-      role: 'Staff',
+      status: 'Open',
       action: (
         <>
           <img
@@ -86,29 +92,37 @@ function UserRoleManagement() {
             width="25"
             height="25"
             onClick={() => handleViewClick({
-              name: 'Staffs',
-              permission: ['Generate Ticket', 'View Ticket History', 'Manage Account']
+              branch: 'Manila',
+              address: '1234 Market Street, Tondo, 2112',
+              operatingHours: ['Monday - Friday: 9:00 AM - 9:00 PM', 'Saturday: 10:00 AM - 8:00 PM', 'Sunday : Close'],
+              staffLists: ['Jane Doe/Staff', 'John Doe/Staff']
             })}
             style={{ cursor: 'pointer' }}
           />
           <img
             className='ml-3'
             src={edit_icon}
-            onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Staff', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
+            onClick={() => navigate("/edit-branch", {
+              state: {
+                branchData: {
+                  branch: 'Cebu',
+                  addressLine1: 'Purok 3', addressLine2: 'Market Place', city: 'Cebu', state: 'Cebu City'
+                }, zipCode: 1000, country: 'Philippines'
+              }
+            })}
             alt="edit"
             width="25"
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
         </>
       )
     },
     {
       id: 2,
-      name: 'Admin',
-      branch: 'Quezon City',
-      role: 'Admin',
+      branch: 'Cebu',
+      status: 'Close',
       action: (
         <>
           <img
@@ -117,21 +131,30 @@ function UserRoleManagement() {
             width="25"
             height="25"
             onClick={() => handleViewClick({
-              name: 'Admins',
-              permission: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account']
+              branch: 'Cebu',
+              address: '1234Magallanes Street Street, Cebu city, 2112',
+              operatingHours: ['Monday - Friday: 9:00 AM - 9:00 PM', 'Saturday: 10:00 AM - 8:00 PM', 'Sunday : Close'],
+              staffLists: ['Jane Doe/Staff', 'John Doe/Staff']
             })}
             style={{ cursor: 'pointer' }}
           />
           <img
             className='ml-3'
             src={edit_icon}
-            onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Admin', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
+            onClick={() => navigate("/edit-branch", {
+              state: {
+                branchData: {
+                  branch: 'Manila',
+                  addressLine1: 'Purok 3', addressLine2: 'Market Place', city: 'Manila', state: 'Metro Manila'
+                }, zipCode: 1096, country: 'Philippines'
+              }
+            })}
             alt="edit"
             width="25"
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
         </>
       )
     }
@@ -141,16 +164,16 @@ function UserRoleManagement() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>User Role Management</h3>
+          <h3>Branches</h3>
           <div className='top-filter'>
             <select name="" id="">
-              <option value="">All Users</option>
-              <option value="">Staffs</option>
-              <option value="">Admins</option>
+              <option value="">All Branch</option>
+              <option value="">Manila</option>
+              <option value="">Cebu</option>
             </select>
             <input id='search-bar' type="text" placeholder='Search' />
-            <button onClick={() => navigate("/add-new-role")} className='btn btn-primary float-end add-user-btn'>
-              <i className="fa fa-plus"></i> Add New Role
+            <button onClick={() => navigate("/add-branch")} className='btn btn-primary float-end add-user-btn'>
+              <i className="fa fa-plus"></i> Add New Branch
             </button>
           </div>
           <div className="container-content">
@@ -163,17 +186,26 @@ function UserRoleManagement() {
         </div>
       </div>
 
-      {selectedUserRole && (
+      {selectedBranches && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>User Role Details</Modal.Title>
+            <Modal.Title>Branch Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className='profile-container'>
-              <h2>{selectedUserRole.name} Permissions</h2>
+            <div className='branch-container'>
+              <h2>{selectedBranches.branch}</h2>
+              <h5>Full Address:</h5>
+              <p>{selectedBranches.address}</p>
+              <h5>Operating Hours</h5>
               <p>
-                {selectedUserRole.permission.map((permission, index) => (
-                  <p key={index}>{permission}</p>
+                {selectedBranches.operatingHours.map((operatingHours, index) => (
+                  <p key={index}>{operatingHours}</p>
+                ))}
+              </p>
+              <h5>Staff Lists</h5>
+              <p>
+                {selectedBranches.staffLists.map((staffLists, index) => (
+                  <p key={index}>{staffLists}</p>
                 ))}
               </p>
               <div className='user-details'>
@@ -191,4 +223,4 @@ function UserRoleManagement() {
   );
 }
 
-export default UserRoleManagement;
+export default Branches;

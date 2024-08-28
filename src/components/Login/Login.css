@@ -69,7 +69,7 @@ label {
     color: #FFFFFF;
     text-align: center;
     position: relative;
-    top: 30px;
+    top: 100px;
 
 }
 
@@ -78,4 +78,15 @@ label {
     position: relative;
     top: 70px;
     left: 80px;
+}
+
+.custom-login select {
+    height: 28px !important;
+    width: 80px !important;
+    padding: 0 !important;
+    border: 1px solid #DFDFDF;
+    border-radius: 5px;
+    margin-bottom: 0 !important;
+    background-color: #FFFFFF !important;
+    color: #626262;
 }
