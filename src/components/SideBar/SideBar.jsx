@@ -4,44 +4,32 @@ import { SidebarData } from './SideBarData';
 import './SideBar.css';
 import { IconContext } from 'react-icons';
 import profile_avatar from '../../assets/images/profile_avatar.png';
-
+import Dropdown from 'react-bootstrap/Dropdown';
+import profile from '../../assets/images/profile.png'
+import log_out from '../../assets/images/log_out.png';
 
 
 function Navbar() {
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-    const handleProfileClick = () => {
-        setIsDropdownVisible(!isDropdownVisible);
-        console.log('profile clicked');
-        alert('profile clicked');
-    };
-
-    const dropdownStyles = {
-        position: 'absolute',
-        top: '50px',
-        right: '10px',
-        backgroundColor: '#fff',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-        padding: '10px',
-        zIndex: 1000, 
-    };
     return (
         <>
             <IconContext.Provider value={{ color: '#fff' }}>
                 <div className='sidebar-nav'>
-                    <div className="profile" onClick={handleProfileClick} style={{ cursor: 'pointer'}}>
-                        <img src={profile_avatar} alt="Profile Avatar" style={{ width: '30px', height: '30px' }} />
-                        <h3>Staff</h3>
-                        <hr className="profile-divider" />
+                    <div className="profile">
+                        <Dropdown>
+                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                <img src={profile_avatar} className='profile_avatar' alt="Profile Avatar" />
+                                Staff
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu className="custom-dropdown-menu">
+                                <Dropdown.Item href="#/action-1" className="custom-dropdown-menu-content" ><img src={profile} className='profile_menu' alt="Profile" />My Profile</Dropdown.Item>
+                                <hr />
+                                <Dropdown.Item href="#/action-3" className="custom-dropdown-menu-content"><img src={log_out} className='profile_menu' alt="Logout" />Logout</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
-                    {isDropdownVisible && (
-                        <div className="dropdown-menu" style={dropdownStyles}>
-                            <a href="/profile" className="dropdown-item">Profile</a>
-                            <a href="/logout" className="dropdown-item">Logout</a>
-                        </div>
-                    )}
+
                     <nav className='nav-menu active'>
                         <div className="logo">
                             <svg width="175" height="65" viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">

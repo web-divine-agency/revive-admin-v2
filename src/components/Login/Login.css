@@ -8,9 +8,6 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    margin-left: 0px !important;
-
-
 }
 
 .custom-login::before {
