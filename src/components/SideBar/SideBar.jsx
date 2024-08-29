@@ -29,7 +29,7 @@ function Navbar() {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-
+                    <hr className="profile-divider" />
                     <nav className='nav-menu active'>
                         <div className="logo">
                             <svg width="175" height="65" viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
