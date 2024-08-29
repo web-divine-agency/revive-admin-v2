@@ -45,7 +45,7 @@ function AddNewBranch() {
 
     return (
         <div className="container">
-            <h3>Add New User</h3>
+            <h3>Add New Branch</h3>
             <div className="container-content">
                 <form onSubmit={addBranch}>
                     <div className="d-flex justify-content-between ml-5 mr-5 pt-4">

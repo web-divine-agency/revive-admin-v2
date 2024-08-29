@@ -48,7 +48,7 @@ function AddNewUser() {
           </div>
           <div className="d-flex justify-content-between ml-5 mr-5">
             <div className="form-group">
-              <label>Username</label>
+              <label>Username:</label>
               <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="form-group">

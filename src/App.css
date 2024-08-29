@@ -51,16 +51,20 @@ h3 {
 
 .data-table-container .rdt_TableRow {
   border-bottom: 1px solid #ddd;
+  justify-content: space-around;
+
 }
 
 .dataTables_wrapper .rdt_TableCell {
   font-size: 15px;
   color: #000000;
+ justify-content: space-between;
 }
 
 .dataTables_wrapper .rdt_TableHead {
   font-size: 15px;
   color: #626262;
+ 
 }
 
 .top-filter {
@@ -170,12 +174,12 @@ input {
 .branch-container h5{
   font-size: 17px;
   font-weight: 700;
-  margin-top: 13px;
+  margin-top: 15px;
 }
 .branch-container p{
   font-size: 17px;
  color: #626262;
- line-height: 5px;
+ line-height: 12px;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
@@ -221,3 +225,4 @@ input {
 
 }
 /* end of swal custom style */
+

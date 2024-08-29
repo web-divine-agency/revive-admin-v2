@@ -60,6 +60,12 @@ label {
     text-transform: capitalize;
     margin-top: 30px !important;
 }
+.custom-btn:hover {
+    background-color: #0fa896;
+    /* color: #000000; */
+    border-color: #0ABAA6;
+}
+
 
 
 .header-title {

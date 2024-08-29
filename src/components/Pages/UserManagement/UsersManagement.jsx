@@ -60,7 +60,7 @@ function UserRoleManagement() {
   //table columns
   const columns = [
     {
-      name: 'Name',
+      name: 'Role',
       selector: row => row.name,
       sortable: true
     },
@@ -82,6 +82,7 @@ function UserRoleManagement() {
         <>
           <img
             src={view_icon}
+            title='View User Role Details'
             alt="view"
             width="25"
             height="25"
@@ -94,13 +95,14 @@ function UserRoleManagement() {
           <img
             className='ml-3'
             src={edit_icon}
+            title='Edit User Role Details'
             onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Staff', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
             alt="edit"
             width="25"
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' title='Delete User Role' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
         </>
       )
     },
@@ -113,6 +115,7 @@ function UserRoleManagement() {
         <>
           <img
             src={view_icon}
+            title='View User Role Details'
             alt="view"
             width="25"
             height="25"
@@ -125,13 +128,14 @@ function UserRoleManagement() {
           <img
             className='ml-3'
             src={edit_icon}
+            title='Edit User Role Details'
             onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Admin', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
             alt="edit"
             width="25"
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} title='Delete User Role' onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
         </>
       )
     }

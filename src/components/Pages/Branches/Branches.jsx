@@ -88,6 +88,7 @@ function Branches() {
         <>
           <img
             src={view_icon}
+            title='View Branch Details'
             alt="view"
             width="25"
             height="25"
@@ -102,6 +103,7 @@ function Branches() {
           <img
             className='ml-3'
             src={edit_icon}
+            title='Edit Branch Details'
             onClick={() => navigate("/edit-branch", {
               state: {
                 branchData: {
@@ -115,7 +117,7 @@ function Branches() {
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} title='Delete Branch' onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
         </>
       )
     },
@@ -127,6 +129,7 @@ function Branches() {
         <>
           <img
             src={view_icon}
+            title='View Branch Details'
             alt="view"
             width="25"
             height="25"
@@ -141,6 +144,7 @@ function Branches() {
           <img
             className='ml-3'
             src={edit_icon}
+            title='Edit Branch Details'
             onClick={() => navigate("/edit-branch", {
               state: {
                 branchData: {
@@ -154,7 +158,7 @@ function Branches() {
             height="25"
           />
 
-          <img className='ml-3' src={delete_icon} onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
+          <img className='ml-3' src={delete_icon} title='Delete Branch' onClick={handleDeleteBranchClick} alt="delete" width="25" height="25" />
         </>
       )
     }

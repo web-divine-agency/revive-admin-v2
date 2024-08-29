@@ -16,6 +16,8 @@ import EditUserRole from './components/Pages/UserManagement/EditUserRole';
 import AddNewRole from './components/Pages/UserManagement/AddNewRole';
 import AddBranch from './components/Pages/Branches/AddBranch';
 import EditBranch from './components/Pages/Branches/EditBranch';
+import MyProfile from './components/Pages/MyProfile/MyProfile';
+
 
 
 
@@ -39,6 +41,7 @@ function Layout() {
         <Route path="/add-new-role" element={<AddNewRole />} />
         <Route path="/add-branch" element={<AddBranch />} />
         <Route path="/edit-branch" element={<EditBranch />} />
+        <Route path="/my-profile" element={<MyProfile />} />
         <Route index element={<Login />} />
       </Routes>
     </>
