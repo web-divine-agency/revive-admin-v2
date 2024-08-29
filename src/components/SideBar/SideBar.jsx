@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SidebarData }  from './SideBarData';
+import { SidebarData } from './SideBarData';
 import './SideBar.css';
 import { IconContext } from 'react-icons';
-import branches from '../../assets/images/branches.png';
+import profile_avatar from '../../assets/images/profile_avatar.png';
+
 
 
 function Navbar() {
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+    const handleProfileClick = () => {
+        setIsDropdownVisible(!isDropdownVisible);
+        console.log('profile clicked');
+        alert('profile clicked');
+    };
+
+    const dropdownStyles = {
+        position: 'absolute',
+        top: '50px',
+        right: '10px',
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+        padding: '10px',
+        zIndex: 1000, 
+    };
     return (
         <>
             <IconContext.Provider value={{ color: '#fff' }}>
                 <div className='sidebar-nav'>
-                    <div className="profile">
-                        <img src={branches} alt="" style={{ width: '24px', height: '24px' }} />
-                        {/* <img src={branches} alt="Custom Icon" style={{ width: '24px', height: '24px' }} /> */}
+                    <div className="profile" onClick={handleProfileClick} style={{ cursor: 'pointer'}}>
+                        <img src={profile_avatar} alt="Profile Avatar" style={{ width: '30px', height: '30px' }} />
+                        <h3>Staff</h3>
+                        <hr className="profile-divider" />
                     </div>
+                    {isDropdownVisible && (
+                        <div className="dropdown-menu" style={dropdownStyles}>
+                            <a href="/profile" className="dropdown-item">Profile</a>
+                            <a href="/logout" className="dropdown-item">Logout</a>
+                        </div>
+                    )}
                     <nav className='nav-menu active'>
-
-
                         <div className="logo">
                             <svg width="175" height="65" viewBox="0 0 200 95" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M86.8019 66.0751V40.8997C86.8019 40.2589 87.1681 39.8927 87.8089 39.8927H99.9846C104.013 39.8927 108.407 42.9137 108.407 49.0474C108.407 53.5332 106.027 56.3711 103.189 57.5155L108.224 65.8462C108.636 66.5328 108.361 67.0363 107.537 67.0363H102.639C102.09 67.0363 101.724 66.8533 101.449 66.3497L96.4601 58.1563H92.8897V66.0293C92.8897 66.6702 92.5235 67.0363 91.8827 67.0363H87.7631C87.1681 67.0821 86.8019 66.7159 86.8019 66.0751ZM98.9318 52.2973C100.671 52.2973 102.273 51.153 102.273 49.0932C102.273 46.9876 100.671 45.9348 98.9318 45.9348H92.9355V52.3431H98.9318V52.2973Z" fill="white" />

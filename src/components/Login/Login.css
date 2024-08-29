@@ -76,7 +76,7 @@ label {
 
 .bg-image {
     position: relative;
-    top: 70px;
+    bottom: -80px;
     left: 80px;
 }
 
