@@ -291,14 +291,15 @@ input {
 .custom-row {
  display: flex;
  justify-content: center;
+
 }
 .custom-row h3{
 line-height: 0px;
-  padding-left: 30px;
+  padding-left: 0;
  }
  .custom-row p{
 
-  padding-left: 30px;
+  padding-left: 0;
  }
 
 /* End of My Profile Style */
