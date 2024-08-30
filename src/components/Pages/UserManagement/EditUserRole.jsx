@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function EditUserRole() {
   const location = useLocation();
   const { roleData } = location.state || {};
 
-  const [role, setRole] = useState('');
+  const rolePermissionsMap = {
+    Staff: ['generateTicket', 'viewTicketHistory', 'manageAccount'],
+    Admin: ['manageUsers', 'viewStaffLogs', 'viewTicketHistory', 'viewUsersList', 'manageAccount']
+  };
+
+  const [role, setRole] = useState("");
   const [permissions, setPermissions] = useState({
     generateTicket: false,
     viewTicketHistory: false,
@@ -13,38 +18,41 @@ function EditUserRole() {
     manageUsers: false,
     viewBranches: false,
     manageAccount: false,
-    viewStaffLogs: false
+    viewStaffLogs: false,
   });
 
   useEffect(() => {
     if (roleData) {
       setRole(roleData.name);
-      const updatedPermissions = {};
-      roleData.permissions.forEach(permission => {
-        updatedPermissions[permission] = true;
-      });
-      setPermissions(prevPermissions => ({
+      const rolePermissions = rolePermissionsMap[roleData.name] || [];
+      const updatedPermissions = rolePermissions.reduce((acc, permission) => {
+        acc[permission] = true;
+        return acc;
+      }, {});
+      setPermissions((prevPermissions) => ({
         ...prevPermissions,
-        ...updatedPermissions
+        ...updatedPermissions,
       }));
     }
   }, [roleData]);
 
   const handlePermissionChange = (e) => {
     const { name, checked } = e.target;
-    setPermissions(prevPermissions => ({
+    setPermissions((prevPermissions) => ({
       ...prevPermissions,
-      [name]: checked
+      [name]: checked,
     }));
   };
 
   const updateUserRole = (e) => {
     e.preventDefault();
 
-    const selectedPermissions = Object.keys(permissions).filter(permission => permissions[permission]);
+    const selectedPermissions = Object.keys(permissions).filter(
+      (permission) => permissions[permission]
+    );
 
     console.log(`Role updated: ${role}`);
-    console.log(`Updated permissions: ${selectedPermissions.join(', ')}`);
+    console.log(`Updated permissions: ${selectedPermissions.join(", ")}`);
   };
 
   return (
@@ -63,10 +71,11 @@ function EditUserRole() {
           </div>
           <div className="form-group ml-5 mt-5">
             <label>Permissions</label> <br />
-            <div className="d-flex flex-column align-items-start mt-4 mr-5">
-              <div className="d-flex justify-content-between w-100 mb-3 mr-5">
-                <label>
+            <div className="d-flex flex-row justify-content-between mr-5">
+              <div className="d-flex flex-column align-items-start">
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="generateTicket"
                     checked={permissions.generateTicket}
@@ -74,8 +83,9 @@ function EditUserRole() {
                   />
                   Generate Ticket
                 </label>
-                <label>
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="viewTicketHistory"
                     checked={permissions.viewTicketHistory}
@@ -83,19 +93,21 @@ function EditUserRole() {
                   />
                   View Ticket History
                 </label>
-                <label>
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="viewUsersList"
                     checked={permissions.viewUsersList}
                     onChange={handlePermissionChange}
                   />
-                  View Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  View Users
                 </label>
               </div>
-              <div className="d-flex justify-content-between w-100 mb-3">
-                <label>
+              <div className="d-flex flex-column align-items-start">
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="manageUsers"
                     checked={permissions.manageUsers}
@@ -103,17 +115,19 @@ function EditUserRole() {
                   />
                   Manage Users
                 </label>
-                <label>
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="viewBranches"
                     checked={permissions.viewBranches}
                     onChange={handlePermissionChange}
                   />
-                  View Branches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  View Branches
                 </label>
-                <label>
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="manageAccount"
                     checked={permissions.manageAccount}
@@ -122,9 +136,10 @@ function EditUserRole() {
                   Manage Account
                 </label>
               </div>
-              <div className="d-flex justify-content-start w-100">
-                <label>
+              <div className="d-flex flex-column align-items-start">
+                <label className="mb-3">
                   <input
+                    className="mr-2"
                     type="checkbox"
                     name="viewStaffLogs"
                     checked={permissions.viewStaffLogs}
@@ -135,7 +150,9 @@ function EditUserRole() {
               </div>
             </div>
           </div>
-          <button className='submit-btn mb-4 mt-4' type="submit">UPDATE</button>
+          <button className="submit-btn mb-4 mt-4" type="submit">
+            UPDATE
+          </button>
         </form>
       </div>
     </div>

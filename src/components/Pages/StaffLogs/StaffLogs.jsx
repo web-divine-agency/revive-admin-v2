@@ -72,7 +72,7 @@ function StaffLogs() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Users List</h3>
+          <h3>Users' Logs List</h3>
           <div className='top-filter'>
             <select name="" id="filter">
               <option value="">All Users</option>

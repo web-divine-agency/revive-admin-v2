@@ -5,12 +5,13 @@
   margin: 0 auto;
 
 }
-body{
+
+body {
   display: flex;
   place-items: center;
   justify-content: center;
   min-height: 100vh;
-  
+
 }
 
 /* Components Style */
@@ -22,8 +23,9 @@ body{
   margin-left: 7.8rem !important;
   margin-top: 5rem !important;
   margin-bottom: 20px !important;
-  
+
 }
+
 
 #search-bar {
   padding: 5px 20px;
@@ -41,6 +43,7 @@ body{
   border-radius: 20px;
   margin: 20px;
   min-width: 1015px;
+  
 }
 
 h3 {
@@ -49,23 +52,22 @@ h3 {
   font-weight: 700 !important;
 }
 
-.data-table-container .rdt_TableRow {
-  border-bottom: 1px solid #ddd;
-  justify-content: space-around;
-
-}
-
+/* Start of table style */
 .dataTables_wrapper .rdt_TableCell {
   font-size: 15px;
   color: #000000;
- justify-content: space-between;
+  justify-content: space-between;
+
 }
+
 
 .dataTables_wrapper .rdt_TableHead {
   font-size: 15px;
   color: #626262;
- 
+  text-align: center;
+
 }
+/* Edn of table style */
 
 .top-filter {
   padding: 0px 20px 0px 20px;
@@ -106,7 +108,7 @@ select {
   margin-bottom: 5px;
   background-color: #FFFFFF;
   color: #626262;
- 
+
 }
 
 
@@ -141,23 +143,26 @@ input {
   text-align: center;
 
 }
-.profile-container h2{
+
+.profile-container h2 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 20px;
 }
-.profile-container h5{
+
+.profile-container h5 {
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 25px;
 }
-.profile-container p{
+
+.profile-container p {
   font-size: 20px;
- color: #626262;
- line-height: 20px;
+  color: #626262;
+  line-height: 20px;
 }
 
-.branch-container{
+.branch-container {
   display: flex;
   flex-direction: column !important;
   justify-content: center;
@@ -165,21 +170,24 @@ input {
   cursor: pointer;
   margin-bottom: 50px;
 }
-.branch-container h2{
+
+.branch-container h2 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 20px;
   text-align: center;
 }
-.branch-container h5{
+
+.branch-container h5 {
   font-size: 17px;
   font-weight: 700;
   margin-top: 15px;
 }
-.branch-container p{
+
+.branch-container p {
   font-size: 17px;
- color: #626262;
- line-height: 12px;
+  color: #626262;
+  line-height: 12px;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
@@ -196,7 +204,7 @@ input {
 
 
 /* swal custom style */
-.custom-cancel-button{
+.custom-cancel-button {
   border: 1px solid #000000;
   color: #000000;
   height: 40px;
@@ -205,18 +213,21 @@ input {
   border-radius: 8px;
 
 }
-.custom-confirm-button{
+
+.custom-confirm-button {
   height: 40px;
   width: 139px;
   padding: 5px;
   border-radius: 8px;
 }
-.custom-swal-title{
+
+.custom-swal-title {
   font-size: 30px;
   font-weight: 700;
   color: #000000;
 }
-.custom-success-confirm-button{
+
+.custom-success-confirm-button {
   color: black;
   font-size: 16px;
   height: 40px;
@@ -224,5 +235,69 @@ input {
   padding: 5px;
 
 }
+
 /* end of swal custom style */
 
+/* My Profile style */
+.custom-profile-container{
+  border: 2px solid #DFDFDF;
+  border-radius: 20px;
+  padding: 2rem 0rem 2rem 0rem;
+  height: auto;
+  margin-left: 20rem ;
+  margin-top: 5rem ;
+  margin-bottom: 20px;
+  margin-right: 4rem;
+  display: flex;
+ 
+}
+.profile-update{
+  border: 1px solid #ccc;
+  border-radius: 20px;
+ padding: 20px;
+ margin-right: 20px;
+}
+.profile-user{
+  border: 1px solid #ccc;
+  border-radius: 20px;
+ padding: 20px;
+ height: 200px;
+
+}
+.profile-user svg{
+  border-radius: 50%;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+ margin-top: -80px;
+ margin-bottom: 10px;
+}
+.custom-profile-container .submit-btn {
+  background-color: #0B3A07;
+  color: #FFFFFF;
+  font-size: 14px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 8px 30px;
+  display: flex;
+  margin: 0 !important;
+}
+.custom-profile-container h2{
+  font-size: 25px;
+  font-weight: 700;
+}
+.custom-row {
+ display: flex;
+ justify-content: center;
+}
+.custom-row h3{
+line-height: 0px;
+  padding-left: 30px;
+ }
+ .custom-row p{
+
+  padding-left: 30px;
+ }
+
+/* End of My Profile Style */

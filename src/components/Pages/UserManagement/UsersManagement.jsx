@@ -14,17 +14,18 @@ function UserRoleManagement() {
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  //modal view
+  // Modal view
   const handleViewClick = (role) => {
     setSelectedUserRole(role);
     setShowModal(true);
   };
-  //close modal
+
+  // Close modal
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  //handle deleting of user role
+  // Handle deleting of user role
   const handleDeleteRoleClick = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -39,7 +40,6 @@ function UserRoleManagement() {
         confirmButton: 'custom-confirm-button',
         cancelButton: 'custom-cancel-button',
         title: 'custom-swal-title',
-
       }
     }).then((result) => {
       if (result.isConfirmed) {
@@ -57,7 +57,7 @@ function UserRoleManagement() {
     });
   };
 
-  //table columns
+  // Table columns
   const columns = [
     {
       name: 'Role',
@@ -71,13 +71,11 @@ function UserRoleManagement() {
     }
   ];
 
-  //table data
+  // Table data
   const data = [
     {
       id: 1,
       name: 'Staff',
-      branch: 'Manila',
-      role: 'Staff',
       action: (
         <>
           <img
@@ -87,8 +85,8 @@ function UserRoleManagement() {
             width="25"
             height="25"
             onClick={() => handleViewClick({
-              name: 'Staffs',
-              permission: ['Generate Ticket', 'View Ticket History', 'Manage Account']
+              name: 'Staff',
+              permissions: ['Generate Ticket', 'View Ticket History', 'Manage Account'] // Use 'permissions'
             })}
             style={{ cursor: 'pointer' }}
           />
@@ -101,7 +99,6 @@ function UserRoleManagement() {
             width="25"
             height="25"
           />
-
           <img className='ml-3' title='Delete User Role' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
         </>
       )
@@ -109,8 +106,6 @@ function UserRoleManagement() {
     {
       id: 2,
       name: 'Admin',
-      branch: 'Quezon City',
-      role: 'Admin',
       action: (
         <>
           <img
@@ -120,8 +115,8 @@ function UserRoleManagement() {
             width="25"
             height="25"
             onClick={() => handleViewClick({
-              name: 'Admins',
-              permission: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account']
+              name: 'Admin',
+              permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] // Use 'permissions'
             })}
             style={{ cursor: 'pointer' }}
           />
@@ -134,7 +129,6 @@ function UserRoleManagement() {
             width="25"
             height="25"
           />
-
           <img className='ml-3' src={delete_icon} title='Delete User Role' onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
         </>
       )
@@ -175,20 +169,15 @@ function UserRoleManagement() {
           <Modal.Body>
             <div className='profile-container'>
               <h2>{selectedUserRole.name} Permissions</h2>
-              <p>
-                {selectedUserRole.permission.map((permission, index) => (
+              
+                {selectedUserRole.permissions.map((permission, index) => ( // Use 'permissions'
                   <p key={index}>{permission}</p>
                 ))}
-              </p>
+              
               <div className='user-details'>
               </div>
             </div>
           </Modal.Body>
-          {/* <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Modal.Footer> */}
         </Modal>
       )}
     </div>
