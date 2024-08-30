@@ -6,8 +6,8 @@ function MyProfile() {
     <>
       <div className="custom-profile-container">
         <div className="col-lg-12">
-          <div className="row custom-row">
-            <div className="ml-5">
+          <div className="row custom-row ">
+            <div className="ml-5 pl-3">
               <h3>Hello Administrator</h3>
               <p>
                 This is your profile page, where you have the ability to <br />
