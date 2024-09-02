@@ -14,7 +14,7 @@ function Navbar({ role }) {
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
         <div className="sidebar-nav">
-          <div className="profile" onClick={() => navigate("/my-profile")}>
+          <div className="profile" onClick={() => navigate("#")}>
             <img
               src={profile_avatar}
               className="profile_avatar"
