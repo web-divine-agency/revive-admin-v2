@@ -44,7 +44,7 @@ body {
   border-radius: 20px;
   margin: 20px;
   min-width: 1015px;
-  
+
 }
 
 h3 {
@@ -57,18 +57,22 @@ h3 {
 .dataTables_wrapper .rdt_TableCell {
   font-size: 15px;
   color: #000000;
-  justify-content: space-between;
 
 }
 
+/* .rdt_TableCol {
 
+ padding-left: 30px !important;
+ 
+} */
 .dataTables_wrapper .rdt_TableHead {
   font-size: 15px;
   color: #626262;
-  text-align: center;
+
 
 }
-/* Edn of table style */
+
+/* End of table style */
 
 .top-filter {
   padding: 0px 20px 0px 20px;
@@ -240,39 +244,43 @@ input {
 /* end of swal custom style */
 
 /* My Profile style */
-.custom-profile-container{
+.custom-profile-container {
   border: 2px solid #DFDFDF;
   border-radius: 20px;
   padding: 2rem 0rem 2rem 0rem;
   height: auto;
-  margin-left: 20rem ;
-  margin-top: 5rem ;
+  margin-left: 20rem;
+  margin-top: 5rem;
   margin-bottom: 20px;
   margin-right: 4rem;
   display: flex;
- 
-}
-.profile-update{
-  border: 1px solid #ccc;
-  border-radius: 20px;
- padding: 20px;
- margin-right: 20px;
-}
-.profile-user{
-  border: 1px solid #ccc;
-  border-radius: 20px;
- padding: 20px;
- height: 200px;
 
 }
-.profile-user svg{
+
+.profile-update {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.profile-user {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 20px;
+  height: 200px;
+
+}
+
+.profile-user svg {
   border-radius: 50%;
   object-fit: cover;
   height: 150px;
   width: 150px;
- margin-top: -80px;
- margin-bottom: 10px;
+  margin-top: -80px;
+  margin-bottom: 10px;
 }
+
 .custom-profile-container .submit-btn {
   background-color: #0B3A07;
   color: #FFFFFF;
@@ -284,22 +292,82 @@ input {
   display: flex;
   margin: 0 !important;
 }
-.custom-profile-container h2{
+
+.custom-profile-container h2 {
   font-size: 25px;
   font-weight: 700;
 }
+
 .custom-row {
- display: flex;
- justify-content: center;
+  display: flex;
+  justify-content: center;
 
 }
-.custom-row h3{
-line-height: 0px;
+
+.custom-row h3 {
+  line-height: 0px;
   padding-left: 0;
- }
- .custom-row p{
+}
+
+.custom-row p {
 
   padding-left: 0;
- }
+}
 
 /* End of My Profile Style */
+
+
+/* Generate Ticket Style */
+.ticket-form {
+  background-color: #0B3A07;
+  margin-top: 5rem;
+  border-radius: 3px;
+}
+
+.ticket-form h5 {
+  color: #FFFFFF;
+}
+
+.ticket-form .clear-btn {
+  background-color: #C6AA58;
+  color: #FFFFFF;
+  font-size: 12px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  height: 32px;
+}
+
+.ticket-form .add-to-queue-btn {
+  background-color: #109F69;
+  color: #FFFFFF;
+  font-size: 12px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  height: 32px;
+}
+
+.ticket-form form {
+  padding: 30px 40px;
+  line-height: 10px;
+}
+
+.ticket-form form input {
+  height: 32px;
+  border-radius: 3px;
+}
+
+.ticket-form label {
+  color: #FFFFFF;
+}
+
+.generate-ticket-container .container-content {
+  border-color: #00000000;
+}
+
+.ticket-copies-field {
+  width: 70px;
+}
+
+/* End of Generate Ticket Style */

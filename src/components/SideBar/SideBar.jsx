@@ -1,17 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SidebarData } from "./SideBarData";
+import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
 import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
 
-// import Dropdown from "react-bootstrap/Dropdown";
-// import profile from "../../assets/images/profile.png";
-
-function Navbar() {
-    const navigate = useNavigate();
-
+function Navbar({ role }) {
+  const navigate = useNavigate();
+  const sidebarData = role === 'Admin' ? AdminSidebarData : StaffSidebarData;
 
   return (
     <>
@@ -24,26 +21,6 @@ function Navbar() {
               alt="Profile Avatar"
             />
             <h5>My Profile</h5>
-            {/* <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                <img
-                  src={profile_avatar}
-                  className="profile_avatar"
-                  alt="Profile Avatar"
-                />
-                Admin
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu className="custom-dropdown-menu">
-                <Dropdown.Item
-                  href="/my-profile"
-                  className="custom-dropdown-menu-content"
-                >
-                  <img src={profile} className="profile_menu" alt="Profile" />
-                  View My Profile
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> */}
           </div>
           <hr className="profile-divider" />
           <nav className="nav-menu active">
@@ -154,7 +131,7 @@ function Navbar() {
               </svg>
             </div>
             <ul className="nav-menu-items">
-              {SidebarData.map((item, index) => {
+              {sidebarData.map((item, index) => {
                 return (
                   <React.Fragment key={index}>
                     <li className={item.cName}>
@@ -163,13 +140,14 @@ function Navbar() {
                         <span>{item.title}</span>
                       </Link>
                     </li>
-                    {index < SidebarData.length - 1 && (
+                    {index < sidebarData.length - 1 && (
                       <hr className="nav-divider" /> // Divider between items
                     )}
                   </React.Fragment>
                 );
               })}
             </ul>
+
           </nav>
         </div>
       </IconContext.Provider>

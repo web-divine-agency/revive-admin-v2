@@ -156,6 +156,9 @@ function UserRoleManagement() {
               className="dataTables_wrapper"
               columns={columns}
               data={data}
+              pagination
+              paginationPerPage={5} 
+              paginationRowsPerPageOptions={[5, 10, 20]} 
             />
           </div>
         </div>

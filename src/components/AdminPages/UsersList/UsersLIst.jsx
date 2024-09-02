@@ -202,6 +202,206 @@ function UsersList() {
         </>
       ),
     },
+    {
+      id: 3,
+      name: "Michael Doe",
+      email: "michael@example.com",
+      username: "michaeldoe",
+      branch: "Pasig",
+      role: "Admin",
+      profileImage: man,
+      action: (
+        <>
+          <img
+            src={view_icon}
+            title="View User Details"
+            alt="view"
+            width="25"
+            height="25"
+            onClick={() =>
+              handleViewClick({
+                name: "Michael Doe",
+                email: "michael@example.com",
+                username: "michaeldoe",
+                branch: "Pasig",
+                role: "Admin",
+                profileImage: man,
+              })
+            }
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit User Details"
+            onClick={() => navigate("/edit-user")}
+            alt="edit"
+            width
+            height="25"
+          />
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            onClick={handleDeleteUserClick}
+          />
+
+        </>
+      ),
+    },
+    {
+      id: 4,
+      name: "Emily Doe",
+      email: "emily@example.com",
+      username: "emilydoe",
+      branch: "Makati",
+      role: "Admin",
+      profileImage: woman,
+      action: (
+        <>
+          <img
+            src={view_icon}
+            title="View User Details"
+            alt="view"
+            width="25"
+            height="25"
+            onClick={() =>
+              handleViewClick({
+                name: "Emily Doe",
+                email: "emily@example.com",
+                username: "emilydoe",
+                branch: "Makati",
+                role: "Admin",
+                profileImage: woman,
+              })
+            }
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit User Details"
+            onClick={() => navigate("/edit-user")}
+            alt="edit"
+            width
+            height="25"
+          />
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            onClick={handleDeleteUserClick}
+          />
+
+        </>
+      ),
+    },
+    {
+      id: 5,
+      name: "David Doe",
+      email: "david@example.com",
+      username: "daviddoe",
+      branch: "Taguig",
+      role: "Admin",
+      profileImage: man,
+      action: (
+        <>
+          <img
+            src={view_icon}
+            title="View User Details"
+            alt="view"
+            width="25"
+            height="25"
+            onClick={() =>
+              handleViewClick({
+                name: "David Doe",
+                email: "david@example.com",
+                username: "daviddoe",
+                branch: "Taguig",
+                role: "Admin",
+                profileImage: man,
+              })
+            }
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit User Details"
+            onClick={() => navigate("/edit-user")}
+            alt="edit"
+            width
+            height="25"
+          />
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            onClick={handleDeleteUserClick}
+          />
+
+        </>
+      ),
+    },
+    {
+      id: 6,
+      name: "Sarah Doe",
+      email: "sarah@example.com",
+      username: "sarahdoe",
+      branch: "Pasay",
+      role: "Admin",
+      profileImage: woman,
+      action: (
+        <>
+          <img
+            src={view_icon}
+            title="View User Details"
+            alt="view"
+            width="25"
+            height="25"
+            onClick={() =>
+              handleViewClick({
+                name: "Sarah Doe",
+                email: "sarah@example.com",
+                username: "sarahdoe",
+                branch: "Pasay",
+                role: "Admin",
+                profileImage: woman,
+              })
+            }
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit User Details"
+            onClick={() => navigate("/edit-user")}
+            alt="edit"
+            width
+            height="25"
+          />
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            onClick={handleDeleteUserClick}
+          />
+
+        </>
+      ),
+    }
   ];
 
   return (
@@ -224,13 +424,15 @@ function UsersList() {
             </button>
           </div>
           <div className="container-content">
-          
-              <DataTable
-                className="dataTables_wrapper"
-                columns={columns}
-                data={data}
-              />
-         
+            <DataTable
+              className="dataTables_wrapper"
+              columns={columns}
+              data={data}
+              pagination
+              paginationPerPage={5}
+              paginationRowsPerPageOptions={[5, 10, 20]}
+            />
+
           </div>
         </div>
       </div>

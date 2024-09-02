@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import man from '../../../assets/images/man.png';
 import woman from '../../../assets/images/woman.png';
 
-function TicketsHistory() {
+function StaffLogs() {
   
 
   //table columns
@@ -40,13 +40,8 @@ function TicketsHistory() {
       sortable: true
     },
     {
-      name: 'Ticket Type',
-      selector: row => row.ticketType,
-      sortable: true
-    },
-    {
-      name: 'Product Name',
-      selector: row => row.productName,
+      name: 'Action',
+      selector: row => row.action,
       sortable: true
     }
   ];
@@ -56,20 +51,18 @@ function TicketsHistory() {
     {
       id: 1,
       name: 'John Doe',
-      date: '28/08/2024 2:09 pm',
+      date: '28/08/2024 10:09 am',
       role: 'Staff',
-      ticketType: 'Small Ticket ($)',
-      productName: 'Catalogue Special',
+      action: 'Logged In',
       profileImage: man,
       
     },
     {
       id: 2,
-      name: 'George Doe',
-      date: '28/08/2024 10:30 am',
+      name: 'Jane Doe',
+      date: '28/08/2024 10:00 am',
       role: 'Staff',
-      ticketType: 'Small Ticket (%)',
-      productName: 'Catalogue Special',
+      action: 'Logged In',
       profileImage: woman,
      
     }
@@ -79,7 +72,7 @@ function TicketsHistory() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Tickets History List</h3>
+          <h3>Users' Logs List</h3>
           <div className='top-filter'>
             <select name="" id="filter">
               <option value="">All Users</option>
@@ -94,6 +87,9 @@ function TicketsHistory() {
               className="dataTables_wrapper"
               columns={columns}
               data={data}
+              pagination
+              paginationPerPage={5} 
+              paginationRowsPerPageOptions={[5, 10, 20]} 
             />
           </div>
         </div>
@@ -104,4 +100,4 @@ function TicketsHistory() {
   );
 }
 
-export default TicketsHistory;
+export default StaffLogs;

@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import man from '../../../assets/images/man.png';
 import woman from '../../../assets/images/woman.png';
 
-function StaffLogs() {
+function TicketsHistory() {
   
 
   //table columns
@@ -27,7 +27,8 @@ function StaffLogs() {
           {row.name}
         </div>
       ),
-      sortable: true
+      sortable: true,
+      id: "name"
     },
     {
       name: 'Date',
@@ -40,8 +41,13 @@ function StaffLogs() {
       sortable: true
     },
     {
-      name: 'Action',
-      selector: row => row.action,
+      name: 'Ticket Type',
+      selector: row => row.ticketType,
+      sortable: true
+    },
+    {
+      name: 'Product Name',
+      selector: row => row.productName,
       sortable: true
     }
   ];
@@ -51,18 +57,20 @@ function StaffLogs() {
     {
       id: 1,
       name: 'John Doe',
-      date: '28/08/2024 10:09 am',
+      date: '28/08/2024 2:09 pm',
       role: 'Staff',
-      action: 'Logged In',
+      ticketType: 'Small Ticket ($)',
+      productName: 'Catalogue Special',
       profileImage: man,
       
     },
     {
       id: 2,
-      name: 'Jane Doe',
-      date: '28/08/2024 10:00 am',
+      name: 'George Doe',
+      date: '28/08/2024 10:30 am',
       role: 'Staff',
-      action: 'Logged In',
+      ticketType: 'Small Ticket (%)',
+      productName: 'Catalogue Special',
       profileImage: woman,
      
     }
@@ -72,7 +80,7 @@ function StaffLogs() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Users' Logs List</h3>
+          <h3>Tickets History List</h3>
           <div className='top-filter'>
             <select name="" id="filter">
               <option value="">All Users</option>
@@ -87,6 +95,9 @@ function StaffLogs() {
               className="dataTables_wrapper"
               columns={columns}
               data={data}
+              pagination
+              paginationPerPage={5} 
+              paginationRowsPerPageOptions={[5, 10, 20]} 
             />
           </div>
         </div>
@@ -97,4 +108,4 @@ function StaffLogs() {
   );
 }
 
-export default StaffLogs;
+export default TicketsHistory;

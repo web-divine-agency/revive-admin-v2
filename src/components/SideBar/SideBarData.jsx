@@ -1,4 +1,3 @@
-
 import React from 'react';
 import users_list from '../../assets/images/users_list.png';
 import users_management from '../../assets/images/users_management.png';
@@ -7,11 +6,7 @@ import tickets_history from '../../assets/images/tickets_history.png';
 import branches from '../../assets/images/branches.png';
 import log_out from '../../assets/images/log_out.png';
 
-
-
-
-export const SidebarData = [
-    
+export const AdminSidebarData = [
   {
     title: 'Users List',
     path: '/userlist',
@@ -38,8 +33,35 @@ export const SidebarData = [
   },
   {
     title: 'Branches',
-    path: 'branches',
+    path: '/branches',
     icon: <img src={branches} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Logout',
+    path: '/',
+    icon: <img src={log_out} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  }
+];
+
+export const StaffSidebarData = [
+  {
+    title: 'Generate Ticket',
+    path: '/generate-tickets',
+    icon: <img src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'History',
+    path: '/history',
+    icon: <img src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Queue List',
+    path: '/queue-list',
+    icon: <img src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
     cName: 'nav-text'
   },
   {
