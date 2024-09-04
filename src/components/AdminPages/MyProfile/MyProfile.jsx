@@ -8,7 +8,7 @@ function MyProfile() {
         <div className="col-lg-12">
           <div className="row custom-row ">
             <div className="ml-5 pl-3">
-              <h3>Hello Administrator</h3>
+              <h3>Hello Staff</h3>
               <p>
                 This is your profile page, where you have the ability to <br />
                 cutomize your profile and change your password as needed
@@ -75,8 +75,8 @@ function MyProfile() {
                 />
               </svg>
 
-              <h5>Administrator</h5>
-              <h5>admin@gmail.com</h5>
+              <h5>Staff</h5>
+              <h5>staff@gmail.com</h5>
             </div>
           </div>
         </div>

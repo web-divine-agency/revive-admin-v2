@@ -2,16 +2,30 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
+import axios from 'axios';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [error, setError] = useState('');
 
-    // Create a login function
-    const login = (event) => {
+   //login function
+    const login = async (event) => {
         event.preventDefault();
-        console.log(`Login attempt with username: ${username}, password: ${password}`);
+        try {
+            const response = await axios.post('/api/login', {
+                username,
+                password,
+                role: isAdmin ? 'admin' : 'staff',
+            });
+            console.log('Login successful:', response.data);
+
+
+        } catch (error) {
+            console.error('Login error:', error);
+            setError('Invalid username or password.');
+        }
     };
 
     // Handle dropdown change
@@ -35,6 +49,7 @@ function Login() {
                 <div className="col-md-6 d-flex align-items-center justify-content-center">
                     <div className="card p-4" style={{ width: '450px' }}>
                         <h2 className="text-center mb-4">{isAdmin ? 'ADMIN LOGIN' : 'STAFF LOGIN'}</h2>
+                        {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={login}>
                             <label htmlFor="username">Username</label><br />
                             <div className="form-group mb-3">

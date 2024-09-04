@@ -22,14 +22,13 @@ function GenerateTickets() {
   const getTicketStyle = () => {
     switch (template) {
       case "Big Tickets (P)":
+      case "Big Ticket (L)":
         return {
           height: "510px",
           width: "500px",
           fontSize: "100px",
           paddingTop: "10rem",
         };
-      case "Big Ticket (L)":
-        return { height: "600px", width: "300px" };
       default:
         return { width: "150px" };
     }
@@ -37,66 +36,130 @@ function GenerateTickets() {
 
   const MyDocument = () => {
     const renderContent = () => {
+      const commonStyle = {
+        textAlign: "center",
+        fontWeight: "bolder",
+      };
+
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
-              <Text className="percent-off">{percentOff}%</Text>
-              <br />
-              <Text className="prod-description">{productDesc}</Text>
-              <br />
-
-              <Text className="expiry">{expiry}</Text>
-              <br />
+              <Text style={{ ...commonStyle, fontSize: "40px" }}>
+                {percentOff}%
+              </Text><br />
+              <Text style={{ ...commonStyle, fontSize: "20px" }}>
+                {productDesc}
+              </Text><br />
+              <Text
+                style={{
+                  ...commonStyle,
+                  fontSize: "13px",
+                  fontWeight: "lighter",
+                }}
+              >
+                {expiry}
+              </Text><br />
             </>
           );
         case "Big Tickets (P)":
         case "Big Ticket (L)":
           return (
             <>
-              <Text className="brand"> {productName}</Text>
-              <br />
-              <Text className="prod-name"> {productName}</Text>
-              <br />
-              <Text className="price">${price}</Text>
-              <br />
-              <Text className="expiry"> {expiry}</Text>
-              <br />
+              <Text style={{ ...commonStyle, fontSize: "40px" }}>
+                {productName}
+              </Text><br />
+              <Text style={{ ...commonStyle, fontSize: "20px" }}>
+                {productName}
+              </Text><br />
+              <Text style={{ ...commonStyle, fontSize: "50px" }}>${price}</Text><br />
+              <Text
+                style={{
+                  ...commonStyle,
+                  fontSize: "13px",
+                  fontWeight: "lighter",
+                }}
+              >
+                {expiry}
+              </Text><br />
             </>
           );
         default:
           return (
             <>
-              <Text className="prod-name">{productName}</Text>
-              <br />
-              <Text className="price">${price}</Text>
-              <br />
-              <Text className="rrp">RRP ${rrp}</Text>
-              <br />
-              <Text className="save">Save ${save}</Text>
-              <br />
-              <Text className="expiry"> {expiry}</Text>
-              <br />
+              <Text style={{ ...commonStyle, fontSize: "15px" }}>
+                {productName}
+              </Text><br />
+              <Text style={{ ...commonStyle, fontSize: "40px" }}>${price}</Text><br />
+              <Text style={{ ...commonStyle, fontSize: "18px" }}>
+                RRP ${rrp}
+              </Text><br />
+              <Text style={{ ...commonStyle, fontSize: "20px" }}>
+                Save ${save}
+              </Text><br />
+              <Text
+                style={{
+                  ...commonStyle,
+                  fontSize: "13px",
+                  fontWeight: "lighter",
+                }}
+              >
+                {expiry}
+              </Text><br />
             </>
           );
       }
     };
 
+    const getTicketContainers = () => {
+      const containerGroups = [];
+      const ticketStyle = getTicketStyle();
+
+      let maxTicketsPerPage;
+
+      switch (template) {
+        case "Small Tickets (%)":
+          maxTicketsPerPage = 12;
+          break;
+        case "Big Tickets (P)":
+        case "Big Ticket (L)":
+          maxTicketsPerPage = 1;
+          break;
+        default:
+          maxTicketsPerPage = 9; // default value for other templates
+          break;
+      }
+
+      for (let i = 0; i < copies; i += maxTicketsPerPage) {
+        const currentGroup = [
+          ...Array(Math.min(maxTicketsPerPage, copies - i)),
+        ].map((_, index) => (
+          <View className="square-ticket" key={index} style={ticketStyle}>
+            {renderContent()}
+          </View>
+        ));
+
+        containerGroups.push(
+          <View
+            className="ticket-container mb-2"
+            key={`container-${i}`}
+            wrap={false}
+            style={{ position: "relative" }}
+          >
+            {currentGroup}
+            <Text className="page-style">
+              Page {Math.floor(i / maxTicketsPerPage) + 1}
+            </Text>
+          </View>
+        );
+      }
+
+      return containerGroups;
+    };
+
     return (
       <Document>
-        <Page>
-          <View className="ticket-container">
-            {[...Array(copies)].map((_, index) => (
-              <View
-                className="square-ticket"
-                key={index}
-                style={getTicketStyle()}
-              >
-                {renderContent()}
-              </View>
-            ))}
-          </View>
-        </Page>
+        <Page>{getTicketContainers()}</Page>
       </Document>
     );
   };
@@ -268,15 +331,12 @@ function GenerateTickets() {
                     value={copies}
                     onChange={(e) => setCopies(Number(e.target.value))}
                   />
-                  <button
-                    type="button"
-                    className="btn btn-primary add-to-queue-btn"
-                  >
+                  <button type="button" className="add-to-queue-btn">
                     Add to Queue
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary clear-btn"
+                    className="clear-btn"
                     onClick={() => {
                       setProductName("");
                       setPrice("");
