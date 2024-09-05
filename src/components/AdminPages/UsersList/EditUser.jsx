@@ -17,9 +17,7 @@ function EditUser() {
     const roles = ['Staff', 'Admin'];
 
     useEffect(() => {
-        // Fetch the existing user data using the userId
-        // Replace this with actual data fetching logic
-        // For example, using fetch or axios to get data from an API
+      
         const fetchUserData = async () => {
             // Simulated user data
             const userData = {

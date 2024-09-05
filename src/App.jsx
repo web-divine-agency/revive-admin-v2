@@ -21,7 +21,7 @@ import QueueList from './components/StaffPages/QueueList/QueueList';
 
 function Layout() {
   const location = useLocation();
-  const userRole = 'Admin'; 
+  const userRole = 'Staff'; 
 
   return (
     <>

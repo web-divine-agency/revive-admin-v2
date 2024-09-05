@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -10,35 +10,15 @@ import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance";
 
 function UsersList() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-
-  useEffect(() => {
-    // Fetch user data after component mounts
-    const fetchUsers = async () => {
-      try {
-        const response = await axiosInstance.get('/users');
-        setUsers(response.data); // Adjust this according to your API response
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        if (error.response && error.response.status === 401) {
-          console.error("Unauthorized access. Please login.");
-          navigate('/login'); // Redirect to login page if unauthorized
-        }
-      }
-    };
-    fetchUsers();
-  }, [navigate]);
   // View modal(user)
-  const handleViewClick = (users) => {
-    setSelectedUser(users);
+  const handleViewClick = (user) => {
+    setSelectedUser(user);
     setShowModal(true);
   };
 
@@ -87,8 +67,8 @@ function UsersList() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
             className="profile-image"
-            src={row.sex === "Male" ? man : woman}
-            alt={row.last_name}
+            src={row.profileImage}
+            alt={row.name}
             style={{
               width: "30px",
               height: "30px",
@@ -96,38 +76,109 @@ function UsersList() {
               marginRight: "10px",
             }}
           />
-          {row.first_name}{" "}
-          {row.last_name}
+          {row.name}
         </div>
       ),
       sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email || "N/A", // Handle cases where email might be undefined
+      selector: (row) => row.email,
       sortable: true,
     },
     {
       name: "Username",
-      selector: (row) => row.username || "N/A", // Handle cases where username might be undefined
+      selector: (row) => row.username,
       sortable: true,
     },
     {
       name: "Branch",
-      selector: (row) => (row.branch && row.branch.branch_name) || "N/A", // Adjust according to your data structure
+      selector: (row) => row.branch,
       sortable: true,
     },
     {
       name: "Action",
-      selector: (row) => (
-        <div>
+      selector: (row) => row.action,
+      sortable: false,
+    },
+  ];
+
+  // Table data
+  const data = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      username: "johndoe",
+      branch: "Manila",
+      role: "Staff",
+      profileImage: man,
+      action: (
+        <>
+          <img
+            src={view_icon}
+            alt="view"
+            width="25"
+            title="View User Details"
+            height="25"
+            onClick={() =>
+              handleViewClick({
+                name: "John Doe",
+                email: "john@example.com",
+                username: "johndoe",
+                branch: "Manila",
+                role: "Staff",
+                profileImage: man,
+              })
+            }
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit User Details"
+            onClick={() => navigate("/edit-user")}
+            alt="edit"
+            width="25"
+            height="25"
+          />
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            onClick={handleDeleteUserClick}
+          />
+        </>
+      ),
+    },
+    {
+      id: 2,
+      name: "Jane Doe",
+      email: "jane@example.com",
+      username: "janedoe",
+      branch: "Quezon City",
+      role: "Staff",
+      profileImage: woman,
+      action: (
+        <>
           <img
             src={view_icon}
             title="View User Details"
             alt="view"
             width="25"
             height="25"
-            onClick={() => handleViewClick(row)} 
+            onClick={() =>
+              handleViewClick({
+                name: "Jane Doe",
+                email: "jane@example.com",
+                username: "janedoe",
+                branch: "Quezon City",
+                role: "Staff",
+                profileImage: woman,
+              })
+            }
             style={{ cursor: "pointer" }}
           />
           <img
@@ -148,12 +199,10 @@ function UsersList() {
             height="25"
             onClick={handleDeleteUserClick}
           />
-        </div>
+        </>
       ),
-      sortable: false,
     },
   ];
-
 
   return (
     <div className="container">
@@ -178,12 +227,8 @@ function UsersList() {
             <DataTable
               className="dataTables_wrapper"
               columns={columns}
-              data={users}
-              pagination
-              paginationPerPage={5}
-              paginationRowsPerPageOptions={[5, 10, 20]}
+              data={data}
             />
-
           </div>
         </div>
       </div>
@@ -197,8 +242,8 @@ function UsersList() {
           <Modal.Body>
             <div className="profile-container">
               <img
-                src={selectedUser.sex === 'Male' ? man : woman}
-                alt={selectedUser.last_name}
+                src={selectedUser.profileImage}
+                alt={selectedUser.name}
                 style={{
                   width: "120px",
                   height: "120px",
@@ -206,16 +251,16 @@ function UsersList() {
                   objectFit: "cover",
                 }}
               />
-              <h2>{selectedUser.first_name} {selectedUser.last_name}</h2>
+              <h2>{selectedUser.name}</h2>
               <div className="user-details">
                 <h5>
                   Username:<p>{selectedUser.username}</p>
                 </h5>
                 <h5>
-                  {/* Role: <p>{selectedUser.role_name}</p> */}
+                  Role: <p>{selectedUser.role}</p>
                 </h5>
                 <h5>
-                  Branch: <p>{selectedUser.branch_name}</p>
+                  Branch: <p>{selectedUser.branch}</p>
                 </h5>
                 <h5>
                   Email:<p>{selectedUser.email}</p>
