@@ -1,26 +1,43 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
 import axios from 'axios';
 
+// Set up Axios instance
+const axiosInstance = axios.create({
+    baseURL: 'https://revive.imseoninja.com/api', // Replace with your backend base URL
+});
+
 function Login() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-   //login function
+
+    // Login function
     const login = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('/api/login', {
-                username,
+            const response = await axiosInstance.post('/login', {
+                email,
                 password,
-                role: isAdmin ? 'admin' : 'staff',
+                // role: isAdmin ? 'admin' : 'staff',
             });
-            console.log('Login successful:', response.data);
 
+            // Extract tokens from response and store them in local storage
+            const { accessToken, refreshToken } = response.data;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+            // Redirect to users list page
+            navigate('/userlist'); // Use navigate to redirect
 
         } catch (error) {
             console.error('Login error:', error);
@@ -42,7 +59,7 @@ function Login() {
                         <h3>Pharmacy Price Ticket Generator</h3>
                     </div>
                     <div className='bg-image'>
-                        <img className='img-fluid login_image' src={login_image_2} alt="React logo" />
+                        <img className='img-fluid login_image' src={login_image_2} alt="Login" />
                     </div>
                 </div>
 
@@ -55,16 +72,18 @@ function Login() {
                             <div className="form-group mb-3">
                                 <input
                                     type="text"
+                                    id="username"
                                     className="form-control-lg w-100 mb-2"
-                                    value={username}
+                                    value={email}
                                     placeholder="Username"
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <label htmlFor="password">Password</label><br />
                             <div className="form-group mb-3">
                                 <input
                                     type="password"
+                                    id="password"
                                     className="form-control-lg w-100 mb-2"
                                     value={password}
                                     placeholder="Password"
