@@ -52,28 +52,27 @@ function GenerateTickets() {
     }
   };
 
-  // const renderContent = () => {
-  //   const commonStyle = {
-  //     textAlign: "center",
-  //     fontWeight: "bolder",
-  //     fontSize: "12px", // Adjust the font size
-  //   };
+  const renderContent = () => {
+    const commonStyle = {
+      textAlign: "center",
+      fontWeight: "bolder",
+      fontSize: "12px", // Adjust the font size
+    };
 
-  //   return (
-  //     <>
-  //       <Text style={{ ...commonStyle, fontSize: "20px" }}>$</Text>
-  //       <Text style={{ ...commonStyle, fontSize: "12px" }}>RRP $</Text>
-  //       <Text style={{ ...commonStyle, fontSize: "12px" }}>Save $</Text>
-  //     </>
-  //   );
-  // };
+    return (
+      <>
+        <Text style={{ ...commonStyle, fontSize: "20px" }}>$</Text>
+        <Text style={{ ...commonStyle, fontSize: "12px" }}>RRP $</Text>
+        <Text style={{ ...commonStyle, fontSize: "12px" }}>Save $</Text>
+      </>
+    );
+  };
 
   const MyDocument = () => {
     const renderContent = () => {
       const commonStyle = {
         textAlign: "center",
         fontWeight: "bolder",
-        lineHeight: "10px"
       };
       const bigTicketStyle = {
         textAlign: "center",
@@ -146,14 +145,14 @@ function GenerateTickets() {
                 {productName}
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "40px" }}>{price}</Text>
+              <Text style={{ ...commonStyle, fontSize: "40px" }}>${price}</Text>
               <br />
               <Text style={{ ...commonStyle, fontSize: "18px" }}>
-                {rrp}
+                RRP ${rrp}
               </Text>
               <br />
               <Text style={{ ...commonStyle, fontSize: "20px" }}>
-                {save}
+                Save ${save}
               </Text>
               <br />
               <Text
