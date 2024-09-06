@@ -15,9 +15,11 @@ function GenerateTickets() {
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("");
   const [percentOff, setpercentOff] = useState("");
+  const [productBrand, setproductBrand] = useState("");
   const [productDesc, setproductDesc] = useState("");
   const [copies, setCopies] = useState(1);
   const [template, setTemplate] = useState("Small Tickets ($)");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const getTicketStyle = () => {
     switch (template) {
@@ -27,18 +29,56 @@ function GenerateTickets() {
           height: "510px",
           width: "500px",
           fontSize: "100px",
-          paddingTop: "10rem",
+          lineHeight:"15px",
+          // paddingTop: "5rem",
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column"
         };
       default:
-        return { width: "150px" };
+        return {
+          height: "165px",
+          width: "150px", // adjust width to match your design
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          border: "1px solid black", // border similar to the image
+          margin: "5px", // small margin between tickets
+        };
     }
   };
+
+  // const renderContent = () => {
+  //   const commonStyle = {
+  //     textAlign: "center",
+  //     fontWeight: "bolder",
+  //     fontSize: "12px", // Adjust the font size
+  //   };
+
+  //   return (
+  //     <>
+  //       <Text style={{ ...commonStyle, fontSize: "20px" }}>$</Text>
+  //       <Text style={{ ...commonStyle, fontSize: "12px" }}>RRP $</Text>
+  //       <Text style={{ ...commonStyle, fontSize: "12px" }}>Save $</Text>
+  //     </>
+  //   );
+  // };
 
   const MyDocument = () => {
     const renderContent = () => {
       const commonStyle = {
         textAlign: "center",
         fontWeight: "bolder",
+        lineHeight: "10px"
+      };
+      const bigTicketStyle = {
+        textAlign: "center",
+        fontWeight: "bolder",
+        lineHeight: "60px",
       };
 
       switch (template) {
@@ -47,10 +87,12 @@ function GenerateTickets() {
             <>
               <Text style={{ ...commonStyle, fontSize: "40px" }}>
                 {percentOff}%
-              </Text><br />
+              </Text>
+              <br />
               <Text style={{ ...commonStyle, fontSize: "20px" }}>
                 {productDesc}
-              </Text><br />
+              </Text>
+              <br />
               <Text
                 style={{
                   ...commonStyle,
@@ -59,29 +101,42 @@ function GenerateTickets() {
                 }}
               >
                 {expiry}
-              </Text><br />
+              </Text>
+              <br />
             </>
           );
         case "Big Tickets (P)":
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ ...commonStyle, fontSize: "40px" }}>
+              <Text style={{ ...commonStyle, fontSize: "50px" }}>
+                {productBrand}
+              </Text>
+              <br />
+              <Text
+                style={{
+                  ...bigTicketStyle,
+                  fontSize: "70px",
+                  lineHeight: "60px",
+                }}
+              >
                 {productName}
-              </Text><br />
-              <Text style={{ ...commonStyle, fontSize: "20px" }}>
-                {productName}
-              </Text><br />
-              <Text style={{ ...commonStyle, fontSize: "50px" }}>${price}</Text><br />
+              </Text>
+              <br />
+              <Text style={{ ...commonStyle, fontSize: "50px" }}>
+                ${price}
+              </Text>
+              <br />
               <Text
                 style={{
                   ...commonStyle,
-                  fontSize: "13px",
+                  fontSize: "18px",
                   fontWeight: "lighter",
                 }}
               >
                 {expiry}
-              </Text><br />
+              </Text>
+              <br />
             </>
           );
         default:
@@ -89,14 +144,18 @@ function GenerateTickets() {
             <>
               <Text style={{ ...commonStyle, fontSize: "15px" }}>
                 {productName}
-              </Text><br />
-              <Text style={{ ...commonStyle, fontSize: "40px" }}>${price}</Text><br />
+              </Text>
+              <br />
+              <Text style={{ ...commonStyle, fontSize: "40px" }}>{price}</Text>
+              <br />
               <Text style={{ ...commonStyle, fontSize: "18px" }}>
-                RRP ${rrp}
-              </Text><br />
+                {rrp}
+              </Text>
+              <br />
               <Text style={{ ...commonStyle, fontSize: "20px" }}>
-                Save ${save}
-              </Text><br />
+                {save}
+              </Text>
+              <br />
               <Text
                 style={{
                   ...commonStyle,
@@ -105,7 +164,8 @@ function GenerateTickets() {
                 }}
               >
                 {expiry}
-              </Text><br />
+              </Text>
+              <br />
             </>
           );
       }
@@ -114,7 +174,6 @@ function GenerateTickets() {
     const getTicketContainers = () => {
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
-
       let maxTicketsPerPage;
 
       switch (template) {
@@ -126,7 +185,7 @@ function GenerateTickets() {
           maxTicketsPerPage = 1;
           break;
         default:
-          maxTicketsPerPage = 9; // default value for other templates
+          maxTicketsPerPage = 9; // default tempalte value
           break;
       }
 
@@ -134,28 +193,83 @@ function GenerateTickets() {
         const currentGroup = [
           ...Array(Math.min(maxTicketsPerPage, copies - i)),
         ].map((_, index) => (
-          <View className="square-ticket" key={index} style={ticketStyle}>
+          <View key={index} style={ticketStyle}>
             {renderContent()}
           </View>
         ));
 
         containerGroups.push(
           <View
-            className="ticket-container mb-2"
             key={`container-${i}`}
-            wrap={false}
-            style={{ position: "relative" }}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              marginBottom: "20px",
+              position: "relative",
+              border: "1px solid #000000",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop:'20px',
+              paddingBottom: '20px'
+            }}
           >
             {currentGroup}
-            <Text className="page-style">
+            {/* <Text className="page-style">
               Page {Math.floor(i / maxTicketsPerPage) + 1}
-            </Text>
+            </Text> */}
           </View>
         );
       }
 
       return containerGroups;
     };
+
+    // const getTicketContainers = () => {
+    //   const containerGroups = [];
+    //   const ticketStyle = getTicketStyle();
+
+    //   let maxTicketsPerPage;
+
+    //   switch (template) {
+    //     case "Small Tickets (%)":
+    //       maxTicketsPerPage = 12;
+    //       break;
+    //     case "Big Tickets (P)":
+    //     case "Big Ticket (L)":
+    //       maxTicketsPerPage = 1;
+    //       break;
+    //     default:
+    //       maxTicketsPerPage = 9; // default tempalte value
+    //       break;
+    //   }
+
+    //   for (let i = 0; i < copies; i += maxTicketsPerPage) {
+    //     const currentGroup = [
+    //       ...Array(Math.min(maxTicketsPerPage, copies - i)),
+    //     ].map((_, index) => (
+    //       <View className="square-ticket" key={index} style={ticketStyle}>
+    //         {renderContent()}
+    //       </View>
+    //     ));
+
+    //     containerGroups.push(
+    //       <View
+    //         className="ticket-container mb-2"
+    //         key={`container-${i}`}
+    //         wrap={false}
+    //         style={{ position: "relative" }}
+    //       >
+    //         {currentGroup}
+    //         <Text className="page-style">
+    //           Page {Math.floor(i / maxTicketsPerPage) + 1}
+    //         </Text>
+    //       </View>
+    //     );
+    //   }
+
+    //   return containerGroups;
+    // };
 
     return (
       <Document>
@@ -207,8 +321,8 @@ function GenerateTickets() {
               <input
                 type="text"
                 className="form-control"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                value={productBrand}
+                onChange={(e) => setproductBrand(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -293,6 +407,14 @@ function GenerateTickets() {
     }
   };
 
+  const entriesCleared = () => {
+    setSuccessMessage("Entries cleared successfully.");
+
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 2000);
+  };
+
   return (
     <div className="container generate-ticket-container">
       <div className="col-md-12">
@@ -319,7 +441,11 @@ function GenerateTickets() {
           <div className="container-content">
             <div className="col-md-5 p-3 mr-5 ticket-form">
               <h5>Enter Text below</h5>
+
               <form>
+                {successMessage && (
+                  <div className="alert alert-success">{successMessage}</div>
+                )}
                 {renderFormFields()}
                 <label className="mb-2">Copies</label>
                 <div className="d-flex justify-content-between">
@@ -344,6 +470,7 @@ function GenerateTickets() {
                       setSave("");
                       setExpiry("");
                       setCopies(1);
+                      entriesCleared();
                     }}
                   >
                     Clear Entries

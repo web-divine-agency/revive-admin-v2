@@ -42,6 +42,8 @@ function Layout() {
         <Route path="/history" element={<History />} /> 
         <Route path="/queue-list" element={<QueueList />} /> 
         <Route path="/generate-tickets" element={<GenerateTickets />} /> 
+        <Route path="/history" element={<History />} /> 
+
         <Route index element={<Login />} />
       </Routes>
     </>
