@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
-import axiosInstance from '../../../axiosInstance';
+import axios from 'axios';
 
+// Set up Axios instance
+const axiosInstance = axios.create({
+    baseURL: 'https://revive.imseoninja.com/api',
+});
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -13,6 +17,7 @@ function Login() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
 
     // Login function
     const login = async (event) => {
@@ -25,16 +30,19 @@ function Login() {
             });
 
             // Extract tokens from response and store them in local storage
+        
             const { user } = response.data;
+            const role = isAdmin ? 'Admin' : 'Staff';
             localStorage.setItem('userRoles', JSON.stringify(user.roles));
             localStorage.setItem('userPermissions', JSON.stringify(user.roles.flatMap(role => role.permissions)));
 
-            // Redirect to users list page
-            if(isAdmin) {
+            // console.log(user.roles);
+            // console.log(role);
+
+            if (isAdmin) {
                 navigate('/staff-logs');
             } else
-            navigate('/userlist'); // Use navigate to redirect
-
+                navigate('/history'); 
 
         } catch (error) {
             console.error('Login error:', error);
@@ -92,7 +100,7 @@ function Login() {
                                 <h6>
                                     Log in as
                                     &nbsp;
-                                    <select value={isAdmin ? 'Admin' : 'Staff'} onChange={handleRoleChange}>
+                                    <select value={isAdmin ? 'admin' : 'staff'} onChange={handleRoleChange}>
                                         <option value="admin">Admin</option>
                                         <option value="staff">Staff</option>
                                     </select>

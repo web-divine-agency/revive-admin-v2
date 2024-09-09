@@ -75,7 +75,7 @@ function GenerateTickets() {
                 {percentOff}%
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "20px", lineHeight: "1px" }}>
+              <Text style={{ ...commonStyle, fontSize: "20px", lineHeight: "1px", fontWeight: "700" }}>
                 {productDesc}
               </Text>
               <br />

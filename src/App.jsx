@@ -21,11 +21,11 @@ import QueueList from './components/StaffPages/QueueList/QueueList';
 
 function Layout() {
   const location = useLocation();
-  const userRole = 'Staff'; 
+  const userRoles = localStorage.getItem('userRoles') || 'Staff'; 
 
   return (
     <>
-      {location.pathname !== '/' && <SideBar role={userRole} />}
+      {location.pathname !== '/' && <SideBar role={userRoles} />}
       <Routes>
         <Route path="/userlist" element={<UsersList />} />
         <Route path="/user-management" element={<UserRoleManagement />} />
@@ -49,6 +49,7 @@ function Layout() {
     </>
   );
 }
+
 
 function App() {
   return (
