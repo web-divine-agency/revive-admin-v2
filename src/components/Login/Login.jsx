@@ -36,8 +36,8 @@ function Login() {
             localStorage.setItem('userRoles', JSON.stringify(user.roles));
             localStorage.setItem('userPermissions', JSON.stringify(user.roles.flatMap(role => role.permissions)));
 
-            // console.log(user.roles);
-            // console.log(role);
+            console.log(user.roles);
+            console.log(role);
 
             if (isAdmin) {
                 navigate('/staff-logs');
