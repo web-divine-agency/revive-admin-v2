@@ -5,10 +5,22 @@ import "./SideBar.css";
 import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../axiosInstance";
+
 
 function Navbar({ role }) {
   const navigate = useNavigate();
   const sidebarData = role === 'Admin' ? AdminSidebarData : StaffSidebarData;
+
+  const logout = async (event) =>{
+    try {
+      await axiosInstance.post('/logout');
+      console.log('logged out');
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <>
@@ -135,7 +147,13 @@ function Navbar({ role }) {
                 return (
                   <React.Fragment key={index}>
                     <li className={item.cName}>
-                      <Link to={item.path}>
+                      <Link to={item.path} onClick={(event) => {
+                      if (item.title === "Logout") {
+                        item.onClick(event, logout);
+                      } else {
+                        navigate(item.path);
+                      }
+                    }}>
                         {item.icon}
                         <span>{item.title}</span>
                       </Link>

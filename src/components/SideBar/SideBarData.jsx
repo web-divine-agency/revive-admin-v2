@@ -43,7 +43,8 @@ export const AdminSidebarData = [
     title: 'Logout',
     path: '/',
     icon: <img src={log_out} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    onClick: (event, logout) => logout(event)
   }
 ];
 
@@ -70,6 +71,7 @@ export const StaffSidebarData = [
     title: 'Logout',
     path: '/',
     icon: <img src={log_out} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-    cName: 'nav-text'
+    cName: 'nav-text',
+    onClick: (event, logout) => logout(event)
   }
 ];

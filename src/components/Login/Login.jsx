@@ -1,58 +1,60 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
 import axios from 'axios';
 
-// Set up Axios instance
+
+
 const axiosInstance = axios.create({
     baseURL: 'https://revive.imseoninja.com/api',
 });
 
+
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [selectedRole, setSelectedRole] = useState('Admin');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-
-    // Login function
     const login = async (event) => {
         event.preventDefault();
         try {
             const response = await axiosInstance.post('/login', {
                 username,
                 password,
-                role: isAdmin ? 'Admin' : 'Staff',
             });
 
-            // Extract tokens from response and store them in local storage
-        
             const { user } = response.data;
-            const role = isAdmin ? 'Admin' : 'Staff';
+            const userRole = user.roles.find(role => role.role_name === 'Admin') ? 'Admin' : 'Staff';
+
+            const { accessToken, refreshToken } = response.data;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            
+            if (selectedRole !== userRole) {
+                // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
+                setError(`Invalid Account`);
+                return;
+            }
             localStorage.setItem('userRoles', JSON.stringify(user.roles));
             localStorage.setItem('userPermissions', JSON.stringify(user.roles.flatMap(role => role.permissions)));
+            localStorage.setItem('role_name', userRole);
 
-            console.log(user.roles);
-            console.log(role);
 
-            if (isAdmin) {
-                navigate('/staff-logs');
-            } else
-                navigate('/history'); 
-
+            localStorage.setItem('loginSuccess', 'true');
+            if (userRole === 'Admin') {
+                navigate('/userlist');
+            } else {
+                navigate('/generate-tickets');
+            }
         } catch (error) {
             console.error('Login error:', error);
             setError('Invalid username or password.');
         }
-    };
-
-    // Handle dropdown change
-    const handleRoleChange = (event) => {
-        setIsAdmin(event.target.value === 'Admin');
     };
 
     return (
@@ -70,7 +72,7 @@ function Login() {
 
                 <div className="col-md-6 d-flex align-items-center justify-content-center">
                     <div className="card p-4" style={{ width: '450px' }}>
-                        <h2 className="text-center mb-4">{isAdmin ? 'ADMIN LOGIN' : 'STAFF LOGIN'}</h2>
+                        <h2 className="text-center mb-4">{error ? 'Login Failed' : 'Login'}</h2>
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={login}>
                             <label htmlFor="username">Username</label><br />
@@ -95,18 +97,21 @@ function Login() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-
                             <div className="d-flex">
                                 <h6>
-                                    Log in as
-                                    &nbsp;
-                                    <select value={isAdmin ? 'admin' : 'staff'} onChange={handleRoleChange}>
-                                        <option value="admin">Admin</option>
-                                        <option value="staff">Staff</option>
+                                    <select
+                                        id="role"
+
+                                        value={selectedRole}
+                                        onChange={(e) => setSelectedRole(e.target.value)}
+                                    >
+
+
+                                        <option value="Admin">Admin</option>
+                                        <option value="Staff">Staff</option>
                                     </select>
                                 </h6>
                             </div>
-
                             <div className='d-flex justify-content-center'>
                                 <button type="submit" className="btn btn-primary mt-2 custom-btn">LOGIN</button>
                             </div>

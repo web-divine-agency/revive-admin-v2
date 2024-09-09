@@ -21,34 +21,40 @@ import QueueList from './components/StaffPages/QueueList/QueueList';
 
 function Layout() {
   const location = useLocation();
-  const userRoles = 'Staff'; 
+  const userRole = localStorage.getItem('role_name');
 
   return (
     <>
-      {location.pathname !== '/' && <SideBar role={userRoles} />}
+      {location.pathname !== '/' && <SideBar role={userRole} />}
       <Routes>
-        <Route path="/userlist" element={<UsersList />} />
-        <Route path="/user-management" element={<UserRoleManagement />} />
-        <Route path="/staff-logs" element={<StaffLogs />} />
-        <Route path="/tickets-history" element={<TicketsHistory />} />
-        <Route path="/branches" element={<Branches />} />
-        <Route path="/add-new-user" element={<AddNewUser />} />
-        <Route path="/edit-user" element={<EditUser />} />
-        <Route path="/edit-user-role" element={<EditUserRole />} />
-        <Route path="/add-new-role" element={<AddNewRole />} />
-        <Route path="/add-branch" element={<AddBranch />} />
-        <Route path="/edit-branch" element={<EditBranch />} />
-        <Route path="/my-profile" element={<MyProfile />} /> 
-        <Route path="/history" element={<History />} /> 
-        <Route path="/queue-list" element={<QueueList />} /> 
-        <Route path="/generate-tickets" element={<GenerateTickets />} /> 
-        <Route path="/history" element={<History />} /> 
+      
+          <>
+            <Route path="/userlist" element={<UsersList />} />
+            <Route path="/user-management" element={<UserRoleManagement />} />
+            <Route path="/staff-logs" element={<StaffLogs />} />
+            <Route path="/tickets-history" element={<TicketsHistory />} />
+            <Route path="/branches" element={<Branches />} />
+            <Route path="/add-new-user" element={<AddNewUser />} />
+            <Route path="/edit-user" element={<EditUser />} />
+            <Route path="/edit-user-role" element={<EditUserRole />} />
+            <Route path="/add-new-role" element={<AddNewRole />} />
+            <Route path="/add-branch" element={<AddBranch />} />
+            <Route path="/edit-branch" element={<EditBranch />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/generate-tickets" element={<GenerateTickets />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/queue-list" element={<QueueList />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+
+          </>
+  
 
         <Route index element={<Login />} />
       </Routes>
     </>
   );
 }
+
 
 
 function App() {

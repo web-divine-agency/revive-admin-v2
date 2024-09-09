@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from "react";
-import axiosInstance from "../../../../axiosInstance"; // Adjust the import path according to your project structure
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../../axiosInstance";
+
 
 function AddNewUser() {
   const [last_name, setLastname] = useState("");
@@ -8,7 +9,8 @@ function AddNewUser() {
   const [branch, setBranches] = useState([]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [role_name, setRole] = useState(""); 
+  const [role_name, setRoleName] = useState("");
+  const [role, setRoles] = useState(""); 
   const [email, setEmail] = useState("");
   const [sex, setSex] = useState("");
   const [username, setUsername] = useState("");
@@ -26,6 +28,16 @@ function AddNewUser() {
       }
     };
     fetchBranches();
+
+    const fetchRoles = async () => {
+      try {
+        const response = await axiosInstance.get("/roles");
+        setRoles(response.data);
+      } catch (error) {
+        console.error("Error fetching branches:", error);
+      }
+    };
+    fetchRoles();
   }, []);
 
   const validateForm = () => {
@@ -49,7 +61,7 @@ function AddNewUser() {
     if (!emailPattern.test(email)) {
       return "Invalid email format.";
     }
-    
+
     // if (!role) {
     //   return 'Role is required.';
     // }
@@ -98,7 +110,7 @@ function AddNewUser() {
       setError(
         error.response && error.response.data
           ? error.response.data.message ||
-              "Failed to add user. Please try again."
+          "Failed to add user. Please try again."
           : "Failed to add user. Please try again."
       );
       setSuccessMessage("");
@@ -173,7 +185,7 @@ function AddNewUser() {
             </div>
           </div>
           <div className="d-flex justify-content-between ml-5">
-          <div className="form-group">
+            <div className="form-group">
               <label>Branch:</label><br />
               <select value={branch_name} onChange={(e) => setBranch(e.target.value)}>
                 <option value="">Select Branch</option>
@@ -185,21 +197,18 @@ function AddNewUser() {
               </select>
             </div>
 
-            {/* <div className="form-group">
-              <label>Role:</label>
-              <br />
-              <select
-                value={role_name}
-                onChange={(e) => setRole(e.target.value)}
-              >
+            <div className="form-group">
+              <label>Branch:</label><br />
+              <select value={branch_name} onChange={(e) => setBranch(e.target.value)}>
                 <option value="">Select Role</option>
-                {roles.map((role, index) => (
-                  <option key={index} value={role}>
-                    {role}
+                {role.map((role) => (
+                  <option key={role.id} value={role.role_name}>
+                    {role.role_name}
                   </option>
                 ))}
               </select>
-            </div> */}
+            </div>
+
 
             <div className="form-group mr-5">
               <label>Email:</label>

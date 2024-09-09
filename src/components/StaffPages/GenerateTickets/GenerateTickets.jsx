@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../App.css";
 import {
   Document,
@@ -7,6 +7,7 @@ import {
   View,
   PDFDownloadLink,
 } from "@react-pdf/renderer";
+import Swal from "sweetalert2";
 
 function GenerateTickets() {
   const [productName, setProductName] = useState("");
@@ -21,6 +22,22 @@ function GenerateTickets() {
   const [template, setTemplate] = useState("Small Tickets ($)");
   const [successMessage, setSuccessMessage] = useState("");
 
+  //login success swal
+  useEffect(() => {
+    //success login swal
+    if (localStorage.getItem('loginSuccess') === 'true') {
+
+      Swal.fire({
+        title: 'Login Successful',
+        text: `Welcome`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#0ABAA6'
+      });
+
+      localStorage.removeItem('loginSuccess');
+    }
+  }, []);
   const getTicketStyle = () => {
     switch (template) {
       case "Small Tickets (%)":
