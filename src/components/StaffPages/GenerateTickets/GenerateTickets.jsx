@@ -23,72 +23,59 @@ function GenerateTickets() {
 
   const getTicketStyle = () => {
     switch (template) {
+      case "Small Tickets (%)":
+        return {
+          height: "165px",
+          width: "150px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          border: "1px solid black",
+          margin: "5px",
+
+        };
       case "Big Tickets (P)":
       case "Big Ticket (L)":
         return {
           height: "510px",
           width: "500px",
           fontSize: "100px",
-          lineHeight:"15px",
-          // paddingTop: "5rem",
           justifyContent: "center",
-          alignItems: "center",
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
-          flexDirection: "column"
+          flexDirection: "column",
+          lineHeight: "60px"
         };
       default:
         return {
           height: "165px",
-          width: "150px", // adjust width to match your design
+          width: "150px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          border: "1px solid black", // border similar to the image
-          margin: "5px", // small margin between tickets
+          border: "1px solid black",
+          margin: "5px",
         };
     }
-  };
-
-  const renderContent = () => {
-    const commonStyle = {
-      textAlign: "center",
-      fontWeight: "bolder",
-      fontSize: "12px", // Adjust the font size
-    };
-
-    return (
-      <>
-        <Text style={{ ...commonStyle, fontSize: "20px" }}>$</Text>
-        <Text style={{ ...commonStyle, fontSize: "12px" }}>RRP $</Text>
-        <Text style={{ ...commonStyle, fontSize: "12px" }}>Save $</Text>
-      </>
-    );
   };
 
   const MyDocument = () => {
     const renderContent = () => {
       const commonStyle = {
         textAlign: "center",
-        fontWeight: "bolder",
+        // fontWeight: "bolder",
       };
-      const bigTicketStyle = {
-        textAlign: "center",
-        fontWeight: "bolder",
-        lineHeight: "60px",
-      };
-
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ ...commonStyle, fontSize: "40px" }}>
+              <Text style={{ ...commonStyle, fontSize: "40px", lineHeight: "2px", fontWeight: "800" }}>
                 {percentOff}%
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "20px" }}>
+              <Text style={{ ...commonStyle, fontSize: "20px", lineHeight: "1px" }}>
                 {productDesc}
               </Text>
               <br />
@@ -96,7 +83,7 @@ function GenerateTickets() {
                 style={{
                   ...commonStyle,
                   fontSize: "13px",
-                  fontWeight: "lighter",
+                  fontWeight: "lighter", lineHeight: "2px"
                 }}
               >
                 {expiry}
@@ -108,21 +95,23 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ ...commonStyle, fontSize: "50px" }}>
+
+              <Text style={{ ...commonStyle, fontSize: "50px", lineHeight: "1px" }}>
                 {productBrand}
               </Text>
               <br />
+
               <Text
                 style={{
-                  ...bigTicketStyle,
+                  ...commonStyle,
                   fontSize: "70px",
-                  lineHeight: "60px",
+                  lineHeight: "1px",
                 }}
               >
                 {productName}
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "50px" }}>
+              <Text style={{ ...commonStyle, fontSize: "50px", lineHeight: "1px" }}>
                 ${price}
               </Text>
               <br />
@@ -130,28 +119,30 @@ function GenerateTickets() {
                 style={{
                   ...commonStyle,
                   fontSize: "18px",
-                  fontWeight: "lighter",
+                  fontWeight: "lighter", lineHeight: "1px"
                 }}
               >
                 {expiry}
               </Text>
               <br />
+
             </>
           );
         default:
           return (
             <>
-              <Text style={{ ...commonStyle, fontSize: "15px" }}>
+              <Text style={{ ...commonStyle, fontSize: "15px", lineHeight: "1px" }}>
                 {productName}
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "40px" }}>${price}</Text>
+
+              <Text style={{ ...commonStyle, fontSize: "40px", lineHeight: "1px" }}>${price}</Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "18px" }}>
+              <Text style={{ ...commonStyle, fontSize: "18px", lineHeight: "1px" }}>
                 RRP ${rrp}
               </Text>
               <br />
-              <Text style={{ ...commonStyle, fontSize: "20px" }}>
+              <Text style={{ ...commonStyle, fontSize: "20px", lineHeight: "1px" }}>
                 Save ${save}
               </Text>
               <br />
@@ -159,12 +150,13 @@ function GenerateTickets() {
                 style={{
                   ...commonStyle,
                   fontSize: "13px",
-                  fontWeight: "lighter",
+                  fontWeight: "lighter", lineHeight: "1px"
                 }}
               >
                 {expiry}
               </Text>
               <br />
+
             </>
           );
       }
@@ -177,14 +169,14 @@ function GenerateTickets() {
 
       switch (template) {
         case "Small Tickets (%)":
-          maxTicketsPerPage = 12;
+          maxTicketsPerPage = 9;
           break;
         case "Big Tickets (P)":
         case "Big Ticket (L)":
           maxTicketsPerPage = 1;
           break;
         default:
-          maxTicketsPerPage = 9; // default tempalte value
+          maxTicketsPerPage = 9;
           break;
       }
 
@@ -209,7 +201,7 @@ function GenerateTickets() {
               border: "1px solid #000000",
               justifyContent: "center",
               alignItems: "center",
-              paddingTop:'20px',
+              paddingTop: '20px',
               paddingBottom: '20px'
             }}
           >
@@ -451,7 +443,7 @@ function GenerateTickets() {
                   <input
                     type="number"
                     placeholder="1"
-                    min={0}
+                    min={1}
                     className="form-control ticket-copies-field"
                     value={copies}
                     onChange={(e) => setCopies(Number(e.target.value))}

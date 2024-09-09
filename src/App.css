@@ -468,7 +468,7 @@ flex-direction: row;
   /* border: 1px solid #000000; */
   height: 570px;
   padding-top: 10px;
- width: 100%;
+ width: 520px;
   overflow-y: scroll; 
 
 
@@ -481,4 +481,5 @@ flex-direction: row;
 
 
 }
+
 /* End of Generate Ticket Style */

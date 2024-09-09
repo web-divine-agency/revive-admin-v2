@@ -4,40 +4,37 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
-import axios from 'axios';
+import axiosInstance from '../../../axiosInstance';
 
-// Set up Axios instance
-const axiosInstance = axios.create({
-    baseURL: 'https://revive.imseoninja.com/api', // Replace with your backend base URL
-});
 
 function Login() {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
 
     // Login function
     const login = async (event) => {
         event.preventDefault();
         try {
             const response = await axiosInstance.post('/login', {
-                email,
+                username,
                 password,
-                // role: isAdmin ? 'admin' : 'staff',
+                role: isAdmin ? 'Admin' : 'Staff',
             });
 
             // Extract tokens from response and store them in local storage
-            const { accessToken, refreshToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
-            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            const { user } = response.data;
+            localStorage.setItem('userRoles', JSON.stringify(user.roles));
+            localStorage.setItem('userPermissions', JSON.stringify(user.roles.flatMap(role => role.permissions)));
 
             // Redirect to users list page
+            if(isAdmin) {
+                navigate('/staff-logs');
+            } else
             navigate('/userlist'); // Use navigate to redirect
+
 
         } catch (error) {
             console.error('Login error:', error);
@@ -47,7 +44,7 @@ function Login() {
 
     // Handle dropdown change
     const handleRoleChange = (event) => {
-        setIsAdmin(event.target.value === 'admin');
+        setIsAdmin(event.target.value === 'Admin');
     };
 
     return (
@@ -74,9 +71,9 @@ function Login() {
                                     type="text"
                                     id="username"
                                     className="form-control-lg w-100 mb-2"
-                                    value={email}
+                                    value={username}
                                     placeholder="Username"
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                             <label htmlFor="password">Password</label><br />
@@ -95,7 +92,7 @@ function Login() {
                                 <h6>
                                     Log in as
                                     &nbsp;
-                                    <select value={isAdmin ? 'admin' : 'staff'} onChange={handleRoleChange}>
+                                    <select value={isAdmin ? 'Admin' : 'Staff'} onChange={handleRoleChange}>
                                         <option value="admin">Admin</option>
                                         <option value="staff">Staff</option>
                                     </select>
