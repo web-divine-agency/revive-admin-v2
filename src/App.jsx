@@ -60,7 +60,7 @@ function Layout() {
 function App() {
   return (
     <div className="App">
-      <BrowserRouter basename='/revive-ticketing-system'>
+      <BrowserRouter>
         <Layout />
       </BrowserRouter>
     </div>
