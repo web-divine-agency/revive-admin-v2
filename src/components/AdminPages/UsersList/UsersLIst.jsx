@@ -18,29 +18,11 @@ function UsersList() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  //login success swal
-  useEffect(() => {
-    //success login swal
-    if (localStorage.getItem('loginSuccess') === 'true') {
-
-      Swal.fire({
-        title: 'Login Successful',
-        text: `Welcome`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#0ABAA6'
-      });
-
-      localStorage.removeItem('loginSuccess');
-    }
-  }, []);
-  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axiosInstance.get("/users");
-        // console.log("Fetched Users:", response.data); 
-        setUsers(response.data); 
+        setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -57,7 +39,7 @@ function UsersList() {
     setShowModal(false);
   };
 
-  const handleDeleteUserClick = () => {
+  const handleDeleteUserClick = async (userId) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
@@ -72,18 +54,35 @@ function UsersList() {
         cancelButton: "custom-cancel-button",
         title: "custom-swal-title",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Success!",
-          icon: "success",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-          customClass: {
-            confirmButton: "custom-success-confirm-button",
-            title: "custom-swal-title",
-          },
-        });
+        try {
+          await axiosInstance.delete(`/delete-user/${userId}`);
+          setUsers(users.filter(user => user.id !== userId));
+          Swal.fire({
+            title: "Success!",
+            text: "User has been deleted.",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0ABAA6",
+            customClass: {
+              confirmButton: "custom-success-confirm-button",
+              title: "custom-swal-title",
+            },
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: "There was an error deleting the user.",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#EC221F",
+            customClass: {
+              confirmButton: "custom-error-confirm-button",
+              title: "custom-swal-title",
+            },
+          });
+        }
       }
     });
   };
@@ -111,17 +110,17 @@ function UsersList() {
     },
     {
       name: "Email",
-      selector: (row) => row.email || "N/A", 
+      selector: (row) => row.email || "N/A",
       sortable: true,
     },
     {
       name: "Username",
-      selector: (row) => row.username || "N/A", 
+      selector: (row) => row.username || "N/A",
       sortable: true,
     },
     {
       name: "Branch",
-      selector: (row) => (row.branch && row.branch.branch_name) || "N/A", 
+      selector: (row) => (row.branch && row.branch.branch_name) || "N/A",
       sortable: true,
     },
     {
@@ -141,7 +140,7 @@ function UsersList() {
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
                 role: row.role_name,
-                profileImage: row.sex === 'Male' ? man : woman, 
+                profileImage: row.sex === 'Male' ? man : woman,
               })
             }
             style={{ cursor: "pointer" }}
@@ -162,7 +161,8 @@ function UsersList() {
             alt="delete"
             width="25"
             height="25"
-            onClick={handleDeleteUserClick}
+            onClick={() => handleDeleteUserClick(row.id)}
+            style={{ cursor: "pointer" }}
           />
         </div>
       ),
