@@ -1,16 +1,22 @@
+// ProtectedRoute.js
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
-const PrivateRoute = ({ element, allowedRoles }) => {
-    const userRole = localStorage.getItem('role_name');
+const ProtectedRoute = ({ element, allowedRoles }) => {
+  const userRole = localStorage.getItem('role_name');
+  const location = useLocation();
 
-    if (!userRole) {    
-        return <Navigate to="/" replace />;
-    }
-    if (allowedRoles && !allowedRoles.includes(userRole)) {
-        return <Navigate to="/" replace />;
-    }
-    return element;
+  if (!userRole) {
+    // Redirect to login page if not authenticated
+    return <Navigate to="/" state={{ from: location }} />;
+  }
+
+  if (!allowedRoles.includes(userRole)) {
+    // Redirect to a "not authorized" page or home if the role is not allowed
+    return <Navigate to="/" />;
+  }
+
+  return element;
 };
 
-export default PrivateRoute;
+export default ProtectedRoute;

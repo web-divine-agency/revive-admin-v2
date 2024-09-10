@@ -15,20 +15,65 @@ import axiosInstance from "../../../../axiosInstance";
 function UsersList() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [filter, setFilter] = useState(""); 
+  const [search, setSearch] = useState(""); 
+
+  useEffect(() => {
+    //success login swal
+    if (localStorage.getItem("loginSuccess") === "true") {
+      Swal.fire({
+        title: "Login Successful",
+        text: `Welcome`,
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
+      });
+
+      localStorage.removeItem("loginSuccess");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axiosInstance.get("/users");
         setUsers(response.data);
+        setFilteredUsers(response.data); 
+        console.log(response.data); 
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     fetchUsers();
   }, [navigate]);
+
+  useEffect(() => {
+    // Filter users whenever the filter or search state changes
+    const applyFilters = () => {
+      let tempUsers = [...users];
+
+      if (filter) {
+        tempUsers = tempUsers.filter((user) => {
+          if (filter === "Staff") return user.role_name === "Staff";
+          if (filter === "Admin") return user.role_name === "Admin";
+          return true;
+        });
+      }
+
+      if (search) {
+        tempUsers = tempUsers.filter((user) =>
+          `${user.first_name} ${user.last_name}`.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+
+      setFilteredUsers(tempUsers);
+    };
+
+    applyFilters();
+  }, [filter, search, users]);
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -58,7 +103,8 @@ function UsersList() {
       if (result.isConfirmed) {
         try {
           await axiosInstance.delete(`/delete-user/${userId}`);
-          setUsers(users.filter(user => user.id !== userId));
+          setUsers(users.filter((user) => user.id !== userId));
+          setFilteredUsers(filteredUsers.filter((user) => user.id !== userId));
           Swal.fire({
             title: "Success!",
             text: "User has been deleted.",
@@ -94,7 +140,7 @@ function UsersList() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
             className="profile-image"
-            src={row.sex === 'Male' ? man : woman}
+            src={row.sex === "Male" ? man : woman}
             alt={row.last_name}
             style={{
               width: "30px",
@@ -140,7 +186,7 @@ function UsersList() {
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
                 role: row.role_name,
-                profileImage: row.sex === 'Male' ? man : woman,
+                profileImage: row.sex === "Male" ? man : woman,
               })
             }
             style={{ cursor: "pointer" }}
@@ -176,12 +222,23 @@ function UsersList() {
         <div className="col-lg-12 col-md-6">
           <h3>Users List</h3>
           <div className="top-filter">
-            <select name="" id="filter">
+            <select
+              name="filter"
+              id="filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
               <option value="">All Users</option>
-              <option value="">Staffs</option>
-              <option value="">Admins</option>
+              <option value="Staff">Staffs</option>
+              <option value="Admin">Admins</option>
             </select>
-            <input id="search-bar" type="text" placeholder="Search" />
+            <input
+              id="search-bar"
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
             <button
               onClick={() => navigate("/add-new-user")}
               className="btn btn-primary float-end add-user-btn"
@@ -193,7 +250,7 @@ function UsersList() {
             <DataTable
               className="dataTables_wrapper"
               columns={columns}
-              data={users}
+              data={filteredUsers}
               pagination
               paginationPerPage={5}
               paginationRowsPerPageOptions={[5, 10, 20]}
@@ -225,7 +282,7 @@ function UsersList() {
                   Username:<p>{selectedUser.username}</p>
                 </h5>
                 <h5>
-                  Role: <p>{selectedUser.role_name}</p>
+                  Role: <p>{selectedUser.role}</p>
                 </h5>
                 <h5>
                   Branch: <p>{selectedUser.branch}</p>

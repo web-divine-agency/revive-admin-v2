@@ -1,5 +1,6 @@
+// Layout.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, useLocation, Navigate  } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
 import UsersList from './components/AdminPages/UsersList/UsersLIst';
@@ -17,52 +18,51 @@ import MyProfile from './components/AdminPages/MyProfile/MyProfile';
 import GenerateTickets from './components/StaffPages/GenerateTickets/GenerateTickets';
 import History from './components/StaffPages/History/History';
 import QueueList from './components/StaffPages/QueueList/QueueList';
+import ProtectedRoute from './components/PrivateRoute/PrivateRoute';
 
 
 function Layout() {
   const location = useLocation();
   const userRole = localStorage.getItem('role_name');
+  const noSidebarPaths = ['/', '/not-authorized'];
+
+
+
+  // Check if the current path should hide the sidebar
+  const shouldHideSidebar = noSidebarPaths.includes(location.pathname);
 
   return (
     <>
-      {location.pathname !== '/' && <SideBar role={userRole} />}
+        {!shouldHideSidebar && location.pathname !== '/' && <SideBar role={userRole} />}
       <Routes>
-      
-          <>
-            <Route path="/userlist" element={<UsersList />} />
-            <Route path="/user-management" element={<UserRoleManagement />} />
-            <Route path="/staff-logs" element={<StaffLogs />} />
-            <Route path="/tickets-history" element={<TicketsHistory />} />
-            <Route path="/branches" element={<Branches />} />
-            <Route path="/add-new-user" element={<AddNewUser />} />
-            <Route path="/edit-user" element={<EditUser />} />
-            <Route path="/edit-user-role" element={<EditUserRole />} />
-            <Route path="/add-new-role" element={<AddNewRole />} />
-            <Route path="/add-branch" element={<AddBranch />} />
-            <Route path="/edit-branch" element={<EditBranch />} />
-            <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/generate-tickets" element={<GenerateTickets />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/queue-list" element={<QueueList />} />
-            <Route path="/my-profile" element={<MyProfile />} />
-
-          </>
-  
-
-        <Route index element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/user-management" element={<ProtectedRoute element={<UserRoleManagement />} allowedRoles={['Admin']} />} />
+        <Route path="/staff-logs" element={<ProtectedRoute element={<StaffLogs />} allowedRoles={['Admin']} />} />
+        <Route path="/tickets-history" element={<ProtectedRoute element={<TicketsHistory />} allowedRoles={['Admin']} />} />
+        <Route path="/branches" element={<ProtectedRoute element={<Branches />} allowedRoles={['Admin']} />} />
+        <Route path="/add-new-user" element={<ProtectedRoute element={<AddNewUser />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-user" element={<ProtectedRoute element={<EditUser />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-user-role" element={<ProtectedRoute element={<EditUserRole />} allowedRoles={['Admin']} />} />
+        <Route path="/add-new-role" element={<ProtectedRoute element={<AddNewRole />} allowedRoles={['Admin']} />} />
+        <Route path="/add-branch" element={<ProtectedRoute element={<AddBranch />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-branch" element={<ProtectedRoute element={<EditBranch />} allowedRoles={['Admin']} />} />
+        <Route path="/generate-tickets" element={<ProtectedRoute element={<GenerateTickets />} allowedRoles={['Staff']} />} />
+        <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
+        <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
+        <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
 }
 
-
-
 function App() {
   return (
     <div className="App">
-      <Router>
+      <BrowserRouter basename='/revive-ticketing-system'>
         <Layout />
-      </Router>
+      </BrowserRouter>
     </div>
   );
 }
