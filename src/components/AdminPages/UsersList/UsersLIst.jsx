@@ -18,8 +18,8 @@ function UsersList() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState(""); 
-  const [search, setSearch] = useState(""); 
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     //success login swal
@@ -41,8 +41,8 @@ function UsersList() {
       try {
         const response = await axiosInstance.get("/users");
         setUsers(response.data);
-        setFilteredUsers(response.data); 
-        console.log(response.data); 
+        setFilteredUsers(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -195,7 +195,7 @@ function UsersList() {
             className="ml-3"
             src={edit_icon}
             title="Edit User Details"
-            onClick={() => navigate("/edit-user")}
+            onClick={() => navigate("/edit-user ${row.id}")}
             alt="edit"
             width="25"
             height="25"
