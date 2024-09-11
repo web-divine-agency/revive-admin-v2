@@ -238,7 +238,7 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={price.replace('$', '')} 
-                onChange={(e) => setPrice(e.target.value + '$')} 
+                onChange={(e) => setPrice('$' + e.target.value)} 
               />
             </div>
             <div className="form-group">
@@ -271,7 +271,7 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={price.replace('$', '')} 
-                onChange={(e) => setPrice(e.target.value + '$')} 
+                onChange={(e) => setPrice('$' + e.target.value)} 
               />
             </div>
             <div className="form-group">
