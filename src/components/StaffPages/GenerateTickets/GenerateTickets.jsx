@@ -12,11 +12,14 @@ import {
 import Swal from "sweetalert2";
 
 Font.register({
-  family: 'Helvetica',
+  family: 'Roboto',
   fonts: [
-    { src: '../../assets/fonts/Roboto/Helvetica-Bold.ttf', fontWeight: 'bold' },
+    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf' }, // normal weight
+    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf', fontWeight: 700 }, // bold weight
+    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1MmgVxFIzIFKw.ttf', fontWeight: 300 }, // light weight
   ],
 });
+
 function GenerateTickets() {
   const [productName, setProductName] = useState("Product Name");
   const [price, setPrice] = useState("Price");
@@ -88,14 +91,12 @@ function GenerateTickets() {
     const renderContent = () => {
       // const commonStyle = {
       //   textAlign: "center",
-
-
       // };
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "39px"}}>
+              <Text style={{ fontSize: "39px" }}>
                 {percentOff}
               </Text>
               <Text style={{ fontSize: "25px", textAlign: "center" }}>
@@ -121,10 +122,10 @@ function GenerateTickets() {
         default:
           return (
             <>
-              <Text style={{ fontSize: "17px", textTransform: "uppercase" }}>
+              <Text style={{ fontSize: "17px", textTransform: "uppercase", fontFamily: "Roboto", fontWeight: 700 }}>
                 {productName}
               </Text>
-              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5 }}>{price}</Text>
+              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5, fontFamily: "Roboto", fontWeight: 900 }}>{price}</Text>
               <Text style={{ fontSize: "14px" }}>RRP ${rrp}</Text>
               <Text style={{ fontSize: "17px" }}>Save ${save}</Text>
               <Text style={{ fontSize: "14px", fontWeight: "lighter" }}>
@@ -185,8 +186,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={percentOff.replace('% OFF', '')} 
-                onChange={(e) => setpercentOff(e.target.value + '% OFF')} 
+                value={percentOff.replace('% OFF', '')}
+                onChange={(e) => setpercentOff(e.target.value + '% OFF')}
               />
             </div>
             <div className="form-group">
@@ -237,8 +238,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price.replace('$', '')} 
-                onChange={(e) => setPrice('$' + e.target.value)} 
+                value={price.replace('$', '')}
+                onChange={(e) => setPrice('$' + e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -270,8 +271,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price.replace('$', '')} 
-                onChange={(e) => setPrice('$' + e.target.value)} 
+                value={price.replace('$', '')}
+                onChange={(e) => setPrice('$' + e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -324,7 +325,7 @@ function GenerateTickets() {
               onChange={(e) => setTemplate(e.target.value)}
               value={template}
             >
-              <option value="Small Tickets ($)">Small Tickets ($)</option>
+              <option value="Small Tickets ($)" >Small Tickets ($)</option>
               <option value="Small Tickets (%)">Small Tickets (%)</option>
               <option value="Big Tickets (P)">Big Tickets (P)</option>
               <option value="Big Ticket (L)">Big Ticket (L)</option>
