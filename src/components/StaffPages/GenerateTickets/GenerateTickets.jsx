@@ -256,7 +256,7 @@ function GenerateTickets() {
           <>
             <div className="form-group">
               <label>Product Name</label>
-              <input
+              <input maxLength={14}
                 type="text"
                 className="form-control"
                 value={productName}
@@ -375,7 +375,7 @@ function GenerateTickets() {
                   className="btn btn-primary generate-tickets-btn"
                 >
                   <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
-                    {({ blob, url, loading, error }) =>
+                    {({loading}) =>
                       loading ? "Loading document..." : "Generate Ticket"
                     }
                   </PDFDownloadLink>
@@ -386,7 +386,7 @@ function GenerateTickets() {
             <div className="col-md-6 ticket-view">
               <h5>PDF Preview</h5>
               <div className="pdf-preview">
-                <PDFViewer style={{ width: '100%', height: '600px' }}>
+                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px' }}>
                   <MyDocument />
                 </PDFViewer>
               </div>
