@@ -18,14 +18,14 @@ Font.register({
   ],
 });
 function GenerateTickets() {
-  const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState("");
+  const [productName, setProductName] = useState("Product Name");
+  const [price, setPrice] = useState("Price");
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [percentOff, setpercentOff] = useState("");
-  const [productBrand, setproductBrand] = useState("");
-  const [productDesc, setproductDesc] = useState("");
+  const [expiry, setExpiry] = useState("Expiry");
+  const [percentOff, setpercentOff] = useState("Percent Off");
+  const [productBrand, setproductBrand] = useState("Brand");
+  const [productDesc, setproductDesc] = useState("Description");
   const [copies, setCopies] = useState(1);
   const [template, setTemplate] = useState("Small Tickets ($)");
   const [successMessage, setSuccessMessage] = useState("");
@@ -95,13 +95,13 @@ function GenerateTickets() {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "50px" }}>
-                {percentOff}%
+              <Text style={{ fontSize: "39px"}}>
+                {percentOff}
               </Text>
-              <Text style={{ fontSize: "30px" }}>
+              <Text style={{ fontSize: "25px", textAlign: "center" }}>
                 {productDesc}
               </Text>
-              <Text style={{ fontSize: "23px" }}>
+              <Text style={{ fontSize: "14px" }}>
                 {expiry}
               </Text>
             </>
@@ -110,9 +110,9 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "70px" }}>{productBrand}</Text>
-              <Text style={{ fontSize: "90px" }}>{productName}</Text>
-              <Text style={{ fontSize: "70px" }}>${price}</Text>
+              <Text style={{ fontSize: "50px" }}>{productBrand}</Text>
+              <Text style={{ fontSize: "50px" }}>{productName}</Text>
+              <Text style={{ fontSize: "190px", paddingBottom: 50, paddingTop: 50 }}>{price}</Text>
               <Text style={{ fontSize: "38px", fontWeight: "lighter" }}>
                 {expiry}
               </Text>
@@ -121,13 +121,13 @@ function GenerateTickets() {
         default:
           return (
             <>
-              <Text style={{ fontSize: "30px", fontFamily: 'Helvetica', fontWeight: 'bold' }}>
+              <Text style={{ fontSize: "17px", textTransform: "uppercase" }}>
                 {productName}
               </Text>
-              <Text style={{ fontSize: "50px" }}>${price}</Text>
-              <Text style={{ fontSize: "28px" }}>RRP ${rrp}</Text>
-              <Text style={{ fontSize: "30px" }}>Save ${save}</Text>
-              <Text style={{ fontSize: "23px", fontWeight: "lighter" }}>
+              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5 }}>{price}</Text>
+              <Text style={{ fontSize: "14px" }}>RRP ${rrp}</Text>
+              <Text style={{ fontSize: "17px" }}>Save ${save}</Text>
+              <Text style={{ fontSize: "14px", fontWeight: "lighter" }}>
                 {expiry}
               </Text>
             </>
@@ -185,13 +185,14 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={percentOff}
-                onChange={(e) => setpercentOff(e.target.value)}
+                value={percentOff.replace('% OFF', '')} 
+                onChange={(e) => setpercentOff(e.target.value + '% OFF')} 
               />
             </div>
             <div className="form-group">
               <label>Description</label>
               <input
+
                 type="text"
                 className="form-control"
                 value={productDesc}
@@ -236,8 +237,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={price.replace('$', '')} 
+                onChange={(e) => setPrice(e.target.value + '$')} 
               />
             </div>
             <div className="form-group">
@@ -256,7 +257,8 @@ function GenerateTickets() {
           <>
             <div className="form-group">
               <label>Product Name</label>
-              <input maxLength={14}
+              <input
+                maxLength={17}
                 type="text"
                 className="form-control"
                 value={productName}
@@ -268,8 +270,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={price.replace('$', '')} 
+                onChange={(e) => setPrice(e.target.value + '$')} 
               />
             </div>
             <div className="form-group">
@@ -375,7 +377,7 @@ function GenerateTickets() {
                   className="btn btn-primary generate-tickets-btn"
                 >
                   <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
-                    {({loading}) =>
+                    {({ loading }) =>
                       loading ? "Loading document..." : "Generate Ticket"
                     }
                   </PDFDownloadLink>

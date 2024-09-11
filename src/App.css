@@ -469,7 +469,7 @@ flex-direction: row;
   height: 570px;
   padding-top: 10px;
  width: 520px;
-  overflow-y: scroll; 
+ overflow: hidden;
 
 
 }
