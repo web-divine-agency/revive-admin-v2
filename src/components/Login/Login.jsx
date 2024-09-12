@@ -3,14 +3,7 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
-import axios from 'axios';
-
-
-
-const axiosInstance = axios.create({
-    baseURL: 'https://revive.imseoninja.com/api',
-});
-
+import axiosInstance from '../../../axiosInstance';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -27,26 +20,21 @@ function Login() {
                 password,
             });
 
-            const { user } = response.data;
+            const { user, accessToken, refreshToken } = response.data;
             const userRole = user.roles.find(role => role.role_name === 'Admin') ? 'Admin' : 'Staff';
-
-            const { accessToken, refreshToken } = response.data;
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            localStorage.setItem('role_name', userRole);
             
             if (selectedRole !== userRole) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
                 setError(`Invalid Account`);
                 return;
             }
-            localStorage.setItem('userRoles', JSON.stringify(user.roles));
-            localStorage.setItem('userPermissions', JSON.stringify(user.roles.flatMap(role => role.permissions)));
-            localStorage.setItem('role_name', userRole);
-
+            document.cookie = `accessToken=${accessToken}; path=/;`;
+            document.cookie = `refreshToken=${refreshToken}; path=/; `;
 
             localStorage.setItem('loginSuccess', 'true');
             if (userRole === 'Admin') {
+                console.log(user, accessToken, refreshToken, userRole);
                 navigate('/userlist');
             } else {
                 navigate('/generate-tickets');

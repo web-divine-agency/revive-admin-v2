@@ -83,6 +83,13 @@ function UsersList() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  
+  const handleEditUserClick = (userId) => {
+    navigate(`/edit-user/${userId}`);
+  };
+  
+
+
 
   const handleDeleteUserClick = async (userId) => {
     Swal.fire({
@@ -195,7 +202,7 @@ function UsersList() {
             className="ml-3"
             src={edit_icon}
             title="Edit User Details"
-            onClick={() => navigate("/edit-user ${row.id}")}
+            onClick={() => handleEditUserClick(row.id)}
             alt="edit"
             width="25"
             height="25"

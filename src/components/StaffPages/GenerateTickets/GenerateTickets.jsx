@@ -17,6 +17,8 @@ Font.register({
     { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf' }, // normal weight
     { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf', fontWeight: 700 }, // bold weight
     { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1MmgVxFIzIFKw.ttf', fontWeight: 300 }, // light weight
+    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxM.ttf', fontStyle: 'italic' }, 
+    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjASc6CsQ.ttf', fontWeight: 900 }, // extra bold (900)
   ],
 });
 
@@ -96,10 +98,10 @@ function GenerateTickets() {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "39px" }}>
+              <Text style={{ fontSize: "39px", fontFamily: "Roboto", fontWeight: 700 }}>
                 {percentOff}
               </Text>
-              <Text style={{ fontSize: "25px", textAlign: "center" }}>
+              <Text style={{ fontSize: "25px", textAlign: "center", fontFamily: "Roboto", fontWeight: 700}}>
                 {productDesc}
               </Text>
               <Text style={{ fontSize: "14px" }}>
@@ -111,10 +113,10 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "50px" }}>{productBrand}</Text>
-              <Text style={{ fontSize: "50px" }}>{productName}</Text>
-              <Text style={{ fontSize: "190px", paddingBottom: 50, paddingTop: 50 }}>{price}</Text>
-              <Text style={{ fontSize: "38px", fontWeight: "lighter" }}>
+              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700  }}>{productBrand}</Text>
+              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700  }}>{productName}</Text>
+              <Text style={{ fontSize: "190px", paddingBottom: 50, paddingTop: 50, fontFamily: "Roboto", fontWeight: 700  }}>{price}</Text>
+              <Text style={{ fontSize: "38px"}}>
                 {expiry}
               </Text>
             </>
@@ -125,10 +127,10 @@ function GenerateTickets() {
               <Text style={{ fontSize: "17px", textTransform: "uppercase", fontFamily: "Roboto", fontWeight: 700 }}>
                 {productName}
               </Text>
-              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5, fontFamily: "Roboto", fontWeight: 900 }}>{price}</Text>
+              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5, fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
               <Text style={{ fontSize: "14px" }}>RRP ${rrp}</Text>
-              <Text style={{ fontSize: "17px" }}>Save ${save}</Text>
-              <Text style={{ fontSize: "14px", fontWeight: "lighter" }}>
+              <Text style={{ fontSize: "17px", fontFamily: "Roboto", fontWeight: 700 }}>Save ${save}</Text>
+              <Text style={{ fontSize: "14px", }}>
                 {expiry}
               </Text>
             </>
@@ -186,8 +188,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={percentOff.replace('% OFF', '')}
-                onChange={(e) => setpercentOff(e.target.value + '% OFF')}
+                value={percentOff.replace('%', '')}
+                onChange={(e) => setpercentOff(e.target.value + '%')}
               />
             </div>
             <div className="form-group">

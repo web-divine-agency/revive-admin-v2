@@ -94,7 +94,6 @@ function AddNewUser() {
 
       // setSuccessMessage("User added successfully!");
       setError("");
-
       setLastname("");
       setFirstname("");
       setBranch("");
@@ -216,8 +215,8 @@ function AddNewUser() {
               <label>Role:</label>
               <br />
               <select
-                value={role_name} // Track role_name instead of role_id
-                onChange={(e) => setRoleName(e.target.value)} // Set role_name directly
+                value={role_name}
+                onChange={(e) => setRoleName(e.target.value)} 
               >
                 <option value="">Select Role</option>
                 {role.map((role) => (

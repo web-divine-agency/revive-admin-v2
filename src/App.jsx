@@ -1,6 +1,6 @@
 // Layout.js
 import React from 'react';
-import {BrowserRouter, Routes, Route, useLocation, Navigate  } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, useLocation, Navigate,} from 'react-router-dom';
 import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
 import UsersList from './components/AdminPages/UsersList/UsersLIst';
@@ -19,6 +19,7 @@ import GenerateTickets from './components/StaffPages/GenerateTickets/GenerateTic
 import History from './components/StaffPages/History/History';
 import QueueList from './components/StaffPages/QueueList/QueueList';
 import ProtectedRoute from './components/PrivateRoute/PrivateRoute';
+import { AuthContextProvider } from './components/Authentication/authContext';
 
 
 function Layout() {
@@ -32,6 +33,7 @@ function Layout() {
   const shouldHideSidebar = noSidebarPaths.includes(location.pathname);
 
   return (
+    <AuthContextProvider>
     <>
         {!shouldHideSidebar && location.pathname !== '/' && <SideBar role={userRole} />}
       <Routes>
@@ -42,7 +44,7 @@ function Layout() {
         <Route path="/tickets-history" element={<ProtectedRoute element={<TicketsHistory />} allowedRoles={['Admin']} />} />
         <Route path="/branches" element={<ProtectedRoute element={<Branches />} allowedRoles={['Admin']} />} />
         <Route path="/add-new-user" element={<ProtectedRoute element={<AddNewUser />} allowedRoles={['Admin']} />} />
-        <Route path="/edit-user" element={<ProtectedRoute element={<EditUser />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-user/:userId" element={<ProtectedRoute element={<EditUser />} allowedRoles={['Admin']} />} />
         <Route path="/edit-user-role" element={<ProtectedRoute element={<EditUserRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-new-role" element={<ProtectedRoute element={<AddNewRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-branch" element={<ProtectedRoute element={<AddBranch />} allowedRoles={['Admin']} />} />
@@ -51,9 +53,10 @@ function Layout() {
         <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
         <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
         <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     </>
+    </AuthContextProvider>
   );
 }
 
