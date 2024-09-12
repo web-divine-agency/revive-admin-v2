@@ -16,7 +16,7 @@ function Navbar({ role }) {
     try {
       await axiosInstance.post('/logout');
       console.log('logged out');
-      navigate('/revive-ticketing-system/');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
