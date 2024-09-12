@@ -121,7 +121,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "45px", fontFamily: "Roboto", fontWeight: 700 }}>{productName}</Text>
               <Text style={{ fontSize: "180px",fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
               <Text style={{ fontSize: "14px" }}>
-                {expiry}
+              REVIVE OFFER AVAILABLE - {expiry} 
               </Text>
             </>
           );
@@ -237,7 +237,7 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productName}
-                onChange={(e) => setProductName(formatText(e.target.value))}
+                onChange={(e) => setProductName(e.target.value)}
               />
             </div>
             <div className="form-group">
