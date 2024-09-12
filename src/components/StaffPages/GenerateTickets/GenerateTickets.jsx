@@ -16,11 +16,9 @@ Font.register({
   fonts: [
     { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf' }, // normal weight
     { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf', fontWeight: 700 }, // bold weight
-    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOkCnqEu92Fr1MmgVxFIzIFKw.ttf', fontWeight: 300 }, // light weight
-    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxM.ttf', fontStyle: 'italic' }, 
-    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOjCnqEu92Fr1Mu51TjASc6CsQ.ttf', fontWeight: 900 }, // extra bold (900)
   ],
 });
+
 
 function GenerateTickets() {
   const [productName, setProductName] = useState("Product Name");
@@ -49,42 +47,46 @@ function GenerateTickets() {
     }
   }, []);
 
+  //limit ng text 17chars per line
+  const formatText = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 17) {
+      lines.push(text.substring(i, i + 17));
+    }
+    return lines.join('\n');
+  };
+
+
   const getTicketStyle = () => {
     switch (template) {
       case "Small Tickets (%)":
         return {
-          height: "250px",
+          height: "auto",
           width: "185px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
-          // border: "1px solid black",
-          margin: "5px",
+          paddingBottom: "80px",
         };
       case "Big Tickets (P)":
       case "Big Ticket (L)":
         return {
-          height: "800px",
+          height: "auto",
           width: "550px",
-          fontSize: "100px",
-          justifyContent: "center",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          // border: "1px solid black",
-
+          paddingBottom: "10px",
         };
       default:
         return {
-          height: "250px",
+          height: "auto",
           width: "185px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
-          // border: "1px solid black",
-          margin: "5px",
+          marginTop: "30px",
+          paddingBottom: "80px",
         };
     }
   };
@@ -92,19 +94,21 @@ function GenerateTickets() {
   const MyDocument = () => {
     const renderContent = () => {
       // const commonStyle = {
-      //   textAlign: "center",
+      //   color: "#FFFFFF",
       // };
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "39px", fontFamily: "Roboto", fontWeight: 700 }}>
-                {percentOff}
+              <Text style={{ fontSize: "75px", fontFamily: "Roboto", fontWeight: 700 }}>
+                {percentOff}<Text style={{ fontSize: "42px", fontFamily: "Roboto", fontWeight: 700 }}>OFF</Text>
               </Text>
-              <Text style={{ fontSize: "25px", textAlign: "center", fontFamily: "Roboto", fontWeight: 700}}>
+              <Text style={{ fontSize: "17px", textAlign: "center", fontFamily: "Roboto", fontWeight: 700, textTransform: "uppercase" }}>
                 {productDesc}
               </Text>
-              <Text style={{ fontSize: "14px" }}>
+              <Text style={{ fontSize: "8px", textAlign: "center" }}>
+              {"\n"}
+              REVIVE OFFER AVAILABLE{"\n"}
                 {expiry}
               </Text>
             </>
@@ -113,10 +117,10 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700  }}>{productBrand}</Text>
-              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700  }}>{productName}</Text>
-              <Text style={{ fontSize: "190px", paddingBottom: 50, paddingTop: 50, fontFamily: "Roboto", fontWeight: 700  }}>{price}</Text>
-              <Text style={{ fontSize: "38px"}}>
+              <Text style={{ fontSize: "72px", fontFamily: "Roboto", fontWeight: 700 }}>{productBrand}</Text>
+              <Text style={{ fontSize: "45px", fontFamily: "Roboto", fontWeight: 700 }}>{productName}</Text>
+              <Text style={{ fontSize: "180px",fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
+              <Text style={{ fontSize: "14px" }}>
                 {expiry}
               </Text>
             </>
@@ -124,13 +128,14 @@ function GenerateTickets() {
         default:
           return (
             <>
-              <Text style={{ fontSize: "17px", textTransform: "uppercase", fontFamily: "Roboto", fontWeight: 700 }}>
+              <Text style={{ fontSize: "16px", textTransform: "uppercase", fontFamily: "Roboto", fontWeight: 700 }}>
                 {productName}
               </Text>
-              <Text style={{ fontSize: 50, paddingBottom: 5, paddingTop: 5, fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
-              <Text style={{ fontSize: "14px" }}>RRP ${rrp}</Text>
-              <Text style={{ fontSize: "17px", fontFamily: "Roboto", fontWeight: 700 }}>Save ${save}</Text>
-              <Text style={{ fontSize: "14px", }}>
+              <Text style={{ fontSize: 48, paddingBottom: 7, paddingTop: 7, fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
+              <Text style={{ fontSize: "10px", fontFamily: "Roboto", fontWeight: 700 }}>RRP ${rrp}</Text>
+              <Text style={{ fontSize: "14px", fontFamily: "Roboto", fontWeight: 700 }}>Save ${save}</Text>
+              <Text style={{ fontSize: "10px", textAlign: "center" }}>
+                REVIVE OFFER AVAILABLE{"\n"}
                 {expiry}
               </Text>
             </>
@@ -170,10 +175,10 @@ function GenerateTickets() {
       }
       return containerGroups;
     };
-
+   
     return (
       <Document>
-        <Page>{getTicketContainers()}</Page>
+        <Page size="A4">{getTicketContainers()}</Page>
       </Document>
     );
   };
@@ -199,7 +204,7 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productDesc}
-                onChange={(e) => setproductDesc(e.target.value)}
+                onChange={(e) => setproductDesc(formatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -232,7 +237,7 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                onChange={(e) => setProductName(formatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -261,11 +266,11 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Product Name</label>
               <input
-                maxLength={17}
+
                 type="text"
                 className="form-control"
                 value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                onChange={(e) => setProductName(formatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -391,7 +396,7 @@ function GenerateTickets() {
             <div className="col-md-6 ticket-view">
               <h5>PDF Preview</h5>
               <div className="pdf-preview">
-                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px' }}>
+                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px', scale: 1 }}>
                   <MyDocument />
                 </PDFViewer>
               </div>
