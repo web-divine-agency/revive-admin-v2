@@ -26,7 +26,7 @@ function GenerateTickets() {
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
-  const [percentOff, setpercentOff] = useState("Percent Off");
+  const [percentOff, setpercentOff] = useState("Percent");
   const [productBrand, setproductBrand] = useState("Brand");
   const [productDesc, setproductDesc] = useState("Description");
   const [copies, setCopies] = useState(1);
@@ -100,8 +100,8 @@ function GenerateTickets() {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "75px", fontFamily: "Roboto", fontWeight: 700 }}>
-                {percentOff}<Text style={{ fontSize: "42px", fontFamily: "Roboto", fontWeight: 700 }}>OFF</Text>
+              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700 }}>
+                {percentOff}<Text style={{ fontSize: "22px", fontFamily: "Roboto", fontWeight: 700 }}>OFF</Text>
               </Text>
               <Text style={{ fontSize: "17px", textAlign: "center", fontFamily: "Roboto", fontWeight: 700, textTransform: "uppercase" }}>
                 {productDesc}

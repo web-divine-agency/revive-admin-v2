@@ -20,21 +20,20 @@ function Login() {
                 password,
             });
 
-            const { user, accessToken, refreshToken } = response.data;
-            const userRole = user.roles.find(role => role.role_name === 'Admin') ? 'Admin' : 'Staff';
-            localStorage.setItem('role_name', userRole);
+            const { user, accessToken, refreshToken, roleName} = response.data;
             
-            if (selectedRole !== userRole) {
+            if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
                 setError(`Invalid Account`);
                 return;
             }
-            document.cookie = `accessToken=${accessToken}; path=/;`;
-            document.cookie = `refreshToken=${refreshToken}; path=/; `;
+            document.cookie = `role_name=${roleName}; Path=/;`;
+            document.cookie = `accessToken=${accessToken}; Path=/;`;
+            document.cookie = `refreshToken=${refreshToken}; Path=/; `;
 
             localStorage.setItem('loginSuccess', 'true');
-            if (userRole === 'Admin') {
-                console.log(user, accessToken, refreshToken, userRole);
+            if (roleName === 'Admin') {
+                console.log(user, accessToken, refreshToken, roleName);
                 navigate('/userlist');
             } else {
                 navigate('/generate-tickets');

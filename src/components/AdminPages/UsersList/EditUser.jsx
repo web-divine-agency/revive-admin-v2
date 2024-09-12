@@ -103,7 +103,7 @@ function EditUser() {
         }
 
         try {
-            const response = await axiosInstance.post(`/update-user/${userId}`, {
+            const response = await axiosInstance.put(`/update-user/${userId}`, {
                 last_name,
                 first_name,
                 branch_id,
@@ -126,8 +126,8 @@ function EditUser() {
             setUsername("");
             setRoleName("");
             Swal.fire({
-                title: "User Added Successfully",
-                text: `The user ${first_name} ${last_name} has been added.`,
+                title: "User Updated Successfully",
+                text: `The user ${first_name} ${last_name} has been Updated.`,
                 icon: "success",
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0ABAA6",

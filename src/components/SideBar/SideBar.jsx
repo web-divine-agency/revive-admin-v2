@@ -1,26 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
 import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../axiosInstance";
+import {AuthContext}  from '../Authentication/authContext'
 
 
 function Navbar({ role }) {
   const navigate = useNavigate();
   const sidebarData = role === 'Admin' ? AdminSidebarData : StaffSidebarData;
 
-  const logout = async (event) =>{
-    try {
-      await axiosInstance.post('/logout');
-      console.log('logged out');
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const { logout } = useContext(AuthContext);
 
   return (
     <>
@@ -149,7 +141,7 @@ function Navbar({ role }) {
                     <li className={item.cName}>
                       <Link to={item.path} onClick={(event) => {
                       if (item.title === "Logout") {
-                        item.onClick(event, logout);
+                        item.onClick = (event, logout);
                       } else {
                         navigate(item.path);
                       }

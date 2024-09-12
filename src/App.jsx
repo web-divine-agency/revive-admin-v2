@@ -1,6 +1,6 @@
 // Layout.js
 import React from 'react';
-import {BrowserRouter, Routes, Route, useLocation, Navigate,} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, useLocation, Navigate  } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SideBar from './components/SideBar/SideBar';
 import UsersList from './components/AdminPages/UsersList/UsersLIst';
@@ -20,11 +20,11 @@ import History from './components/StaffPages/History/History';
 import QueueList from './components/StaffPages/QueueList/QueueList';
 import ProtectedRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthContextProvider } from './components/Authentication/authContext';
-
+import {getCookie} from './components/Authentication/getCookie';
 
 function Layout() {
   const location = useLocation();
-  const userRole = localStorage.getItem('role_name');
+  const userRole = getCookie('role_name');
   const noSidebarPaths = ['/', '/not-authorized'];
 
 
@@ -53,7 +53,7 @@ function Layout() {
         <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
         <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
         <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
-        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
     </AuthContextProvider>

@@ -1,9 +1,10 @@
 // ProtectedRoute.js
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import {getCookie} from '../Authentication/getCookie';
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
-  const userRole = localStorage.getItem('role_name');
+  const userRole = getCookie('role_name');
   const location = useLocation();
 
   if (!userRole) {

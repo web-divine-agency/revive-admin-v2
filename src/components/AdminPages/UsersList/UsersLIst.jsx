@@ -42,7 +42,7 @@ function UsersList() {
         const response = await axiosInstance.get("/users");
         setUsers(response.data);
         setFilteredUsers(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -192,7 +192,7 @@ function UsersList() {
                 email: row.email,
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
-                role: row.role_name,
+                role: row.role?.role_name || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })
             }
