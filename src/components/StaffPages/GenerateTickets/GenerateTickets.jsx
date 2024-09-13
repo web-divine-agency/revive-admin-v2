@@ -71,6 +71,15 @@ function GenerateTickets() {
     return lines.join('\n');
   };
 
+  const BrandformatText = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 12) {
+      lines.push(text.substring(i, i + 12));
+      if (lines.length === 1) break;
+    }
+    return lines.join('\n');
+  };
+
   //limit ng text 17chars per line in small tickets description
   const DescriptionformatText = (text) => {
     const lines = [];
@@ -310,7 +319,7 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productBrand}
-                onChange={(e) => setproductBrand(BigformatText(e.target.value))}
+                onChange={(e) => setproductBrand(BrandformatText(e.target.value))}
               />
             </div>
             <div className="form-group">
