@@ -122,7 +122,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
                 {percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
               </Text>
-              <Text style={{ fontSize: "17px", textAlign: "center", fontFamily: "Arial",  textTransform: "uppercase", textAlign: "center" }}>
+              <Text style={{ fontSize: "17px", fontFamily: "Arial",  textTransform: "uppercase", textAlign: "center" }}>
                 {productDesc}{"\n"}
               </Text>
               <Text
