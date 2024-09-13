@@ -10,14 +10,28 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
+import ArialBold from "./fonts/arialbd.ttf"
+import ArialNormal from "./fonts/arial.ttf"
+import ArialItalic from "./fonts/ariali.ttf"
+import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf"
 
 Font.register({
-  family: 'Roboto',
-  fonts: [
-    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf' }, // normal weight
-    { src: 'https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc9.ttf', fontWeight: 700 }, // bold weight
-  ],
+  family: 'Arial',
+  src: ArialBold
 });
+Font.register({
+  family: 'ArialNormal',
+  src: ArialNormal
+});
+Font.register({
+  family: 'ArialItalic',
+  src: ArialItalic
+});
+Font.register({
+  family: 'bahnschrift',
+  src: BahnschriftBold
+});
+
 
 
 function GenerateTickets() {
@@ -26,7 +40,7 @@ function GenerateTickets() {
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
-  const [percentOff, setpercentOff] = useState("Percent");
+  const [percentOff, setpercentOff] = useState("00%");
   const [productBrand, setproductBrand] = useState("Brand");
   const [productDesc, setproductDesc] = useState("Description");
   const [copies, setCopies] = useState(1);
@@ -47,7 +61,7 @@ function GenerateTickets() {
     }
   }, []);
 
-  //limit ng text 17chars per line
+  //limit ng text 17chars per line in small tickets
   const formatText = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 17) {
@@ -55,6 +69,15 @@ function GenerateTickets() {
     }
     return lines.join('\n');
   };
+//limit ng text 25chars per line in big tickets
+  const BigformatText = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 24) {
+      lines.push(text.substring(i, i + 24));
+    }
+    return lines.join('\n');
+  };
+
 
 
   const getTicketStyle = () => {
@@ -66,17 +89,17 @@ function GenerateTickets() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingBottom: "80px",
+          paddingTop: "25px",
         };
       case "Big Tickets (P)":
       case "Big Ticket (L)":
         return {
-          height: "auto",
-          width: "550px",
+          height: "550px",
+          width: "850px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          paddingBottom: "10px",
+          paddingTop: "25px",
         };
       default:
         return {
@@ -85,30 +108,37 @@ function GenerateTickets() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: "30px",
-          paddingBottom: "80px",
+          paddingTop: "25px",
         };
     }
   };
 
   const MyDocument = () => {
     const renderContent = () => {
-      // const commonStyle = {
-      //   color: "#FFFFFF",
-      // };
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
-              <Text style={{ fontSize: "50px", fontFamily: "Roboto", fontWeight: 700 }}>
-                {percentOff}<Text style={{ fontSize: "22px", fontFamily: "Roboto", fontWeight: 700 }}>OFF</Text>
+              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
+                {percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
               </Text>
-              <Text style={{ fontSize: "17px", textAlign: "center", fontFamily: "Roboto", fontWeight: 700, textTransform: "uppercase" }}>
-                {productDesc}
+              <Text style={{ fontSize: "17px", textAlign: "center", fontFamily: "Arial",  textTransform: "uppercase", textAlign: "center" }}>
+                {productDesc}{"\n"}
               </Text>
-              <Text style={{ fontSize: "8px", textAlign: "center" }}>
-              {"\n"}
-              REVIVE OFFER AVAILABLE{"\n"}
+              <Text
+                style={{
+                  paddingTop: "5px",
+                  fontSize: "10px",
+                  textAlign: "center",
+                  fontFamily: "ArialItalic",
+                  paddingBottom: productDesc.split('\n').length === 1
+                    ? "120px"
+                    : productDesc.split('\n').length === 2
+                      ? "100px"
+                      : "80px",
+                }}
+              >
+                REVIVE OFFER AVAILABLE{"\n"}
                 {expiry}
               </Text>
             </>
@@ -117,24 +147,52 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "72px", fontFamily: "Roboto", fontWeight: 700 }}>{productBrand}</Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Roboto", fontWeight: 700 }}>{productName}</Text>
-              <Text style={{ fontSize: "180px",fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
-              <Text style={{ fontSize: "14px" }}>
-              REVIVE OFFER AVAILABLE - {expiry} 
+              <Text style={{ fontSize: "72px", fontFamily: "Arial",  textTransform: "uppercase" }}>{productBrand}</Text>
+              <Text style={{ fontSize: "45px", fontFamily: "Arial",  textAlign: "center", textTransform: "uppercase" }}>{productName}{"\n"}</Text>
+              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{price}</Text>
+              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic"}}>
+                REVIVE OFFER AVAILABLE - {expiry}
               </Text>
             </>
           );
         default:
           return (
             <>
-              <Text style={{ fontSize: "16px", textTransform: "uppercase", fontFamily: "Roboto", fontWeight: 700 }}>
-                {productName}
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Arial",
+                  textAlign: "center",
+                }}
+              >
+                {productName}{"\n"}
               </Text>
-              <Text style={{ fontSize: 48, paddingBottom: 7, paddingTop: 7, fontFamily: "Roboto", fontWeight: 700 }}>{price}</Text>
-              <Text style={{ fontSize: "10px", fontFamily: "Roboto", fontWeight: 700 }}>RRP ${rrp}</Text>
-              <Text style={{ fontSize: "14px", fontFamily: "Roboto", fontWeight: 700 }}>Save ${save}</Text>
-              <Text style={{ fontSize: "10px", textAlign: "center" }}>
+              <Text
+                style={{
+                  fontSize: 48,
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  fontFamily: "Arial",
+                }}
+              >
+                {price}
+              </Text>
+              <Text style={{ fontSize: "10px", fontFamily: "Arial", }}>
+                RRP ${rrp}
+              </Text>
+              <Text style={{ fontSize: "14px", fontFamily: "Arial", }}>
+                Save ${save}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "10px",
+                  textAlign: "center",
+                  paddingBottom: productName.includes("\n") ? "75px" : "100px",
+                  fontFamily: "ArialNormal",
+             
+                }}
+              >
                 REVIVE OFFER AVAILABLE{"\n"}
                 {expiry}
               </Text>
@@ -142,12 +200,12 @@ function GenerateTickets() {
           );
       }
     };
-
+  
     const getTicketContainers = () => {
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
-      let maxTicketsPerPage = template.includes("Big") ? 1 : 9;
-
+      let maxTicketsPerPage = template.includes("Small") ? 9 : 1;
+  
       for (let i = 0; i < copies; i += maxTicketsPerPage) {
         const currentGroup = [...Array(Math.min(maxTicketsPerPage, copies - i))].map(
           (_, index) => (
@@ -163,10 +221,11 @@ function GenerateTickets() {
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignItems: "center",
-              paddingTop: '20px',
-              paddingBottom: '20px'
+              paddingTop: "20px",
+              paddingLeft: "10px",
+              paddingRight: "10px"
             }}
           >
             {currentGroup}
@@ -175,14 +234,16 @@ function GenerateTickets() {
       }
       return containerGroups;
     };
-   
+  
+    const pageSize = template.includes("Big") ? "A4" : "A4"; 
+    const pageOrientation = template.includes("Big") ? "landscape" : "portrait";
+  
     return (
       <Document>
-        <Page size="A4">{getTicketContainers()}</Page>
+        <Page size={pageSize} orientation={pageOrientation}>{getTicketContainers()}</Page>
       </Document>
     );
   };
-
   const renderFormFields = () => {
     switch (template) {
       case "Small Tickets (%)":
@@ -228,16 +289,17 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productBrand}
-                onChange={(e) => setproductBrand(e.target.value)}
+                onChange={(e) => setproductBrand(BigformatText(e.target.value))}
               />
             </div>
             <div className="form-group">
               <label>Product Name</label>
               <input
+         
                 type="text"
                 className="form-control"
                 value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                onChange={(e) => setProductName(BigformatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -396,7 +458,7 @@ function GenerateTickets() {
             <div className="col-md-6 ticket-view">
               <h5>PDF Preview</h5>
               <div className="pdf-preview">
-                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px', scale: 1 }}>
+                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px', }}>
                   <MyDocument />
                 </PDFViewer>
               </div>
