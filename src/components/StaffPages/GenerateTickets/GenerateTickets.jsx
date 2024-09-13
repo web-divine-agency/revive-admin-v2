@@ -61,24 +61,44 @@ function GenerateTickets() {
     }
   }, []);
 
-  //limit ng text 17chars per line in small tickets
+  //limit ng text 17chars per line in small tickets product name
   const formatText = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 17) {
       lines.push(text.substring(i, i + 17));
+      if (lines.length === 2) break;
     }
     return lines.join('\n');
   };
-//limit ng text 25chars per line in big tickets
+
+  //limit ng text 17chars per line in small tickets description
+  const DescriptionformatText = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 17) {
+      lines.push(text.substring(i, i + 17));
+      if (lines.length === 3) break;
+    }
+    return lines.join('\n');
+  };
+
+
+
+  //limit ng text 25chars per line in big tickets
   const BigformatText = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 24) {
       lines.push(text.substring(i, i + 24));
+      if (lines.length === 3) break;
+
     }
     return lines.join('\n');
   };
 
-
+  //limit of 2 characters in percentage
+  const PercentageformatText = (number) => {
+    const formattedNumber = number.slice(0, 2);
+    return `${formattedNumber}%`; 
+  };
 
   const getTicketStyle = () => {
     switch (template) {
@@ -122,7 +142,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
                 {percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
               </Text>
-              <Text style={{ fontSize: "17px", fontFamily: "Arial",  textTransform: "uppercase", textAlign: "center" }}>
+              <Text style={{ fontSize: "17px", fontFamily: "Arial", textTransform: "uppercase", textAlign: "center" }}>
                 {productDesc}{"\n"}
               </Text>
               <Text
@@ -147,10 +167,10 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "72px", fontFamily: "Arial",  textTransform: "uppercase" }}>{productBrand}</Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Arial",  textAlign: "center", textTransform: "uppercase" }}>{productName}{"\n"}</Text>
+              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{productBrand}</Text>
+              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{productName}{"\n"}</Text>
               <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{price}</Text>
-              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic"}}>
+              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {expiry}
               </Text>
             </>
@@ -190,7 +210,7 @@ function GenerateTickets() {
                   textAlign: "center",
                   paddingBottom: productName.includes("\n") ? "75px" : "100px",
                   fontFamily: "ArialNormal",
-             
+
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
@@ -200,12 +220,12 @@ function GenerateTickets() {
           );
       }
     };
-  
+
     const getTicketContainers = () => {
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
       let maxTicketsPerPage = template.includes("Small") ? 9 : 1;
-  
+
       for (let i = 0; i < copies; i += maxTicketsPerPage) {
         const currentGroup = [...Array(Math.min(maxTicketsPerPage, copies - i))].map(
           (_, index) => (
@@ -234,10 +254,10 @@ function GenerateTickets() {
       }
       return containerGroups;
     };
-  
-    const pageSize = template.includes("Big") ? "A4" : "A4"; 
+
+    const pageSize = template.includes("Big") ? "A4" : "A4";
     const pageOrientation = template.includes("Big") ? "landscape" : "portrait";
-  
+
     return (
       <Document>
         <Page size={pageSize} orientation={pageOrientation}>{getTicketContainers()}</Page>
@@ -255,7 +275,8 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={percentOff.replace('%', '')}
-                onChange={(e) => setpercentOff(e.target.value + '%')}
+                onChange={(e) => setpercentOff(PercentageformatText(e.target.value))}
+                max="99"
               />
             </div>
             <div className="form-group">
@@ -265,7 +286,7 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productDesc}
-                onChange={(e) => setproductDesc(formatText(e.target.value))}
+                onChange={(e) => setproductDesc(DescriptionformatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -295,7 +316,7 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Product Name</label>
               <input
-         
+
                 type="text"
                 className="form-control"
                 value={productName}
