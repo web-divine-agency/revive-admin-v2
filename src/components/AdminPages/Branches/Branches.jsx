@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -8,15 +8,84 @@ import delete_icon from "../../../assets/images/delete_icon.png";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
+import axiosInstance from "../../../../axiosInstance";
 
 function Branches() {
   const navigate = useNavigate();
+  const[data, setData] = useState([]);
   const [selectedBranches, setSelectedBranches] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await axiosInstance.get('/branches'); 
+        const formattedData = response.data.map(branches => ({
+          branch_name: branches.branch_name,
+          address: branches.branch_address,
+          operating_hours: branches.operating_hours,
+          status: branches.status,
+          action: (
+            <>
+              <img
+                src={view_icon}
+                title="View Branch Details"
+                alt="view"
+                width="25"
+                height="25"
+                onClick={() => handleViewClick(branches)} 
+                style={{ cursor: "pointer" }}
+              />
+              <img
+                className="ml-3"
+                src={edit_icon}
+                title="Edit Branch Details"
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  navigate("/edit-branch", {
+                    state: {
+                      branchData: {
+                        branch: branches.branch_name,
+                        addressLine1: branches.branch_address,
+                        operating_hours: branches.operating_hours,
+                        status: branches.status
+                      },
+                    },
+                  })
+                }
+                alt="edit"
+                width="25"
+                height="25"
+              />
+    
+              <img
+                className="ml-3"
+                src={delete_icon}
+                title="Delete Branch"
+                style={{ cursor: "pointer" }}
+                onClick={handleDeleteBranchClick}
+                alt="delete"
+                width="25"
+                height="25"
+              />
+            </>
+          )
+          
+        }));
+        setData(formattedData); 
+      } catch (error) {
+        console.error('Error fetching staff logs:', error);
+      }
+    };
+    fetchBranches(); 
+  }, [navigate]);
+
 
   //modal view
-  const handleViewClick = (role) => {
-    setSelectedBranches(role);
+  const handleViewClick = (branch) => {
+    setSelectedBranches(branch);
     setShowModal(true);
   };
   //close modal
@@ -60,8 +129,23 @@ function Branches() {
   const columns = [
     {
       name: "Branch",
-      selector: (row) => row.branch,
+      selector: (row) => row.branch_name,
       sortable: true,
+    },
+    {
+      name: "Address",
+      selector: (row) => row.address,
+      sortable: true,
+    },
+    {
+      name: "Operating Hours",
+      selector: (row) => {
+        if(typeof row.operating_hours === 'object'){
+          return `${row.operating_hours.open} - ${row.operating_hours.close}`;
+        }
+        return row.operating_hours;
+      },
+      sortable: false,
     },
     {
       name: "Status",
@@ -75,133 +159,7 @@ function Branches() {
     },
   ];
 
-  //table data
-  const data = [
-    {
-      id: 1,
-      branch: "Manila",
-      status: "Open",
-      action: (
-        <>
-          <img
-            src={view_icon}
-            title="View Branch Details"
-            alt="view"
-            width="25"
-            height="25"
-            onClick={() =>
-              handleViewClick({
-                branch: "Manila",
-                address: "1234 Market Street, Tondo, 2112",
-                operatingHours: [
-                  "Monday - Friday: 9:00 AM - 9:00 PM",
-                  "Saturday: 10:00 AM - 8:00 PM",
-                  "Sunday : Close",
-                ],
-                staffLists: ["Jane Doe/Staff", "John Doe/Staff"],
-              })
-            }
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-3"
-            src={edit_icon}
-            title="Edit Branch Details"
-            onClick={() =>
-              navigate("/edit-branch", {
-                state: {
-                  branchData: {
-                    branch: "Cebu",
-                    addressLine1: "Purok 3",
-                    addressLine2: "Market Place",
-                    city: "Cebu",
-                    state: "Cebu City",
-                  },
-                  zipCode: 1000,
-                  country: "Philippines",
-                },
-              })
-            }
-            alt="edit"
-            width="25"
-            height="25"
-          />
 
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete Branch"
-            onClick={handleDeleteBranchClick}
-            alt="delete"
-            width="25"
-            height="25"
-          />
-        </>
-      ),
-    },
-    {
-      id: 2,
-      branch: "Cebu",
-      status: "Close",
-      action: (
-        <>
-          <img
-            src={view_icon}
-            title="View Branch Details"
-            alt="view"
-            width="25"
-            height="25"
-            onClick={() =>
-              handleViewClick({
-                branch: "Cebu",
-                address: "1234Magallanes Street Street, Cebu city, 2112",
-                operatingHours: [
-                  "Monday - Friday: 9:00 AM - 9:00 PM",
-                  "Saturday: 10:00 AM - 8:00 PM",
-                  "Sunday : Close",
-                ],
-                staffLists: ["Jane Doe/Staff", "John Doe/Staff"],
-              })
-            }
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-3"
-            src={edit_icon}
-            title="Edit Branch Details"
-            onClick={() =>
-              navigate("/edit-branch", {
-                state: {
-                  branchData: {
-                    branch: "Manila",
-                    addressLine1: "Purok 3",
-                    addressLine2: "Market Place",
-                    city: "Manila",
-                    state: "Metro Manila",
-                  },
-                  zipCode: 1096,
-                  country: "Philippines",
-                },
-              })
-            }
-            alt="edit"
-            width="25"
-            height="25"
-          />
-
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete Branch"
-            onClick={handleDeleteBranchClick}
-            alt="delete"
-            width="25"
-            height="25"
-          />
-        </>
-      ),
-    },
-  ];
 
   return (
     <div className="container">
@@ -242,24 +200,15 @@ function Branches() {
           </Modal.Header>
           <Modal.Body>
             <div className="branch-container">
-              <h2>{selectedBranches.branch}</h2>
+              <h2>{selectedBranches.branch_name}</h2>
               <h5>Full Address:</h5>
-              <p>{selectedBranches.address}</p>
+              <p>{selectedBranches.branch_address}</p>
               <h5>Operating Hours</h5>
-            
-                {selectedBranches.operatingHours.map(
-                  (operatingHours, index) => (
-                    <p key={index}>{operatingHours}</p>
-                  )
-                )}
-            
-              <h5>Staff Lists</h5>
-              
-                {selectedBranches.staffLists.map((staffLists, index) => (
-                  <p key={index}>{staffLists}</p>
-                ))}
-              
-              <div className="user-details"></div>
+              <p>
+               Open: {selectedBranches.operating_hours?.open} - Close: {selectedBranches.operating_hours?.close}
+              </p>
+              <h5>Status</h5>
+              <p>{selectedBranches.status}</p>
             </div>
           </Modal.Body>
           {/* <Modal.Footer>

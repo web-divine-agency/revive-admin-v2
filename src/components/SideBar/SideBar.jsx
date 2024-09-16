@@ -139,9 +139,11 @@ function Navbar({ role }) {
                 return (
                   <React.Fragment key={index}>
                     <li className={item.cName}>
-                      <Link to={item.path} onClick={(event) => {
+                    <Link to={item.title !== "Logout" ? item.path : null} onClick={(event) => {
                       if (item.title === "Logout") {
-                        item.onClick = (event, logout);
+                        console.log("afasd");
+                        logout();
+                       
                       } else {
                         navigate(item.path);
                       }
