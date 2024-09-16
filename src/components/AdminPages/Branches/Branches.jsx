@@ -9,70 +9,24 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
+import Switch from "react-switch";
 
 function Branches() {
   const navigate = useNavigate();
   const[data, setData] = useState([]);
   const [selectedBranches, setSelectedBranches] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState("");
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchBranches = async () => {
       try {
         const response = await axiosInstance.get('/branches'); 
         const formattedData = response.data.map(branches => ({
+          id: branches.id,
           branch_name: branches.branch_name,
           address: branches.branch_address,
           operating_hours: branches.operating_hours,
-          status: branches.status,
-          action: (
-            <>
-              <img
-                src={view_icon}
-                title="View Branch Details"
-                alt="view"
-                width="25"
-                height="25"
-                onClick={() => handleViewClick(branches)} 
-                style={{ cursor: "pointer" }}
-              />
-              <img
-                className="ml-3"
-                src={edit_icon}
-                title="Edit Branch Details"
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate("/edit-branch", {
-                    state: {
-                      branchData: {
-                        branch: branches.branch_name,
-                        addressLine1: branches.branch_address,
-                        operating_hours: branches.operating_hours,
-                        status: branches.status
-                      },
-                    },
-                  })
-                }
-                alt="edit"
-                width="25"
-                height="25"
-              />
-    
-              <img
-                className="ml-3"
-                src={delete_icon}
-                title="Delete Branch"
-                style={{ cursor: "pointer" }}
-                onClick={handleDeleteBranchClick}
-                alt="delete"
-                width="25"
-                height="25"
-              />
-            </>
-          )
-          
+          status: branches.status
         }));
         setData(formattedData); 
       } catch (error) {
@@ -81,7 +35,6 @@ function Branches() {
     };
     fetchBranches(); 
   }, [navigate]);
-
 
   //modal view
   const handleViewClick = (branch) => {
@@ -93,8 +46,12 @@ function Branches() {
     setShowModal(false);
   };
 
+  const handleEditBranchClick = (branchId) => {
+    navigate(`/edit-branch/${branchId}`);
+  };
+
   //handle deleting of branch
-  const handleDeleteBranchClick = () => {
+  const handleDeleteBranchClick = async (branchId) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
@@ -109,21 +66,62 @@ function Branches() {
         cancelButton: "custom-cancel-button",
         title: "custom-swal-title",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Success!",
-          icon: "success",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-          customClass: {
-            confirmButton: "custom-success-confirm-button",
-            title: "custom-swal-title",
-          },
-        });
+        try {
+          await axiosInstance.delete(`/delete-branch/${branchId}`);
+          setData(data.filter((branch) => branch.id !== branchId));
+          Swal.fire({
+            title: "Success!",
+            text: "Branch has been deleted.",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0ABAA6",
+            customClass: {
+              confirmButton: "custom-success-confirm-button",
+              title: "custom-swal-title",
+            },
+          });
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: "There was an error deleting the branch.",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#EC221F",
+            customClass: {
+              confirmButton: "custom-error-confirm-button",
+              title: "custom-swal-title",
+            },
+          });
+        }
       }
     });
   };
+
+  const changeStatus = async (branchId, newStatus) => {
+    try{
+        await axiosInstance.put(`/change-branch-status/${branchId}`, {status: newStatus});
+        setData(data.map(branch => 
+          branch.id === branchId ? { ...branch, status: newStatus } : branch
+        ));
+        Swal.fire({
+          title: "Success!",
+          text: `Branch status has been updated to ${newStatus}.`,
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#0ABAA6",
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "Error!",
+          text: "There was an error updating the branch status.",
+          icon: "error",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#EC221F",
+        });
+      }
+    };
 
   //table columns
   const columns = [
@@ -147,19 +145,60 @@ function Branches() {
       },
       sortable: false,
     },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: false,
-    },
+      {
+        name: "Status",
+        selector: (row) => (
+          <span
+            style={{
+              color: row.status === "Open" ? "green" : "red",
+              cursor: "pointer",
+            }}
+            onClick={() => changeStatus(row.id, row.status === "Open" ? "Closed" : "Open")}
+          >
+            {row.status}
+          </span>
+        ),
+        sortable: false,
+      },
     {
       name: "Action",
-      selector: (row) => row.action,
+      selector: (row) => (
+          <div>
+            <img
+              src={view_icon}
+              title="View Branch Details"
+              alt="view"
+              width="25"
+              height="25"
+              onClick={() => handleViewClick(row)} 
+              style={{ cursor: "pointer" }}
+            />
+            <img
+              className="ml-3"
+              src={edit_icon}
+              title="Edit Branch Details"
+              onClick={() => handleEditBranchClick(row.id)}
+              style={{ cursor: "pointer" }}
+              alt="edit"
+              width="25"
+              height="25"
+            />
+  
+            <img
+              className="ml-3"
+              src={delete_icon}
+              title="Delete Branch"
+              style={{ cursor: "pointer" }}
+              onClick={() => handleDeleteBranchClick(row.id)}
+              alt="delete"
+              width="25"
+              height="25"
+            />
+          </div>
+      ),
       sortable: false,
     },
   ];
-
-
 
   return (
     <div className="container">
@@ -167,12 +206,6 @@ function Branches() {
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
           <div className="top-filter">
-            <select name="" id="filter">
-              <option value="">All Branch</option>
-              <option value="">Manila</option>
-              <option value="">Cebu</option>
-            </select>
-            <input id="search-bar" type="text" placeholder="Search" />
             <button
               onClick={() => navigate("/add-branch")}
               className="btn btn-primary float-end add-user-btn"
@@ -202,7 +235,7 @@ function Branches() {
             <div className="branch-container">
               <h2>{selectedBranches.branch_name}</h2>
               <h5>Full Address:</h5>
-              <p>{selectedBranches.branch_address}</p>
+              <p>{selectedBranches.address}</p>
               <h5>Operating Hours</h5>
               <p>
                Open: {selectedBranches.operating_hours?.open} - Close: {selectedBranches.operating_hours?.close}

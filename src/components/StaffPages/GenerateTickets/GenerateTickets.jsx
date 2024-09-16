@@ -35,19 +35,28 @@ Font.register({
 
 
 function GenerateTickets() {
-  const [productName, setProductName] = useState("Product Name");
-  const [price, setPrice] = useState("Price");
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
-  const [percentOff, setpercentOff] = useState("00%");
-  const [productBrand, setproductBrand] = useState("Brand");
-  const [productDesc, setproductDesc] = useState("Description");
+  const [percentOff, setpercentOff] = useState("");
+  const [productBrand, setproductBrand] = useState("");
+  const [productDesc, setproductDesc] = useState("");
   const [copies, setCopies] = useState(1);
   const [template, setTemplate] = useState("Small Tickets ($)");
   const [successMessage, setSuccessMessage] = useState("");
-
-
+ 
+  const defaultValues = {
+    productName: "Product Name",
+    price: "Price",
+    rrp: "",
+    save: "",
+    expiry: "Expiry",
+    percentOff: "00%",
+    productBrand: "Brand",
+    productDesc: "Description",
+  };
   useEffect(() => {
     if (localStorage.getItem('loginSuccess') === 'true') {
       Swal.fire({
@@ -121,6 +130,16 @@ function GenerateTickets() {
           paddingTop: "25px",
         };
       case "Big Tickets (P)":
+        return {
+          height: "100%",
+          width: "850px",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          paddingTop: "200px",
+          paddingBottom: "200px",
+ 
+        };
       case "Big Ticket (L)":
         return {
           height: "550px",
@@ -144,15 +163,26 @@ function GenerateTickets() {
 
   const MyDocument = () => {
     const renderContent = () => {
+      const values = {
+        productName: productName || defaultValues.productName,
+        price: price || defaultValues.price,
+        rrp: rrp || defaultValues.rrp,
+        save: save || defaultValues.save,
+        expiry: expiry || defaultValues.expiry,
+        percentOff: percentOff || defaultValues.percentOff,
+        productBrand: productBrand || defaultValues.productBrand,
+        productDesc: productDesc || defaultValues.productDesc,
+      };
+      
       switch (template) {
         case "Small Tickets (%)":
           return (
             <>
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
-                {percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
+                {values.percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
               </Text>
               <Text style={{ fontSize: "17px", fontFamily: "Arial", textTransform: "uppercase", textAlign: "center" }}>
-                {productDesc}{"\n"}
+                {values.productDesc}{"\n"}
               </Text>
               <Text
                 style={{
@@ -168,19 +198,29 @@ function GenerateTickets() {
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
-                {expiry}
+                {values.expiry}
               </Text>
             </>
           );
         case "Big Tickets (P)":
+          return (
+            <>
+              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{values.productBrand}</Text>
+              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{values.productName}{"\n"}</Text>
+              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{values.price}</Text>
+              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
+                REVIVE OFFER AVAILABLE - {values.expiry}
+              </Text>
+            </>
+          );
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{productBrand}</Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{productName}{"\n"}</Text>
-              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{price}</Text>
+              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{values.productBrand}</Text>
+              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{values.productName}{"\n"}</Text>
+              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{values.price}</Text>
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-                REVIVE OFFER AVAILABLE - {expiry}
+                REVIVE OFFER AVAILABLE - {values.expiry}
               </Text>
             </>
           );
@@ -195,7 +235,7 @@ function GenerateTickets() {
                   textAlign: "center",
                 }}
               >
-                {productName}{"\n"}
+                {values.productName}{"\n"}
               </Text>
               <Text
                 style={{
@@ -205,13 +245,13 @@ function GenerateTickets() {
                   fontFamily: "Arial",
                 }}
               >
-                {price}
+                {values.price}
               </Text>
               <Text style={{ fontSize: "10px", fontFamily: "Arial", }}>
-                RRP ${rrp}
+                RRP ${values.rrp}
               </Text>
               <Text style={{ fontSize: "14px", fontFamily: "Arial", }}>
-                Save ${save}
+                Save ${values.save}
               </Text>
               <Text
                 style={{
@@ -223,7 +263,7 @@ function GenerateTickets() {
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
-                {expiry}
+                {values.expiry}
               </Text>
             </>
           );
@@ -265,7 +305,7 @@ function GenerateTickets() {
     };
 
     const pageSize = template.includes("Big") ? "A4" : "A4";
-    const pageOrientation = template.includes("Big") ? "landscape" : "portrait";
+    const pageOrientation = template.includes("Big Ticket (L)") ? "landscape" : "portrait";
 
     return (
       <Document>
@@ -275,6 +315,7 @@ function GenerateTickets() {
   };
   const renderFormFields = () => {
     switch (template) {
+      
       case "Small Tickets (%)":
         return (
           <>
@@ -310,6 +351,47 @@ function GenerateTickets() {
           </>
         );
       case "Big Tickets (P)":
+        return (
+          <>
+            <div className="form-group">
+              <label>Brand</label>
+              <input
+                type="text"
+                className="form-control"
+                value={productBrand}
+                onChange={(e) => setproductBrand(BrandformatText(e.target.value))}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+
+                type="text"
+                className="form-control"
+                value={productName}
+                onChange={(e) => setProductName(BigformatText(e.target.value))}
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="number"
+                className="form-control"
+                value={price.replace('$', '')}
+                onChange={(e) => setPrice('$' + e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Expiry</label>
+              <input
+                type="date"
+                className="form-control"
+                value={expiry}
+                onChange={handleExpiryChange}
+              />
+            </div>
+          </>
+        );
       case "Big Ticket (L)":
         return (
           <>

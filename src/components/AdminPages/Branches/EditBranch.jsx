@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../../axiosInstance";
+import Swal from "sweetalert2";
+import { useNavigate, useParams } from 'react-router-dom';
 
 function EditBranch() {
-    const location = useLocation();
-    const { branchData } = location.state || {};
+    const { branchId } = useParams();
     const [branch, setBranch] = useState('');
     const [addressLine1, setAddressLine1] = useState('');
     const [addressLine2, setAddressLine2] = useState('');
@@ -11,26 +12,13 @@ function EditBranch() {
     const [state, setState] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [country, setCountry] = useState('');
+    const [openTime, setOpenTime] = useState('');
+    const [closeTime, setCloseTime] = useState('');
+    const [status, setStatus] = useState('Closed');
 
-    //assuming these are teh data from database
-    useEffect(() => {
-        if (branchData) {
-            setBranch(branchData.branch || '');
-            setAddressLine1(branchData.addressLine1 || '');
-            setAddressLine2(branchData.addressLine2 || '');
-            setCity(branchData.city || '');
-            setState(branchData.state || '');
-            setZipCode(branchData.zipCode || '');
-            setCountry(branchData.country || '');
-        }
-    }, [branchData]);
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
-    const updateBranch = (e) => {
-        e.preventDefault();
-        console.log(`Branch Updated: ${branch}, ${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`);
-    };
-
-    // List of countries
     const countries = [
         'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria',
         'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan',
@@ -54,11 +42,74 @@ function EditBranch() {
         'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
     ];
 
+    //assuming these are th data from database
+    useEffect(() => {
+        // Fetch branches
+        const fetchBranches = async () => {
+           
+            try {
+                const response = await axiosInstance.get(`/branch/${branchId}`);
+                const { branch_name, branch_address, operating_hours, status } = response.data;
+                setBranch(branch_name);
+                const addressParts = branch_address.split(", ");
+                setAddressLine1(addressParts[0]);
+                setAddressLine2(addressParts[1]);
+                setCity(addressParts[2]);
+                setState(addressParts[3]);
+                setZipCode(addressParts[4]);
+                setCountry(addressParts[5]);
+                setOpenTime(operating_hours.open);
+                setCloseTime(operating_hours.close);
+                setStatus(status);
+            } catch (error) {
+                console.error("Error fetching branches:", error);
+        }
+
+    };
+        fetchBranches();
+    }, [branchId]);
+    
+    const updateBranch = async (e) => {
+        e.preventDefault();
+
+        const branchAddress = `${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`;
+
+        const operatingHours = {
+            open: openTime,
+            close: closeTime
+        };
+
+        const updatedBranchData = {
+            branch_name: branch,
+            branch_address: branchAddress,
+            operating_hours: operatingHours,
+            status: status
+        };
+
+        try{
+        const response = await axiosInstance.put(`/update-branch/${branchId}`, updatedBranchData);
+        Swal.fire({
+            title: "Branch Updated Successfully",
+            text: `${branch} has been added to the system.`,
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0ABAA6",
+          }).then(() => {
+            navigate("/branches");
+          });
+        }catch (error) {
+            console.error("Error updating branch:", error);
+            setError("An error occurred while updating the branch.");
+          }
+    };
+
+    // List of countries
     return (
         <div className="container">
-            <h3>Edit Branch</h3>
+            <h3>Update  Branch</h3>
             <div className="container-content">
                 <form onSubmit={updateBranch}>
+                {error && <div className="alert alert-danger">{error}</div>}
                     <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
                         <div className="form-group">
                             <label>Branch Name:</label>
@@ -79,7 +130,7 @@ function EditBranch() {
                             <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>State:</label>
+                            <label>Province:</label>
                             <input type="text" className="form-control" value={state} onChange={(e) => setState(e.target.value)} />
                         </div>
                         <div className="form-group">
@@ -89,7 +140,7 @@ function EditBranch() {
                     </div>
                     <div className="d-flex justify-content-between ml-5">
                         <div className="form-group">
-                            <label>Countries:</label><br />
+                            <label>Country:</label><br />
                             <select value={country} onChange={(e) => setCountry(e.target.value)}>
                                 <option value="">Select Country</option>
                                 {countries.map((country, index) => (
@@ -97,8 +148,28 @@ function EditBranch() {
                                 ))}
                             </select>
                         </div>
+                        <div className="form-group">
+                            <label>Opening Time:</label>
+                            <input type="time" className="form-control" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Closing Time:</label>
+                            <input type="time" className="form-control" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
+                        </div>
                     </div>
-                    <button className='submit-btn mb-4 mt-4' type="submit">UPDATE</button>
+                    <div className="d-flex ml-5">
+                      
+                    </div>
+                    <div className="d-flex justify-content-between ml-5">
+                        <div className="form-group">
+                            <label>Status:</label><br />
+                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                                <option value="Closed">Closed</option>
+                                <option value="Open">Open</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button className='submit-btn mb-4 mt-4' type="submit">SAVE</button>
                 </form>
             </div>
         </div>

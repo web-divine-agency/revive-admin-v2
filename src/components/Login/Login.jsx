@@ -21,7 +21,7 @@ function Login() {
             });
 
             const { user, accessToken, refreshToken, roleName} = response.data;
-            console.log("User ID:", user.id);
+            // console.log("User ID:", user.id);
             if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
                 setError(`Invalid Account`);

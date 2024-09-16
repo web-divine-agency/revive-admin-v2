@@ -22,7 +22,7 @@ function UserRoleManagement() {
       try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error("Error fetching roles:", error);
       }
