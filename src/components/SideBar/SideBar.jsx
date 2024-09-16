@@ -11,7 +11,6 @@ import {AuthContext}  from '../Authentication/authContext'
 function Navbar({ role }) {
   const navigate = useNavigate();
   const sidebarData = role === 'Admin' ? AdminSidebarData : StaffSidebarData;
-
   const { logout } = useContext(AuthContext);
 
   return (

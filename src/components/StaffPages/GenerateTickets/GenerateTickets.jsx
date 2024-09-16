@@ -106,7 +106,7 @@ function GenerateTickets() {
   //limit of 2 characters in percentage
   const PercentageformatText = (number) => {
     const formattedNumber = number.slice(0, 2);
-    return `${formattedNumber}%`; 
+    return `${formattedNumber}%`;
   };
 
   const getTicketStyle = () => {
@@ -250,7 +250,7 @@ function GenerateTickets() {
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
-              justifyContent: "space-between",
+              justifyContent: "content-start",
               alignItems: "center",
               paddingTop: "20px",
               paddingLeft: "10px",
@@ -304,7 +304,7 @@ function GenerateTickets() {
                 type="date"
                 className="form-control"
                 value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
+                onChange={handleExpiryChange}
               />
             </div>
           </>
@@ -347,7 +347,7 @@ function GenerateTickets() {
                 type="date"
                 className="form-control"
                 value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
+                onChange={handleExpiryChange}
               />
             </div>
           </>
@@ -398,14 +398,25 @@ function GenerateTickets() {
                 type="date"
                 className="form-control"
                 value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
+                onChange={handleExpiryChange}
               />
             </div>
           </>
         );
     }
   };
+  //limit the year to 4 digits
+  const handleExpiryChange = (e) => {
+    const inputDate = e.target.value;
+    const year = new Date(inputDate).getFullYear();
 
+    if (year > 9999) {
+    } else {
+      setExpiry(inputDate); // Accept the valid date input
+    }
+  };
+
+  //clear inputs
   const entriesCleared = () => {
     setSuccessMessage("Entries cleared successfully.");
     setTimeout(() => setSuccessMessage(""), 3000);

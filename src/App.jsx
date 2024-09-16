@@ -48,11 +48,11 @@ function Layout() {
         <Route path="/edit-user-role" element={<ProtectedRoute element={<EditUserRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-new-role" element={<ProtectedRoute element={<AddNewRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-branch" element={<ProtectedRoute element={<AddBranch />} allowedRoles={['Admin']} />} />
-        <Route path="/edit-branch" element={<ProtectedRoute element={<EditBranch />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-branch/:branchId" element={<ProtectedRoute element={<EditBranch />} allowedRoles={['Admin']} />} />
         <Route path="/generate-tickets" element={<ProtectedRoute element={<GenerateTickets />} allowedRoles={['Staff']} />} />
         <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
         <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
-        <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
+        <Route path="/my-profile/:userId" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

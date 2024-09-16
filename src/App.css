@@ -77,6 +77,14 @@ h3 {
 .top-filter {
   padding: 0px 20px 0px 20px;
 }
+.top-filter #filter {
+  padding: 5px 20px !important;
+  border: none !important;
+  border-radius: 30px !important;
+  color: #626262 !important;
+  cursor: pointer;
+  border: 1px solid #DFDFDF !important;
+}
 
 .add-user-btn {
   background-color: #0B3A07 !important;
@@ -111,7 +119,6 @@ select {
   border: 1px solid #DFDFDF;
   border-radius: 5px;
   margin-bottom: 5px;
-  background-color: #FFFFFF;
   color: #626262;
 
 }

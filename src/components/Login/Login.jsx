@@ -21,7 +21,7 @@ function Login() {
             });
 
             const { user, accessToken, refreshToken, roleName} = response.data;
-            
+            console.log("User ID:", user.id);
             if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
                 setError(`Invalid Account`);
@@ -33,7 +33,7 @@ function Login() {
 
             localStorage.setItem('loginSuccess', 'true');
             if (roleName === 'Admin') {
-                console.log(user, accessToken, refreshToken, roleName);
+                // console.log(user, accessToken, refreshToken, roleName);
                 navigate('/userlist');
             } else {
                 navigate('/generate-tickets');

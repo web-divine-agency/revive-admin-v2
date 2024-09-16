@@ -10,35 +10,31 @@ import { Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axiosInstance from "../../../../axiosInstance";
 
-
-
-
 function UserRoleManagement() {
   const navigate = useNavigate();
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [roles, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  //get all roles
+  // Get all roles
   useEffect(() => {
     const fetchRoles = async () => {
       try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-
-        // console.log(response.data);
+        console.log(response.data);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching roles:", error);
       }
     };
     fetchRoles();
-  }, [navigate]);
+  }, []);
 
-  //delete users 
-  const handleDeleteUserClick = async (userId) => {
+
+  const handleDeleteUserClick = async (roleId) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to delete this? This action can’t be undone",
+      text: "Do you really want to delete this? This action can’t be undone.",
       showCancelButton: true,
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
@@ -53,11 +49,11 @@ function UserRoleManagement() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/delete-role/${userId}`);
-          setRoles(users.filter((user) => user.id !== userId));
+          await axiosInstance.delete(`/delete-role/${roleId}`);
+          setRoles(roles.filter((role) => role.id !== roleId));
           Swal.fire({
             title: "Success!",
-            text: "User has been deleted.",
+            text: "Role has been deleted.",
             icon: "success",
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
@@ -69,7 +65,7 @@ function UserRoleManagement() {
         } catch (error) {
           Swal.fire({
             title: "Error!",
-            text: "There was an error deleting the user.",
+            text: "There was an error deleting the role.",
             icon: "error",
             confirmButtonText: "OK",
             confirmButtonColor: "#EC221F",
@@ -82,6 +78,7 @@ function UserRoleManagement() {
       }
     });
   };
+
   // Modal view
   const handleViewClick = (role) => {
     setSelectedUserRole(role);
@@ -92,7 +89,6 @@ function UserRoleManagement() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
 
   // Table columns
   const columns = [
@@ -111,31 +107,23 @@ function UserRoleManagement() {
             alt="view"
             width="25"
             height="25"
-            // onClick={() =>
-            //   handleViewClick({
-            //     name: `${row.first_name} ${row.last_name}`,
-            //     email: row.email,
-            //     username: row.username,
-            //     branch: row.branch?.branch_name || "N/A",
-            //     role: row.role?.role_name || "N/A",
-            //     profileImage: row.sex === "Male" ? man : woman,
-            //   })
-            // }
+            // onClick={() => handleViewClick(row)}
             style={{ cursor: "pointer" }}
           />
           <img
             className="ml-3"
             src={edit_icon}
-            title="Edit User Details"
-            // onClick={() => handleEditUserClick(row.id)}
+            title="Edit Role"
+            // onClick={() => navigate(`/edit-role/${row.id}`)}
             alt="edit"
             width="25"
             height="25"
+            style={{ cursor: "pointer" }}
           />
           <img
             className="ml-3"
             src={delete_icon}
-            title="Delete User"
+            title="Delete Role"
             alt="delete"
             width="25"
             height="25"
@@ -148,78 +136,14 @@ function UserRoleManagement() {
     },
   ];
 
-  // Table data
-  // const data = [
-  //   {
-  //     id: 1,
-  //     name: 'Staff',
-  //     action: (
-  //       <>
-  //         <img
-  //           src={view_icon}
-  //           title='View User Role Details'
-  //           alt="view"
-  //           width="25"
-  //           height="25"
-  //           onClick={() => handleViewClick({
-  //             name: 'Staff',
-  //             permissions: ['Generate Ticket', 'View Ticket History', 'Manage Account'] // Use 'permissions'
-  //           })}
-  //           style={{ cursor: 'pointer' }}
-  //         />
-  //         <img
-  //           className='ml-3'
-  //           src={edit_icon}
-  //           title='Edit User Role Details'
-  //           onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Staff', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
-  //           alt="edit"
-  //           width="25"
-  //           height="25"
-  //         />
-  //         <img className='ml-3' title='Delete User Role' src={delete_icon} onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
-  //       </>
-  //     )
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Admin',
-  //     action: (
-  //       <>
-  //         <img
-  //           src={view_icon}
-  //           title='View User Role Details'
-  //           alt="view"
-  //           width="25"
-  //           height="25"
-  //           onClick={() => handleViewClick({
-  //             name: 'Admin',
-  //             permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] // Use 'permissions'
-  //           })}
-  //           style={{ cursor: 'pointer' }}
-  //         />
-  //         <img
-  //           className='ml-3'
-  //           src={edit_icon}
-  //           title='Edit User Role Details'
-  //           onClick={() => navigate("/edit-user-role", { state: { roleData: { name: 'Admin', permissions: ['Manage Users', 'View Staff Logs', 'View Ticket History', 'View Users', 'Manage Account'] } } })}
-  //           alt="edit"
-  //           width="25"
-  //           height="25"
-  //         />
-  //         <img className='ml-3' src={delete_icon} title='Delete User Role' onClick={handleDeleteRoleClick} alt="delete" width="25" height="25" />
-  //       </>
-  //     )
-  //   }
-  // ];
-
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>User Role Management</h3>
           <div className='top-filter'>
-            <select name="" id="">
-              <option value="">All Users</option>
+            <select name="" id="filter">
+              <option value="">All Roles</option>
               <option value="">Staffs</option>
               <option value="">Admins</option>
             </select>
@@ -244,19 +168,13 @@ function UserRoleManagement() {
       {selectedUserRole && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>User Role Details</Modal.Title>
+            <Modal.Title>Role Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className='profile-container'>
-              <h2>{selectedUserRole.name} Permissions</h2>
-
-              {selectedUserRole.permissions.map((permission, index) => ( // Use 'permissions'
-                <p key={index}>{permission}</p>
-              ))}
-
-              <div className='user-details'>
-              </div>
-            </div>
+            <h2>{selectedUserRole.role_name} Permissions</h2>
+            {selectedUserRole.permissions.map((permission, index) => (
+              <p key={index}>{permission.permission_name}</p>
+            ))}
           </Modal.Body>
         </Modal>
       )}

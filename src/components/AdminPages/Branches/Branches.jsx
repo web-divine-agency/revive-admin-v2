@@ -167,7 +167,7 @@ function Branches() {
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
           <div className="top-filter">
-            <select name="" id="">
+            <select name="" id="filter">
               <option value="">All Branch</option>
               <option value="">Manila</option>
               <option value="">Cebu</option>
