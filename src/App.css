@@ -376,6 +376,19 @@ input {
   width: 200px;
   text-decoration: none;
 }
+.ticket-form .print-btn{
+  background-color: gray;
+  color: #FFFFFF;
+  font-size: 12px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  height: 32px;
+  margin-top: 20px;
+  /* border: 1px solid #ccc; */
+  width: 80px;
+  text-decoration: none;
+}
 .generate-tickets-btn a {
   text-decoration: none;
   color: #000000;

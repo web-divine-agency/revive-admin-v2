@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
-import Switch from "react-switch";
 
 function Branches() {
   const navigate = useNavigate();
@@ -21,12 +20,12 @@ function Branches() {
     const fetchBranches = async () => {
       try {
         const response = await axiosInstance.get('/branches'); 
-        const formattedData = response.data.map(branches => ({
-          id: branches.id,
-          branch_name: branches.branch_name,
-          address: branches.branch_address,
-          operating_hours: branches.operating_hours,
-          status: branches.status
+        const formattedData = response.data.map(branch => ({
+          id: branch.id,
+          branch_name: branch.branch_name,
+          address: branch.branch_address,
+          operating_hours: branch.operating_hours,
+          status: getBranchStatus(branch)
         }));
         setData(formattedData); 
       } catch (error) {
@@ -36,6 +35,29 @@ function Branches() {
     fetchBranches(); 
   }, [navigate]);
 
+
+  const getBranchStatus = (branch) => {
+    if (!branch.operating_hours || typeof branch.operating_hours !== 'object') {
+    
+      return 'Closed'; 
+    }
+    const currentTime = new Date();
+    let currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+  
+    const openTime = branch.operating_hours.open.split(":");
+    const closeTime = branch.operating_hours.close.split(":");
+  
+    const openMinutes = parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
+    let closeMinutes = parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
+  
+    if (closeMinutes < openMinutes) {
+      closeMinutes += 24 * 60; 
+    }
+    if (currentMinutes < openMinutes) {
+      currentMinutes += 24 * 60; 
+    }
+    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes ? 'Open' : 'Closed';
+  };
   //modal view
   const handleViewClick = (branch) => {
     setSelectedBranches(branch);
@@ -99,30 +121,6 @@ function Branches() {
     });
   };
 
-  const changeStatus = async (branchId, newStatus) => {
-    try{
-        await axiosInstance.put(`/change-branch-status/${branchId}`, {status: newStatus});
-        setData(data.map(branch => 
-          branch.id === branchId ? { ...branch, status: newStatus } : branch
-        ));
-        Swal.fire({
-          title: "Success!",
-          text: `Branch status has been updated to ${newStatus}.`,
-          icon: "success",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "There was an error updating the branch status.",
-          icon: "error",
-          confirmButtonText: "OK",
-          confirmButtonColor: "#EC221F",
-        });
-      }
-    };
-
   //table columns
   const columns = [
     {
@@ -145,21 +143,20 @@ function Branches() {
       },
       sortable: false,
     },
-      {
-        name: "Status",
-        selector: (row) => (
-          <span
-            style={{
-              color: row.status === "Open" ? "green" : "red",
-              cursor: "pointer",
-            }}
-            onClick={() => changeStatus(row.id, row.status === "Open" ? "Closed" : "Open")}
-          >
-            {row.status}
-          </span>
-        ),
-        sortable: false,
-      },
+    {
+      name: "Status",
+      selector: (row) => (
+        <span
+          style={{
+            color: row.status === "Open" ? "green" : "red",
+          }}
+        >
+          {row.status}
+        </span>
+      ),
+      sortable: false,
+    },
+    
     {
       name: "Action",
       selector: (row) => (
@@ -205,13 +202,17 @@ function Branches() {
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
-          <div className="top-filter">
-            <button
-              onClick={() => navigate("/add-branch")}
-              className="btn btn-primary float-end add-user-btn"
-            >
+         
+          <div className='top-filter'>
+            <select name="" id="filter">
+              <option value="">All Branch</option>
+              <option value="">Olongapo</option>
+              <option value="">Cebu</option>
+            </select>
+            <input id='search-bar' type="text" placeholder='Search' />
+            <button   onClick={() => navigate("/add-branch")} className='btn btn-primary float-end add-user-btn'>
               <i className="fa fa-plus"></i> Add New Branch
-            </button>
+              </button>
           </div>
           <div className="container-content">
             <DataTable

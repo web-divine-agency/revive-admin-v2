@@ -46,7 +46,8 @@ function GenerateTickets() {
   const [copies, setCopies] = useState(1);
   const [template, setTemplate] = useState("Small Tickets ($)");
   const [successMessage, setSuccessMessage] = useState("");
- 
+  const [ticketQueue, setTicketQueue] = useState([]);
+
   const defaultValues = {
     productName: "Product Name",
     price: "Price",
@@ -69,6 +70,12 @@ function GenerateTickets() {
       localStorage.removeItem('loginSuccess');
     }
   }, []);
+  //clear the forms
+  const entriesCleared = () => {
+    setSuccessMessage("Entries cleared successfully.");
+    setTimeout(() => setSuccessMessage(""), 3000);
+    setTicketQueue([]); // Clear the ticket queue
+  };
 
   //limit ng text 17chars per line in small tickets product name
   const formatText = (text) => {
@@ -80,6 +87,7 @@ function GenerateTickets() {
     return lines.join('\n');
   };
 
+  //limit the text in brand input fields of Big Tickets
   const BrandformatText = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 12) {
@@ -118,6 +126,7 @@ function GenerateTickets() {
     return `${formattedNumber}%`;
   };
 
+  //ticket styles
   const getTicketStyle = () => {
     switch (template) {
       case "Small Tickets (%)":
@@ -138,7 +147,7 @@ function GenerateTickets() {
           flexDirection: "column",
           paddingTop: "200px",
           paddingBottom: "200px",
- 
+
         };
       case "Big Ticket (L)":
         return {
@@ -160,20 +169,48 @@ function GenerateTickets() {
         };
     }
   };
+  const handleAddToQueue = () => {
+    // Capture current form values
+    const newTickets = Array.from({ length: copies }, () => ({
+      productName: productName,
+      price: price,
+      rrp: rrp,
+      save: save,
+      expiry: expiry,
+      percentOff: percentOff,
+      productBrand: productBrand,
+      productDesc: productDesc,
+    }));
+
+    // Add the new tickets to the queue
+    setTicketQueue(prevQueue => [...prevQueue, ...newTickets]);
+
+    // Clear form fields for the next entry
+    setProductName("");
+    setPrice("");
+    setRrp("");
+    setSave("");
+    setExpiry("Expiry");
+    setpercentOff("");
+    setproductBrand("");
+    setproductDesc("");
+  };
+
+
 
   const MyDocument = () => {
-    const renderContent = () => {
+    const renderContent = (ticket) => {
       const values = {
-        productName: productName || defaultValues.productName,
-        price: price || defaultValues.price,
-        rrp: rrp || defaultValues.rrp,
-        save: save || defaultValues.save,
-        expiry: expiry || defaultValues.expiry,
-        percentOff: percentOff || defaultValues.percentOff,
-        productBrand: productBrand || defaultValues.productBrand,
-        productDesc: productDesc || defaultValues.productDesc,
+        productName: ticket.productName || defaultValues.productName,
+        price: ticket.price || defaultValues.price,
+        rrp: ticket.rrp || defaultValues.rrp,
+        save: ticket.save || defaultValues.save,
+        expiry: ticket.expiry || defaultValues.expiry,
+        percentOff: ticket.percentOff || defaultValues.percentOff,
+        productBrand: ticket.productBrand || defaultValues.productBrand,
+        productDesc: ticket.productDesc || defaultValues.productDesc,
       };
-      
+
       switch (template) {
         case "Small Tickets (%)":
           return (
@@ -190,9 +227,9 @@ function GenerateTickets() {
                   fontSize: "10px",
                   textAlign: "center",
                   fontFamily: "ArialItalic",
-                  paddingBottom: productDesc.split('\n').length === 1
+                  paddingBottom: values.productDesc.split('\n').length === 1
                     ? "120px"
-                    : productDesc.split('\n').length === 2
+                    : values.productDesc.split('\n').length === 2
                       ? "100px"
                       : "80px",
                 }}
@@ -257,7 +294,7 @@ function GenerateTickets() {
                 style={{
                   fontSize: "10px",
                   textAlign: "center",
-                  paddingBottom: productName.includes("\n") ? "75px" : "100px",
+                  paddingBottom: values.productName.includes("\n") ? "75px" : "100px",
                   fontFamily: "ArialNormal",
 
                 }}
@@ -271,15 +308,25 @@ function GenerateTickets() {
     };
 
     const getTicketContainers = () => {
+
+      if (ticketQueue.length === 0) {
+        return (
+          <View style={{ textAlign: 'center', padding: '20px', display: 'flex', marginTop: '50%' }}>
+            <Text style={{ fontSize: '20px', color: 'gray' }}>
+              NO PDF PREVIEW TO SHOW
+            </Text>
+          </View>
+        );
+      }
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
       let maxTicketsPerPage = template.includes("Small") ? 9 : 1;
 
-      for (let i = 0; i < copies; i += maxTicketsPerPage) {
-        const currentGroup = [...Array(Math.min(maxTicketsPerPage, copies - i))].map(
+      for (let i = 0; i < ticketQueue.length; i += maxTicketsPerPage) {
+        const currentGroup = [...Array(Math.min(maxTicketsPerPage, ticketQueue.length - i))].map(
           (_, index) => (
             <View key={index} style={ticketStyle}>
-              {renderContent()}
+              {renderContent(ticketQueue[i + index])}
             </View>
           )
         );
@@ -313,9 +360,11 @@ function GenerateTickets() {
       </Document>
     );
   };
+
+  //form fields
   const renderFormFields = () => {
     switch (template) {
-      
+
       case "Small Tickets (%)":
         return (
           <>
@@ -390,6 +439,7 @@ function GenerateTickets() {
                 onChange={handleExpiryChange}
               />
             </div>
+
           </>
         );
       case "Big Ticket (L)":
@@ -494,15 +544,11 @@ function GenerateTickets() {
 
     if (year > 9999) {
     } else {
-      setExpiry(inputDate); // Accept the valid date input
+      setExpiry(inputDate);
     }
   };
 
-  //clear inputs
-  const entriesCleared = () => {
-    setSuccessMessage("Entries cleared successfully.");
-    setTimeout(() => setSuccessMessage(""), 3000);
-  };
+
 
   return (
     <div className="container generate-ticket-container">
@@ -545,9 +591,11 @@ function GenerateTickets() {
                     value={copies}
                     onChange={(e) => setCopies(Number(e.target.value))}
                   />
-                  <button type="button" className="add-to-queue-btn">
+
+                  <button type="button" className="add-to-queue-btn" onClick={handleAddToQueue}>
                     Add to Queue
                   </button>
+
                   <button
                     type="button"
                     className="clear-btn"
@@ -559,22 +607,27 @@ function GenerateTickets() {
                       setSave("");
                       setExpiry("");
                       setCopies(1);
-                      entriesCleared();
+                      entriesCleared(); // Clear entries and ticket queue
                     }}
                   >
                     Clear Entries
                   </button>
+
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-primary generate-tickets-btn"
-                >
-                  <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
-                    {({ loading }) =>
-                      loading ? "Loading document..." : "Generate Ticket"
-                    }
-                  </PDFDownloadLink>
-                </button>
+                <div className="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    className="btn btn-primary generate-tickets-btn"
+                  >
+                    <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
+                      {({ loading }) =>
+                        loading ? "Loading document..." : "Generate Ticket"
+                      }
+                    </PDFDownloadLink>
+                  </button>
+                  <button className="print-btn" >Print</button>
+                </div>
+
               </form>
             </div>
 
