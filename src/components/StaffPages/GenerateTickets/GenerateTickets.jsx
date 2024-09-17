@@ -8,6 +8,7 @@ import {
   PDFDownloadLink,
   PDFViewer,
   Font,
+  pdf,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import ArialBold from "./fonts/arialbd.ttf"
@@ -47,6 +48,7 @@ function GenerateTickets() {
   const [template, setTemplate] = useState("Small Tickets ($)");
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
+  const [pdfBlob, setPdfBlob] = useState(null);
 
   const defaultValues = {
     productName: "Product Name",
@@ -180,12 +182,12 @@ function GenerateTickets() {
       percentOff: percentOff,
       productBrand: productBrand,
       productDesc: productDesc,
+      addedToQueue: true,
     }));
 
-    // Add the new tickets to the queue
+
     setTicketQueue(prevQueue => [...prevQueue, ...newTickets]);
 
-    // Clear form fields for the next entry
     setProductName("");
     setPrice("");
     setRrp("");
@@ -215,6 +217,7 @@ function GenerateTickets() {
         case "Small Tickets (%)":
           return (
             <>
+
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
                 {values.percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
               </Text>
@@ -263,7 +266,25 @@ function GenerateTickets() {
           );
         default:
           return (
-            <>
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {ticket.addedToQueue && (
+                <Text
+                  style={{
+                    position: 'absolute',
+                    top: -20,
+                    left: '50%',
+                    transform: 'translateX(-70%)',
+                    fontFamily: 'bahnschrift',
+                    fontSize: 10,
+                    textAlign: 'center',
+                    color: 'green',
+                    zIndex: 1000,
+                    pointerEvents: 'none',
+                  }} className="no-print"
+                >
+                  Added to Queue
+                </Text>
+              )}
               <Text
                 style={{
                   fontSize: "16px",
@@ -284,10 +305,10 @@ function GenerateTickets() {
               >
                 {values.price}
               </Text>
-              <Text style={{ fontSize: "10px", fontFamily: "Arial", }}>
+              <Text style={{ fontSize: "10px", fontFamily: "Arial" }}>
                 RRP ${values.rrp}
               </Text>
-              <Text style={{ fontSize: "14px", fontFamily: "Arial", }}>
+              <Text style={{ fontSize: "14px", fontFamily: "Arial" }}>
                 Save ${values.save}
               </Text>
               <Text
@@ -296,14 +317,14 @@ function GenerateTickets() {
                   textAlign: "center",
                   paddingBottom: values.productName.includes("\n") ? "75px" : "100px",
                   fontFamily: "ArialNormal",
-
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
                 {values.expiry}
               </Text>
-            </>
+            </div>
           );
+
       }
     };
 
@@ -353,7 +374,7 @@ function GenerateTickets() {
 
     const pageSize = template.includes("Big") ? "A4" : "A4";
     const pageOrientation = template.includes("Big Ticket (L)") ? "landscape" : "portrait";
-
+   
     return (
       <Document>
         <Page size={pageSize} orientation={pageOrientation}>{getTicketContainers()}</Page>
@@ -537,15 +558,53 @@ function GenerateTickets() {
         );
     }
   };
+
+  //handle printing tickets
+  const handlePrint = async () => {
+    
+    if (ticketQueue.length === 0) {
+      Swal.fire({
+        title: 'No Tickets',
+        text: 'Please add tickets to the queue before printing.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#0ABAA6'
+      });
+      return;
+    }
+
+    const blob = await pdf(<MyDocument />).toBlob();
+    setPdfBlob(blob);
+
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "absolute";
+    iframe.style.width = "0px";
+    iframe.style.height = "0px";
+    iframe.src = URL.createObjectURL(blob);
+    document.body.appendChild(iframe);
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+  };
+
+
+
+
   //limit the year to 4 digits
   const handleExpiryChange = (e) => {
     const inputDate = e.target.value;
-    const year = new Date(inputDate).getFullYear();
-
-    if (year > 9999) {
-    } else {
-      setExpiry(inputDate);
+    if (inputDate) {
+      const date = new Date(inputDate);
+      const formattedDate = formatDate(date);
+      setExpiry(formattedDate);
     }
+  };
+
+  const formatDate = (date) => {
+    const month = date.getMonth() + 1; // Months are zero-indexed
+    const day = date.getDate();
+    const year = date.getFullYear().toString().slice(-2); // Get last two digits of year
+
+    return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
   };
 
 
@@ -617,15 +676,17 @@ function GenerateTickets() {
                 <div className="d-flex justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-primary generate-tickets-btn"
+                    className="btn btn-primary print-btn" onClick={handlePrint}
                   >
-                    <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
-                      {({ loading }) =>
-                        loading ? "Loading document..." : "Generate Ticket"
-                      }
-                    </PDFDownloadLink>
+                    Generate Tickets
                   </button>
-                  <button className="print-btn" >Print</button>
+                  <button type="button" className="generate-tickets-btn"  >
+                    <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
+                    {({ loading }) =>
+                      loading ? "Loading document..." : "Print"
+                    }
+                  </PDFDownloadLink>
+                  </button>
                 </div>
 
               </form>
@@ -634,7 +695,7 @@ function GenerateTickets() {
             <div className="col-md-6 ticket-view">
               <h5>PDF Preview</h5>
               <div className="pdf-preview">
-                <PDFViewer showToolbar={false} style={{ width: '100%', height: '600px', }}>
+                <PDFViewer showToolbar={false} style={{ width: '100%', height: '700px', }}>
                   <MyDocument />
                 </PDFViewer>
               </div>

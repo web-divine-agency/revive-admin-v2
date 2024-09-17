@@ -52,7 +52,7 @@ function Layout() {
         <Route path="/generate-tickets" element={<ProtectedRoute element={<GenerateTickets />} allowedRoles={['Staff']} />} />
         <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
         <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
-        <Route path="/my-profile/:userId" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
+        <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

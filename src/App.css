@@ -333,7 +333,7 @@ input {
 }
 
 .ticket-view {
-  margin-top: 5rem;
+  margin-top: -5rem;
   border-radius: 3px;
   border: 1px solid #000000;
  
@@ -364,19 +364,6 @@ input {
 }
 
 .ticket-form .generate-tickets-btn {
-  background-color: #F3F2ED;
-  color: #000000;
-  font-size: 12px;
-  border: none;
-  font-weight: 600;
-  border-radius: 3px;
-  height: 32px;
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  width: 200px;
-  text-decoration: none;
-}
-.ticket-form .print-btn{
   background-color: gray;
   color: #FFFFFF;
   font-size: 12px;
@@ -389,9 +376,22 @@ input {
   width: 80px;
   text-decoration: none;
 }
+.ticket-form .print-btn{
+  background-color: #F3F2ED;
+  color: #000000;
+  font-size: 12px;
+  border: none;
+  font-weight: 600;
+  border-radius: 3px;
+  height: 32px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  width: 200px;
+  text-decoration: none;
+}
 .generate-tickets-btn a {
   text-decoration: none;
-  color: #000000;
+  color: #FFFFFF;
   font-size: 12px;
   border: none;
   font-weight: 600;
@@ -486,7 +486,7 @@ flex-direction: row;
 
 .pdf-preview{
   /* border: 1px solid #000000; */
-  height: 570px;
+  height: auto;
   padding-top: 10px;
  width: 520px;
  overflow: hidden;
