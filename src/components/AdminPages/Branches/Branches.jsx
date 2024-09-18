@@ -215,6 +215,19 @@ function Branches() {
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
           <div className="top-filter">
+            <select
+              name="filter"
+              id="filter"
+            >
+              <option value="">All Branches</option>
+              <option value="Staff">Cebu</option>
+              <option value="Admin">Manila</option>
+            </select>
+            <input
+              id="search-bar"
+              type="text"
+              placeholder="Search"
+            />
             <button
               onClick={() => navigate("/add-branch")}
               className="btn btn-primary float-end add-user-btn"

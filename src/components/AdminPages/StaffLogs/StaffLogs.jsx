@@ -9,6 +9,8 @@ import woman from '../../../assets/images/woman.png';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../../../axiosInstance';
 import Swal from 'sweetalert2'; // For alerts
+import delete_icon from "../../../assets/images/delete_icon.png";
+
 
 function StaffLogs() {
   const navigate = useNavigate();
@@ -159,14 +161,19 @@ function StaffLogs() {
       name: "Delete",
       button: true,
       cell: (row) => (
-        <button
-          className="btn btn-danger"
-          onClick={() => handleDeleteLog(row.id)}
-        >
-          Delete
-        </button>
+        <img
+          className="ml-3"
+          src={delete_icon} 
+          title="Delete Log"
+          style={{ cursor: "pointer" }}
+          onClick={() => handleDeleteLog(row.id)} 
+          alt="delete"
+          width="25"
+          height="25"
+        />
       )
     }
+    
   ];
 
   const filteredData = data
@@ -203,7 +210,7 @@ function StaffLogs() {
           </div>
           <div className="container-content">
             <button
-              className="btn btn-danger mb-3"
+              className="btn btn-danger m-3"
               onClick={handleMassDelete}
               disabled={selectedLogs.length === 0}
             >

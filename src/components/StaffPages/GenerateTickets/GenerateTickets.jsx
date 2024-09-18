@@ -16,6 +16,8 @@ import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
 import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf";
 import { saveAs } from "file-saver";
+import check from "../../../assets/images/check.png";
+
 
 Font.register({
   family: "Arial",
@@ -48,8 +50,6 @@ function GenerateTickets() {
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
-  const [filename, setFilename] = useState("tickets.pdf");
-  const [showModal, setShowModal] = useState(false);
 
   const defaultValues = {
     productName: "Product Name",
@@ -73,7 +73,9 @@ function GenerateTickets() {
       Swal.fire({
         title: "Login Successful",
         text: `Welcome`,
-        icon: "success",
+        imageUrl: check,
+        imageWidth: 100,  
+        imageHeight: 100, 
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       });

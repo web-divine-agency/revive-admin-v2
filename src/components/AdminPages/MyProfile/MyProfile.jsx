@@ -51,6 +51,14 @@ function MyProfile() {
       });
       return;
     }
+    if (!oldPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Old Password Required',
+        text: 'Please enter your old password before making changes.',
+      });
+      return;
+    }
 
     try {
       await axiosInstance.put("/update-profile", {
@@ -117,6 +125,7 @@ function MyProfile() {
                     className="form-control w-50"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
+                    placeholder="Enter your old password"
                   />
                 </div>
                 <div className="form-group">
