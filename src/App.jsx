@@ -45,7 +45,7 @@ function Layout() {
         <Route path="/branches" element={<ProtectedRoute element={<Branches />} allowedRoles={['Admin']} />} />
         <Route path="/add-new-user" element={<ProtectedRoute element={<AddNewUser />} allowedRoles={['Admin']} />} />
         <Route path="/edit-user/:userId" element={<ProtectedRoute element={<EditUser />} allowedRoles={['Admin']} />} />
-        <Route path="/edit-user-role" element={<ProtectedRoute element={<EditUserRole />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-user-role/:roleId" element={<ProtectedRoute element={<EditUserRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-new-role" element={<ProtectedRoute element={<AddNewRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-branch" element={<ProtectedRoute element={<AddBranch />} allowedRoles={['Admin']} />} />
         <Route path="/edit-branch/:branchId" element={<ProtectedRoute element={<EditBranch />} allowedRoles={['Admin']} />} />

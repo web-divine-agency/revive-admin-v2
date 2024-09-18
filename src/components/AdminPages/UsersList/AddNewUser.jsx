@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
+import check from "../../../assets/images/check.png";
 
 
 function AddNewUser() {
@@ -106,7 +106,9 @@ function AddNewUser() {
       Swal.fire({
         title: "User Added Successfully",
         text: `The user ${first_name} ${last_name} has been added.`,
-        icon: "success",
+        imageUrl: check,
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       }).then(() => {
@@ -134,7 +136,6 @@ function AddNewUser() {
       <div className="container-content">
         <form onSubmit={addUser}>
           {error && <div className="alert alert-danger">{error}</div>}
-
 
           <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
             <div className="form-group">
@@ -216,7 +217,7 @@ function AddNewUser() {
               <br />
               <select
                 value={role_name}
-                onChange={(e) => setRoleName(e.target.value)} 
+                onChange={(e) => setRoleName(e.target.value)}
               >
                 <option value="">Select Role</option>
                 {role.map((role) => (

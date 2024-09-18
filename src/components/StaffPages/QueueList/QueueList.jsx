@@ -117,8 +117,8 @@ function QueueList() {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={5} 
-              paginationRowsPerPageOptions={[5, 10, 20]} 
+              paginationPerPage={10} 
+              paginationRowsPerPageOptions={[10, 20]} 
             />
           </div>
         </div>

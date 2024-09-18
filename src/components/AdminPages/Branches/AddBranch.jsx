@@ -1,161 +1,212 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import check from "../../../assets/images/check.png";
+
 
 function AddNewBranch() {
-    const [branch, setBranch] = useState('');
-    const [addressLine1, setAddressLine1] = useState('');
-    const [addressLine2, setAddressLine2] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [country, setCountry] = useState('');
-    const [openTime, setOpenTime] = useState('');
-    const [closeTime, setCloseTime] = useState('');
-    const [status, setStatus] = useState('Closed');
+  const [branch, setBranch] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState(""); // Changed to be a dropdown for Australian states
+  const [zipCode, setZipCode] = useState("");
+  const [country, setCountry] = useState("Australia"); // Set default country to Australia
+  const [openTime, setOpenTime] = useState("");
+  const [closeTime, setCloseTime] = useState("");
+  const [status, setStatus] = useState("Closed");
 
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    // list of countries
-    const countries = [
-        'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria',
-        'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan',
-        'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cambodia',
-        'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo (Congo-Brazzaville)', 'Costa Rica',
-        'Croatia', 'Cuba', 'Cyprus', 'Czechia (Czech Republic)', 'Democratic Republic of the Congo', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador',
-        'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini (fmr. "Swaziland")', 'Ethiopia', 'Fiji', 'Finland', 'France',
-        'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau',
-        'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland',
-        'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan',
-        'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar',
-        'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia',
-        'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar (Burma)', 'Namibia', 'Nauru', 'Nepal',
-        'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan',
-        'Palau', 'Palestine State', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar',
-        'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia',
-        'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa',
-        'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan',
-        'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan',
-        'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City',
-        'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
-    ];
+  // list of countries
+  const australianStates = [
+    "New South Wales",
+    "Victoria",
+    "Queensland",
+    "Western Australia",
+    "South Australia",
+    "Tasmania",
+    "Australian Capital Territory",
+    "Northern Territory",
+  ];
 
-    const addBranch = async (e) => {
-        e.preventDefault();
-        
-        const branchAddress = `${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`;
+  const addBranch = async (e) => {
+    e.preventDefault();
 
-        const operatingHours = {
-            open: openTime,
-            close: closeTime
-        };
+    const branchAddress = `${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`;
 
-        const newBranchData = {
-            branch_name: branch,
-            branch_address: branchAddress,
-            operating_hours: operatingHours,
-            status: status
-        };
-        
-        try {
-            const response = await axiosInstance.post('/create-branch', newBranchData);
-
-            setError("");
-            setBranch("");
-            setAddressLine1("");
-            setAddressLine2("");
-            setCity("");
-            setState("");
-            setZipCode("");
-            setCountry("");
-            setOpenTime("");
-            setCloseTime("");
-            setStatus("");
-            Swal.fire({
-                title: "Branch Added Successfully",
-                text: `${branch} has been added to the system.`,
-                icon: "success",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#0ABAA6",
-              }).then(() => {
-                navigate("/branches");
-              });
-        } catch (error) {
-            console.error('Error adding branch:', error);
-    }
+    const operatingHours = {
+      open: openTime,
+      close: closeTime,
     };
 
-    return (
-        <div className="container">
-            <h3>Add New Branch</h3>
-            <div className="container-content">
-                <form onSubmit={addBranch}>
-                {error && <div className="alert alert-danger">{error}</div>}
-                    <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
-                        <div className="form-group">
-                            <label>Branch Name:</label>
-                            <input type="text" className="form-control" value={branch} onChange={(e) => setBranch(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>Address Line 1:</label>
-                            <input type="text" className="form-control" value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>Address Line 2:</label>
-                            <input type="text" className="form-control" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between ml-5 mr-5">
-                        <div className="form-group">
-                            <label>City:</label>
-                            <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>Province:</label>
-                            <input type="text" className="form-control" value={state} onChange={(e) => setState(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>Zip Code:</label>
-                            <input type="number" className="form-control" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between ml-5">
-                        <div className="form-group">
-                            <label>Country:</label><br />
-                            <select value={country} onChange={(e) => setCountry(e.target.value)}>
-                                <option value="">Select Country</option>
-                                {countries.map((country, index) => (
-                                    <option key={index} value={country}>{country}</option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between ml-5">
-                        <div className="form-group">
-                            <label>Opening Time:</label>
-                            <input type="time" className="form-control" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label>Closing Time:</label>
-                            <input type="time" className="form-control" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between ml-5">
-                        <div className="form-group">
-                            <label>Status:</label><br />
-                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option value="Closed">Closed</option>
-                                <option value="Open">Open</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button className='submit-btn mb-4 mt-4' type="submit">SAVE</button>
-                </form>
+    const newBranchData = {
+      branch_name: branch,
+      branch_address: branchAddress,
+      operating_hours: operatingHours,
+      status: status,
+    };
+
+    try {
+      await axiosInstance.post("/create-branch", newBranchData);
+
+      setError("");
+      setBranch("");
+      setAddressLine1("");
+      setAddressLine2("");
+      setCity("");
+      setState("");
+      setZipCode("");
+      setCountry("");
+      setOpenTime("");
+      setCloseTime("");
+      setStatus("");
+      Swal.fire({
+        title: "Branch Added Successfully",
+        text: `${branch} has been added to the system.`,
+        imageUrl: check,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
+      }).then(() => {
+        navigate("/branches");
+      });
+    } catch (error) {
+      console.error("Error adding branch:", error);
+    }
+  };
+
+  return (
+    <div className="container">
+      <h3>Update Branch</h3>
+      <div className="container-content">
+        <form onSubmit={addBranch}>
+          {error && <div className="alert alert-danger">{error}</div>}
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
+            <div className="form-group">
+              <label>Branch Name:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={branch}
+                onChange={(e) => setBranch(e.target.value)}
+              />
             </div>
-        </div>
-    );
+            <div className="form-group">
+              <label>Address Line 1:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={addressLine1}
+                onChange={(e) => setAddressLine1(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Address Line 2:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={addressLine2}
+                onChange={(e) => setAddressLine2(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-content-between ml-5 mr-5">
+            <div className="form-group">
+              <label>City:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>State:</label>
+              <select
+                className="form-control"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              >
+                <option value="">Select State</option>
+                {australianStates.map((state, index) => (
+                  <option key={index} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Zip Code:</label>
+              <input
+                type="number"
+                className="form-control"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-content-between ml-5">
+            <div className="form-group">
+              <label>Country:</label>
+              <div
+                style={{
+                  border: "1px solid #ced4da",
+                  padding: "0.375rem 0.75rem",
+                  borderRadius: "0.25rem",
+                  backgroundColor: "#e9ecef",
+                  color: "#495057",
+                  display: "inline-block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
+              >
+                {country}
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Opening Time:</label>
+              <input
+                type="time"
+                className="form-control"
+                value={openTime}
+                onChange={(e) => setOpenTime(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Closing Time:</label>
+              <input
+                type="time"
+                className="form-control"
+                value={closeTime}
+                onChange={(e) => setCloseTime(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="d-flex ml-5"></div>
+          <div className="d-flex justify-content-between ml-5">
+            <div className="form-group">
+              <label>Status:</label>
+              <br />
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="Closed">Closed</option>
+                <option value="Open">Open</option>
+              </select>
+            </div>
+          </div>
+          <button className="submit-btn mb-4 mt-4" type="submit">
+            SAVE
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default AddNewBranch;

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
@@ -5,6 +6,8 @@ import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/view_icon.png";
 import edit_icon from "../../../assets/images/edit_icon.png";
 import delete_icon from "../../../assets/images/delete_icon.png";
+import check from "../../../assets/images/check.png";
+
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -35,12 +38,12 @@ function Branches() {
     fetchBranches(); 
   }, [navigate]);
 
-
   const getBranchStatus = (branch) => {
     if (!branch.operating_hours || typeof branch.operating_hours !== 'object') {
-    
-      return 'Closed'; 
+      // Handle cases where operating_hours might be undefined or not an object
+      return 'Unknown'; // or 'Closed' as a fallback
     }
+  
     const currentTime = new Date();
     let currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
   
@@ -50,14 +53,20 @@ function Branches() {
     const openMinutes = parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
     let closeMinutes = parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
   
+    // Adjust closeMinutes for overnight periods
     if (closeMinutes < openMinutes) {
-      closeMinutes += 24 * 60; 
+      closeMinutes += 24 * 60; // Add 24 hours worth of minutes
     }
+  
+    // Adjust currentMinutes for overnight periods
     if (currentMinutes < openMinutes) {
-      currentMinutes += 24 * 60; 
+      currentMinutes += 24 * 60; // Add 24 hours worth of minutes
     }
+  
+    // Determine if the current time falls within the open hours
     return currentMinutes >= openMinutes && currentMinutes <= closeMinutes ? 'Open' : 'Closed';
   };
+
   //modal view
   const handleViewClick = (branch) => {
     setSelectedBranches(branch);
@@ -67,7 +76,6 @@ function Branches() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
   const handleEditBranchClick = (branchId) => {
     navigate(`/edit-branch/${branchId}`);
   };
@@ -96,7 +104,9 @@ function Branches() {
           Swal.fire({
             title: "Success!",
             text: "Branch has been deleted.",
-            icon: "success",
+            imageUrl: check,
+            imageWidth: 100,  
+            imageHeight: 100, 
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -197,22 +207,20 @@ function Branches() {
     },
   ];
 
+
+
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
-         
-          <div className='top-filter'>
-            <select name="" id="filter">
-              <option value="">All Branch</option>
-              <option value="">Olongapo</option>
-              <option value="">Cebu</option>
-            </select>
-            <input id='search-bar' type="text" placeholder='Search' />
-            <button   onClick={() => navigate("/add-branch")} className='btn btn-primary float-end add-user-btn'>
+          <div className="top-filter">
+            <button
+              onClick={() => navigate("/add-branch")}
+              className="btn btn-primary float-end add-user-btn"
+            >
               <i className="fa fa-plus"></i> Add New Branch
-              </button>
+            </button>
           </div>
           <div className="container-content">
             <DataTable

@@ -11,29 +11,27 @@ import {
   pdf,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
-import ArialBold from "./fonts/arialbd.ttf"
-import ArialNormal from "./fonts/arial.ttf"
-import ArialItalic from "./fonts/ariali.ttf"
-import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf"
+import ArialBold from "./fonts/arialbd.ttf";
+import ArialNormal from "./fonts/arial.ttf";
+import ArialItalic from "./fonts/ariali.ttf";
+import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf";
 
 Font.register({
-  family: 'Arial',
-  src: ArialBold
+  family: "Arial",
+  src: ArialBold,
 });
 Font.register({
-  family: 'ArialNormal',
-  src: ArialNormal
+  family: "ArialNormal",
+  src: ArialNormal,
 });
 Font.register({
-  family: 'ArialItalic',
-  src: ArialItalic
+  family: "ArialItalic",
+  src: ArialItalic,
 });
 Font.register({
-  family: 'bahnschrift',
-  src: BahnschriftBold
+  family: "bahnschrift",
+  src: BahnschriftBold,
 });
-
-
 
 function GenerateTickets() {
   const [productName, setProductName] = useState("");
@@ -49,7 +47,7 @@ function GenerateTickets() {
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
-
+  
   const defaultValues = {
     productName: "Product Name",
     price: "Price",
@@ -185,8 +183,7 @@ function GenerateTickets() {
       addedToQueue: true,
     }));
 
-
-    setTicketQueue(prevQueue => [...prevQueue, ...newTickets]);
+    setTicketQueue((prevQueue) => [...prevQueue, ...newTickets]);
 
     setProductName("");
     setPrice("");
@@ -198,9 +195,7 @@ function GenerateTickets() {
     setproductDesc("");
   };
 
-
-
-  const MyDocument = () => {
+  const MyDocument = ({ isPDFView }) => {
     const renderContent = (ticket) => {
       const values = {
         productName: ticket.productName || defaultValues.productName,
@@ -217,12 +212,22 @@ function GenerateTickets() {
         case "Small Tickets (%)":
           return (
             <>
-
-              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", }}>
-                {values.percentOff}<Text style={{ fontSize: "32px", fontFamily: "bahnschrift", }}>OFF</Text>
+              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift" }}>
+                {values.percentOff}
+                <Text style={{ fontSize: "32px", fontFamily: "bahnschrift" }}>
+                  OFF
+                </Text>
               </Text>
-              <Text style={{ fontSize: "17px", fontFamily: "Arial", textTransform: "uppercase", textAlign: "center" }}>
-                {values.productDesc}{"\n"}
+              <Text
+                style={{
+                  fontSize: "17px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
               </Text>
               <Text
                 style={{
@@ -230,9 +235,10 @@ function GenerateTickets() {
                   fontSize: "10px",
                   textAlign: "center",
                   fontFamily: "ArialItalic",
-                  paddingBottom: values.productDesc.split('\n').length === 1
-                    ? "120px"
-                    : values.productDesc.split('\n').length === 2
+                  paddingBottom:
+                    values.productDesc.split("\n").length === 1
+                      ? "120px"
+                      : values.productDesc.split("\n").length === 2
                       ? "100px"
                       : "80px",
                 }}
@@ -245,9 +251,29 @@ function GenerateTickets() {
         case "Big Tickets (P)":
           return (
             <>
-              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{values.productBrand}</Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{values.productName}{"\n"}</Text>
-              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{values.price}</Text>
+              <Text
+                style={{
+                  fontSize: "72px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                }}
+              >
+                {values.productBrand}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "45px",
+                  fontFamily: "Arial",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text style={{ fontSize: "180px", fontFamily: "Arial" }}>
+                {values.price}
+              </Text>
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {values.expiry}
               </Text>
@@ -256,9 +282,29 @@ function GenerateTickets() {
         case "Big Ticket (L)":
           return (
             <>
-              <Text style={{ fontSize: "72px", fontFamily: "Arial", textTransform: "uppercase" }}>{values.productBrand}</Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Arial", textAlign: "center", textTransform: "uppercase" }}>{values.productName}{"\n"}</Text>
-              <Text style={{ fontSize: "180px", fontFamily: "Arial", }}>{values.price}</Text>
+              <Text
+                style={{
+                  fontSize: "72px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                }}
+              >
+                {values.productBrand}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "45px",
+                  fontFamily: "Arial",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text style={{ fontSize: "180px", fontFamily: "Arial" }}>
+                {values.price}
+              </Text>
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {values.expiry}
               </Text>
@@ -266,21 +312,29 @@ function GenerateTickets() {
           );
         default:
           return (
-            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {ticket.addedToQueue && (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && ticket.addedToQueue && (
                 <Text
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: -20,
-                    left: '50%',
-                    transform: 'translateX(-70%)',
-                    fontFamily: 'bahnschrift',
+                    left: "50%",
+                    transform: "translateX(-70%)",
+                    fontFamily: "bahnschrift",
                     fontSize: 10,
-                    textAlign: 'center',
-                    color: 'green',
+                    textAlign: "center",
+                    color: "green",
                     zIndex: 1000,
-                    pointerEvents: 'none',
-                  }} className="no-print"
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
                 >
                   Added to Queue
                 </Text>
@@ -293,7 +347,8 @@ function GenerateTickets() {
                   textAlign: "center",
                 }}
               >
-                {values.productName}{"\n"}
+                {values.productName}
+                {"\n"}
               </Text>
               <Text
                 style={{
@@ -306,7 +361,7 @@ function GenerateTickets() {
                 {values.price}
               </Text>
               <Text style={{ fontSize: "10px", fontFamily: "Arial" }}>
-                RRP ${values.rrp}
+                SRP ${values.rrp}
               </Text>
               <Text style={{ fontSize: "14px", fontFamily: "Arial" }}>
                 Save ${values.save}
@@ -315,7 +370,9 @@ function GenerateTickets() {
                 style={{
                   fontSize: "10px",
                   textAlign: "center",
-                  paddingBottom: values.productName.includes("\n") ? "75px" : "100px",
+                  paddingBottom: values.productName.includes("\n")
+                    ? "75px"
+                    : "100px",
                   fontFamily: "ArialNormal",
                 }}
               >
@@ -324,16 +381,21 @@ function GenerateTickets() {
               </Text>
             </div>
           );
-
       }
     };
 
     const getTicketContainers = () => {
-
       if (ticketQueue.length === 0) {
         return (
-          <View style={{ textAlign: 'center', padding: '20px', display: 'flex', marginTop: '50%' }}>
-            <Text style={{ fontSize: '20px', color: 'gray' }}>
+          <View
+            style={{
+              textAlign: "center",
+              padding: "20px",
+              display: "flex",
+              marginTop: "50%",
+            }}
+          >
+            <Text style={{ fontSize: "20px", color: "gray" }}>
               NO PDF PREVIEW TO SHOW
             </Text>
           </View>
@@ -344,13 +406,13 @@ function GenerateTickets() {
       let maxTicketsPerPage = template.includes("Small") ? 9 : 1;
 
       for (let i = 0; i < ticketQueue.length; i += maxTicketsPerPage) {
-        const currentGroup = [...Array(Math.min(maxTicketsPerPage, ticketQueue.length - i))].map(
-          (_, index) => (
-            <View key={index} style={ticketStyle}>
-              {renderContent(ticketQueue[i + index])}
-            </View>
-          )
-        );
+        const currentGroup = [
+          ...Array(Math.min(maxTicketsPerPage, ticketQueue.length - i)),
+        ].map((_, index) => (
+          <View key={index} style={ticketStyle}>
+            {renderContent(ticketQueue[i + index])}
+          </View>
+        ));
         containerGroups.push(
           <View
             key={`container-${i}`}
@@ -362,7 +424,7 @@ function GenerateTickets() {
               alignItems: "center",
               paddingTop: "20px",
               paddingLeft: "10px",
-              paddingRight: "10px"
+              paddingRight: "10px",
             }}
           >
             {currentGroup}
@@ -373,11 +435,15 @@ function GenerateTickets() {
     };
 
     const pageSize = template.includes("Big") ? "A4" : "A4";
-    const pageOrientation = template.includes("Big Ticket (L)") ? "landscape" : "portrait";
-   
+    const pageOrientation = template.includes("Big Ticket (L)")
+      ? "landscape"
+      : "portrait";
+
     return (
       <Document>
-        <Page size={pageSize} orientation={pageOrientation}>{getTicketContainers()}</Page>
+        <Page size={pageSize} orientation={pageOrientation}>
+          {getTicketContainers()}
+        </Page>
       </Document>
     );
   };
@@ -385,7 +451,6 @@ function GenerateTickets() {
   //form fields
   const renderFormFields = () => {
     switch (template) {
-
       case "Small Tickets (%)":
         return (
           <>
@@ -394,19 +459,22 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={percentOff.replace('%', '')}
-                onChange={(e) => setpercentOff(PercentageformatText(e.target.value))}
+                value={percentOff.replace("%", "")}
+                onChange={(e) =>
+                  setpercentOff(PercentageformatText(e.target.value))
+                }
                 max="99"
               />
             </div>
             <div className="form-group">
               <label>Description</label>
               <input
-
                 type="text"
                 className="form-control"
                 value={productDesc}
-                onChange={(e) => setproductDesc(DescriptionformatText(e.target.value))}
+                onChange={(e) =>
+                  setproductDesc(DescriptionformatText(e.target.value))
+                }
               />
             </div>
             <div className="form-group">
@@ -429,13 +497,14 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productBrand}
-                onChange={(e) => setproductBrand(BrandformatText(e.target.value))}
+                onChange={(e) =>
+                  setproductBrand(BrandformatText(e.target.value))
+                }
               />
             </div>
             <div className="form-group">
               <label>Product Name</label>
               <input
-
                 type="text"
                 className="form-control"
                 value={productName}
@@ -447,8 +516,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price.replace('$', '')}
-                onChange={(e) => setPrice('$' + e.target.value)}
+                value={price.replace("$", "")}
+                onChange={(e) => setPrice("$" + e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -460,7 +529,6 @@ function GenerateTickets() {
                 onChange={handleExpiryChange}
               />
             </div>
-
           </>
         );
       case "Big Ticket (L)":
@@ -472,13 +540,14 @@ function GenerateTickets() {
                 type="text"
                 className="form-control"
                 value={productBrand}
-                onChange={(e) => setproductBrand(BrandformatText(e.target.value))}
+                onChange={(e) =>
+                  setproductBrand(BrandformatText(e.target.value))
+                }
               />
             </div>
             <div className="form-group">
               <label>Product Name</label>
               <input
-
                 type="text"
                 className="form-control"
                 value={productName}
@@ -490,8 +559,8 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price.replace('$', '')}
-                onChange={(e) => setPrice('$' + e.target.value)}
+                value={price.replace("$", "")}
+                onChange={(e) => setPrice("$" + e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -511,7 +580,6 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Product Name</label>
               <input
-
                 type="text"
                 className="form-control"
                 value={productName}
@@ -523,12 +591,12 @@ function GenerateTickets() {
               <input
                 type="number"
                 className="form-control"
-                value={price.replace('$', '')}
-                onChange={(e) => setPrice('$' + e.target.value)}
+                value={price.replace("$", "")}
+                onChange={(e) => setPrice("$" + e.target.value)}
               />
             </div>
             <div className="form-group">
-              <label>RRP</label>
+              <label>SRP</label>
               <input
                 type="number"
                 className="form-control"
@@ -561,19 +629,18 @@ function GenerateTickets() {
 
   //handle printing tickets
   const handlePrint = async () => {
-    
     if (ticketQueue.length === 0) {
       Swal.fire({
-        title: 'No Tickets',
-        text: 'Please add tickets to the queue before printing.',
-        icon: 'warning',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#0ABAA6'
+        title: "No Tickets",
+        text: "Please add tickets to the queue before printing.",
+        icon: "warning",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
       });
       return;
     }
 
-    const blob = await pdf(<MyDocument />).toBlob();
+    const blob = await pdf(<MyDocument isPDFView={true}/>).toBlob();
     setPdfBlob(blob);
 
     const iframe = document.createElement("iframe");
@@ -585,9 +652,6 @@ function GenerateTickets() {
     iframe.contentWindow.focus();
     iframe.contentWindow.print();
   };
-
-
-
 
   //limit the year to 4 digits
   const handleExpiryChange = (e) => {
@@ -604,10 +668,10 @@ function GenerateTickets() {
     const day = date.getDate();
     const year = date.getFullYear().toString().slice(-2); // Get last two digits of year
 
-    return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
+    return `${month.toString().padStart(2, "0")}/${day
+      .toString()
+      .padStart(2, "0")}/${year}`;
   };
-
-
 
   return (
     <div className="container generate-ticket-container">
@@ -622,7 +686,7 @@ function GenerateTickets() {
               onChange={(e) => setTemplate(e.target.value)}
               value={template}
             >
-              <option value="Small Tickets ($)" >Small Tickets ($)</option>
+              <option value="Small Tickets ($)">Small Tickets ($)</option>
               <option value="Small Tickets (%)">Small Tickets (%)</option>
               <option value="Big Tickets (P)">Big Tickets (P)</option>
               <option value="Big Ticket (L)">Big Ticket (L)</option>
@@ -651,7 +715,11 @@ function GenerateTickets() {
                     onChange={(e) => setCopies(Number(e.target.value))}
                   />
 
-                  <button type="button" className="add-to-queue-btn" onClick={handleAddToQueue}>
+                  <button
+                    type="button"
+                    className="add-to-queue-btn"
+                    onClick={handleAddToQueue}
+                  >
                     Add to Queue
                   </button>
 
@@ -671,31 +739,36 @@ function GenerateTickets() {
                   >
                     Clear Entries
                   </button>
-
                 </div>
                 <div className="d-flex justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-primary print-btn" onClick={handlePrint}
+                    className="btn btn-primary print-btn"
+                    onClick={handlePrint}
                   >
                     Generate Tickets
                   </button>
-                  <button type="button" className="generate-tickets-btn"  >
-                    <PDFDownloadLink document={<MyDocument />} fileName="tickets.pdf">
-                    {({ loading }) =>
-                      loading ? "Loading document..." : "Print"
-                    }
-                  </PDFDownloadLink>
+                  <button type="button" className="generate-tickets-btn">
+                    <PDFDownloadLink
+                      document={<MyDocument isPDFView={true} />} 
+                      fileName="tickets.pdf"
+                    >
+                      {({ loading }) =>
+                        loading ? "Loading document..." : "Print"
+                      }
+                    </PDFDownloadLink>
                   </button>
                 </div>
-
               </form>
             </div>
 
             <div className="col-md-6 ticket-view">
               <h5>PDF Preview</h5>
               <div className="pdf-preview">
-                <PDFViewer showToolbar={false} style={{ width: '100%', height: '700px', }}>
+                <PDFViewer
+                  showToolbar={false}
+                  style={{ width: "100%", height: "705px" }}
+                >
                   <MyDocument />
                 </PDFViewer>
               </div>

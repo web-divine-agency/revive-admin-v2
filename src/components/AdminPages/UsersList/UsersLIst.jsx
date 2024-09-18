@@ -7,6 +7,7 @@ import edit_icon from "../../../assets/images/edit_icon.png";
 import delete_icon from "../../../assets/images/delete_icon.png";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
+import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -22,19 +23,22 @@ function UsersList() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    //success login swal
+    // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
       Swal.fire({
         title: "Login Successful",
         text: `Welcome`,
-        icon: "success",
+        imageUrl: check,
+        imageWidth: 100,  
+        imageHeight: 100, 
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       });
-
+  
       localStorage.removeItem("loginSuccess");
     }
   }, []);
+  
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -57,8 +61,8 @@ function UsersList() {
 
       if (filter) {
         tempUsers = tempUsers.filter((user) => {
-          if (filter === "Staff") return user.role_name === "Staff";
-          if (filter === "Admin") return user.role_name === "Admin";
+          if (filter === "Staff") return user.roles?.map((r) => r.role_name).join(", ") === "Staff";
+          if (filter === "Admin") return user.roles?.map((r) => r.role_name).join(", ") === "Admin";
           return true;
         });
       }
@@ -87,9 +91,6 @@ function UsersList() {
   const handleEditUserClick = (userId) => {
     navigate(`/edit-user/${userId}`);
   };
-  
-
-
 
   const handleDeleteUserClick = async (userId) => {
     Swal.fire({
@@ -115,7 +116,9 @@ function UsersList() {
           Swal.fire({
             title: "Success!",
             text: "User has been deleted.",
-            icon: "success",
+            imageUrl: check,
+            imageWidth: 100,  
+            imageHeight: 100, 
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -177,6 +180,11 @@ function UsersList() {
       sortable: true,
     },
     {
+      name: "Role",
+      selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
+      sortable: true,
+    },
+    {
       name: "Action",
       selector: (row) => (
         <div>
@@ -207,6 +215,7 @@ function UsersList() {
             width="25"
             height="25"
           />
+          {row.roles?.map((r) => r.role_name).join(", ") !== "Admin" && (
           <img
             className="ml-3"
             src={delete_icon}
@@ -217,6 +226,7 @@ function UsersList() {
             onClick={() => handleDeleteUserClick(row.id)}
             style={{ cursor: "pointer" }}
           />
+        )}
         </div>
       ),
       sortable: false,

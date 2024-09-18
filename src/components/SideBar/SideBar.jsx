@@ -1,29 +1,30 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
 import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
-import {AuthContext}  from '../Authentication/authContext'
-
+import { AuthContext } from "../Authentication/authContext";
 
 function Navbar({ role }) {
   const navigate = useNavigate();
-  const sidebarData = role === 'Admin' ? AdminSidebarData : StaffSidebarData;
+  const sidebarData = role === "Admin" ? AdminSidebarData : StaffSidebarData;
   const { logout } = useContext(AuthContext);
 
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
         <div className="sidebar-nav">
-          <div className="profile" onClick={() => navigate("/my-profile")}>
-            <img
-              src={profile_avatar}
-              className="profile_avatar"
-              alt="Profile Avatar"
-            />
-            <h5>My Profile</h5>
+          <div className="sticky-header">
+            <div className="profile" onClick={() => navigate("/my-profile")}>
+              <img
+                src={profile_avatar}
+                className="profile_avatar"
+                alt="Profile Avatar"
+              />
+              <h5>My Profile</h5>
+            </div>
           </div>
           <hr className="profile-divider" />
           <nav className="nav-menu active">
@@ -138,15 +139,17 @@ function Navbar({ role }) {
                 return (
                   <React.Fragment key={index}>
                     <li className={item.cName}>
-                    <Link to={item.title !== "Logout" ? item.path : null} onClick={(event) => {
-                      if (item.title === "Logout") {
-                        console.log("afasd");
-                        logout();
-                       
-                      } else {
-                        navigate(item.path);
-                      }
-                    }}>
+                      <Link
+                        to={item.title !== "Logout" ? item.path : null}
+                        onClick={(event) => {
+                          if (item.title === "Logout") {
+                            console.log("afasd");
+                            logout();
+                          } else {
+                            navigate(item.path);
+                          }
+                        }}
+                      >
                         {item.icon}
                         <span>{item.title}</span>
                       </Link>
@@ -158,7 +161,6 @@ function Navbar({ role }) {
                 );
               })}
             </ul>
-
           </nav>
         </div>
       </IconContext.Provider>

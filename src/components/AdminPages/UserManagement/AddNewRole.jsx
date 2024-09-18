@@ -2,45 +2,23 @@ import React, { useState } from "react";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import check from "../../../assets/images/check.png";
+
 
 function AddNewRole() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const [roleDescription, setRoleDescription] = useState("");
-  // const [permissions, setPermissions] = useState({
-  //   generateTicket: false,
-  //   viewTicketHistory: false,
-  //   viewUsersList: false,
-  //   manageUsers: false,
-  //   viewBranches: false,
-  //   manageAccount: false,
-  //   viewStaffLogs: false,
-  // });
 
-  // const permissionMapping = {
-  //   generateTicket: 1,
-  //   viewTicketHistory: 2,
-  //   viewUsersList: 3,
-  //   manageUsers: 4,
-  //   viewBranches: 5,
-  //   manageAccount: 6,
-  //   viewStaffLogs: 7,
-  // };
+  const defaultPermissions = [
+    { permission_name: "Generate Ticket", permission_id: 1 },
+    { permission_name: "View Ticket History", permission_id: 4 },
+    { permission_name: "Manage Account", permission_id: 7 }
+  ];
 
-  // const handlePermissionChange = (e) => {
-  //   const { name, checked } = e.target;
-  //   setPermissions((prevPermissions) => ({
-  //     ...prevPermissions,
-  //     [name]: checked,
-  //   }));
-  // };
 
   const addUserRole = async (e) => {
     e.preventDefault();
-
-    // const selectedPermissions = Object.keys(permissions).filter(
-    //   (permission) => permissions[permission]
-    // );
 
     const roleData = {
       role_name: role,
@@ -52,23 +30,27 @@ function AddNewRole() {
       const roleResponse = await axiosInstance.post("/create-role", roleData);
       const { message } = roleResponse.data;
 
-      // if (roleResponse && roleResponse.data) {
-      //   const newRoleId = parseInt(message.split(": ")[1]);
-      //   await axiosInstance.post("/create-rolePermission", {
-      //     role_id: newRoleId,
-      //     permissions: selectedPermissions.map(
-      //       (permission) => ({ permission_id: permissionMapping[permission] })
-      //     ),
-      //   });
+      if (roleResponse && roleResponse.data) {
+        const newRoleId = parseInt(message.split(": ")[1]);
 
-      //   console.log("All selected permissions assigned successfully.");
-      // }
+
+        for (const permission of defaultPermissions) {
+        await axiosInstance.post("/create-rolePermission", {
+          role_id: newRoleId,
+          permission_id: permission.permission_id
+        });
+      }
+
+        console.log("All selected permissions assigned successfully.");
+      }
 
       // Success alert
       Swal.fire({
         title: "Role Added Successfully",
         text: `New Role added!`,
-        icon: "success",
+        imageUrl: check,
+        imageWidth: 100,  
+        imageHeight: 100, 
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       }).then(() => {
@@ -104,13 +86,14 @@ function AddNewRole() {
           <div className="form-group ml-5 mt-3">
             <label>Role Description:</label>
             <textarea
-              className="form-control col-lg-8"
+              className="form-control col-lg-3"
               value={roleDescription}
               onChange={(e) => setRoleDescription(e.target.value)}
               required
             />
           </div>
-          {/* <div className="form-group ml-5 mt-5">
+          {/*}
+          <div className="form-group ml-5 mt-5">
             <label>Permissions</label> <br />
             <div className="d-flex flex-row justify-content-between mr-5">
               <div className="d-flex flex-column align-items-start">
@@ -190,7 +173,8 @@ function AddNewRole() {
                 </label>
               </div>
             </div>
-          </div> */}
+          </div>
+          */}
           <button className="submit-btn mb-4 mt-4" type="submit">
             SAVE
           </button>
