@@ -22,6 +22,8 @@ function UsersList() {
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -53,6 +55,20 @@ function UsersList() {
     };
     fetchUsers();
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await axiosInstance.get("/user"); // Adjust the endpoint if needed
+        setLoggedInUser(response.data); // Assuming response contains user data
+      } catch (error) {
+        console.error("Error fetching logged-in user:", error);
+      }
+    };
+    
+    fetchLoggedInUser();
+  }, []);
+
 
   useEffect(() => {
     // Filter users whenever the filter or search state changes
@@ -93,6 +109,15 @@ function UsersList() {
   };
 
   const handleDeleteUserClick = async (userId) => {
+    if (loggedInUser && userId === loggedInUser.id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Cannot Delete Your Own Account',
+        text: 'You cannot delete your own account.',
+      });
+      return;
+    }
+
     Swal.fire({
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
@@ -215,7 +240,7 @@ function UsersList() {
             width="25"
             height="25"
           />
-          {row.roles?.map((r) => r.role_name).join(", ") !== "Admin" && (
+          {loggedInUser && row.id !== loggedInUser.id && (
           <img
             className="ml-3"
             src={delete_icon}

@@ -15,6 +15,7 @@ import ArialBold from "./fonts/arialbd.ttf";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
 import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf";
+import { saveAs } from "file-saver";
 
 Font.register({
   family: "Arial",
@@ -47,7 +48,9 @@ function GenerateTickets() {
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
-  
+  const [filename, setFilename] = useState("tickets.pdf");
+  const [showModal, setShowModal] = useState(false);
+
   const defaultValues = {
     productName: "Product Name",
     price: "Price",
@@ -58,16 +61,23 @@ function GenerateTickets() {
     productBrand: "Brand",
     productDesc: "Description",
   };
+
+  const handleGenerateClick = async () => {
+    const blob = await pdf(<MyDocument isPDFView={true}/>).toBlob();
+    const filename = "ticket.pdf";
+    saveAs(blob, filename);
+  };
+
   useEffect(() => {
-    if (localStorage.getItem('loginSuccess') === 'true') {
+    if (localStorage.getItem("loginSuccess") === "true") {
       Swal.fire({
-        title: 'Login Successful',
+        title: "Login Successful",
         text: `Welcome`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#0ABAA6'
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
       });
-      localStorage.removeItem('loginSuccess');
+      localStorage.removeItem("loginSuccess");
     }
   }, []);
   //clear the forms
@@ -84,7 +94,7 @@ function GenerateTickets() {
       lines.push(text.substring(i, i + 17));
       if (lines.length === 2) break;
     }
-    return lines.join('\n');
+    return lines.join("\n");
   };
 
   //limit the text in brand input fields of Big Tickets
@@ -94,7 +104,7 @@ function GenerateTickets() {
       lines.push(text.substring(i, i + 12));
       if (lines.length === 1) break;
     }
-    return lines.join('\n');
+    return lines.join("\n");
   };
 
   //limit ng text 17chars per line in small tickets description
@@ -104,10 +114,8 @@ function GenerateTickets() {
       lines.push(text.substring(i, i + 17));
       if (lines.length === 3) break;
     }
-    return lines.join('\n');
+    return lines.join("\n");
   };
-
-
 
   //limit ng text 25chars per line in big tickets
   const BigformatText = (text) => {
@@ -115,9 +123,8 @@ function GenerateTickets() {
     for (let i = 0; i < text.length; i += 24) {
       lines.push(text.substring(i, i + 24));
       if (lines.length === 3) break;
-
     }
-    return lines.join('\n');
+    return lines.join("\n");
   };
 
   //limit of 2 characters in percentage
@@ -147,7 +154,6 @@ function GenerateTickets() {
           flexDirection: "column",
           paddingTop: "200px",
           paddingBottom: "200px",
-
         };
       case "Big Ticket (L)":
         return {
@@ -211,7 +217,33 @@ function GenerateTickets() {
       switch (template) {
         case "Small Tickets (%)":
           return (
-            <>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && ticket.addedToQueue && (
+                <Text
+                  style={{
+                    position: "absolute",
+                    top: -20,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "bahnschrift",
+                    fontSize: 10,
+                    textAlign: "center",
+                    color: "green",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  Added to Queue
+                </Text>
+              )}
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift" }}>
                 {values.percentOff}
                 <Text style={{ fontSize: "32px", fontFamily: "bahnschrift" }}>
@@ -246,11 +278,37 @@ function GenerateTickets() {
                 REVIVE OFFER AVAILABLE{"\n"}
                 {values.expiry}
               </Text>
-            </>
+            </div>
           );
         case "Big Tickets (P)":
           return (
-            <>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && ticket.addedToQueue && (
+                <Text
+                  style={{
+                    position: "absolute",
+                    top: -20,
+                    left: "50%",
+                    transform: "translateX(-100%)",
+                    fontFamily: "bahnschrift",
+                    fontSize: 10,
+                    textAlign: "center",
+                    color: "green",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  Added to Queue
+                </Text>
+              )}
               <Text
                 style={{
                   fontSize: "72px",
@@ -277,11 +335,37 @@ function GenerateTickets() {
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {values.expiry}
               </Text>
-            </>
+            </div>
           );
         case "Big Ticket (L)":
           return (
-            <>
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && ticket.addedToQueue && (
+                <Text
+                  style={{
+                    position: "absolute",
+                    top: -20,
+                    left: "50%",
+                    transform: "translateX(-230%)",
+                    fontFamily: "bahnschrift",
+                    fontSize: 10,
+                    textAlign: "center",
+                    color: "green",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  Added to Queue
+                </Text>
+              )}
               <Text
                 style={{
                   fontSize: "72px",
@@ -308,7 +392,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {values.expiry}
               </Text>
-            </>
+            </div>
           );
         default:
           return (
@@ -326,7 +410,7 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-70%)",
+                    transform: "translateX(-60%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
@@ -361,7 +445,7 @@ function GenerateTickets() {
                 {values.price}
               </Text>
               <Text style={{ fontSize: "10px", fontFamily: "Arial" }}>
-                SRP ${values.rrp}
+                RRP ${values.rrp}
               </Text>
               <Text style={{ fontSize: "14px", fontFamily: "Arial" }}>
                 Save ${values.save}
@@ -640,7 +724,7 @@ function GenerateTickets() {
       return;
     }
 
-    const blob = await pdf(<MyDocument isPDFView={true}/>).toBlob();
+    const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
     setPdfBlob(blob);
 
     const iframe = document.createElement("iframe");
@@ -664,13 +748,13 @@ function GenerateTickets() {
   };
 
   const formatDate = (date) => {
+    const day = date.getDate(); // Day first
     const month = date.getMonth() + 1; // Months are zero-indexed
-    const day = date.getDate();
-    const year = date.getFullYear().toString().slice(-2); // Get last two digits of year
+    const year = date.getFullYear();
 
-    return `${month.toString().padStart(2, "0")}/${day
+    return `${day.toString().padStart(2, "0")}/${month
       .toString()
-      .padStart(2, "0")}/${year}`;
+      .padStart(2, "0")}/${year}`; // Day/Month/Year
   };
 
   return (
@@ -743,20 +827,17 @@ function GenerateTickets() {
                 <div className="d-flex justify-content-between">
                   <button
                     type="button"
-                    className="btn btn-primary print-btn"
-                    onClick={handlePrint}
+                    className="print-btn"
+                    onClick={handleGenerateClick}
                   >
                     Generate Tickets
                   </button>
-                  <button type="button" className="generate-tickets-btn">
-                    <PDFDownloadLink
-                      document={<MyDocument isPDFView={true} />} 
-                      fileName="tickets.pdf"
-                    >
-                      {({ loading }) =>
-                        loading ? "Loading document..." : "Print"
-                      }
-                    </PDFDownloadLink>
+                  <button
+                    type="button"
+                    className="generate-tickets-btn"
+                    onClick={handlePrint}
+                  >
+                    Print
                   </button>
                 </div>
               </form>

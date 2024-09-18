@@ -9,6 +9,7 @@
     padding: 1.5em;
     will-change: filter;
     transition: filter 300ms;
+    z-index: 9;
 
 }
 
@@ -29,6 +30,7 @@ h1 {
     transition: 850ms;
     align-items: center;
     flex-direction: column;
+    z-index: 1000;
 
 
 }
@@ -86,9 +88,10 @@ ul {
 
 .profile_avatar {
     height: 35px;
-    width: 35px;    
+    width: 35px;
     margin-right: 10px;
 }
+
 /* 
 .profile_menu {
     height: 27px;
@@ -104,6 +107,7 @@ ul {
     right: 7rem;
     cursor: pointer;
 }
+
 /* 
 #dropdown-basic{
     color: #000000;
@@ -135,9 +139,9 @@ ul {
     color: #FFFFFF;
 } */
 
-.profile h5{
+.profile h5 {
     line-height: 33px;
-    font-size: 18px ;
+    font-size: 18px;
     font-weight: 600;
     color: #FFFFFF;
 }
@@ -147,16 +151,19 @@ ul {
     right: 5px;
     position: fixed;
     top: 3rem;
-background-color: #0B3A07;
+    background-color: #0B3A07;
 }
 
 .sticky-header {
     position: fixed;
-    width: 100%;
+    width: 2800px;
     height: 4rem;
     top: 0rem;
- background-color: #0B3A07; /* Background color starting from hr */
-    padding-top: 2px; /* Adjust as needed */
+    left: -10rem;
+    right: 10rem;
+    background-color: #0B3A07;
+    /* Background color starting from hr */
+    padding-top: 2px;
+    /* Adjust as needed */
     z-index: 1;
 }
-
