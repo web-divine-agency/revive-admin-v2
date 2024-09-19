@@ -140,7 +140,7 @@ function GenerateTickets() {
         }
       }
     });
-  
+
   };
 
 
@@ -174,6 +174,46 @@ function GenerateTickets() {
     }
     return lines.join("\n");
   };
+
+  //limit price to 5 digits
+  const formatPrice = (value) => {
+
+    let numericValue = value.replace(/[^0-9.]/g, '');
+    let parts = numericValue.split('.');
+    if (parts[0].length > 3) {
+      parts[0] = parts[0].substring(0, 3);
+    }
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    return parts.join('.');
+  };
+  //limit price to 5 digits
+  const formatSave = (value) => {
+
+    let numericValue = value.replace(/[^0-9.]/g, '');
+    let parts = numericValue.split('.');
+    if (parts[0].length > 3) {
+      parts[0] = parts[0].substring(0, 3);
+    }
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    return parts.join('.');
+  };
+  const formatRrp = (value) => {
+
+    let numericValue = value.replace(/[^0-9.]/g, '');
+    let parts = numericValue.split('.');
+    if (parts[0].length > 3) {
+      parts[0] = parts[0].substring(0, 3);
+    }
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    return parts.join('.');
+  };
+
 
   //limit the text in brand input fields of Big Tickets
   const BrandformatText = (text) => {
@@ -420,9 +460,10 @@ function GenerateTickets() {
                 {values.productName}
                 {"\n"}
               </Text>
-              <Text style={{ fontSize: "180px", fontFamily: "Arial" }}>
+              <Text style={{ fontSize: values.price.length >= 5 ? "150px" : "180px", fontFamily: "Arial" }}>
                 {values.price}
               </Text>
+
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
                 REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
               </Text>
@@ -507,7 +548,7 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-75%)",
+                    transform: values.price.length === 3 ||  values.price.length === 2 ||  values.price.length === 7  ? "translateX(-55%)" : "translateX(-75%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
@@ -699,14 +740,16 @@ function GenerateTickets() {
                 }
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ position: "relative" }}>
               <label>Expiry</label>
               <input
                 type="date"
                 className="form-control"
                 value={expiry}
                 onChange={handleExpiryChange}
+                min={getTodayDate()}
               />
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
             </div>
           </>
         );
@@ -739,17 +782,19 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + e.target.value)}
+                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ position: "relative" }}>
               <label>Expiry</label>
               <input
                 type="date"
                 className="form-control"
                 value={expiry}
                 onChange={handleExpiryChange}
+                min={getTodayDate()}
               />
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
             </div>
           </>
         );
@@ -782,17 +827,19 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + e.target.value)}
+                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ position: "relative" }}>
               <label>Expiry</label>
               <input
                 type="date"
                 className="form-control"
                 value={expiry}
                 onChange={handleExpiryChange}
+                min={getTodayDate()}
               />
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
             </div>
           </>
         );
@@ -814,7 +861,7 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + e.target.value)}
+                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -823,7 +870,7 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={rrp}
-                onChange={(e) => setRrp(e.target.value)}
+                onChange={(e) => setRrp(formatRrp(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -832,25 +879,28 @@ function GenerateTickets() {
                 type="number"
                 className="form-control"
                 value={save}
-                onChange={(e) => setSave(e.target.value)}
+                onChange={(e) => setSave(formatSave(e.target.value))}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{ position: "relative" }}>
               <label>Expiry</label>
               <input
                 type="date"
                 className="form-control"
                 value={expiry}
                 onChange={handleExpiryChange}
+                min={getTodayDate()}
               />
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
             </div>
+
           </>
         );
     }
   };
 
 
-  //limit the year to 4 digits
+
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -871,7 +921,12 @@ function GenerateTickets() {
   }, []);
 
   const handleExpiryChange = (e) => {
-    setExpiry(e.target.value);
+    const inputValue = e.target.value;
+    const [year, month, day] = inputValue.split("-");
+    if (year.length > 4) {
+      return;
+    }
+    setExpiry(inputValue);
   };
 
 

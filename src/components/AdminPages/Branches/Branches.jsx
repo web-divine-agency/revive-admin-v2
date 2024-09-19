@@ -220,8 +220,8 @@ function Branches() {
               id="filter"
             >
               <option value="">All Branches</option>
-              <option value="Staff">Cebu</option>
-              <option value="Admin">Manila</option>
+              <option value="">Cebu</option>
+              <option value="">Manila</option>
             </select>
             <input
               id="search-bar"

@@ -501,5 +501,24 @@ flex-direction: row;
 
 
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: relative;
+  z-index: 1;
+}
+
+input[type="date"] {
+  position: relative;
+  padding-right: 5px; 
+}
+
+.custom-date-icon {
+  position: absolute;
+  right: 1px;
+  top: 25px; 
+  pointer-events: none;
+  z-index: 2;
+  font-size: 18px !important;
+}
 
 /* End of Generate Ticket Style */
