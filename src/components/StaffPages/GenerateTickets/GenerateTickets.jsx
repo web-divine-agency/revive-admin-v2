@@ -63,7 +63,7 @@ function GenerateTickets() {
   };
 
   const handleGenerateClick = async () => {
-    const blob = await pdf(<MyDocument isPDFView={true}/>).toBlob();
+    const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
     const filename = "ticket.pdf";
     saveAs(blob, filename);
   };
@@ -74,8 +74,8 @@ function GenerateTickets() {
         title: "Login Successful",
         text: `Welcome`,
         imageUrl: check,
-        imageWidth: 100,  
-        imageHeight: 100, 
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       });
@@ -197,10 +197,14 @@ function GenerateTickets() {
     setPrice("");
     setRrp("");
     setSave("");
+    setCopies(0);
     setExpiry("Expiry");
     setpercentOff("");
     setproductBrand("");
     setproductDesc("");
+
+    setSuccessMessage("Added to queue successfully");
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   const MyDocument = ({ isPDFView }) => {
@@ -227,7 +231,7 @@ function GenerateTickets() {
                 alignItems: "center",
               }}
             >
-              {!isPDFView && ticket.addedToQueue && (
+              {!isPDFView &&(
                 <Text
                   style={{
                     position: "absolute",
@@ -237,13 +241,13 @@ function GenerateTickets() {
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
-                    color: "green",
+                    color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  Added to Queue
+                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
               <Text style={{ fontSize: "65px", fontFamily: "bahnschrift" }}>
@@ -273,12 +277,12 @@ function GenerateTickets() {
                     values.productDesc.split("\n").length === 1
                       ? "120px"
                       : values.productDesc.split("\n").length === 2
-                      ? "100px"
-                      : "80px",
+                        ? "100px"
+                        : "80px",
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
-                {values.expiry}
+                {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
           );
@@ -292,23 +296,23 @@ function GenerateTickets() {
                 alignItems: "center",
               }}
             >
-              {!isPDFView && ticket.addedToQueue && (
+              {!isPDFView && (
                 <Text
                   style={{
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-100%)",
+                    transform: "translateX(-155%)",
                     fontFamily: "bahnschrift",
-                    fontSize: 10,
+                    fontSize: 20,
                     textAlign: "center",
-                    color: "green",
+                    color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  Added to Queue
+                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
               <Text
@@ -335,7 +339,7 @@ function GenerateTickets() {
                 {values.price}
               </Text>
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-                REVIVE OFFER AVAILABLE - {values.expiry}
+                REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
           );
@@ -349,25 +353,26 @@ function GenerateTickets() {
                 alignItems: "center",
               }}
             >
-              {!isPDFView && ticket.addedToQueue && (
+              {!isPDFView && (
                 <Text
                   style={{
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-230%)",
+                    transform: "translateX(-285%)",
                     fontFamily: "bahnschrift",
-                    fontSize: 10,
+                    fontSize: 20,
                     textAlign: "center",
-                    color: "green",
+                    color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  Added to Queue
+                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
+
               <Text
                 style={{
                   fontSize: "72px",
@@ -392,7 +397,7 @@ function GenerateTickets() {
                 {values.price}
               </Text>
               <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-                REVIVE OFFER AVAILABLE - {values.expiry}
+                REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
           );
@@ -406,7 +411,7 @@ function GenerateTickets() {
                 alignItems: "center",
               }}
             >
-              {!isPDFView && ticket.addedToQueue && (
+              {!isPDFView && (
                 <Text
                   style={{
                     position: "absolute",
@@ -416,13 +421,13 @@ function GenerateTickets() {
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
-                    color: "green",
+                    color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  Added to Queue
+                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
               <Text
@@ -463,7 +468,7 @@ function GenerateTickets() {
                 }}
               >
                 REVIVE OFFER AVAILABLE{"\n"}
-                {values.expiry}
+                {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
           );
@@ -471,34 +476,66 @@ function GenerateTickets() {
     };
 
     const getTicketContainers = () => {
-      if (ticketQueue.length === 0) {
-        return (
-          <View
-            style={{
-              textAlign: "center",
-              padding: "20px",
-              display: "flex",
-              marginTop: "50%",
-            }}
-          >
-            <Text style={{ fontSize: "20px", color: "gray" }}>
-              NO PDF PREVIEW TO SHOW
-            </Text>
-          </View>
-        );
-      }
+
+      const numberOfCopies = copies || 0;
+      // if (numberOfCopies === 0) {
+      //   return (
+      //     <View
+      //       style={{
+      //         display: "flex",
+      //         justifyContent: "center",
+      //         alignItems: "center",
+      //         paddingTop: "50%",
+      //         paddingbottom: "50%",
+      //         fontSize: "30px"
+      //       }}
+      //     >
+      //      {allT}
+      //     </View>
+      //   );
+      // }
+
+      const livePreviewTicket = {
+        productName: productName || defaultValues.productName,
+        price: price || defaultValues.price,
+        rrp: rrp || defaultValues.rrp,
+        save: save || defaultValues.save,
+        expiry: expiry || defaultValues.expiry,
+        percentOff: percentOff || defaultValues.percentOff,
+        productBrand: productBrand || defaultValues.productBrand,
+        productDesc: productDesc || defaultValues.productDesc,
+        addedToQueue: false,
+      };
+
+
+      const handleAddToQueue = () => {
+        const newTickets = Array(numberOfCopies).fill({ ...livePreviewTicket, addedToQueue: true });
+        setTicketQueue([...ticketQueue, ...newTickets]);
+      };
+
+
+      const livePreviewTickets = Array(numberOfCopies).fill(livePreviewTicket);
+      const allTickets = [...ticketQueue, ...livePreviewTickets];
+
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
-      let maxTicketsPerPage = template.includes("Small") ? 9 : 1;
+      const maxTicketsPerPage = template.includes("Small") ? 9 : 1;
 
-      for (let i = 0; i < ticketQueue.length; i += maxTicketsPerPage) {
-        const currentGroup = [
-          ...Array(Math.min(maxTicketsPerPage, ticketQueue.length - i)),
-        ].map((_, index) => (
-          <View key={index} style={ticketStyle}>
-            {renderContent(ticketQueue[i + index])}
-          </View>
-        ));
+
+      for (let i = 0; i < allTickets.length; i += maxTicketsPerPage) {
+        const currentGroup = [...Array(Math.min(maxTicketsPerPage, allTickets.length - i))].map((_, index) => {
+          const currentTicket = allTickets[i + index];
+
+          return (
+            <View key={index} style={ticketStyle}>
+              {renderContent(currentTicket)}
+              {!currentTicket.addedToQueue && index < numberOfCopies && (
+                <button onClick={handleAddToQueue}>Add to Queue</button>
+              )}
+            </View>
+          );
+        });
+
         containerGroups.push(
           <View
             key={`container-${i}`}
@@ -517,8 +554,12 @@ function GenerateTickets() {
           </View>
         );
       }
+
       return containerGroups;
     };
+
+
+
 
     const pageSize = template.includes("Big") ? "A4" : "A4";
     const pageOrientation = template.includes("Big Ticket (L)")
@@ -682,7 +723,7 @@ function GenerateTickets() {
               />
             </div>
             <div className="form-group">
-              <label>SRP</label>
+              <label>RRP</label>
               <input
                 type="number"
                 className="form-control"
@@ -740,30 +781,38 @@ function GenerateTickets() {
   };
 
   //limit the year to 4 digits
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+
+  const formatDateForDisplay = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
+
+  useEffect(() => {
+    setExpiry(getTodayDate());
+  }, []);
+
   const handleExpiryChange = (e) => {
-    const inputDate = e.target.value;
-    if (inputDate) {
-      const date = new Date(inputDate);
-      const formattedDate = formatDate(date);
-      setExpiry(formattedDate);
-    }
+    setExpiry(e.target.value);
   };
 
-  const formatDate = (date) => {
-    const day = date.getDate(); // Day first
-    const month = date.getMonth() + 1; // Months are zero-indexed
-    const year = date.getFullYear();
 
-    return `${day.toString().padStart(2, "0")}/${month
-      .toString()
-      .padStart(2, "0")}/${year}`; // Day/Month/Year
-  };
+
 
   return (
     <div className="container generate-ticket-container">
       <div className="col-md-12">
         <div className="row pl-4">
           <h3>Revive Pharmacy Price Ticket Generator</h3>
+
           <div className="ticket-filter">
             <h5>Select Ticket Template</h5>
             <select
@@ -795,7 +844,7 @@ function GenerateTickets() {
                   <input
                     type="number"
                     placeholder="1"
-                    min={1}
+                    min={0}
                     className="form-control ticket-copies-field"
                     value={copies}
                     onChange={(e) => setCopies(Number(e.target.value))}
@@ -805,6 +854,7 @@ function GenerateTickets() {
                     type="button"
                     className="add-to-queue-btn"
                     onClick={handleAddToQueue}
+                    disabled={copies === 0}
                   >
                     Add to Queue
                   </button>
@@ -819,8 +869,8 @@ function GenerateTickets() {
                       setRrp("");
                       setSave("");
                       setExpiry("");
-                      setCopies(1);
-                      entriesCleared(); // Clear entries and ticket queue
+                      setCopies(0);
+                      entriesCleared(); 
                     }}
                   >
                     Clear Entries
@@ -846,7 +896,7 @@ function GenerateTickets() {
             </div>
 
             <div className="col-md-6 ticket-view">
-              <h5>PDF Preview</h5>
+              <h5 className="mt-3" style={{fontSize: "24px", fontFamily: "bahnschrift"}}>PDF Live Preview</h5>
               <div className="pdf-preview">
                 <PDFViewer
                   showToolbar={false}

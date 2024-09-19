@@ -61,12 +61,12 @@ export const StaffSidebarData = [
     icon: <img src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
     cName: 'nav-text'
   },
-  {
-    title: 'Queue List',
-    path: '/queue-list',
-    icon: <img src={queue_list} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
-    cName: 'nav-text'
-  },
+  // {
+  //   title: 'Queue List',
+  //   path: '/queue-list',
+  //   icon: <img src={queue_list} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+  //   cName: 'nav-text'
+  // },
   {
     title: 'Logout',
     path: '/',
