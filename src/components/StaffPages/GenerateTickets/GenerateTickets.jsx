@@ -50,6 +50,8 @@ function GenerateTickets() {
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
+  const [triggerDownload, setTriggerDownload] = useState(false);
+  const [triggerPrint, setTriggerPrint] = useState(false);
 
   const defaultValues = {
     productName: "Product Name",
@@ -61,12 +63,86 @@ function GenerateTickets() {
     productBrand: "Brand",
     productDesc: "Description",
   };
+  useEffect(() => {
+    if (triggerPrint) {
+      const printPDF = async () => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
+        const iframe = document.createElement("iframe");
+        iframe.style.position = "absolute";
+        iframe.style.width = "0px";
+        iframe.style.height = "0px";
+        iframe.src = URL.createObjectURL(blob);
+        document.body.appendChild(iframe);
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        setTriggerPrint(false);
+      };
+      printPDF();
+    }
+  }, [triggerPrint])
 
-  const handleGenerateClick = async () => {
-    const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
-    const filename = "ticket.pdf";
-    saveAs(blob, filename);
+
+  //handle printing tickets
+  const handlePrint = () => {
+    setCopies(0);
+    setTriggerPrint(true);
+
   };
+
+  //handle generate ticket function
+  useEffect(() => {
+    if (triggerDownload) {
+      const generateAndDownloadPDF = async () => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
+        const filename = "ticket.pdf";
+        saveAs(blob, filename);
+        setTriggerDownload(false);
+      };
+
+      generateAndDownloadPDF();
+    }
+  }, [triggerDownload]);
+
+  const handleGenerateClick = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to generate this ticket?",
+      showCancelButton: true,
+      confirmButtonColor: "#109F69",
+      cancelButtonColor: "#00000000",
+      cancelTextColor: "#000000",
+      confirmButtonText: "Yes, Generate it!",
+      customClass: {
+        container: "custom-container",
+        confirmButton: "custom-confirm-button",
+        cancelButton: "custom-cancel-button",
+        title: "custom-swal-title",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          setCopies(0);
+          setTriggerDownload(true);
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: "There was an error generating this ticket.",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#EC221F",
+            customClass: {
+              confirmButton: "custom-error-confirm-button",
+              title: "custom-swal-title",
+            },
+          });
+        }
+      }
+    });
+  
+  };
+
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -198,7 +274,7 @@ function GenerateTickets() {
     setRrp("");
     setSave("");
     setCopies(0);
-    setExpiry("Expiry");
+    // setExpiry("Expiry");
     setpercentOff("");
     setproductBrand("");
     setproductDesc("");
@@ -231,16 +307,20 @@ function GenerateTickets() {
                 alignItems: "center",
               }}
             >
-              {!isPDFView &&(
+              {!isPDFView && (
                 <Text
                   style={{
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-50%)",
+                    transform: "translateX(-55%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
-                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
                     color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
@@ -300,12 +380,17 @@ function GenerateTickets() {
                 <Text
                   style={{
                     position: "absolute",
-                    top: -20,
+                    top: -25,
                     left: "50%",
                     transform: "translateX(-155%)",
                     fontFamily: "bahnschrift",
                     fontSize: 20,
                     textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "4px",
+                    borderRadius: "5px",
+                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
                     color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
@@ -357,12 +442,17 @@ function GenerateTickets() {
                 <Text
                   style={{
                     position: "absolute",
-                    top: -20,
+                    top: -25,
                     left: "50%",
                     transform: "translateX(-285%)",
                     fontFamily: "bahnschrift",
                     fontSize: 20,
                     textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "4px",
+                    borderRadius: "5px",
+                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
                     color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
@@ -417,10 +507,15 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-60%)",
+                    transform: "translateX(-75%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
                     color: ticket.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
@@ -754,31 +849,6 @@ function GenerateTickets() {
     }
   };
 
-  //handle printing tickets
-  const handlePrint = async () => {
-    if (ticketQueue.length === 0) {
-      Swal.fire({
-        title: "No Tickets",
-        text: "Please add tickets to the queue before printing.",
-        icon: "warning",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      });
-      return;
-    }
-
-    const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
-    setPdfBlob(blob);
-
-    const iframe = document.createElement("iframe");
-    iframe.style.position = "absolute";
-    iframe.style.width = "0px";
-    iframe.style.height = "0px";
-    iframe.src = URL.createObjectURL(blob);
-    document.body.appendChild(iframe);
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-  };
 
   //limit the year to 4 digits
   const getTodayDate = () => {
@@ -868,9 +938,9 @@ function GenerateTickets() {
                       setPrice("");
                       setRrp("");
                       setSave("");
-                      setExpiry("");
+                      // setExpiry("");
                       setCopies(0);
-                      entriesCleared(); 
+                      entriesCleared();
                     }}
                   >
                     Clear Entries
@@ -896,7 +966,7 @@ function GenerateTickets() {
             </div>
 
             <div className="col-md-6 ticket-view">
-              <h5 className="mt-3" style={{fontSize: "24px", fontFamily: "bahnschrift"}}>PDF Live Preview</h5>
+              <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "bahnschrift" }}>PDF Live Preview</h5>
               <div className="pdf-preview">
                 <PDFViewer
                   showToolbar={false}
