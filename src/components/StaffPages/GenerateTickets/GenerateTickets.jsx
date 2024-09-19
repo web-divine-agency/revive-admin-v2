@@ -53,6 +53,7 @@ function GenerateTickets() {
   const [triggerDownload, setTriggerDownload] = useState(false);
   const [triggerPrint, setTriggerPrint] = useState(false);
 
+
   const defaultValues = {
     productName: "Product Name",
     price: "Price",
@@ -106,42 +107,59 @@ function GenerateTickets() {
   }, [triggerDownload]);
 
   const handleGenerateClick = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you really want to generate this ticket?",
-      showCancelButton: true,
-      confirmButtonColor: "#109F69",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, Generate it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          setCopies(0);
-          setTriggerDownload(true);
-        } catch (error) {
-          Swal.fire({
-            title: "Error!",
-            text: "There was an error generating this ticket.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#EC221F",
-            customClass: {
-              confirmButton: "custom-error-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
+    // Check if there are tickets in the queue
+    setCopies(0);
+    if (ticketQueue.length === 0) {
+      Swal.fire({
+        title: "No Tickets Added to Queue!",
+        text: "Add tickets to the queue first to proceed.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#EC221F",
+        customClass: {
+          confirmButton: "custom-error-confirm-button",
+          title: "custom-swal-title",
+        },
+      });
+      return;
+    } else {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you really want to generate this ticket?",
+        showCancelButton: true,
+        confirmButtonColor: "#109F69",
+        cancelButtonColor: "#00000000",
+        cancelTextColor: "#000000",
+        confirmButtonText: "Yes, Generate it!",
+        customClass: {
+          container: "custom-container",
+          confirmButton: "custom-confirm-button",
+          cancelButton: "custom-cancel-button",
+          title: "custom-swal-title",
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            setCopies(0);
+            setTriggerDownload(true);
+          } catch (error) {
+            Swal.fire({
+              title: "Error!",
+              text: "There was an error generating this ticket.",
+              icon: "error",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#EC221F",
+              customClass: {
+                confirmButton: "custom-error-confirm-button",
+                title: "custom-swal-title",
+              },
+            });
+          }
         }
-      }
-    });
-
+      });
+    }
   };
+
 
 
   useEffect(() => {
@@ -164,7 +182,7 @@ function GenerateTickets() {
     setTimeout(() => setSuccessMessage(""), 3000);
     setTicketQueue([]); // Clear the ticket queue
   };
-//clear tickets
+  //clear tickets
   const ticketsCleared = () => {
     setTicketQueue([]); // Clear the ticket queue
   };
@@ -197,7 +215,7 @@ function GenerateTickets() {
   };
 
   //limit price, save and rrp to 3 digits
- const formatSave = (value) => {
+  const formatSave = (value) => {
     let numericValue = value.replace(/[^0-9.]/g, '');
     let parts = numericValue.split('.');
     if (parts.length > 2) {
@@ -1010,10 +1028,10 @@ function GenerateTickets() {
             <div className="col-md-5 p-3 mr-5 ticket-form">
               <h5>Enter Text below</h5>
               <form>
-                <div style={{position: "relative", textAlign: "center"}}>
-                {successMessage && (
-                  <div className="alert alert-success" style={{position: "absolute", top: "-50px", width: "100%"}}>{successMessage}</div>
-                )}
+                <div style={{ position: "relative", textAlign: "center" }}>
+                  {successMessage && (
+                    <div className="alert alert-success" style={{ position: "absolute", top: "-50px", width: "100%" }}>{successMessage}</div>
+                  )}
                 </div>
                 {renderFormFields()}
                 <label className="mb-2">Copies</label>
