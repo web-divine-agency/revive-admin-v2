@@ -7,21 +7,24 @@ import woman from '../../../assets/images/woman.png';
 import { useNavigate } from "react-router-dom";
 import view_icon from "../../../assets/images/view_icon.png";
 //import printer from '../../../assets/images/printer.png';
-import delete_icon from "../../../assets/images/delete_icon.png";
-import check from "../../../assets/images/check.png";
+//import delete_icon from "../../../assets/images/delete_icon.png";
+//import check from "../../../assets/images/check.png";
 import axiosInstance from '../../../../axiosInstance';
 import {format} from 'date-fns';
 import { Modal } from "react-bootstrap";
-import { Worker, Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import Swal from 'sweetalert2'
+
+//import Swal from 'sweetalert2'
+import { Document, Page } from 'react-pdf';
 
 function TicketsHistory() {
+
   const navigate = useNavigate();
   const[data, setData] = useState([]);
   const[filter, setFilter ] = useState('');
   const[search, setSearch] = useState('');
   const [filteredTickets, setFilteredTickets] = useState([]);
+  const [pdfBlob, setPdfBlob] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -34,6 +37,7 @@ function TicketsHistory() {
           user: `${tickets.user.first_name} ${tickets.user.last_name}`,
           branch_id: tickets.branch.branch_name,
           role: tickets.user.roles?.map((r) => r.role_name).join(", "),
+          pdf_path: tickets.pdf_path,
           date: new Date(tickets.createdAt)
         }));
         setData(formattedData); 
@@ -68,22 +72,46 @@ function TicketsHistory() {
     applyFilters();
   }, [filter, search, data]);
 
+
   const handleViewTicketClick = async (id) => {
     try {
-      const response = await axiosInstance.get(`/ticket/${id}/view-pdf`, {
-        responseType: 'blob', // Important to receive the file as a Blob
+      const response = await axiosInstance.get(`/ticket/${id}/pdf`, {
+        responseType: 'blob',  // Set response type to blob for file download
       });
-      
+    
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      saveAs(pdfBlob, `ticket_${id}.pdf`);
-      
-      // If you want to preview the PDF directly, you can render it in a modal or a new window:
-      const fileURL = URL.createObjectURL(pdfBlob);
-      window.open(fileURL);
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      // If you want to preview the PDF directly, you can render it in a modal or a new window
+        window.open(pdfUrl);
+        setShowModal(true);
     } catch (error) {
       console.error('Error viewing the ticket PDF:', error);
     }
   };
+
+    const closeModal = () => {
+    setShowModal(false);
+    URL.revokeObjectURL(pdfBlob); // Clean up the URL object when closing the modal
+  };
+
+
+  const PDFModal = () => (
+    <Modal show={showModal} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>PDF Preview</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {pdfBlob && (
+          <Document file={pdfBlob}>
+            <Page pageNumber={1} />
+          </Document>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+
+
 
  {/*} const handleDeleteTicketClick = async (id) => {
     Swal.fire({
@@ -211,6 +239,7 @@ function TicketsHistory() {
 
   return (
     <div className="container">
+      
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Tickets History List</h3>
@@ -235,8 +264,6 @@ function TicketsHistory() {
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 }

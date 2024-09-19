@@ -22,6 +22,8 @@ function TicketsHistory() {
   const[filter, setFilter ] = useState('');
   const[search, setSearch] = useState('');
   const [filteredTickets, setFilteredTickets] = useState([]);
+  const [pdfBlob, setPdfBlob] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -70,20 +72,41 @@ function TicketsHistory() {
 
   const handleViewTicketClick = async (id) => {
     try {
-      const response = await axiosInstance.get(`/ticket/${id}/view-pdf`, {
-        responseType: 'blob', // Important to receive the file as a Blob
+      const response = await axiosInstance.get(`/ticket/${id}/pdf`, {
+        responseType: 'blob',  // Set response type to blob for file download
       });
-      
+    
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      saveAs(pdfBlob, `ticket_${id}.pdf`);
-      
-      // If you want to preview the PDF directly, you can render it in a modal or a new window:
-      const fileURL = URL.createObjectURL(pdfBlob);
-      window.open(fileURL);
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      // If you want to preview the PDF directly, you can render it in a modal or a new window
+        window.open(pdfUrl);
+        setShowModal(true);
     } catch (error) {
       console.error('Error viewing the ticket PDF:', error);
     }
   };
+
+    const closeModal = () => {
+    setShowModal(false);
+    URL.revokeObjectURL(pdfBlob); // Clean up the URL object when closing the modal
+  };
+
+
+  const PDFModal = () => (
+    <Modal show={showModal} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>PDF Preview</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {pdfBlob && (
+          <Document file={pdfBlob}>
+            <Page pageNumber={1} />
+          </Document>
+        )}
+      </Modal.Body>
+    </Modal>
+  );
 
   const handleDeleteTicketClick = async (id) => {
     Swal.fire({
