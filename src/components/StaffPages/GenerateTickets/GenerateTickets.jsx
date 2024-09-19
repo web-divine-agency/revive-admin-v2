@@ -164,6 +164,11 @@ function GenerateTickets() {
     setTimeout(() => setSuccessMessage(""), 3000);
     setTicketQueue([]); // Clear the ticket queue
   };
+//clear tickets
+  const ticketsCleared = () => {
+    setTicketQueue([]); // Clear the ticket queue
+  };
+
 
   //limit ng text 17chars per line in small tickets product name
   const formatText = (text) => {
@@ -177,9 +182,11 @@ function GenerateTickets() {
 
   //limit price to 5 digits
   const formatPrice = (value) => {
-
     let numericValue = value.replace(/[^0-9.]/g, '');
     let parts = numericValue.split('.');
+    if (parts.length > 2) {
+      parts = [parts[0], parts.slice(1).join('')];
+    }
     if (parts[0].length > 3) {
       parts[0] = parts[0].substring(0, 3);
     }
@@ -188,11 +195,14 @@ function GenerateTickets() {
     }
     return parts.join('.');
   };
-  //limit price to 5 digits
-  const formatSave = (value) => {
 
+  //limit price, save and rrp to 3 digits
+ const formatSave = (value) => {
     let numericValue = value.replace(/[^0-9.]/g, '');
     let parts = numericValue.split('.');
+    if (parts.length > 2) {
+      parts = [parts[0], parts.slice(1).join('')];
+    }
     if (parts[0].length > 3) {
       parts[0] = parts[0].substring(0, 3);
     }
@@ -201,10 +211,13 @@ function GenerateTickets() {
     }
     return parts.join('.');
   };
+
   const formatRrp = (value) => {
-
     let numericValue = value.replace(/[^0-9.]/g, '');
     let parts = numericValue.split('.');
+    if (parts.length > 2) {
+      parts = [parts[0], parts.slice(1).join('')];
+    }
     if (parts[0].length > 3) {
       parts[0] = parts[0].substring(0, 3);
     }
@@ -247,8 +260,18 @@ function GenerateTickets() {
 
   //limit of 2 characters in percentage
   const PercentageformatText = (number) => {
-    const formattedNumber = number.slice(0, 2);
+    const sanitizedNumber = number.replace(/\./g, '');
+    const formattedNumber = sanitizedNumber.slice(0, 2);
     return `${formattedNumber}%`;
+  };
+
+  //limit copies input
+  const handleCopiesChange = (e) => {
+    let newCopies = Number(e.target.value);
+    // Ensure the value does not exceed 99 and is within the template-specific max
+    newCopies = Math.min(newCopies, 99);
+    newCopies = Math.min(newCopies, template === "Small Tickets (%)" || template === "Small Tickets ($)" ? 90 : 45);
+    setCopies(newCopies);
   };
 
   //ticket styles
@@ -353,7 +376,7 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: "translateX(-55%)",
+                    transform: "translateX(-60%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     height: "auto",
@@ -422,7 +445,7 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -25,
                     left: "50%",
-                    transform: "translateX(-155%)",
+                    transform: "translateX(-200%)",
                     fontFamily: "bahnschrift",
                     fontSize: 20,
                     textAlign: "center",
@@ -548,7 +571,7 @@ function GenerateTickets() {
                     position: "absolute",
                     top: -20,
                     left: "50%",
-                    transform: values.price.length === 3 ||  values.price.length === 2 ||  values.price.length === 7  ? "translateX(-55%)" : "translateX(-75%)",
+                    transform: values.price.length === 3 || values.price.length === 2 || values.price.length === 7 ? "translateX(-55%)" : "translateX(-75%)",
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
@@ -720,12 +743,13 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Percent Off</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={percentOff.replace("%", "")}
-                onChange={(e) =>
-                  setpercentOff(PercentageformatText(e.target.value))
-                }
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/[a-zA-Z]/g, '');
+                  setpercentOff(PercentageformatText(filteredValue))
+                }}
                 max="99"
               />
             </div>
@@ -749,7 +773,7 @@ function GenerateTickets() {
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
               />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
             </div>
           </>
         );
@@ -779,10 +803,13 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Price</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setPrice("$" + formatPrice(filteredValue))
+                }}
               />
             </div>
             <div className="form-group" style={{ position: "relative" }}>
@@ -794,7 +821,7 @@ function GenerateTickets() {
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
               />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
             </div>
           </>
         );
@@ -824,10 +851,13 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Price</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setPrice("$" + formatPrice(filteredValue))
+                }}
               />
             </div>
             <div className="form-group" style={{ position: "relative" }}>
@@ -839,7 +869,7 @@ function GenerateTickets() {
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
               />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black"}}></i>
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
             </div>
           </>
         );
@@ -858,28 +888,38 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Price</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={price.replace("$", "")}
-                onChange={(e) => setPrice("$" + formatPrice(e.target.value))}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setPrice("$" + formatPrice(filteredValue));
+                }}
               />
             </div>
+
             <div className="form-group">
               <label>RRP</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={rrp}
-                onChange={(e) => setRrp(formatRrp(e.target.value))}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setRrp(formatRrp(filteredValue))
+                }}
               />
             </div>
             <div className="form-group">
               <label>Save</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
                 value={save}
-                onChange={(e) => setSave(formatSave(e.target.value))}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setSave(formatSave(filteredValue))
+                }}
               />
             </div>
             <div className="form-group" style={{ position: "relative" }}>
@@ -943,7 +983,17 @@ function GenerateTickets() {
             <select
               name="ticketTemplate"
               id="ticketTemplate"
-              onChange={(e) => setTemplate(e.target.value)}
+              onChange={(e) => {
+                setProductName("");
+                setproductBrand("");
+                setPrice("");
+                setRrp("");
+                setSave("");
+                // setExpiry("");
+                setCopies(1);
+                ticketsCleared();
+                setTemplate(e.target.value)
+              }}
               value={template}
             >
               <option value="Small Tickets ($)">Small Tickets ($)</option>
@@ -960,9 +1010,11 @@ function GenerateTickets() {
             <div className="col-md-5 p-3 mr-5 ticket-form">
               <h5>Enter Text below</h5>
               <form>
+                <div style={{position: "relative", textAlign: "center"}}>
                 {successMessage && (
-                  <div className="alert alert-success">{successMessage}</div>
+                  <div className="alert alert-success" style={{position: "absolute", top: "-50px", width: "100%"}}>{successMessage}</div>
                 )}
+                </div>
                 {renderFormFields()}
                 <label className="mb-2">Copies</label>
                 <div className="d-flex justify-content-between">
@@ -970,11 +1022,11 @@ function GenerateTickets() {
                     type="number"
                     placeholder="1"
                     min={0}
+                    max={99} // Max value set to 99 to limit input to two digits
                     className="form-control ticket-copies-field"
                     value={copies}
-                    onChange={(e) => setCopies(Number(e.target.value))}
+                    onChange={handleCopiesChange}
                   />
-
                   <button
                     type="button"
                     className="add-to-queue-btn"
