@@ -212,7 +212,7 @@ function TicketsHistory() {
             alt="view"
             width="25"
             height="25"
-            onClick ={() => handleViewTicketClick(row.id)}
+            // onClick ={() => handleViewTicketClick(row.id)}
             style={{ cursor: "pointer" }}
           />
           <img

@@ -19,6 +19,8 @@ function StaffLogs() {
   const [search, setSearch] = useState('');
   const [selectedLogs, setSelectedLogs] = useState([]); // To handle mass delete
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
   useEffect(() => {
     const fetchLogs = async () => {
       try {
@@ -28,6 +30,7 @@ function StaffLogs() {
           name: `${staff_logs.user.first_name} ${staff_logs.user.last_name}`,
           date: new Date(staff_logs.createdAt).toLocaleString(),
           role: staff_logs.user.roles[0]?.role_name || 'N/A',
+          branch: staff_logs.user.branch.branch_name,
           action: staff_logs.action,
           sex: staff_logs.user.sex
         }));
@@ -68,7 +71,7 @@ function StaffLogs() {
           imageWidth: 100,  
           imageHeight: 100, 
           confirmButtonText: 'OK',
-          confirmButtonColor: '#0ABAA6',
+          confirmButtonColor: '#0B3A07',
         });
       }
       
@@ -82,8 +85,8 @@ function StaffLogs() {
     if (selectedLogs.length === 0) return;
     try {
       const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won’t be able to revert this!',
+        title: "Are you sure?",
+        text: "You won’t be able to revert this!.",
         showCancelButton: true,
         icon: 'warning',
         confirmButtonColor: "#EC221F",
@@ -167,6 +170,11 @@ function StaffLogs() {
       sortable: true
     },
     {
+      name: "Branch",
+      selector: (row) => row.branch,
+      sortable: true
+    },
+    {
       name: "Action",
       selector: (row) => row.action,
       sortable: true
@@ -190,13 +198,27 @@ function StaffLogs() {
     
   ];
 
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await axiosInstance.get("/user"); 
+        setLoggedInUser(response.data); 
+      } catch (error) {
+        console.error("Error fetching logged-in user:", error);
+      }
+    };
+    
+    fetchLoggedInUser();
+  }, []);
+
   const filteredData = data
+    .filter(item => item.branch === loggedInUser.branch)
     .filter(item => {
       if (filter === 'Staffs') return item.role === 'Staff';
       if (filter === 'Admins') return item.role === 'Admin';
       return true;
     })
-    .filter(item => `${item.name} ${item.date}`.toLowerCase().includes(search.toLowerCase()));
+    .filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="container">
@@ -227,7 +249,6 @@ function StaffLogs() {
               className="btn btn-danger m-3"
               onClick={handleMassDelete}
               disabled={selectedLogs.length === 0}
-              style={{backgroundColor: 'red'}}
             >
               Delete Selected
             </button>
