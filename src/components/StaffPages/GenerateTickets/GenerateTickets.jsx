@@ -14,9 +14,10 @@ import Swal from "sweetalert2";
 import ArialBold from "./fonts/arialbd.ttf";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
-import BahnschriftBold from "./fonts/banchschrift/bahnschrift.ttf";
+import BahnschriftSemiBoldCondensed from "./fonts/banchschrift/bahnschrift.ttf";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
+import close from "../../../assets/images/close.png";
 
 
 Font.register({
@@ -33,8 +34,10 @@ Font.register({
 });
 Font.register({
   family: "bahnschrift",
-  src: BahnschriftBold,
+  src: BahnschriftSemiBoldCondensed,
+  fontWeight: "600",
 });
+
 
 function GenerateTickets() {
   const [productName, setProductName] = useState("");
@@ -113,7 +116,9 @@ function GenerateTickets() {
       Swal.fire({
         title: "No Tickets Added to Queue!",
         text: "Add tickets to the queue first to proceed.",
-        icon: "error",
+        imageUrl: close,
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#EC221F",
         customClass: {
@@ -259,8 +264,8 @@ function GenerateTickets() {
   //limit ng text 17chars per line in small tickets description
   const DescriptionformatText = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 17) {
-      lines.push(text.substring(i, i + 17));
+    for (let i = 0; i < text.length; i += 15) {
+      lines.push(text.substring(i, i + 15));
       if (lines.length === 3) break;
     }
     return lines.join("\n");
@@ -298,7 +303,7 @@ function GenerateTickets() {
       case "Small Tickets (%)":
         return {
           height: "auto",
-          width: "185px",
+          width: "189px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -391,10 +396,8 @@ function GenerateTickets() {
               {!isPDFView && (
                 <Text
                   style={{
-                    position: "absolute",
-                    top: -20,
-                    left: "50%",
-                    transform: "translateX(-60%)",
+                    position: "fixed",
+                    top: -5,
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     height: "auto",
@@ -411,9 +414,9 @@ function GenerateTickets() {
                   {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
-              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift" }}>
+              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "32px", fontFamily: "bahnschrift" }}>
+                <Text style={{ fontSize: "32px", fontFamily: "bahnschrift", fontWeight: '600' }}>
                   OFF
                 </Text>
               </Text>
@@ -423,6 +426,8 @@ function GenerateTickets() {
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
                 }}
               >
                 {values.productDesc}
@@ -434,6 +439,7 @@ function GenerateTickets() {
                   fontSize: "10px",
                   textAlign: "center",
                   fontFamily: "ArialItalic",
+                  lineHeight: "1px",
                   paddingBottom:
                     values.productDesc.split("\n").length === 1
                       ? "120px"
@@ -447,6 +453,7 @@ function GenerateTickets() {
               </Text>
             </div>
           );
+          
         case "Big Tickets (P)":
           return (
             <div
@@ -460,13 +467,10 @@ function GenerateTickets() {
               {!isPDFView && (
                 <Text
                   style={{
-                    position: "absolute",
-                    top: -25,
-                    left: "50%",
-                    transform: "translateX(-200%)",
+                    position: "fixed",
+                    top: -5,
                     fontFamily: "bahnschrift",
                     fontSize: 20,
-                    textAlign: "center",
                     height: "auto",
                     width: "auto",
                     padding: "4px",
@@ -523,13 +527,10 @@ function GenerateTickets() {
               {!isPDFView && (
                 <Text
                   style={{
-                    position: "absolute",
-                    top: -25,
-                    left: "50%",
-                    transform: "translateX(-285%)",
+                    position: "fixed",
+                    top: -5,
                     fontFamily: "bahnschrift",
                     fontSize: 20,
-                    textAlign: "center",
                     height: "auto",
                     width: "auto",
                     padding: "4px",
@@ -586,10 +587,8 @@ function GenerateTickets() {
               {!isPDFView && (
                 <Text
                   style={{
-                    position: "absolute",
-                    top: -20,
-                    left: "50%",
-                    transform: values.price.length === 3 || values.price.length === 2 || values.price.length === 7 ? "translateX(-55%)" : "translateX(-75%)",
+                    position: "fixed",
+                    top: -5,
                     fontFamily: "bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
@@ -639,8 +638,8 @@ function GenerateTickets() {
                   fontSize: "10px",
                   textAlign: "center",
                   paddingBottom: values.productName.includes("\n")
-                    ? "75px"
-                    : "100px",
+                    ? "65px"
+                    : "80px",
                   fontFamily: "ArialNormal",
                 }}
               >

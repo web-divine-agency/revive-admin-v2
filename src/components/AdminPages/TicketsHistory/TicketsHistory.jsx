@@ -113,6 +113,7 @@ function TicketsHistory() {
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
       showCancelButton: true,
+      icon: 'warning',
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import profile_avatar from "../../../assets/images/profile_avatar.png";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
+import close from "../../../assets/images/close.png";
 
 function MyProfile() {
   const [username, setUsername] = useState("");
@@ -45,17 +46,33 @@ function MyProfile() {
     // Validate passwords
     if (newPassword !== confirmPassword) {
       Swal.fire({
-        icon: 'error',
-        title: 'Password Mismatch',
-        text: 'New password and confirm password do not match.',
+        title: "Password Mismatch",
+        text: "New password and confirm password do not match.",
+        imageUrl: close,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#EC221F",
+        customClass: {
+          confirmButton: "custom-error-confirm-button",
+          title: "custom-swal-title",
+        },
       });
       return;
     }
     if (!oldPassword) {
       Swal.fire({
-        icon: 'error',
         title: 'Old Password Required',
         text: 'Please enter your old password before making changes.',
+        imageUrl: close,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#EC221F",
+        customClass: {
+          confirmButton: "custom-error-confirm-button",
+          title: "custom-swal-title",
+        },
       });
       return;
     }
@@ -68,15 +85,31 @@ function MyProfile() {
         newPassword,
       });
       Swal.fire({
-        icon: 'success',
         title: 'Profile Updated',
         text: 'Your profile has been updated successfully.',
+        imageUrl: check,
+        imageWidth: 100,  
+        imageHeight: 100, 
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
+        customClass: {
+          confirmButton: "custom-success-confirm-button",
+          title: "custom-swal-title",
+        },
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
         title: 'Update Failed',
         text: error.response?.data?.message || 'Something went wrong. Please try again later.',
+        imageUrl: close,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#EC221F",
+        customClass: {
+          confirmButton: "custom-error-confirm-button",
+          title: "custom-swal-title",
+        },
       });
     }
   };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
@@ -6,12 +6,64 @@ import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Authentication/authContext";
+import check from "../../assets/images/check.png";
+import Swal from "sweetalert2";
 
 function Navbar({ role }) {
   const navigate = useNavigate();
   const sidebarData = role === "Admin" ? AdminSidebarData : StaffSidebarData;
   const { logout } = useContext(AuthContext);
+  const [activeIndex, setActiveIndex] = useState(null);
 
+
+  const handleLogout = () => {
+    // e.preventDefault();
+    Swal.fire({
+      title: "Log Out!",
+      text: "Do you really want to log out?",
+      showCancelButton: true,
+      icon: 'warning',
+      confirmButtonColor: "#EC221F",
+      cancelButtonColor: "#00000000",
+      cancelTextColor: "#000000",
+      confirmButtonText: "Yes",
+      customClass: {
+        container: "custom-container",
+        confirmButton: "custom-confirm-button",
+        cancelButton: "custom-cancel-button",
+        title: "custom-swal-title",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout(); 
+        Swal.fire({
+          title: "Logged Out!",
+          text: "You have been logged out successfully.",
+          imageUrl: check,
+          imageWidth: 100,
+          imageHeight: 100,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#0ABAA6",
+          customClass: {
+            confirmButton: "custom-success-confirm-button",
+            title: "custom-swal-title",
+          },
+        }
+        ).then(() => {
+          navigate('/login'); // Redirect to login page
+        });
+      }
+    });
+  };
+
+  const handleItemClick = (index, item) => {
+    if (item.title === "Logout") {
+      handleLogout();
+    } else {
+      navigate(item.path);
+      setActiveIndex(index); 
+    }
+  };
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
@@ -138,26 +190,21 @@ function Navbar({ role }) {
               {sidebarData.map((item, index) => {
                 return (
                   <React.Fragment key={index}>
-                    <li className={item.cName}>
+                    <li
+                      className={`${item.cName} sidebar-nav-list ${activeIndex === index ? 'active' : ''}`}
+                    >
                       <Link
+                        className="sidebar-nav-link"
                         to={item.title !== "Logout" ? item.path : null}
-                        onClick={(event) => {
-                          if (item.title === "Logout") {
-                            console.log("afasd");
-                            logout();
-                          } else {
-                            navigate(item.path);
-                          }
-                        }}
+                        onClick={() => handleItemClick(index, item)}
                       >
                         {item.icon}
                         <span>{item.title}</span>
                       </Link>
                     </li>
-                    {index < sidebarData.length - 1 && (
-                      <hr className="nav-divider" /> // Divider between items
-                    )}
+                    {index < sidebarData.length - 1 && <hr className="nav-divider" />}
                   </React.Fragment>
+
                 );
               })}
             </ul>

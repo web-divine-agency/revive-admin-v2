@@ -122,6 +122,7 @@ function UsersList() {
       title: "Are you sure?",
       text: "Do you really want to delete this? This action can’t be undone",
       showCancelButton: true,
+      icon: 'warning',
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",
@@ -225,7 +226,7 @@ function UsersList() {
                 email: row.email,
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
-                role: row.role?.role_name || "N/A",
+                role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })
             }

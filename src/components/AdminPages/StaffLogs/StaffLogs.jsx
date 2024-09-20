@@ -42,13 +42,20 @@ function StaffLogs() {
   const handleDeleteLog = async (id) => {
     try {
       const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won’t be able to revert this!',
-        icon: 'warning',
+        title: "Are you sure?",
+        text: "Do you really want to delete this? This action can’t be undone.",
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        confirmButtonColor: '#0ABAA6',
-        cancelButtonColor: '#d33'
+        icon: 'warning',
+        confirmButtonColor: "#EC221F",
+        cancelButtonColor: "#00000000",
+        cancelTextColor: "#000000",
+        confirmButtonText: "Yes, delete it!",
+        customClass: {
+          container: "custom-container",
+          confirmButton: "custom-confirm-button",
+          cancelButton: "custom-cancel-button",
+          title: "custom-swal-title",
+        },
       });
 
       if (result.isConfirmed) {

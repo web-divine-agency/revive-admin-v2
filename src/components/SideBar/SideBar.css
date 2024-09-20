@@ -47,7 +47,8 @@ h1 {
     justify-content: start;
     align-items: center;
     list-style: none;
-    height: 50px;
+    height: 56px;
+
 
 }
 
@@ -61,21 +62,35 @@ h1 {
     display: flex;
     align-items: center;
     font-weight: 400;
-    margin-left: 2rem;
+    padding-left: 2rem;
 
 }
+
 
 .nav-divider {
     border: 1px solid #fff;
-    margin: 6px 0;
+    margin: 0 0;
     width: 245px;
 }
+
+
+.sidebar-nav-list:hover {
+    background-color: #b6cc4aa7;
+}
+
+.sidebar-nav-list.active {
+    background-color: #b6cc4aa7;
+}
+
+
+#sidebar-nav-list #sidebar-nav-link :hover {
+    background-color: #00000000;
+}
+
 
 .nav-menu-items {
     width: 100%;
     margin-top: 50px;
-    ;
-
 }
 
 span {
