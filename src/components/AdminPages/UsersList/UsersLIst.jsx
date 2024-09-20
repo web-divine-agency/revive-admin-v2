@@ -73,14 +73,19 @@ function UsersList() {
   useEffect(() => {
     // Filter users whenever the filter or search state changes
     const applyFilters = () => {
-      let tempUsers = [...users];
+  
+      if (!loggedInUser) return; 
+
+    let tempUsers = users.filter(
+      (user) => user.id !== loggedInUser.id && user.branch?.branch_name === loggedInUser.branch
+    );
 
       if (filter) {
         tempUsers = tempUsers.filter((user) => {
           if (filter === "Staff") return user.roles?.map((r) => r.role_name).join(", ") === "Staff";
           if (filter === "Admin") return user.roles?.map((r) => r.role_name).join(", ") === "Admin";
           return true;
-        });
+        }, );
       }
 
       if (search) {
@@ -93,7 +98,7 @@ function UsersList() {
     };
 
     applyFilters();
-  }, [filter, search, users]);
+  }, [filter, search, users, loggedInUser]);
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -120,7 +125,7 @@ function UsersList() {
 
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to delete this? This action can’t be undone",
+      text: "You won’t be able to revert this!",
       showCancelButton: true,
       icon: 'warning',
       confirmButtonColor: "#EC221F",
@@ -226,7 +231,7 @@ function UsersList() {
                 email: row.email,
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
-                role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
+                role: row.role?.role_name || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })
             }

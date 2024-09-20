@@ -43,7 +43,7 @@ function StaffLogs() {
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: "Do you really want to delete this? This action can’t be undone.",
+        text: "You won’t be able to revert this!.",
         showCancelButton: true,
         icon: 'warning',
         confirmButtonColor: "#EC221F",
@@ -84,11 +84,18 @@ function StaffLogs() {
       const result = await Swal.fire({
         title: 'Are you sure?',
         text: 'You won’t be able to revert this!',
-        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete selected!',
-        confirmButtonColor: '#0ABAA6',
-        cancelButtonColor: '#d33'
+        icon: 'warning',
+        confirmButtonColor: "#EC221F",
+        cancelButtonColor: "#00000000",
+        cancelTextColor: "#000000",
+        confirmButtonText: "Yes, delete it!",
+        customClass: {
+          container: "custom-container",
+          confirmButton: "custom-confirm-button",
+          cancelButton: "custom-cancel-button",
+          title: "custom-swal-title",
+        },
       });
 
       if (result.isConfirmed) {
@@ -189,7 +196,7 @@ function StaffLogs() {
       if (filter === 'Admins') return item.role === 'Admin';
       return true;
     })
-    .filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    .filter(item => `${item.name} ${item.date}`.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="container">
@@ -220,6 +227,7 @@ function StaffLogs() {
               className="btn btn-danger m-3"
               onClick={handleMassDelete}
               disabled={selectedLogs.length === 0}
+              style={{backgroundColor: 'red'}}
             >
               Delete Selected
             </button>

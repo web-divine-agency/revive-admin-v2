@@ -15,14 +15,19 @@ import axiosInstance from "../../../../axiosInstance";
 
 function Branches() {
   const navigate = useNavigate();
-  const[data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [selectedBranches, setSelectedBranches] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedBranchId, setSelectedBranchId] = useState("");
+
+
 
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await axiosInstance.get('/branches'); 
+        const response = await axiosInstance.get('/branches');
         const formattedData = response.data.map(branch => ({
           id: branch.id,
           branch_name: branch.branch_name,
@@ -30,39 +35,55 @@ function Branches() {
           operating_hours: branch.operating_hours,
           status: getBranchStatus(branch)
         }));
-        setData(formattedData); 
+        setData(formattedData);
+        setFilteredData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
       }
     };
-    fetchBranches(); 
+    fetchBranches();
   }, [navigate]);
+
+  //filter branches
+   useEffect(() => {
+    const results = data.filter(branch => 
+      (selectedBranchId ? branch.id === parseInt(selectedBranchId) : true) &&
+      (branch.branch_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      branch.address.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    setFilteredData(results);
+  }, [searchTerm, data, selectedBranchId]);
+
+  const handleBranchSelect = (e) => {
+    setSelectedBranchId(e.target.value);
+    console.log("Selected Branch ID:", e.target.value); 
+  };
 
   const getBranchStatus = (branch) => {
     if (!branch.operating_hours || typeof branch.operating_hours !== 'object') {
       // Handle cases where operating_hours might be undefined or not an object
       return 'Unknown'; // or 'Closed' as a fallback
     }
-  
+
     const currentTime = new Date();
     let currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-  
+
     const openTime = branch.operating_hours.open.split(":");
     const closeTime = branch.operating_hours.close.split(":");
-  
+
     const openMinutes = parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
     let closeMinutes = parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
-  
+
     // Adjust closeMinutes for overnight periods
     if (closeMinutes < openMinutes) {
       closeMinutes += 24 * 60; // Add 24 hours worth of minutes
     }
-  
+
     // Adjust currentMinutes for overnight periods
     if (currentMinutes < openMinutes) {
       currentMinutes += 24 * 60; // Add 24 hours worth of minutes
     }
-  
+
     // Determine if the current time falls within the open hours
     return currentMinutes >= openMinutes && currentMinutes <= closeMinutes ? 'Open' : 'Closed';
   };
@@ -84,7 +105,7 @@ function Branches() {
   const handleDeleteBranchClick = async (branchId) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to delete this? This action can’t be undone",
+      text: "You won’t be able to revert this!",
       showCancelButton: true,
       icon: 'warning',
       confirmButtonColor: "#EC221F",
@@ -106,8 +127,8 @@ function Branches() {
             title: "Success!",
             text: "Branch has been deleted.",
             imageUrl: check,
-            imageWidth: 100,  
-            imageHeight: 100, 
+            imageWidth: 100,
+            imageHeight: 100,
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -147,7 +168,7 @@ function Branches() {
     {
       name: "Operating Hours",
       selector: (row) => {
-        if(typeof row.operating_hours === 'object'){
+        if (typeof row.operating_hours === 'object') {
           return `${row.operating_hours.open} - ${row.operating_hours.close}`;
         }
         return row.operating_hours;
@@ -167,42 +188,42 @@ function Branches() {
       ),
       sortable: false,
     },
-    
+
     {
       name: "Action",
       selector: (row) => (
-          <div>
-            <img
-              src={view_icon}
-              title="View Branch Details"
-              alt="view"
-              width="25"
-              height="25"
-              onClick={() => handleViewClick(row)} 
-              style={{ cursor: "pointer" }}
-            />
-            <img
-              className="ml-3"
-              src={edit_icon}
-              title="Edit Branch Details"
-              onClick={() => handleEditBranchClick(row.id)}
-              style={{ cursor: "pointer" }}
-              alt="edit"
-              width="25"
-              height="25"
-            />
-  
-            <img
-              className="ml-3"
-              src={delete_icon}
-              title="Delete Branch"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleDeleteBranchClick(row.id)}
-              alt="delete"
-              width="25"
-              height="25"
-            />
-          </div>
+        <div>
+          <img
+            src={view_icon}
+            title="View Branch Details"
+            alt="view"
+            width="25"
+            height="25"
+            onClick={() => handleViewClick(row)}
+            style={{ cursor: "pointer" }}
+          />
+          <img
+            className="ml-3"
+            src={edit_icon}
+            title="Edit Branch Details"
+            onClick={() => handleEditBranchClick(row.id)}
+            style={{ cursor: "pointer" }}
+            alt="edit"
+            width="25"
+            height="25"
+          />
+
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete Branch"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleDeleteBranchClick(row.id)}
+            alt="delete"
+            width="25"
+            height="25"
+          />
+        </div>
       ),
       sortable: false,
     },
@@ -216,18 +237,20 @@ function Branches() {
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
           <div className="top-filter">
-            <select
-              name="filter"
-              id="filter"
-            >
+            <select onChange={handleBranchSelect} value={selectedBranchId}>
               <option value="">All Branches</option>
-              <option value="">Cebu</option>
-              <option value="">Manila</option>
+              {data.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.branch_name}
+                </option>
+              ))}
             </select>
             <input
               id="search-bar"
               type="text"
-              placeholder="Search"
+              placeholder="Search Branch or Address"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button
               onClick={() => navigate("/add-branch")}
@@ -240,10 +263,10 @@ function Branches() {
             <DataTable
               className="dataTables_wrapper"
               columns={columns}
-              data={data}
+              data={filteredData}
               pagination
-              paginationPerPage={10} 
-              paginationRowsPerPageOptions={[10, 20]} 
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
         </div>
@@ -261,7 +284,7 @@ function Branches() {
               <p>{selectedBranches.address}</p>
               <h5>Operating Hours</h5>
               <p>
-               Open: {selectedBranches.operating_hours?.open} - Close: {selectedBranches.operating_hours?.close}
+                Open: {selectedBranches.operating_hours?.open} - Close: {selectedBranches.operating_hours?.close}
               </p>
               <h5>Status</h5>
               <p>{selectedBranches.status}</p>

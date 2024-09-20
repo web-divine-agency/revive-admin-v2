@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useContext } from 'react';
 import {AuthContext} from './src/components/Authentication/authContext';
 import {getCookie} from './src/components/Authentication/getCookie'
+import Swal from 'sweetalert2'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const axiosInstance = axios.create({
     baseURL: 'https://revive.imseoninja.com/api',
@@ -31,6 +33,20 @@ axiosInstance.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
+const showSessionExpiredPopup = (navigate) => {
+    Swal.fire({
+        title: 'Session Expired',
+        text: 'Your session has expired. You will be redirected to the login page.',
+        icon: 'warning',
+        timer: 5000, // Wait for 5 seconds before redirecting
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    }).then(() => {
+        navigate('/'); // Redirect to login after the popup
+    });
+};
+
 // Response interceptor to handle token expiration
 axiosInstance.interceptors.response.use((response) => {
     return response;
@@ -39,13 +55,13 @@ axiosInstance.interceptors.response.use((response) => {
 
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-
+        const navigate = useNavigate(); 
+        const refreshToken = getCookie('refreshToken');
        if (!isRefreshing) {
             isRefreshing = true;
-            const refreshToken = getCookie('refreshToken');
-
+            
         try {
-            const response = await axiosInstance.post('/refresh-token', { token: refreshToken });
+            const response = await axiosInstance.post('/refresh-token', {refreshToken} );
             const { accessToken } = response.data;
 
             document.cookie = `accessToken=${accessToken}; Path=/; `;
@@ -53,8 +69,9 @@ axiosInstance.interceptors.response.use((response) => {
             isRefreshing = false;
             return axiosInstance(originalRequest);
         } catch (refreshError) {
+            isRefreshing = false;
             useContext(AuthContext).logout();
-            isRefreshing = false; // Log out on refresh token failure
+            showSessionExpiredPopup(navigate); // Log out on refresh token failure
             return Promise.reject(refreshError);
         }
     }
@@ -65,6 +82,7 @@ axiosInstance.interceptors.response.use((response) => {
       });
   });
 }
+
 });
 
 export default axiosInstance;

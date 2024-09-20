@@ -147,6 +147,16 @@ function GenerateTickets() {
           try {
             setCopies(0);
             setTriggerDownload(true);
+            Swal.fire({
+              title: "Success",
+              text: "Tickets Generated Successfully",
+              imageUrl: check,
+              imageWidth: 100,
+              imageHeight: 100,
+              confirmButtonText: "OK",
+              confirmButtonColor: "#0ABAA6",
+
+            });
           } catch (error) {
             Swal.fire({
               title: "Error!",
@@ -453,7 +463,7 @@ function GenerateTickets() {
               </Text>
             </div>
           );
-          
+
         case "Big Tickets (P)":
           return (
             <div

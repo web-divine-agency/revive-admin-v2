@@ -111,7 +111,7 @@ function TicketsHistory() {
   const handleDeleteTicketClick = async (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to delete this? This action can’t be undone",
+      text: "You won’t be able to revert this!",
       showCancelButton: true,
       icon: 'warning',
       confirmButtonColor: "#EC221F",

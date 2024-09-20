@@ -50,7 +50,7 @@ function Navbar({ role }) {
           },
         }
         ).then(() => {
-          navigate('/login'); // Redirect to login page
+          navigate('/login'); 
         });
       }
     });
