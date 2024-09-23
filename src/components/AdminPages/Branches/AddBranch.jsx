@@ -49,14 +49,15 @@ function AddNewBranch() {
       status: status,
     };
 
-    if (!branch ||!addressLine1 ||!addressLine2 ||!city ||!state ||!zipCode) {
+    if (!branch || !addressLine1 || !addressLine2 || !city || !state || !zipCode || !country || !openTime || !closeTime) {
       setError("All fields are required.");
+      setTimeout(() => setError(""), 3000);
       return;
     }
-    if (status === "Closed" && (!openTime ||!closeTime)) {
-      setError("Operating hours are required for closed branches.");
-      return;
-    }
+    // if (status === "Closed" && (!openTime ||!closeTime)) {
+    //   setError("Operating hours are required for closed branches.");
+    //   return;
+    // }
 
     try {
       await axiosInstance.post("/create-branch", newBranchData);
@@ -93,8 +94,10 @@ function AddNewBranch() {
       <h3>Add Branch</h3>
       <div className="container-content">
         <form onSubmit={addBranch}>
-          {error && <div className="alert alert-danger">{error}</div>}
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
+          <div style={{ position: "relative", textAlign: "center" }}>
+            {error && <div className="alert alert-danger" style={{ position: "absolute", top: "-50px", width: "100%" }}>{error}</div>}
+          </div>
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-5">
             <div className="form-group">
               <label>Branch Name:</label>
               <input

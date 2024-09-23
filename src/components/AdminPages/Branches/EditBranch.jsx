@@ -30,6 +30,7 @@ function EditBranch() {
         "Australian Capital Territory",
         "Northern Territory"
     ];
+//add validation
 
     //assuming these are th data from database
     useEffect(() => {
