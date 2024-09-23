@@ -102,8 +102,13 @@ function EditUser() {
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+  
       return;
     }
+  
 
     try {
       const response = await axiosInstance.put(`/update-user/${userId}`, {
@@ -148,7 +153,7 @@ function EditUser() {
       setError(
         error.response && error.response.data
           ? error.response.data.message ||
-              "Failed to add user. Please try again."
+          "Failed to add user. Please try again."
           : "Failed to add user. Please try again."
       );
       // setSuccessMessage("");
@@ -160,9 +165,11 @@ function EditUser() {
       <h3>Add New User</h3>
       <div className="container-content">
         <form onSubmit={editUser}>
-          {error && <div className="alert alert-danger">{error}</div>}
+          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
+          </div>
 
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
             <div className="form-group">
               <label>Last Name:</label>
               <input

@@ -30,7 +30,7 @@ function StaffLogs() {
           name: `${staff_logs.user.first_name} ${staff_logs.user.last_name}`,
           date: new Date(staff_logs.createdAt).toLocaleString(),
           role: staff_logs.user.roles[0]?.role_name || 'N/A',
-          branch: staff_logs.user.branch.branch_name,
+          branch: staff_logs.user.branches?.map((r) => r.branch_name).join(", "),
           action: staff_logs.action,
           sex: staff_logs.user.sex
         }));
@@ -42,7 +42,8 @@ function StaffLogs() {
     fetchLogs();
   }, [navigate]);
 
-  const handleDeleteLog = async (id) => {
+  const handleDeleteLog = async (id) =>
+  {
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -212,13 +213,16 @@ function StaffLogs() {
   }, []);
 
   const filteredData = data
-    .filter(item => item.branch === loggedInUser.branch)
-    .filter(item => {
-      if (filter === 'Staffs') return item.role === 'Staff';
-      if (filter === 'Admins') return item.role === 'Admin';
-      return true;
-    })
-    .filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+  .filter(item => {
+    // Apply role-based filtering from dropdown
+    if (filter === 'Staffs') return item.role === 'Staff';
+    if (filter === 'Admins') return item.role === 'Admin';
+    return true;
+  })
+  .filter(item => {
+    // Apply search-based filtering
+    return item.name.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <div className="container">

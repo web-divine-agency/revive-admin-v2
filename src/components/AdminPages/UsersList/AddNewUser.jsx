@@ -70,16 +70,20 @@ function AddNewUser() {
     }
     return "";
   };
-
+  
   const addUser = async (e) => {
     e.preventDefault();
-
+  
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+  
       return;
     }
-
+  
     try {
       const response = await axiosInstance.post("/addUser", {
         last_name,
@@ -91,8 +95,8 @@ function AddNewUser() {
         username,
         role_name,
       });
-
-      // setSuccessMessage("User added successfully!");
+  
+      // Clear form fields and reset the error message
       setError("");
       setLastname("");
       setFirstname("");
@@ -129,15 +133,18 @@ function AddNewUser() {
       // setSuccessMessage("");
     }
   };
+  
 
   return (
     <div className="container">
       <h3>Add New User</h3>
       <div className="container-content">
         <form onSubmit={addUser}>
-          {error && <div className="alert alert-danger">{error}</div>}
+        <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top:"-10px", width: "50%", padding: "4px"}}>{error}</div>}
+          </div>
 
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
             <div className="form-group">
               <label>Last Name:</label>
               <input

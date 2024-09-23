@@ -11,8 +11,8 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [selectedRole, setSelectedRole] = useState('Admin');
-    const [branches, setBranches] = useState([]);
-    const [selectedBranch, setSelectedBranch] = useState('Main');
+    // const [branches, setBranches] = useState([]);
+    // const [selectedBranch, setSelectedBranch] = useState('Main');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function Login() {
                 password,
             });
 
-            const { user, accessToken, refreshToken, roleName, branch } = response.data;
+            const { user, accessToken, refreshToken, roleName} = response.data;
             // console.log("User ID:", user.id);
             if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
@@ -43,23 +43,23 @@ function Login() {
                 })
                 return;
             }
-            if (selectedBranch !== branch) {
-                // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
-                Swal.fire({
-                    title: 'Wrong Branch',
-                    text: 'Please select your designated branch.',
-                    imageUrl: close,
-                    imageWidth: 100,
-                    imageHeight: 100,
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#EC221F",
-                    customClass: {
-                        confirmButton: "custom-error-confirm-button",
-                        title: "custom-swal-title",
-                    },
-                })
-                return;
-            }
+            // if (selectedBranch !== branch) {
+            //     // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
+            //     Swal.fire({
+            //         title: 'Wrong Branch',
+            //         text: 'Please select your designated branch.',
+            //         imageUrl: close,
+            //         imageWidth: 100,
+            //         imageHeight: 100,
+            //         confirmButtonText: "OK",
+            //         confirmButtonColor: "#EC221F",
+            //         customClass: {
+            //             confirmButton: "custom-error-confirm-button",
+            //             title: "custom-swal-title",
+            //         },
+            //     })
+            //     return;
+            // }
             document.cookie = `role_name=${roleName}; Path=/;`;
             document.cookie = `accessToken=${accessToken}; Path=/;`;
             document.cookie = `refreshToken=${refreshToken}; Path=/; `;
@@ -90,18 +90,18 @@ function Login() {
         }
     };
 
-    useEffect(() => {
-        const fetchBranches = async () => {
-            try {
-                const response = await axiosInstance.get('/branchLogin');
-                setBranches(response.data);
-            } catch (error) {
-                console.error('Error fetching branches:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchBranches = async () => {
+    //         try {
+    //             const response = await axiosInstance.get('/branchLogin');
+    //             setBranches(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching branches:', error);
+    //         }
+    //     };
 
-        fetchBranches();
-    }, []);
+    //     fetchBranches();
+    // }, []);
 
 
 
@@ -124,23 +124,7 @@ function Login() {
                         <h2 className="text-center mb-4">{error ? 'Login Failed' : 'Login'}</h2>
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={login}>
-                            <div className="d-flex mb-3">
-                                <h6>
-                                    <select
-                                        id="branch"
-                                        className="form-control-sm"
-                                        value={selectedBranch}
-                                        onChange={(e) => setSelectedBranch(e.target.value)}
-                                    >
-                                        <option value="">Branch</option>
-                                        {branches.map((branch) => (
-                                            <option key={branch.id} value={branch.branch_name}>
-                                                {branch.branch_name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </h6>
-                            </div>
+
                             <label htmlFor="username">Username</label><br />
                             <div className="form-group mb-3">
                                 <input
@@ -163,22 +147,41 @@ function Login() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <div className="d-flex">
-                                <h6>
-                                    <select
-                                        id="role"
+                            <div className='d-flex'>
+                                {/* <div className="d-flex mb-3 mr-3">
+                                    <h6>
+                                        <select
+                                            id="branch"
+                                            className="form-control-sm"
+                                            value={selectedBranch}
+                                            onChange={(e) => setSelectedBranch(e.target.value)}
+                                        >
+                                            <option value="">Branch</option>
+                                            {branches.map((branch) => (
+                                                <option key={branch.id} value={branch.branch_name}>
+                                                    {branch.branch_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </h6>
+                                </div> */}
+                                <div className="d-flex">
+                                    <h6>
+                                        <select
+                                            id="role"
+                                            className="form-control-sm"
+                                            value={selectedRole}
+                                            onChange={(e) => setSelectedRole(e.target.value)}
+                                        >
 
-                                        value={selectedRole}
-                                        onChange={(e) => setSelectedRole(e.target.value)}
-                                    >
 
-
-                                        <option value="Admin">Admin</option>
-                                        <option value="Staff">Staff</option>
-                                    </select>
-                                </h6>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Staff">Staff</option>
+                                        </select>
+                                    </h6>
+                                </div>
                             </div>
-                            <div className='d-flex justify-content-center'>
+                            <div className='d-flex justify-content-center mt-1'>
                                 <button type="submit" className="btn btn-primary mt-2 custom-btn">LOGIN</button>
                             </div>
                         </form>

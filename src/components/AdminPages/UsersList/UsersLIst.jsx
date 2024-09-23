@@ -77,8 +77,7 @@ function UsersList() {
       if (!loggedInUser) return; 
 
     let tempUsers = users.filter(
-      (user) => user.id !== loggedInUser.id && user.branch?.branch_name === loggedInUser.branch
-    );
+      (user) => user.id !== loggedInUser.id);
 
       if (filter) {
         tempUsers = tempUsers.filter((user) => {
@@ -99,6 +98,8 @@ function UsersList() {
 
     applyFilters();
   }, [filter, search, users, loggedInUser]);
+  
+  
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -207,7 +208,7 @@ function UsersList() {
     },
     {
       name: "Branch",
-      selector: (row) => (row.branch && row.branch.branch_name) || "N/A",
+      selector: (row) => row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
     },
     {
@@ -231,7 +232,7 @@ function UsersList() {
                 email: row.email,
                 username: row.username,
                 branch: row.branch?.branch_name || "N/A",
-                role: row.role?.role_name || "N/A",
+                role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })
             }

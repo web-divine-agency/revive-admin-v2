@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import view_icon from '../../../assets/images/view_icon.png';
 import edit_icon from '../../../assets/images/edit_icon.png';
 import delete_icon from '../../../assets/images/delete_icon.png';
-import { useNavigate,  } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
 import { Modal, } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axiosInstance from "../../../../axiosInstance";
@@ -72,8 +72,8 @@ function UserRoleManagement() {
             title: "Success!",
             text: "Role has been deleted.",
             imageUrl: check,
-            imageWidth: 100,  
-            imageHeight: 100, 
+            imageWidth: 100,
+            imageHeight: 100,
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -141,18 +141,18 @@ function UserRoleManagement() {
             height="25"
             style={{ cursor: "pointer" }}
           />
-         {row.role_name !== "Admin" && (
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete Role"
-            alt="delete"
-            width="25"
-            height="25"
-            onClick={() => handleDeleteUserClick(row.id)}
-            style={{ cursor: "pointer" }}
-          />
-        )}
+          {row.role_name !== "Admin" && (
+            <img
+              className="ml-3"
+              src={delete_icon}
+              title="Delete Role"
+              alt="delete"
+              width="25"
+              height="25"
+              onClick={() => handleDeleteUserClick(row.id)}
+              style={{ cursor: "pointer" }}
+            />
+          )}
         </div>
       ),
       sortable: false,
@@ -165,11 +165,12 @@ function UserRoleManagement() {
         <div className="col-lg-12 col-md-6">
           <h3>User Role Management</h3>
           <div className='top-filter'>
-          <button onClick={() => navigate("/add-new-role")} className='btn btn-primary float-start add-user-btn'>
+            <button onClick={() => navigate("/add-new-role")} className="btn btn-primary float-start add-user-btn">
               <i className="fa fa-plus"></i> Add New Role
             </button>
             <br></br>
           </div>
+         <div style={{height: "20px"}}></div>
           <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
@@ -184,18 +185,18 @@ function UserRoleManagement() {
       </div>
 
       {selectedUserRole && (
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Role Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h2>{selectedUserRole.role_name} Permissions</h2>
-          {selectedUserRole.permissions.map((permission, index) => (
-            <p key={index}>{permission.permission_name}</p>
-          ))}
-        </Modal.Body>
-      </Modal>
-    )}
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Role Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h2>{selectedUserRole.role_name} Permissions</h2>
+            {selectedUserRole.permissions.map((permission, index) => (
+              <p key={index}>{permission.permission_name}</p>
+            ))}
+          </Modal.Body>
+        </Modal>
+      )}
 
     </div>
   );

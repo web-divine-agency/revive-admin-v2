@@ -54,10 +54,11 @@ function AddNewBranch() {
       setTimeout(() => setError(""), 3000);
       return;
     }
-    // if (status === "Closed" && (!openTime ||!closeTime)) {
-    //   setError("Operating hours are required for closed branches.");
-    //   return;
-    // }
+    if (openTime >= closeTime) {
+      setError("Invalid operating hours. Open time should be before close time.");
+      setTimeout(() => setError(""), 3000)
+      return;
+    }
 
     try {
       await axiosInstance.post("/create-branch", newBranchData);
@@ -94,10 +95,10 @@ function AddNewBranch() {
       <h3>Add Branch</h3>
       <div className="container-content">
         <form onSubmit={addBranch}>
-          <div style={{ position: "relative", textAlign: "center" }}>
-            {error && <div className="alert alert-danger" style={{ position: "absolute", top: "-50px", width: "100%" }}>{error}</div>}
+          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
           </div>
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-5">
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
             <div className="form-group">
               <label>Branch Name:</label>
               <input
@@ -160,56 +161,64 @@ function AddNewBranch() {
                 onChange={(e) => setZipCode(e.target.value)}
               />
             </div>
+
           </div>
-          <div className="d-flex justify-content-between ml-5 mr-5">
+          <div className="d-flex justify-content-between ml-5">
             <div className="form-group">
               <label>Country:</label>
-              <div
-                style={{
-                  border: "1px solid #ced4da",
-                  padding: "0.375rem 0.75rem",
-                  borderRadius: "0.25rem",
-                  backgroundColor: "#e9ecef",
-                  color: "#495057",
-                  display: "inline-block",
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
-              >
-                {country}
-              </div>
+              <input type="text" disabled className="form-control" value={country} />
             </div>
             <div className="form-group">
               <label>Opening Time:</label>
               <input
                 type="time"
-                className="form-control"
+                className="form-control operating-time"
                 value={openTime}
                 onChange={(e) => setOpenTime(e.target.value)}
               />
             </div>
-            <div className="form-group">
-              <label>Closing Time:</label>
+            {/* custom spacer */}
+            <div className="form-group mr-5">
               <input
-                type="time"
+                disabled
                 className="form-control"
-                value={closeTime}
-                onChange={(e) => setCloseTime(e.target.value)}
+                style={{ opacity: "0" }}
               />
             </div>
+
+
           </div>
-          <div className="d-flex ml-5"></div>
+     
           <div className="d-flex justify-content-between ml-5">
             <div className="form-group">
               <label>Status:</label>
               <br />
               <select
+                className="branch-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <option value="Closed">Closed</option>
                 <option value="Open">Open</option>
               </select>
+            </div>
+
+            <div className="form-group">
+              <label>Closing Time:</label>
+              <input
+                type="time"
+                className="form-control operating-time"
+                value={closeTime}
+                onChange={(e) => setCloseTime(e.target.value)}
+              />
+            </div>
+            {/* custom spacer */}
+            <div className="form-group mr-5">
+              <input
+                disabled
+                className="form-control"
+                style={{ opacity: "0" }}
+              />
             </div>
           </div>
           <button className="submit-btn mb-4 mt-4" type="submit">

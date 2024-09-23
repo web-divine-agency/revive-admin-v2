@@ -30,13 +30,13 @@ function EditBranch() {
         "Australian Capital Territory",
         "Northern Territory"
     ];
-//add validation
+
 
     //assuming these are th data from database
     useEffect(() => {
         // Fetch branches
         const fetchBranches = async () => {
-           
+
             try {
                 const response = await axiosInstance.get(`/branch/${branchId}`);
                 const { branch_name, branch_address, operating_hours, status } = response.data;
@@ -50,15 +50,16 @@ function EditBranch() {
                 setCountry(addressParts[5]);
                 setOpenTime(operating_hours.open);
                 setCloseTime(operating_hours.close);
+                setCountry('Australia');
                 setStatus(status);
             } catch (error) {
                 console.error("Error fetching branches:", error);
-        }
+            }
 
-    };
+        };
         fetchBranches();
     }, [branchId]);
-    
+
     const updateBranch = async (e) => {
         e.preventDefault();
 
@@ -75,15 +76,26 @@ function EditBranch() {
             operating_hours: operatingHours,
             status: status
         };
+        //add validation
+        if (!branch || !addressLine1 || !addressLine2 || !city || !state || !zipCode || !country || !openTime || !closeTime) {
+            setError("All fields are required.");
+            setTimeout(() => setError(""), 3000)
+            return;
+        }
 
+        if (openTime >= closeTime) {
+            setError("Invalid operating hours. Open time should be before close time.");
+            setTimeout(() => setError(""), 3000)
+            return;
+        }
         try {
             await axiosInstance.put(`/update-branch/${branchId}`, updatedBranchData);
             Swal.fire({
                 title: "Branch Updated Successfully",
                 text: `${branch} has been updated in the system.`,
                 imageUrl: check,
-                imageWidth: 100,  
-                imageHeight: 100, 
+                imageWidth: 100,
+                imageHeight: 100,
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0ABAA6",
             }).then(() => {
@@ -95,15 +107,17 @@ function EditBranch() {
         }
     };
 
-   
+
 
     return (
         <div className="container">
             <h3>Update  Branch</h3>
             <div className="container-content">
                 <form onSubmit={updateBranch}>
-                {error && <div className="alert alert-danger">{error}</div>}
-                    <div className="d-flex justify-content-between ml-5 mr-5 pt-4">
+                    <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+                        {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
+                    </div>
+                    <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
                         <div className="form-group">
                             <label>Branch Name:</label>
                             <input type="text" className="form-control" value={branch} onChange={(e) => setBranch(e.target.value)} />
@@ -137,42 +151,45 @@ function EditBranch() {
                         </div>
                     </div>
                     <div className="d-flex justify-content-between ml-5">
-                    <div className="form-group">
-                        <label>Country:</label>
-                        <div
-                            style={{
-                                border: '1px solid #ced4da', 
-                                padding: '0.375rem 0.75rem',  
-                                borderRadius: '0.25rem',      
-                                backgroundColor: '#e9ecef',    
-                                color: '#495057',               
-                                display: 'inline-block',      
-                                width: '100%',                  
-                                boxSizing: 'border-box'         
-                            }}
-                        >
-                            {country}
-                            </div>
-                        </div>
-                            <div className="form-group">
-                            <label>Opening Time:</label>
-                            <input type="time" className="form-control" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
+                        <div className="form-group">
+                            <label>Country:</label>
+                            <input type="text" disabled className="form-control" value={country} />
                         </div>
                         <div className="form-group">
-                            <label>Closing Time:</label>
-                            <input type="time" className="form-control" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
+                            <label>Opening Time:</label>
+                            <input type="time" className="form-control operating-time" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
+                        </div>
+                         {/* custom spacer */}
+                        <div className="form-group mr-5">
+                            <input
+                                disabled
+                                className="form-control"
+                                style={{ opacity: "0" }}
+                            />
                         </div>
                     </div>
                     <div className="d-flex ml-5">
-                      
+
                     </div>
                     <div className="d-flex justify-content-between ml-5">
-                        <div className="form-group">
+                        <div className="form-group ">
                             <label>Status:</label><br />
-                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <select value={status} onChange={(e) => setStatus(e.target.value)} className="branch-status">
                                 <option value="Closed">Closed</option>
                                 <option value="Open">Open</option>
                             </select>
+                        </div>
+                        <div className="form-group">
+                            <label>Closing Time:</label>
+                            <input type="time" className="form-control operating-time" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
+                        </div>
+                        {/* custom spacer */}
+                        <div className="form-group mr-5">
+                            <input
+                                disabled
+                                className="form-control"
+                                style={{ opacity: "0" }}
+                            />
                         </div>
                     </div>
                     <button className='submit-btn mb-4 mt-4' type="submit">SAVE</button>

@@ -36,7 +36,7 @@ function MyProfile() {
         console.error("Error fetching user details:", error);
       }
     };
-    
+
     fetchUserDetails();
   }, []);
 
@@ -88,8 +88,8 @@ function MyProfile() {
         title: 'Profile Updated',
         text: 'Your profile has been updated successfully.',
         imageUrl: check,
-        imageWidth: 100,  
-        imageHeight: 100, 
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
         customClass: {
@@ -119,10 +119,12 @@ function MyProfile() {
     <div className="custom-profile-container">
       <div className="col-lg-12">
         <div className="row custom-row">
-          <div className="ml-5 pl-3">
+          <div className="col-lg-7" style={{paddingLeft: "0px", marginLeft: "-20px"}}>
             <h3>Hello {first_name}</h3>
             <p>This is your profile page, where you can customize your profile and change your password as needed</p>
-            
+          </div>
+          <div className="col-lg-4">
+           
           </div>
           <div className="col-lg-7 profile-update">
             <h2>User Information</h2>
@@ -184,7 +186,7 @@ function MyProfile() {
             </form>
           </div>
           <div className="col-lg-4 profile-user text-center">
-            <img src={profile_avatar} alt="Profile Avatar" className="profile-avatar"/>
+            <img src={profile_avatar} alt="Profile Avatar" className="profile-avatar" />
             <h5>{`${first_name} ${last_name}`}</h5>
             <h6>Role: {role}</h6>
             <h6>Branch: {branch}</h6>

@@ -49,7 +49,7 @@ function GenerateTickets() {
   const [productBrand, setproductBrand] = useState("");
   const [productDesc, setproductDesc] = useState("");
   const [copies, setCopies] = useState(1);
-  const [template, setTemplate] = useState("Small Tickets ($)");
+  const [template, setTemplate] = useState("HOT PRICE TAGS");
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
@@ -303,14 +303,14 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "Small Tickets (%)" || template === "Small Tickets ($)" ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS" ? 90 : 45);
     setCopies(newCopies);
   };
 
   //ticket styles
   const getTicketStyle = () => {
     switch (template) {
-      case "Small Tickets (%)":
+      case "CATALOGUE SPECIALS PRICE TAGS":
         return {
           height: "auto",
           width: "189px",
@@ -319,17 +319,17 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
-      case "Big Tickets (P)":
-        return {
-          height: "100%",
-          width: "850px",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          paddingTop: "200px",
-          paddingBottom: "200px",
-        };
-      case "Big Ticket (L)":
+      // case "Big Tickets (P)":
+      //   return {
+      //     height: "100%",
+      //     width: "850px",
+      //     display: "flex",
+      //     alignItems: "center",
+      //     flexDirection: "column",
+      //     paddingTop: "200px",
+      //     paddingBottom: "200px",
+      //   };
+      case "A4 BIG TICKET LANDSCAPE":
         return {
           height: "550px",
           width: "850px",
@@ -393,7 +393,7 @@ function GenerateTickets() {
       };
 
       switch (template) {
-        case "Small Tickets (%)":
+        case "CATALOGUE SPECIALS PRICE TAGS":
           return (
             <div
               style={{
@@ -464,67 +464,67 @@ function GenerateTickets() {
             </div>
           );
 
-        case "Big Tickets (P)":
-          return (
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {!isPDFView && (
-                <Text
-                  style={{
-                    position: "fixed",
-                    top: -5,
-                    fontFamily: "bahnschrift",
-                    fontSize: 20,
-                    height: "auto",
-                    width: "auto",
-                    padding: "4px",
-                    borderRadius: "5px",
-                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
-                    color: ticket.addedToQueue ? "green" : "red",
-                    zIndex: 1000,
-                    pointerEvents: "none",
-                  }}
-                  className="no-print"
-                >
-                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
-                </Text>
-              )}
-              <Text
-                style={{
-                  fontSize: "72px",
-                  fontFamily: "Arial",
-                  textTransform: "uppercase",
-                }}
-              >
-                {values.productBrand}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "45px",
-                  fontFamily: "Arial",
-                  textAlign: "center",
-                  textTransform: "uppercase",
-                }}
-              >
-                {values.productName}
-                {"\n"}
-              </Text>
-              <Text style={{ fontSize: values.price.length >= 5 ? "150px" : "180px", fontFamily: "Arial" }}>
-                {values.price}
-              </Text>
+        // case "Big Tickets (P)":
+        //   return (
+        //     <div
+        //       style={{
+        //         position: "relative",
+        //         display: "flex",
+        //         flexDirection: "column",
+        //         alignItems: "center",
+        //       }}
+        //     >
+        //       {!isPDFView && (
+        //         <Text
+        //           style={{
+        //             position: "fixed",
+        //             top: -5,
+        //             fontFamily: "bahnschrift",
+        //             fontSize: 20,
+        //             height: "auto",
+        //             width: "auto",
+        //             padding: "4px",
+        //             borderRadius: "5px",
+        //             backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
+        //             color: ticket.addedToQueue ? "green" : "red",
+        //             zIndex: 1000,
+        //             pointerEvents: "none",
+        //           }}
+        //           className="no-print"
+        //         >
+        //           {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+        //         </Text>
+        //       )}
+        //       <Text
+        //         style={{
+        //           fontSize: "72px",
+        //           fontFamily: "Arial",
+        //           textTransform: "uppercase",
+        //         }}
+        //       >
+        //         {values.productBrand}
+        //       </Text>
+        //       <Text
+        //         style={{
+        //           fontSize: "45px",
+        //           fontFamily: "Arial",
+        //           textAlign: "center",
+        //           textTransform: "uppercase",
+        //         }}
+        //       >
+        //         {values.productName}
+        //         {"\n"}
+        //       </Text>
+        //       <Text style={{ fontSize: values.price.length >= 5 ? "150px" : "180px", fontFamily: "Arial" }}>
+        //         {values.price}
+        //       </Text>
 
-              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-                REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
-              </Text>
-            </div>
-          );
-        case "Big Ticket (L)":
+        //       <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
+        //         REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
+        //       </Text>
+        //     </div>
+        //   );
+        case "A4 BIG TICKET LANDSCAPE":
           return (
             <div
               style={{
@@ -616,6 +616,27 @@ function GenerateTickets() {
                   {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
+               <Text
+                style={{
+                  fontSize: "38px",
+                  textTransform: "uppercase",
+                  fontFamily: "bahnschrift",
+                  textAlign: "center",
+                }}
+              >
+               HOT PRICE
+              </Text>
+              
+              <Text
+                style={{
+                  fontSize: 48,
+                  paddingBottom: 10,
+                  paddingTop: 10,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
               <Text
                 style={{
                   fontSize: "16px",
@@ -627,33 +648,20 @@ function GenerateTickets() {
                 {values.productName}
                 {"\n"}
               </Text>
-              <Text
-                style={{
-                  fontSize: 48,
-                  paddingBottom: 10,
-                  paddingTop: 10,
-                  fontFamily: "Arial",
-                }}
-              >
-                {values.price}
-              </Text>
               <Text style={{ fontSize: "10px", fontFamily: "Arial" }}>
-                RRP ${values.rrp}
-              </Text>
-              <Text style={{ fontSize: "14px", fontFamily: "Arial" }}>
-                Save ${values.save}
+                RRP ${values.rrp}  Save ${values.save}
               </Text>
               <Text
                 style={{
                   fontSize: "10px",
                   textAlign: "center",
                   paddingBottom: values.productName.includes("\n")
-                    ? "65px"
-                    : "80px",
+                    ? "45px"
+                    : "55px",
                   fontFamily: "ArialNormal",
                 }}
               >
-                REVIVE OFFER AVAILABLE{"\n"}
+                REVIVE OFFER AVAILABLE &nbsp;
                 {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
@@ -705,7 +713,7 @@ function GenerateTickets() {
 
       const containerGroups = [];
       const ticketStyle = getTicketStyle();
-      const maxTicketsPerPage = template.includes("Small") ? 9 : 1;
+      const maxTicketsPerPage = template.includes("TAGS") ? 9 : 1;
 
 
       for (let i = 0; i < allTickets.length; i += maxTicketsPerPage) {
@@ -748,7 +756,7 @@ function GenerateTickets() {
 
 
     const pageSize = template.includes("Big") ? "A4" : "A4";
-    const pageOrientation = template.includes("Big Ticket (L)")
+    const pageOrientation = template.includes("A4 BIG TICKET LANDSCAPE")
       ? "landscape"
       : "portrait";
 
@@ -764,7 +772,7 @@ function GenerateTickets() {
   //form fields
   const renderFormFields = () => {
     switch (template) {
-      case "Small Tickets (%)":
+      case "CATALOGUE SPECIALS PRICE TAGS":
         return (
           <>
             <div className="form-group">
@@ -804,55 +812,55 @@ function GenerateTickets() {
             </div>
           </>
         );
-      case "Big Tickets (P)":
-        return (
-          <>
-            <div className="form-group">
-              <label>Brand</label>
-              <input
-                type="text"
-                className="form-control"
-                value={productBrand}
-                onChange={(e) =>
-                  setproductBrand(BrandformatText(e.target.value))
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                className="form-control"
-                value={productName}
-                onChange={(e) => setProductName(BigformatText(e.target.value))}
-              />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                className="form-control"
-                value={price.replace("$", "")}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  setPrice("$" + formatPrice(filteredValue))
-                }}
-              />
-            </div>
-            <div className="form-group" style={{ position: "relative" }}>
-              <label>Expiry</label>
-              <input
-                type="date"
-                className="form-control"
-                value={expiry}
-                onChange={handleExpiryChange}
-                min={getTodayDate()}
-              />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
-            </div>
-          </>
-        );
-      case "Big Ticket (L)":
+      // case "Big Tickets (P)":
+      //   return (
+      //     <>
+      //       <div className="form-group">
+      //         <label>Brand</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={productBrand}
+      //           onChange={(e) =>
+      //             setproductBrand(BrandformatText(e.target.value))
+      //           }
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Product Name</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={productName}
+      //           onChange={(e) => setProductName(BigformatText(e.target.value))}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Price</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={price.replace("$", "")}
+      //           onChange={(e) => {
+      //             const filteredValue = e.target.value.replace(/e/gi, '');
+      //             setPrice("$" + formatPrice(filteredValue))
+      //           }}
+      //         />
+      //       </div>
+      //       <div className="form-group" style={{ position: "relative" }}>
+      //         <label>Expiry</label>
+      //         <input
+      //           type="date"
+      //           className="form-control"
+      //           value={expiry}
+      //           onChange={handleExpiryChange}
+      //           min={getTodayDate()}
+      //         />
+      //         <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
+      //       </div>
+      //     </>
+      //   );
+      case "A4 BIG TICKET LANDSCAPE":
         return (
           <>
             <div className="form-group">
@@ -1023,10 +1031,10 @@ function GenerateTickets() {
               }}
               value={template}
             >
-              <option value="Small Tickets ($)">Small Tickets ($)</option>
-              <option value="Small Tickets (%)">Small Tickets (%)</option>
-              <option value="Big Tickets (P)">Big Tickets (P)</option>
-              <option value="Big Ticket (L)">Big Ticket (L)</option>
+              <option value="HOT PRICE TAGS">HOT PRICE TAGS</option>
+              <option value="CATALOGUE SPECIALS PRICE TAGS">CATALOGUE SPECIALS PRICE TAGS</option>
+              {/* <option value="Big Tickets (P)">Big Tickets (P)</option> */}
+              <option value="A4 BIG TICKET LANDSCAPE">A4 BIG TICKET LANDSCAPE</option>
             </select>
           </div>
         </div>
