@@ -9,10 +9,11 @@ import {
   PDFViewer,
   Font,
   pdf,
-  Image,
+  // Image,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import ArialBold from "./fonts/arialbd.ttf";
+import ArialNarrow from "./fonts/arialn.ttf";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
 import BahnschriftSemiBoldCondensed from "./fonts/banchschrift/Bahnschrift-SemiBold-Condensed.ttf";
@@ -21,7 +22,9 @@ import AptosBold from "./fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
-import revive_logo from "../../../assets/images/revive-logo.png";
+// import revive_logo from "../../../assets/images/revive-logo.png";
+// import revive_logo_white from "../../../assets/images/revive-logo-white.png";
+
 
 
 Font.register({
@@ -35,6 +38,10 @@ Font.register({
 Font.register({
   family: "ArialItalic",
   src: ArialItalic,
+});
+Font.register({
+  family: "ArialNarrow",
+  src: ArialNarrow,
 });
 Font.register({
   family: "Aptos",
@@ -68,6 +75,7 @@ function GenerateTickets() {
   const [triggerDownload, setTriggerDownload] = useState(false);
   const [triggerPrint, setTriggerPrint] = useState(false);
   const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
+  const [dateError, setDateError] = useState("");
 
 
   const defaultValues = {
@@ -223,7 +231,7 @@ function GenerateTickets() {
     const lines = [];
     for (let i = 0; i < text.length; i += 19) {
       lines.push(text.substring(i, i + 19));
-      if (lines.length === 2) break;
+      if (lines.length === 1) break;
     }
     return lines.join("\n");
   };
@@ -328,7 +336,7 @@ function GenerateTickets() {
       case "CATALOGUE SPECIALS PRICE TAGS":
         return {
           height: "auto",
-          width: "189px",
+          width: "185px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -386,7 +394,7 @@ function GenerateTickets() {
     setPrice("");
     setRrp("");
     setSave("");
-    setCopies(0);
+    setCopies(1);
     // setExpiry("Expiry");
     setpercentOff("");
     setproductBrand("");
@@ -443,16 +451,69 @@ function GenerateTickets() {
                   {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
-              <Text style={{ fontSize: "65px", fontFamily: "Bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
+              <Text
+                style={{
+                  fontSize: "21px",
+                  textTransform: "uppercase",
+                  fontFamily: "Bahnschrift",
+                  textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
+                  lineHeight: "1px",
+                }}
+              >
+                CATALOGUE
+              </Text>
+              <Text
+                style={{
+                  fontSize: "24px",
+                  textTransform: "uppercase",
+                  fontFamily: "Bahnschrift",
+                  textAlign: "center",
+                  // marginTop: isPDFView ? 10 : 0,
+                  lineHeight: "1px",
+
+                }}
+              >
+                SPECIAL PRICE
+              </Text>
+              {/* <Text style={{ fontSize: "65px", fontFamily: "Bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
                 {values.percentOff}
                 <Text style={{ fontSize: "32px", fontFamily: "Bahnschrift", fontWeight: '600' }}>
                   OFF
                 </Text>
+              </Text> */}
+              <Text
+                style={{
+                  fontSize: "55px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.price}
+                {"\n"}
               </Text>
               <Text
                 style={{
-                  fontSize: "17px",
-                  fontFamily: "Arial",
+                  marginTop: "5px",
+                  fontSize: "15px",
+                  fontFamily: "ArialNarrow",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "15px",
+                  fontFamily: "ArialNarrow",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -464,22 +525,30 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "10px",
+                  // paddingTop: "5px",
+                  fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "ArialItalic",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
-                  paddingBottom:
-                    values.productDesc.split("\n").length === 1
-                      ? "120px"
-                      : values.productDesc.split("\n").length === 2
-                        ? "100px"
-                        : "80px",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "65px",
                 }}
               >
-                REVIVE OFFER AVAILABLE{"\n"}
-                {formatDateForDisplay(values.expiry)}
+                REVIVE OFFER &nbsp;
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
+              {/* <Image
+                src={revive_logo_white}
+                style={{
+                  width: 90,
+                  height: 50,
+                  marginTop: "5px",
+                  marginBottom: values.productName.includes("\n")
+                    ? "20px"
+                    : "40px",
+                }}
+              /> */}
             </div>
           );
 
@@ -595,12 +664,23 @@ function GenerateTickets() {
                 {values.productName}
                 {"\n"}
               </Text>
-              <Text style={{ fontSize: "180px", fontFamily: "Arial" }}>
+              <Text style={{ fontSize: "200px", fontFamily: "Arial" }}>
                 {values.price}
               </Text>
-              <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-                REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
+              <Text style={{ fontSize: "20px", fontFamily: "ArialItalic" }}>
+                REVIVE OFFER &nbsp;
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
+              {/* <Image
+                src={revive_logo_white}
+                style={{
+                  width: 180,
+                  height: "auto",
+                  position: "absolute",
+                 top: "105%",
+                 right: "56%",
+                }}
+              /> */}
             </div>
           );
         default:
@@ -637,12 +717,13 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "35px",
+                  fontSize: "34px",
                   textTransform: "uppercase",
                   fontFamily: "Bahnschrift",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
                 }}
               >
                 HOT PRICE
@@ -669,6 +750,17 @@ function GenerateTickets() {
                 {values.productName}
                 {"\n"}
               </Text>
+              <Text
+                style={{
+                  fontSize: "15px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
               <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text>
@@ -678,6 +770,9 @@ function GenerateTickets() {
                     fontSize: "9px",
                     textAlign: "center",
                     fontFamily: "Aptos",
+                    marginBottom: values.productName.includes("\n")
+                      ? "70px"
+                      : "60px",
                   }}
                 >
                   {values.offerType}
@@ -689,9 +784,9 @@ function GenerateTickets() {
                   style={{
                     fontSize: "9px",
                     textAlign: "center",
-                    paddingBottom: values.productName.includes("\n")
-                      ? "40px"
-                      : "50px",
+                    marginBottom: values.productName.includes("\n")
+                      ? "70px"
+                      : "60px",
                     fontFamily: "Aptos",
                   }}
                 >
@@ -700,17 +795,17 @@ function GenerateTickets() {
 
                 </Text>
               )}
-              <Image
-                src={revive_logo} 
+              {/* <Image
+                src={revive_logo}
                 style={{
                   width: 80,
                   height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -40 : 0, 
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
                   marginBottom: values.productName.includes("\n")
-                  ? "30px"
-                  : "40px",
+                    ? "25px"
+                    : "40px",
                 }}
-              />
+              /> */}
             </div>
           );
       }
@@ -772,9 +867,9 @@ function GenerateTickets() {
           return (
             <View key={index} style={ticketStyle}>
               {renderContent(currentTicket)}
-              {!currentTicket.addedToQueue && index < numberOfCopies && (
-                <button onClick={handleAddToQueue}>Add to Queue</button>
-              )}
+              {/* {!currentTicket.addedToQueue && index < numberOfCopies && (
+                <button onClick={handleAddToQueue}><Text>Add to Queue</Text></button>
+              )} */}
             </View>
           );
         });
@@ -787,10 +882,11 @@ function GenerateTickets() {
               flexDirection: "row",
               flexWrap: "wrap",
               justifyContent: "content-start",
+              gap: "16px",
               alignItems: "center",
               paddingTop: "20px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
+              paddingLeft: "7px",
+              // paddingRight: "px",
             }}
           >
             {currentGroup}
@@ -804,14 +900,14 @@ function GenerateTickets() {
 
 
 
-    const pageSize = template.includes("Big") ? "A4" : "A4";
-    const pageOrientation = template.includes("A4 BIG TICKET LANDSCAPE")
-      ? "landscape"
-      : "portrait";
+    const pageSize = template.includes("A4 BIG TICKET LANDSCAPE") ? "A4" : "A4";
+    const pageOrientation = template.includes("A4 BIG TICKET LANDSCAPE") ? "landscape" : "portrait";
+    const backgroundColor = template.includes("CATALOGUE") || template.includes("LANDSCAPE") ? "#FFFFFF" : "#FFFFFF";
+
 
     return (
       <Document>
-        <Page size={pageSize} orientation={pageOrientation}>
+        <Page size={pageSize} orientation={pageOrientation} style={{ backgroundColor: backgroundColor, }}>
           {getTicketContainers()}
         </Page>
       </Document>
@@ -824,7 +920,7 @@ function GenerateTickets() {
       case "CATALOGUE SPECIALS PRICE TAGS":
         return (
           <>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Percent Off</label>
               <input
                 type="text"
@@ -847,8 +943,62 @@ function GenerateTickets() {
                   setproductDesc(DescriptionformatText(e.target.value))
                 }
               />
+            </div> */}
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                className="form-control"
+                value={price.replace("$", "")}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  setPrice("$" + formatPrice(filteredValue));
+                }}
+              />
             </div>
-            <div className="form-group" style={{ position: "relative" }}>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={productName}
+                onChange={(e) => setProductName(formatText(e.target.value))}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Description</label>
+              <input
+                type="text"
+                className="form-control"
+                value={productDesc}
+                onChange={(e) => setproductDesc(formatText(e.target.value))}
+              />
+            </div>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+            {/* <div className="form-group" style={{ position: "relative" }}>
               <label>Expiry</label>
               <input
                 type="date"
@@ -858,7 +1008,7 @@ function GenerateTickets() {
                 min={getTodayDate()}
               />
               <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
-            </div>
+            </div> */}
           </>
         );
       // case "Big Tickets (P)":
@@ -924,7 +1074,7 @@ function GenerateTickets() {
               />
             </div>
             <div className="form-group">
-              <label>Product Name</label>
+              <label>Product Name/Description</label>
               <input
                 type="text"
                 className="form-control"
@@ -944,16 +1094,29 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            <div className="form-group" style={{ position: "relative" }}>
-              <label>Expiry</label>
-              <input
-                type="date"
-                className="form-control"
-                value={expiry}
-                onChange={handleExpiryChange}
-                min={getTodayDate()}
-              />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
             </div>
           </>
         );
@@ -967,6 +1130,15 @@ function GenerateTickets() {
                 className="form-control"
                 value={productName}
                 onChange={(e) => setProductName(formatText(e.target.value))}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Description</label>
+              <input
+                type="text"
+                className="form-control"
+                value={productDesc}
+                onChange={(e) => setproductDesc(formatText(e.target.value))}
               />
             </div>
             <div className="form-group">
@@ -1006,7 +1178,7 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" >
               <label>Offer Type</label>
               <select
                 className="form-control"
@@ -1015,7 +1187,11 @@ function GenerateTickets() {
               >
                 <option value="TEMPORARY REVIVE OFFER">Temporary Revive Offer</option>
                 <option value="ONGOING REVIVE OFFER">Ongoing Revive Offer</option>
+
               </select>
+              <i
+                className="fa fa-chevron-down custom-dropdown-icon"
+              ></i>
             </div>
 
             <div hidden={offerType === "ONGOING REVIVE OFFER"} className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -1084,6 +1260,16 @@ function GenerateTickets() {
       return;
     }
     setExpiry(inputValue);
+
+    if (new Date(inputValue) <= new Date(startDate)) {
+      setDateError("Expiry date must be later than start date");
+      setTimeout(() =>
+        setDateError(""),
+        3000
+      );
+    } else {
+      setDateError("");
+    }
   };
 
   //handle radio button
@@ -1099,6 +1285,7 @@ function GenerateTickets() {
       return;
     }
     setStartDate(inputValue);
+    setDateError("");
   };
 
 
@@ -1147,6 +1334,7 @@ function GenerateTickets() {
                   {successMessage && (
                     <div className="alert alert-success" style={{ position: "absolute", top: "-50px", width: "100%" }}>{successMessage}</div>
                   )}
+                  {dateError && <div className="alert error-message" style={{ position: "absolute", top: "-50px", width: "100%", color: "red", backgroundColor: "#f7d7d7"}}>{dateError}</div>}
                 </div>
                 {renderFormFields()}
                 <label className="mb-2">Copies</label>

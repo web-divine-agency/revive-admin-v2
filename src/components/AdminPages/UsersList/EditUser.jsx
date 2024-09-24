@@ -3,13 +3,17 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+const animatedComponents = makeAnimated();
 
 function EditUser() {
   const { userId } = useParams();
   const [last_name, setLastname] = useState("");
   const [first_name, setFirstname] = useState("");
-  const [branch_id, setBranch] = useState("");
-  const [branch, setBranches] = useState([]);
+  const [branchOptions, setBranchOptions] = useState([]);
+  const [selectedBranches, setSelectedBranches] = useState([]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role_name, setRoleName] = useState("");
@@ -27,7 +31,11 @@ function EditUser() {
     const fetchBranches = async () => {
       try {
         const response = await axiosInstance.get("/branches");
-        setBranches(response.data);
+        const options = response.data.map(branch => ({
+          value: branch.id,
+          label: branch.branch_name,
+        }));
+        setBranchOptions(options);
       } catch (error) {
         console.error("Error fetching branches:", error);
       }
@@ -52,13 +60,16 @@ function EditUser() {
           const userData = response.data;
           setLastname(userData.last_name);
           setFirstname(userData.first_name);
-          setBranch(userData.branch_id);
+          setSelectedBranches(userData.branches.map(branch => ({
+            value: branch.id,
+            label: branch.branch_name,
+          })));
           setConfirmPassword(userData.password);
           setEmail(userData.email);
           setPassword(userData.password);
           setSex(userData.sex);
           setUsername(userData.username);
-          setRoleName(userData.role_name);
+          setRoleName(userData.roles?.map((r) => r.role_name).join(", "));
         } catch (error) {
           console.error(
             "Error fetching user data:",
@@ -75,7 +86,7 @@ function EditUser() {
     if (
       !last_name ||
       !first_name ||
-      !branch_id ||
+      !selectedBranches.length ||
       !password ||
       !confirmPassword ||
       !email ||
@@ -108,13 +119,12 @@ function EditUser() {
   
       return;
     }
-  
 
     try {
       const response = await axiosInstance.put(`/update-user/${userId}`, {
         last_name,
         first_name,
-        branch_id,
+        branch_ids: selectedBranches.map(branch => branch.value),
         password,
         email,
         sex,
@@ -126,7 +136,7 @@ function EditUser() {
       setError("");
       setLastname("");
       setFirstname("");
-      setBranch("");
+      setSelectedBranches([]);
       setPassword("");
       setConfirmPassword("");
       setEmail("");
@@ -135,7 +145,7 @@ function EditUser() {
       setRoleName("");
       Swal.fire({
         title: "User Updated Successfully",
-        text: `The user ${first_name} ${last_name} has been Updated.`,
+        text: `The user ${first_name} ${last_name} has been updated.`,
         imageUrl: check,
         imageWidth: 100,
         imageHeight: 100,
@@ -146,26 +156,16 @@ function EditUser() {
         navigate("/userlist");
       });
     } catch (error) {
-      console.error(
-        "Error adding user:",
-        error.response ? error.response.data : error.message
-      );
-      setError(
-        error.response && error.response.data
-          ? error.response.data.message ||
-          "Failed to add user. Please try again."
-          : "Failed to add user. Please try again."
-      );
-      // setSuccessMessage("");
+      setError("Failed to add user. Please try again.");
     }
   };
 
   return (
     <div className="container">
-      <h3>Add New User</h3>
+      <h3>Edit User</h3>
       <div className="container-content">
         <form onSubmit={editUser}>
-          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
             {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
           </div>
 
@@ -229,22 +229,6 @@ function EditUser() {
           </div>
           <div className="d-flex justify-content-between ml-5">
             <div className="form-group">
-              <label>Branch:</label>
-              <br />
-              <select
-                value={branch_id}
-                onChange={(e) => setBranch(e.target.value)}
-              >
-                <option value="">Select Branch</option>
-                {branch.map((branch) => (
-                  <option key={branch.id} value={branch.id}>
-                    {branch.branch_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
               <label>Role:</label>
               <br />
               <select
@@ -270,9 +254,23 @@ function EditUser() {
               />
             </div>
           </div>
+          <div className="d-flex justify-content-center ml-5">
+          <div className="form-group">
+          <label>Branches:</label>
+          <Select
+            closeMenuOnSelect={false}
+            components={animatedComponents}
+            isMulti
+            options={branchOptions}
+            value={selectedBranches}
+            onChange={setSelectedBranches}
+           />
+          </div>
+          </div>
           <button className="submit-btn mb-4 mt-4" type="submit">
             Update
           </button>
+          
         </form>
       </div>
     </div>

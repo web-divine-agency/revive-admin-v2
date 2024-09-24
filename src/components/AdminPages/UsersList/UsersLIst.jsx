@@ -231,7 +231,7 @@ function UsersList() {
                 name: `${row.first_name} ${row.last_name}`,
                 email: row.email,
                 username: row.username,
-                branch: row.branch?.branch_name || "N/A",
+                branch: row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
                 role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })

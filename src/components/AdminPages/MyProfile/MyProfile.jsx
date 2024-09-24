@@ -30,7 +30,7 @@ function MyProfile() {
         setFirstName(first_name);
         setLastName(last_name);
         setRole(role);
-        setBranch(branch);
+        setBranch(branch.join(", "));
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
