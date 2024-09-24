@@ -552,4 +552,13 @@ input[type="date"] {
   font-size: 18px !important;
 }
 
+.custom-date-icon-1 {
+  position: absolute;
+  left: 130px;
+  top: 25px;
+  pointer-events: none;
+  z-index: 2;
+  font-size: 18px !important;
+}
+
 /* End of Generate Ticket Style */

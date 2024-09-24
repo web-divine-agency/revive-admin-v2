@@ -9,15 +9,19 @@ import {
   PDFViewer,
   Font,
   pdf,
+  Image,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import ArialBold from "./fonts/arialbd.ttf";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
-import BahnschriftSemiBoldCondensed from "./fonts/banchschrift/bahnschrift.ttf";
+import BahnschriftSemiBoldCondensed from "./fonts/banchschrift/Bahnschrift-SemiBold-Condensed.ttf";
+import Aptos from "./fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
+import AptosBold from "./fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
+import revive_logo from "../../../assets/images/revive-logo.png";
 
 
 Font.register({
@@ -33,9 +37,16 @@ Font.register({
   src: ArialItalic,
 });
 Font.register({
-  family: "bahnschrift",
+  family: "Aptos",
+  src: Aptos,
+});
+Font.register({
+  family: "AptosBold",
+  src: AptosBold,
+});
+Font.register({
+  family: "Bahnschrift",
   src: BahnschriftSemiBoldCondensed,
-  fontWeight: "600",
 });
 
 
@@ -45,6 +56,7 @@ function GenerateTickets() {
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
+  const [startDate, setStartDate] = useState("");
   const [percentOff, setpercentOff] = useState("");
   const [productBrand, setproductBrand] = useState("");
   const [productDesc, setproductDesc] = useState("");
@@ -55,6 +67,7 @@ function GenerateTickets() {
   const [pdfBlob, setPdfBlob] = useState(null);
   const [triggerDownload, setTriggerDownload] = useState(false);
   const [triggerPrint, setTriggerPrint] = useState(false);
+  const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
 
 
   const defaultValues = {
@@ -62,7 +75,9 @@ function GenerateTickets() {
     price: "Price",
     rrp: "",
     save: "",
-    expiry: "Expiry",
+    expiry: "00/00/00",
+    offerType: "",
+    startDate: "00/00/00",
     percentOff: "00%",
     productBrand: "Brand",
     productDesc: "Description",
@@ -206,8 +221,8 @@ function GenerateTickets() {
   //limit ng text 17chars per line in small tickets product name
   const formatText = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 17) {
-      lines.push(text.substring(i, i + 17));
+    for (let i = 0; i < text.length; i += 19) {
+      lines.push(text.substring(i, i + 19));
       if (lines.length === 2) break;
     }
     return lines.join("\n");
@@ -356,7 +371,9 @@ function GenerateTickets() {
       price: price,
       rrp: rrp,
       save: save,
+      offerType: offerType,
       expiry: expiry,
+      startDate: startDate,
       percentOff: percentOff,
       productBrand: productBrand,
       productDesc: productDesc,
@@ -386,7 +403,9 @@ function GenerateTickets() {
         price: ticket.price || defaultValues.price,
         rrp: ticket.rrp || defaultValues.rrp,
         save: ticket.save || defaultValues.save,
+        offerType: ticket.offerType || defaultValues.offerType,
         expiry: ticket.expiry || defaultValues.expiry,
+        startDate: ticket.startDate || defaultValues.startDate,
         percentOff: ticket.percentOff || defaultValues.percentOff,
         productBrand: ticket.productBrand || defaultValues.productBrand,
         productDesc: ticket.productDesc || defaultValues.productDesc,
@@ -408,7 +427,7 @@ function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "bahnschrift",
+                    fontFamily: "Bahnschrift",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -424,9 +443,9 @@ function GenerateTickets() {
                   {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
-              <Text style={{ fontSize: "65px", fontFamily: "bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
+              <Text style={{ fontSize: "65px", fontFamily: "Bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "32px", fontFamily: "bahnschrift", fontWeight: '600' }}>
+                <Text style={{ fontSize: "32px", fontFamily: "Bahnschrift", fontWeight: '600' }}>
                   OFF
                 </Text>
               </Text>
@@ -479,7 +498,7 @@ function GenerateTickets() {
         //           style={{
         //             position: "fixed",
         //             top: -5,
-        //             fontFamily: "bahnschrift",
+        //             fontFamily: "Bahnschrift",
         //             fontSize: 20,
         //             height: "auto",
         //             width: "auto",
@@ -539,7 +558,7 @@ function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "bahnschrift",
+                    fontFamily: "Bahnschrift",
                     fontSize: 20,
                     height: "auto",
                     width: "auto",
@@ -599,7 +618,7 @@ function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "bahnschrift",
+                    fontFamily: "Bahnschrift",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -616,22 +635,24 @@ function GenerateTickets() {
                   {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
-               <Text
+              <Text
                 style={{
-                  fontSize: "38px",
+                  fontSize: "35px",
                   textTransform: "uppercase",
-                  fontFamily: "bahnschrift",
+                  fontFamily: "Bahnschrift",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
                 }}
               >
-               HOT PRICE
+                HOT PRICE
               </Text>
-              
+
               <Text
                 style={{
-                  fontSize: 48,
-                  paddingBottom: 10,
-                  paddingTop: 10,
+                  fontSize: "48px",
+                  paddingBottom: 2,
+                  // paddingTop: 2,
                   fontFamily: "Arial",
                 }}
               >
@@ -639,31 +660,57 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "15px",
                   textTransform: "uppercase",
-                  fontFamily: "Arial",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
                 {values.productName}
                 {"\n"}
               </Text>
-              <Text style={{ fontSize: "10px", fontFamily: "Arial" }}>
+              <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text>
-              <Text
+              {offerType !== "TEMPORARY REVIVE OFFER" && (
+                <Text
+                  style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                  }}
+                >
+                  {values.offerType}
+                </Text>
+              )}
+
+              {offerType === "TEMPORARY REVIVE OFFER" && (
+                <Text
+                  style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    paddingBottom: values.productName.includes("\n")
+                      ? "40px"
+                      : "50px",
+                    fontFamily: "Aptos",
+                  }}
+                >
+                  REVIVE OFFER &nbsp;
+                  {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
+
+                </Text>
+              )}
+              <Image
+                src={revive_logo} 
                 style={{
-                  fontSize: "10px",
-                  textAlign: "center",
-                  paddingBottom: values.productName.includes("\n")
-                    ? "45px"
-                    : "55px",
-                  fontFamily: "ArialNormal",
+                  width: 80,
+                  height: 40,
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -40 : 0, 
+                  marginBottom: values.productName.includes("\n")
+                  ? "30px"
+                  : "40px",
                 }}
-              >
-                REVIVE OFFER AVAILABLE &nbsp;
-                {formatDateForDisplay(values.expiry)}
-              </Text>
+              />
             </div>
           );
       }
@@ -694,7 +741,9 @@ function GenerateTickets() {
         price: price || defaultValues.price,
         rrp: rrp || defaultValues.rrp,
         save: save || defaultValues.save,
+        offerType: offerType || defaultValues.offerType,
         expiry: expiry || defaultValues.expiry,
+        startDate: startDate || defaultValues.startDate,
         percentOff: percentOff || defaultValues.percentOff,
         productBrand: productBrand || defaultValues.productBrand,
         productDesc: productDesc || defaultValues.productDesc,
@@ -957,17 +1006,45 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            <div className="form-group" style={{ position: "relative" }}>
-              <label>Expiry</label>
-              <input
-                type="date"
+            <div className="form-group">
+              <label>Offer Type</label>
+              <select
                 className="form-control"
-                value={expiry}
-                onChange={handleExpiryChange}
-                min={getTodayDate()}
-              />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
+                value={offerType}
+                onChange={handleOfferTypeChange}
+              >
+                <option value="TEMPORARY REVIVE OFFER">Temporary Revive Offer</option>
+                <option value="ONGOING REVIVE OFFER">Ongoing Revive Offer</option>
+              </select>
             </div>
+
+            <div hidden={offerType === "ONGOING REVIVE OFFER"} className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+
+
+
 
           </>
         );
@@ -995,6 +1072,11 @@ function GenerateTickets() {
     setExpiry(getTodayDate());
   }, []);
 
+  useEffect(() => {
+    setStartDate(getTodayDate());
+  }, []);
+
+  //handle expiry function
   const handleExpiryChange = (e) => {
     const inputValue = e.target.value;
     const [year, month, day] = inputValue.split("-");
@@ -1003,6 +1085,22 @@ function GenerateTickets() {
     }
     setExpiry(inputValue);
   };
+
+  //handle radio button
+  const handleOfferTypeChange = (e) => {
+    setOfferType(e.target.value);
+  };
+
+
+  const handleStartDateChange = (e) => {
+    const inputValue = e.target.value;
+    const [year, month, day] = inputValue.split("-");
+    if (year.length > 4) {
+      return;
+    }
+    setStartDate(inputValue);
+  };
+
 
 
 
@@ -1108,7 +1206,7 @@ function GenerateTickets() {
             </div>
 
             <div className="col-md-6 ticket-view">
-              <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "bahnschrift" }}>PDF Live Preview</h5>
+              <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "Bahnschrift" }}>PDF Live Preview</h5>
               <div className="pdf-preview">
                 <PDFViewer
                   showToolbar={false}
