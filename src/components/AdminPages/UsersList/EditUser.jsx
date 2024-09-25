@@ -116,7 +116,7 @@ function EditUser() {
       setTimeout(() => {
         setError("");
       }, 3000);
-  
+
       return;
     }
 
@@ -165,7 +165,7 @@ function EditUser() {
       <h3>Edit User</h3>
       <div className="container-content">
         <form onSubmit={editUser}>
-        <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
             {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
           </div>
 
@@ -228,6 +228,29 @@ function EditUser() {
             </div>
           </div>
           <div className="d-flex justify-content-between ml-5">
+          <div className="form-group" style={{ width: "205px", height: "0" }}>
+              <label>Branches:</label>
+              <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                options={branchOptions}
+                value={selectedBranches}
+                onChange={setSelectedBranches}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    maxHeight: '100px',
+                    overflowY: 'auto',
+                  }),
+                  valueContainer: (provided) => ({
+                    ...provided,
+                    maxHeight: '100px',
+                    overflowY: 'auto',
+                  }),
+                }}
+              />
+            </div>
             <div className="form-group">
               <label>Role:</label>
               <br />
@@ -254,23 +277,13 @@ function EditUser() {
               />
             </div>
           </div>
-          <div className="d-flex justify-content-center ml-5">
-          <div className="form-group">
-          <label>Branches:</label>
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            isMulti
-            options={branchOptions}
-            value={selectedBranches}
-            onChange={setSelectedBranches}
-           />
-          </div>
-          </div>
+         
+           
+        
           <button className="submit-btn mb-4 mt-4" type="submit">
             Update
           </button>
-          
+
         </form>
       </div>
     </div>

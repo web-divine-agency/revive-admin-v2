@@ -10,103 +10,284 @@ import view_icon from "../../../assets/images/view_icon.png";
 import delete_icon from "../../../assets/images/delete_icon.png";
 import check from "../../../assets/images/check.png";
 import axiosInstance from '../../../../axiosInstance';
-import {format} from 'date-fns';
-import { Modal } from "react-bootstrap";
+import { format } from 'date-fns';
+import { Modal, Button } from "react-bootstrap";
+import { Document, Page, Text, View, PDFViewer, StyleSheet, Font } from '@react-pdf/renderer';
+
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
+import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/arialn.ttf";
+import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
+import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
+import BahnschriftSemiBoldCondensed from "../../StaffPages/GenerateTickets/fonts/banchschrift/Bahnschrift-SemiBold-Condensed.ttf";
+import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
+import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 
+
+Font.register({
+  family: "Arial",
+  src: ArialBold,
+});
+Font.register({
+  family: "ArialNormal",
+  src: ArialNormal,
+});
+Font.register({
+  family: "ArialItalic",
+  src: ArialItalic,
+});
+Font.register({
+  family: "ArialNarrow",
+  src: ArialNarrow,
+});
+Font.register({
+  family: "Aptos",
+  src: Aptos,
+});
+Font.register({
+  family: "AptosBold",
+  src: AptosBold,
+});
+Font.register({
+  family: "Bahnschrift",
+  src: BahnschriftSemiBoldCondensed,
+});
 function TicketsHistory() {
   const navigate = useNavigate();
-  const[data, setData] = useState([]);
-  const[filter, setFilter ] = useState('');
-  const[search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [branches, setBranches] = useState([]);
+  const [selectedBranchId, setSelectedBranchId] = useState("");
+  const [ticketTypes, setTicketTypes] = useState([]);
+  const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
+  const [selectedTickets, setSelectedTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await axiosInstance.get('/tickets'); 
+        const response = await axiosInstance.get('/tickets');
         const formattedData = response.data.map(tickets => ({
           id: tickets.id,
           ticketType: tickets.ticketType.ticket_type,
-          data: tickets.data, 
+          data: tickets.data,
           user: `${tickets.user.first_name} ${tickets.user.last_name}`,
           branch_id: tickets.branch.branch_name,
           role: tickets.user.roles?.map((r) => r.role_name).join(", "),
           date: new Date(tickets.createdAt)
         }));
-        setData(formattedData); 
+        setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
       }
     };
-    fetchTickets(); 
+    fetchTickets();
   }, [navigate]);
- 
+
+  // Get Branches for filter
   useEffect(() => {
-    // Filter users whenever the filter or search state changes
+    const fetchBranches = async () => {
+      try {
+        const response = await axiosInstance.get('/branches');
+        const formattedData = response.data.map(branch => ({
+          id: branch.id,
+          branch_name: branch.branch_name,
+        }));
+        setBranches(formattedData);
+      } catch (error) {
+        console.error('Error fetching staff logs:', error);
+      }
+    };
+    fetchBranches();
+  }, []);
+
+  //get ticket types
+  useEffect(() => {
+    const fetchTicketTypes = async () => {
+      try {
+        const response = await axiosInstance.get('/ticketTypes');
+        const formattedData = response.data.map(ticket_type => ({
+          id: ticket_type.id,
+          ticket_type: ticket_type.ticket_type,
+        }));
+        setTicketTypes(formattedData);
+      } catch (error) {
+        console.error('Error fetching staff logs:', error);
+      }
+    };
+    fetchTicketTypes();
+  }, []);
+
+  const handleBranchSelect = (e) => {
+    setSelectedBranchId(e.target.value);
+  };
+  const handleTicketTypeSelect = (e) => {
+    setSelectedTicketTypeId(e.target.value);
+  };
+
+  useEffect(() => {
     const applyFilters = () => {
       let tempTickets = [...data];
 
-      if (filter) {
-        tempTickets = tempTickets.filter((tickets) => {
-          return tickets.role === filter;
-        });
+      // Filter by selected branch
+      if (selectedBranchId) {
+        tempTickets = tempTickets.filter(ticket => ticket.branch_id === branches.find(branch => branch.id === parseInt(selectedBranchId))?.branch_name);
       }
 
+      // Filter by selected ticket type
+      if (selectedTicketTypeId) {
+        tempTickets = tempTickets.filter(ticket => ticket.ticketType === ticketTypes.find(type => type.id === parseInt(selectedTicketTypeId))?.ticket_type);
+      }
+
+      // Filter by search term (user name)
       if (search) {
         tempTickets = tempTickets.filter((tickets) =>
           tickets.user.toLowerCase().includes(search.toLowerCase())
         );
       }
-  
 
       setFilteredTickets(tempTickets);
     };
 
     applyFilters();
-  }, [filter, search, data]);
+  }, [selectedBranchId, selectedTicketTypeId, search, data, branches, ticketTypes]);
+
+  const styles = StyleSheet.create({
+    page: {
+      paddingTop: 35,
+    },
+    row: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'content-start',
+      marginBottom: 10,
+    },
+    item: {
+      width: '33%',
+      padding: 10,
+      textAlign: 'center',
+    },
+  });
+  const TicketPDF = ({ selectedTicket }) => (
+    <Document>
+      <Page
+        size='A4'
+        style={styles.page}
+      >
+        {/* <Text>Ticket ID: {selectedTicket.id}</Text>
+        <Text>Ticket Type: {selectedTicket.ticketType}</Text> */}
+
+        {/* Loop through selectedTicket data, grouping every 3 items */}
+        {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
+          <View key={rowIndex} style={styles.row}>
+            {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
+              <View key={index} style={styles.item}>
+                <Text style={{
+                  textTransform: "uppercase",
+                  fontFamily: "Bahnschrift",
+                  textAlign: "center",
+                  fontSize: selectedTicket.ticketType === 2 ? "21px" : "34px"
+
+                }}>
+                  {selectedTicket.ticketType !== 3 && (
+                    <Text>
+                      {selectedTicket.ticketType === 2 ? "Catalogue" : "HOT PRICE"}
+                    </Text>
+                  )}
+                </Text>
+                <Text style={{
+                  fontSize: "24px",
+                  textTransform: "uppercase",
+                  fontFamily: "Bahnschrift",
+                  textAlign: "center",
+                  // marginTop: isPDFView ? 10 : 0,
+                  lineHeight: "1px",
+
+                }}>
+                  {selectedTicket.ticketType === 2 ? "Special Price" : ""}
+                </Text>
+                <Text style={{
+                  fontSize: "48px",
+                  paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}>{item.price}</Text>
+                <Text style={{
+                  fontSize: "15px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}>{item.productName}</Text>
+                <Text style={{
+                  fontSize: "15px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}>{item.productDesc}</Text>
+
+                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && (
+                  <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                    RRP: ${item.rrp} Save: ${item.save}
+                  </Text>
+                )}
+                {item.offerType !== "ONGOING REVIVE OFFER" ? (
+                  <Text style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                    marginBottom:  selectedTicket.ticketType === 2 ? "80px" : "70"
+                  }}>
+                    REVIVE OFFER {item.startDate} {item.expiry}
+                  </Text>
+                ) : (
+                  <Text style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                    marginBottom: "70px"
+                  }}>
+                    ONGOING REVIVE OFFER
+                  </Text>
+                )}
+
+              </View>
+
+            ))}
+          </View>
+        ))}
+      </Page>
+    </Document>
+  );
+
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedTicket(null);
+  };
 
   const handleViewTicketClick = async (id) => {
     try {
-      const response = await axiosInstance.get(`/ticket/${id}/pdf`, {
-        responseType: 'blob',  // Set response type to blob for file download
-      });
-    
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-
-      // If you want to preview the PDF directly, you can render it in a modal or a new window
-        window.open(pdfUrl);
-        setShowModal(true);
+      const response = await axiosInstance.get(`/ticket/${id}`);
+      const ticket = response.data;
+      const formattedTicketData = {
+        id: ticket.id,
+        ticketType: ticket.ticket_type_id,
+        data: ticket.data,
+        date: new Date(ticket.createdAt)
+      };
+      setSelectedTicket(formattedTicketData);
+      // console.log(formattedTicketData);
+      // console.log(ticket);
+      setShowModal(true);
     } catch (error) {
-      console.error('Error viewing the ticket PDF:', error);
+      console.error('Error viewing ticket:', error);
     }
   };
-
-    const closeModal = () => {
-    setShowModal(false);
-    URL.revokeObjectURL(pdfBlob); // Clean up the URL object when closing the modal
-  };
-
-
-  const PDFModal = () => (
-    <Modal show={showModal} onHide={closeModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>PDF Preview</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {pdfBlob && (
-          <Document file={pdfBlob}>
-            <Page pageNumber={1} />
-          </Document>
-        )}
-      </Modal.Body>
-    </Modal>
-  );
 
   const handleDeleteTicketClick = async (id) => {
     Swal.fire({
@@ -130,13 +311,13 @@ function TicketsHistory() {
           await axiosInstance.delete(`/delete-ticket/${id}`);
           const updatedData = data.filter((tickets) => tickets.id !== id);
           setData(updatedData);
-          setFilteredTickets(updatedData); 
+          setFilteredTickets(updatedData);
           Swal.fire({
             title: "Success!",
             text: "Ticket has been deleted.",
             imageUrl: check,
-            imageWidth: 100,  
-            imageHeight: 100, 
+            imageWidth: 100,
+            imageHeight: 100,
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -162,6 +343,24 @@ function TicketsHistory() {
   };
 
   const columns = [
+    {
+      name: "Select",
+      cell: (row) => (
+        <input
+          type="checkbox"
+          onChange={(e) => {
+            const checked = e.target.checked;
+            setSelectedTickets(prev =>
+              checked ? [...prev, row.id] : prev.filter(id => id !== row.id)
+            );
+          }}
+          checked={selectedTickets.includes(row.id)}
+        />
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true
+    },
     {
       name: "User",
       selector: row => (
@@ -191,7 +390,7 @@ function TicketsHistory() {
       selector: (row) => row.branch_id,
       sortable: true
     },
-   
+
     {
       name: "Role",
       selector: (row) => row.role,
@@ -212,7 +411,7 @@ function TicketsHistory() {
             alt="view"
             width="25"
             height="25"
-            // onClick ={() => handleViewTicketClick(row.id)}
+            onClick={() => handleViewTicketClick(row.id)}
             style={{ cursor: "pointer" }}
           />
           <img
@@ -229,8 +428,48 @@ function TicketsHistory() {
       ),
       sortable: false,
     },
- 
+
   ];
+
+  const handleMassDelete = async () => {
+    if (selectedTickets.length === 0) return;
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won’t be able to revert this!.",
+        showCancelButton: true,
+        icon: 'warning',
+        confirmButtonColor: "#EC221F",
+        cancelButtonColor: "#00000000",
+        cancelTextColor: "#000000",
+        confirmButtonText: "Yes, delete it!",
+        customClass: {
+          container: "custom-container",
+          confirmButton: "custom-confirm-button",
+          cancelButton: "custom-cancel-button",
+          title: "custom-swal-title",
+        },
+      });
+
+      if (result.isConfirmed) {
+        await axiosInstance.post('/mass-delete-tickets', { ids: selectedTickets });
+        setData(data.filter(ticket => !selectedTickets.includes(ticket.id)));
+        setSelectedTickets([]); // Clear selection
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'Selected tickets have been deleted.',
+          imageUrl: check,
+          imageWidth: 100,
+          imageHeight: 100,
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#0ABAA6',
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting tickets:', error);
+      Swal.fire('Error!', 'Failed to delete the selected tickets.', 'error');
+    }
+  };
 
   return (
     <div className="container">
@@ -238,28 +477,63 @@ function TicketsHistory() {
         <div className="col-lg-12 col-md-6">
           <h3>Tickets History List</h3>
           <div className='top-filter'>
-          <select name="filter" id="filter" value={filter} onChange={e => setFilter(e.target.value)}>
-              <option value="">All Users</option>
-              <option value="Staff">Staffs</option>
-              <option value="Admin">Admins</option>
+            <select className="mr-4" name="filter" id="filter" value={selectedBranchId} onChange={handleBranchSelect}>
+              <option value="">All Branches</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.branch_name}
+                </option>
+              ))}
             </select>
+
+            <select name="filter" id="filter" value={selectedTicketTypeId} onChange={handleTicketTypeSelect}>
+              <option value="">Filter by Ticket Type</option>
+              {ticketTypes.map((ticketType) => (
+                <option key={ticketType.id} value={ticketType.id}>
+                  {ticketType.ticket_type}
+                </option>
+              ))}
+            </select>
+
             <input id='search-bar' type="text" placeholder='Search' value={search} onChange={e => setSearch(e.target.value)} />
-           
+
           </div>
           <div className="container-content">
+            <button
+              className="btn btn-danger m-3"
+              onClick={handleMassDelete}
+              disabled={selectedTickets.length === 0}
+            >
+              Delete Selected
+            </button>
             <DataTable
               className="dataTables_wrapper"
               columns={columns}
               data={filteredTickets}
               pagination
-              paginationPerPage={10} 
-              paginationRowsPerPageOptions={[10, 20]} 
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
         </div>
       </div>
 
-      
+      {selectedTicket && (
+        <Modal show={showModal} onHide={closeModal} size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Ticket History View</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Text>Date Created: {new Date(selectedTicket.date).toLocaleString()}</Text>
+            <PDFViewer showToolbar={false} width="100%" height="600">
+              <TicketPDF selectedTicket={selectedTicket} />
+            </PDFViewer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
     </div>
   );
 }

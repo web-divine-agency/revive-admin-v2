@@ -22,6 +22,7 @@ import AptosBold from "./fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
+import axiosInstance from "../../../../axiosInstance";
 // import revive_logo from "../../../assets/images/revive-logo.png";
 // import revive_logo_white from "../../../assets/images/revive-logo-white.png";
 
@@ -77,6 +78,7 @@ function GenerateTickets() {
   const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
   const [dateError, setDateError] = useState("");
 
+  const [ticketData, setTicketData] = useState({});
 
   const defaultValues = {
     productName: "Product Name",
@@ -117,20 +119,44 @@ function GenerateTickets() {
 
   };
 
+  const handleTicketData = (e) => {
+    setTicketData({
+      ...ticketData, offerType, expiry, startDate,
+      [e.target.name]: e.target.value
+    });
+  };
+
   //handle generate ticket function
   useEffect(() => {
     if (triggerDownload) {
-      const generateAndDownloadPDF = async () => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
-        const filename = "ticket.pdf";
-        saveAs(blob, filename);
-        setTriggerDownload(false);
-      };
+      const generateAndUploadPDF = async () => {
+        
+        try {
+          await new Promise(resolve => setTimeout(resolve, 500));
+          const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
+          
+          // Create form data to upload the file to the server
+          const response = await axiosInstance.post('/create-ticket',  {
+             ticket_type: template,
+             data: ticketQueue
+          });
 
-      generateAndDownloadPDF();
+          console.log(ticketData);
+          console.log('Ticket successfully created:', response.data.message);
+  
+          // Optionally download the PDF locally as well
+          saveAs(blob, "ticket.pdf");
+  
+        } catch (error) {
+          console.error('Error uploading PDF:', error);
+        } finally {
+          setTriggerDownload(false);
+        }
+      };
+  
+      generateAndUploadPDF();
     }
-  }, [triggerDownload]);
+  }, [triggerDownload, ticketData, template]);
 
   const handleGenerateClick = () => {
     // Check if there are tickets in the queue
@@ -168,7 +194,7 @@ function GenerateTickets() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            setCopies(0);
+            setCopies(1);
             setTriggerDownload(true);
             Swal.fire({
               title: "Success",
@@ -375,16 +401,16 @@ function GenerateTickets() {
   const handleAddToQueue = () => {
     // Capture current form values
     const newTickets = Array.from({ length: copies }, () => ({
-      productName: productName,
-      price: price,
-      rrp: rrp,
-      save: save,
+      productName: ticketData.productName,
+      price: ticketData.price,
+      rrp: ticketData.rrp,
+      save: ticketData.save,
       offerType: offerType,
       expiry: expiry,
       startDate: startDate,
-      percentOff: percentOff,
-      productBrand: productBrand,
-      productDesc: productDesc,
+      percentOff: ticketData.percentOff,
+      productBrand: ticketData.productBrand,
+      productDesc: ticketData.productDesc,
       addedToQueue: true,
     }));
 
@@ -405,18 +431,18 @@ function GenerateTickets() {
   };
 
   const MyDocument = ({ isPDFView }) => {
-    const renderContent = (ticket) => {
+    const renderContent = (ticketData) => {
       const values = {
-        productName: ticket.productName || defaultValues.productName,
-        price: ticket.price || defaultValues.price,
-        rrp: ticket.rrp || defaultValues.rrp,
-        save: ticket.save || defaultValues.save,
-        offerType: ticket.offerType || defaultValues.offerType,
-        expiry: ticket.expiry || defaultValues.expiry,
-        startDate: ticket.startDate || defaultValues.startDate,
-        percentOff: ticket.percentOff || defaultValues.percentOff,
-        productBrand: ticket.productBrand || defaultValues.productBrand,
-        productDesc: ticket.productDesc || defaultValues.productDesc,
+        productName: ticketData.productName || defaultValues.productName,
+        price: ticketData.price || defaultValues.price,
+        rrp: ticketData.rrp || defaultValues.rrp,
+        save: ticketData.save || defaultValues.save,
+        offerType: offerType || defaultValues.offerType,
+        expiry: expiry || defaultValues.expiry,
+        startDate: startDate || defaultValues.startDate,
+        percentOff: ticketData.percentOff || defaultValues.percentOff,
+        productBrand: ticketData.productBrand || defaultValues.productBrand,
+        productDesc: ticketData.productDesc || defaultValues.productDesc,
       };
 
       switch (template) {
@@ -441,14 +467,14 @@ function GenerateTickets() {
                     width: "auto",
                     padding: "3px",
                     borderRadius: "5px",
-                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
-                    color: ticket.addedToQueue ? "green" : "red",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
               <Text
@@ -633,14 +659,14 @@ function GenerateTickets() {
                     width: "auto",
                     padding: "4px",
                     borderRadius: "5px",
-                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
-                    color: ticket.addedToQueue ? "green" : "red",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
 
@@ -705,14 +731,14 @@ function GenerateTickets() {
                     width: "auto",
                     padding: "3px",
                     borderRadius: "5px",
-                    backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
-                    color: ticket.addedToQueue ? "green" : "red",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
                   }}
                   className="no-print"
                 >
-                  {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
               <Text
@@ -832,16 +858,16 @@ function GenerateTickets() {
       // }
 
       const livePreviewTicket = {
-        productName: productName || defaultValues.productName,
-        price: price || defaultValues.price,
-        rrp: rrp || defaultValues.rrp,
-        save: save || defaultValues.save,
+        productName: ticketData.productName || defaultValues.productName,
+        price: ticketData.price || defaultValues.price,
+        rrp: ticketData.rrp || defaultValues.rrp,
+        save: ticketData.save || defaultValues.save,
         offerType: offerType || defaultValues.offerType,
         expiry: expiry || defaultValues.expiry,
         startDate: startDate || defaultValues.startDate,
-        percentOff: percentOff || defaultValues.percentOff,
-        productBrand: productBrand || defaultValues.productBrand,
-        productDesc: productDesc || defaultValues.productDesc,
+        percentOff: ticketData.percentOff || defaultValues.percentOff,
+        productBrand: ticketData.productBrand || defaultValues.productBrand,
+        productDesc: ticketData.productDesc || defaultValues.productDesc,
         addedToQueue: false,
       };
 
@@ -948,11 +974,17 @@ function GenerateTickets() {
               <label>Price</label>
               <input
                 type="text"
+                name="price" // Added name
                 className="form-control"
-                value={price.replace("$", "")}
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, '');
-                  setPrice("$" + formatPrice(filteredValue));
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
                 }}
               />
             </div>
@@ -960,18 +992,34 @@ function GenerateTickets() {
               <label>Product Name</label>
               <input
                 type="text"
+                name="productName" // Added name
                 className="form-control"
-                value={productName}
-                onChange={(e) => setProductName(formatText(e.target.value))}
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatText(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group">
-              <label>Product Description</label>
+              <label>Description</label>
               <input
                 type="text"
+                name="productDesc" // Added name
                 className="form-control"
-                value={productDesc}
-                onChange={(e) => setproductDesc(formatText(e.target.value))}
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatText(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -979,6 +1027,7 @@ function GenerateTickets() {
                 <label>Start Date</label>
                 <input
                   type="date"
+                  name="startDate"
                   className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
@@ -990,6 +1039,7 @@ function GenerateTickets() {
                 <label>Expiry</label>
                 <input
                   type="date"
+                  name="expiry"
                   className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
@@ -1066,31 +1116,51 @@ function GenerateTickets() {
               <label>Brand</label>
               <input
                 type="text"
+                name="productBrand" // Added name
                 className="form-control"
-                value={productBrand}
+                value={ticketData.productBrand || ""}
                 onChange={(e) =>
-                  setproductBrand(BrandformatText(e.target.value))
+                  handleTicketData({
+                    target: {
+                      name: "productBrand",
+                      value: BrandformatText(e.target.value),
+                    },
+                  })
                 }
               />
             </div>
             <div className="form-group">
-              <label>Product Name/Description</label>
+              <label>Product Name</label>
               <input
                 type="text"
+                name="productName" // Added name
                 className="form-control"
-                value={productName}
-                onChange={(e) => setProductName(BigformatText(e.target.value))}
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: BigformatText(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group">
               <label>Price</label>
               <input
                 type="text"
+                name="price" // Added name
                 className="form-control"
-                value={price.replace("$", "")}
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, '');
-                  setPrice("$" + formatPrice(filteredValue))
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
                 }}
               />
             </div>
@@ -1099,6 +1169,7 @@ function GenerateTickets() {
                 <label>Start Date</label>
                 <input
                   type="date"
+                  name="startDate"
                   className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
@@ -1110,6 +1181,7 @@ function GenerateTickets() {
                 <label>Expiry</label>
                 <input
                   type="date"
+                  name="expiry"
                   className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
@@ -1127,42 +1199,69 @@ function GenerateTickets() {
               <label>Product Name</label>
               <input
                 type="text"
+                name="productName" // Added name
                 className="form-control"
-                value={productName}
-                onChange={(e) => setProductName(formatText(e.target.value))}
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatText(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group">
-              <label>Product Description</label>
+              <label>Description</label>
               <input
                 type="text"
+                name="productDesc" // Added name
                 className="form-control"
-                value={productDesc}
-                onChange={(e) => setproductDesc(formatText(e.target.value))}
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatText(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group">
               <label>Price</label>
               <input
                 type="text"
+                name="price" // Added name
                 className="form-control"
-                value={price.replace("$", "")}
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, '');
-                  setPrice("$" + formatPrice(filteredValue));
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
                 }}
               />
             </div>
-
             <div className="form-group">
               <label>RRP</label>
               <input
                 type="text"
+                name="rrp" // Added name
                 className="form-control"
-                value={rrp}
+                value={ticketData.rrp || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, '');
-                  setRrp(formatRrp(filteredValue))
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  })
                 }}
               />
             </div>
@@ -1170,11 +1269,17 @@ function GenerateTickets() {
               <label>Save</label>
               <input
                 type="text"
+                name="save" // Added name
                 className="form-control"
-                value={save}
+                value={ticketData.save || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, '');
-                  setSave(formatSave(filteredValue))
+                  handleTicketData({
+                    target: {
+                      name: "save",
+                      value: formatSave(filteredValue),
+                    },
+                  })
                 }}
               />
             </div>
@@ -1182,6 +1287,7 @@ function GenerateTickets() {
               <label>Offer Type</label>
               <select
                 className="form-control"
+
                 value={offerType}
                 onChange={handleOfferTypeChange}
               >
@@ -1199,6 +1305,7 @@ function GenerateTickets() {
                 <label>Start Date</label>
                 <input
                   type="date"
+                  name="startDate"
                   className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
@@ -1210,6 +1317,7 @@ function GenerateTickets() {
                 <label>Expiry</label>
                 <input
                   type="date"
+                  name="expiry"
                   className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
@@ -1289,9 +1397,6 @@ function GenerateTickets() {
   };
 
 
-
-
-
   return (
     <div className="container generate-ticket-container">
       <div className="col-md-12">
@@ -1309,10 +1414,12 @@ function GenerateTickets() {
                 setPrice("");
                 setRrp("");
                 setSave("");
+                setOfferType("");
                 // setExpiry("");
                 setCopies(1);
                 ticketsCleared();
                 setTemplate(e.target.value)
+                setTicketData({});
               }}
               value={template}
             >
@@ -1363,11 +1470,12 @@ function GenerateTickets() {
                     onClick={() => {
                       setProductName("");
                       setproductBrand("");
+                      setproductDesc("");
                       setPrice("");
                       setRrp("");
                       setSave("");
                       // setExpiry("");
-                      setCopies(0);
+                      setCopies(1);
                       entriesCleared();
                     }}
                   >

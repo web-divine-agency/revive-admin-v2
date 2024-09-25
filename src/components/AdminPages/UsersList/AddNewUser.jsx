@@ -201,6 +201,30 @@ function AddNewUser() {
             </div>
           </div>
           <div className="d-flex justify-content-between ml-5">
+            <div className="form-group" style={{ width: "205px", height: "0" }}>
+              <label>Branches:</label>
+              <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                options={branchOptions}
+                value={selectedBranches}
+                onChange={setSelectedBranches}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    maxHeight: '100px',
+                    overflowY: 'auto',
+                  }),
+                  valueContainer: (provided) => ({
+                    ...provided,
+                    maxHeight: '100px',
+                    overflowY: 'auto',
+                  }),
+                }}
+              />
+            </div>
+
             <div className="form-group">
               <label>Role:</label>
               <br />
@@ -216,7 +240,6 @@ function AddNewUser() {
                 ))}
               </select>
             </div>
-
             <div className="form-group mr-5">
               <label>Email:</label>
               <input
@@ -227,19 +250,7 @@ function AddNewUser() {
               />
             </div>
           </div>
-          <div className="d-flex justify-content-center ml-5">
-            <div className="form-group">
-              <label>Branches:</label>
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                options={branchOptions}
-                value={selectedBranches}
-                onChange={setSelectedBranches}
-              />
-            </div>
-          </div>
+
           <button className="submit-btn mb-4 mt-4" type="submit">
             SAVE
           </button>
