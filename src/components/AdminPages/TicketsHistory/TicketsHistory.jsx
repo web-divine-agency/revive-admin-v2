@@ -187,6 +187,15 @@ function TicketsHistory() {
           <View key={rowIndex} style={styles.row}>
             {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
               <View key={index} style={styles.item}>
+                {selectedTicket.ticketType === 3 && (
+                  <Text style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                  }}>
+                    {item.productBrand}
+                  </Text>
+                )}
                 <Text style={{
                   textTransform: "uppercase",
                   fontFamily: "Bahnschrift",
@@ -240,7 +249,7 @@ function TicketsHistory() {
                     fontSize: "9px",
                     textAlign: "center",
                     fontFamily: "Aptos",
-                    marginBottom:  selectedTicket.ticketType === 2 ? "80px" : "70"
+                    marginBottom: selectedTicket.ticketType === 2 ? "80px" : "70"
                   }}>
                     REVIVE OFFER {item.startDate} {item.expiry}
                   </Text>
@@ -281,7 +290,7 @@ function TicketsHistory() {
         date: new Date(ticket.createdAt)
       };
       setSelectedTicket(formattedTicketData);
-      // console.log(formattedTicketData);
+      console.log(formattedTicketData);
       // console.log(ticket);
       setShowModal(true);
     } catch (error) {

@@ -22,6 +22,8 @@ function UsersList() {
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
+  const [branches, setBranches] = useState([]);
+  const [selectedBranchId, setSelectedBranchId] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
@@ -69,6 +71,25 @@ function UsersList() {
     fetchLoggedInUser();
   }, []);
 
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await axiosInstance.get('/branches');
+        const formattedData = response.data.map(branch => ({
+          id: branch.id,
+          branch_name: branch.branch_name,
+        }));
+        setBranches(formattedData);
+      } catch (error) {
+        console.error('Error fetching staff logs:', error);
+      }
+    };
+    fetchBranches();
+  }, []);
+
+  const handleBranchSelect = (e) => {
+    setSelectedBranchId(e.target.value);
+  };
 
   useEffect(() => {
     // Filter users whenever the filter or search state changes
@@ -93,11 +114,17 @@ function UsersList() {
         );
       }
 
+      if (selectedBranchId) {
+        tempUsers = tempUsers.filter((user) =>
+          user.branches?.some(branch => branch.id === parseInt(selectedBranchId))
+        );
+      }
+
       setFilteredUsers(tempUsers);
     };
 
     applyFilters();
-  }, [filter, search, users, loggedInUser]);
+  }, [filter, search, users, loggedInUser, selectedBranchId]);
   
   
 
@@ -208,7 +235,7 @@ function UsersList() {
     },
     {
       name: "Branch",
-      selector: (row) => row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
+      selector: (row) => row.branches?.map((r) => r.branch_name).join(", ") || "N/A", 
       sortable: true,
     },
     {
@@ -275,12 +302,26 @@ function UsersList() {
               name="filter"
               id="filter"
               value={filter}
+              className="mr-4"
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="">All Users</option>
               <option value="Staff">Staffs</option>
               <option value="Admin">Admins</option>
             </select>
+            <select
+                name="filter"
+                id="filter"
+                value={selectedBranchId}
+                onChange={handleBranchSelect}
+              >
+                <option value="">All Branches</option>
+                {branches.map(branch => (
+                  <option key={branch.id} value={branch.id}>
+                    {branch.branch_name}
+                  </option>
+                ))}
+              </select>
             <input
               id="search-bar"
               type="text"

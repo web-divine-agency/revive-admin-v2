@@ -10,7 +10,7 @@ import close from "../../assets/images/close.png";
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [selectedRole, setSelectedRole] = useState('Admin');
+    const [selectedRole, setSelectedRole] = useState('Staff');
     // const [branches, setBranches] = useState([]);
     // const [selectedBranch, setSelectedBranch] = useState('Main');
     const [error, setError] = useState('');
