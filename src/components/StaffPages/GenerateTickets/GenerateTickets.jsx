@@ -389,12 +389,12 @@ function GenerateTickets() {
       //   };
       case "A4 BIG TICKET LANDSCAPE":
         return {
-          height: "550px",
+          height: "585px",
           width: "850px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          paddingTop: "25px",
+          paddingTop: "20px",
         };
       default:
         return {
@@ -624,7 +624,7 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "29px",
+                  fontSize: "24px",
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
@@ -636,7 +636,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "33px",
+                  fontSize: "26px",
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
@@ -809,6 +809,7 @@ function GenerateTickets() {
                     color: ticketData.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
+                    marginTop: 30,
                   }}
                   className="no-print"
                 >
@@ -819,8 +820,9 @@ function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "72px",
-                  fontFamily: "Arial",
+                  fontFamily: "BarlowCondensed",
                   textTransform: "uppercase",
+                  marginTop: isPDFView ? 10 : 0,
                 }}
               >
                 {values.productBrand}
@@ -828,7 +830,7 @@ function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "45px",
-                  fontFamily: "Arial",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   textTransform: "uppercase",
                   lineHeight: "1px",

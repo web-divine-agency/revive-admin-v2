@@ -21,7 +21,7 @@ import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
 import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/arialn.ttf";
 import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
 import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
-import BahnschriftSemiBoldCondensed from "../../StaffPages/GenerateTickets/fonts/banchschrift/Bahnschrift-SemiBold-Condensed.ttf";
+import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 
@@ -51,8 +51,8 @@ Font.register({
   src: AptosBold,
 });
 Font.register({
-  family: "Bahnschrift",
-  src: BahnschriftSemiBoldCondensed,
+  family: "Barlow",
+  src: BarlowCondensed,
 });
 function TicketsHistory() {
   const navigate = useNavigate();
@@ -169,7 +169,7 @@ function TicketsHistory() {
     },
     item: {
       width: '33%',
-      padding: 10,
+      // padding: 10,
       textAlign: 'center',
     },
   });
@@ -178,6 +178,7 @@ function TicketsHistory() {
       <Page
         size='A4'
         style={styles.page}
+        orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
       >
         {/* <Text>Ticket ID: {selectedTicket.id}</Text>
         <Text>Ticket Type: {selectedTicket.ticketType}</Text> */}
@@ -196,11 +197,20 @@ function TicketsHistory() {
                     {item.productBrand}
                   </Text>
                 )}
+                {selectedTicket.ticketType === 3 && (
+                  <Text style={{
+                    fontSize: "9px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                  }}>
+                    {item.productName}
+                  </Text>
+                )}
                 <Text style={{
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
+                  fontFamily: "Barlow",
                   textAlign: "center",
-                  fontSize: selectedTicket.ticketType === 2 ? "21px" : "34px"
+                  fontSize: selectedTicket.ticketType === 2 ? "30px" : "48px"
 
                 }}>
                   {selectedTicket.ticketType !== 3 && (
@@ -210,9 +220,9 @@ function TicketsHistory() {
                   )}
                 </Text>
                 <Text style={{
-                  fontSize: "24px",
+                  fontSize: "36px",
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
+                  fontFamily: "Barlow",
                   textAlign: "center",
                   // marginTop: isPDFView ? 10 : 0,
                   lineHeight: "1px",
@@ -239,7 +249,7 @@ function TicketsHistory() {
                   textAlign: "center",
                 }}>{item.productDesc}</Text>
 
-                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && selectedTicket.ticketType !== 4 &&(
+                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && selectedTicket.ticketType !== 4 && (
                   <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                     RRP: ${item.rrp} Save: ${item.save}
                   </Text>
