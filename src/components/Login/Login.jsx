@@ -24,7 +24,7 @@ function Login() {
                 password,
             });
 
-            const { user, accessToken, refreshToken, roleName} = response.data;
+            const { user, accessToken, refreshToken, roleName } = response.data;
             // console.log("User ID:", user.id);
             if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
@@ -174,9 +174,9 @@ function Login() {
                                             onChange={(e) => setSelectedRole(e.target.value)}
                                         >
 
-
-                                            <option value="Admin">Admin</option>
                                             <option value="Staff">Staff</option>
+                                            <option value="Admin">Admin</option>
+
                                         </select>
                                     </h6>
                                 </div>

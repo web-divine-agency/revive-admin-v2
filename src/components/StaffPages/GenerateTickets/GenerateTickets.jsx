@@ -16,7 +16,8 @@ import ArialBold from "./fonts/arialbd.ttf";
 import ArialNarrow from "./fonts/arialn.ttf";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
-import BahnschriftSemiBoldCondensed from "./fonts/banchschrift/Bahnschrift-SemiBold-Condensed.ttf";
+// import BarlowCondensedSemiBoldCondensed from "./fonts/banchschrift/BarlowCondensed-SemiBold-Condensed.ttf";
+import BarlowCondensed from "./fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "./fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "./fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { saveAs } from "file-saver";
@@ -53,8 +54,8 @@ Font.register({
   src: AptosBold,
 });
 Font.register({
-  family: "Bahnschrift",
-  src: BahnschriftSemiBoldCondensed,
+  family: "BarlowCondensed",
+  src: BarlowCondensed,
 });
 
 
@@ -141,8 +142,8 @@ function GenerateTickets() {
             data: ticketQueue
           });
 
-          console.log(ticketData);
-          console.log('Ticket successfully created:', response.data.message);
+          // console.log(ticketData);
+          // console.log('Ticket successfully created:', response.data.message);
 
           // Optionally download the PDF locally as well
           saveAs(blob, "ticket.pdf");
@@ -194,7 +195,7 @@ function GenerateTickets() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            setCopies(1);
+            setCopies(0);
             setTriggerDownload(true);
             Swal.fire({
               title: "Success",
@@ -352,7 +353,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -447,6 +448,9 @@ function GenerateTickets() {
 
       switch (template) {
         case "HOT PRICE TAGS (without RRP + Save)":
+          if (offerType !== "ONGOING REVIVE OFFER") {
+            setOfferType("TEMPORARY REVIVE OFFER");
+          }
           return (
             <div
               style={{
@@ -460,7 +464,7 @@ function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Bahnschrift",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -479,9 +483,9 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "34px",
+                  fontSize: "48px",
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -534,8 +538,8 @@ function GenerateTickets() {
                     fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "75px",
-                    paddingBottom: isPDFView ? 15 : 0,
+                      : "60px",
+                    paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
                   {values.offerType}
@@ -549,9 +553,9 @@ function GenerateTickets() {
                     textAlign: "center",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "75px",
+                      : "60px",
                     fontFamily: "Aptos",
-                    paddingBottom: isPDFView ? 15 : 0,
+                    paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
                   REVIVE OFFER &nbsp;
@@ -587,7 +591,7 @@ function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Bahnschrift",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -605,9 +609,9 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "21px",
+                  fontSize: "30px",
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
                   lineHeight: "1px",
@@ -617,9 +621,9 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "24px",
+                  fontSize: "36px",
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   // marginTop: isPDFView ? 10 : 0,
                   lineHeight: "1px",
@@ -628,9 +632,9 @@ function GenerateTickets() {
               >
                 SPECIAL PRICE
               </Text>
-              {/* <Text style={{ fontSize: "65px", fontFamily: "Bahnschrift", fontWeight: '600', lineHeight: "1px" }}>
+              {/* <Text style={{ fontSize: "65px", fontFamily: "BarlowCondensed", fontWeight: '600', lineHeight: "1px" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "32px", fontFamily: "Bahnschrift", fontWeight: '600' }}>
+                <Text style={{ fontSize: "32px", fontFamily: "BarlowCondensed", fontWeight: '600' }}>
                   OFF
                 </Text>
               </Text> */}
@@ -684,8 +688,8 @@ function GenerateTickets() {
                   lineHeight: "1px",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "70px",
-                  paddingBottom: isPDFView ? 15 : 0,
+                    : "55px",
+                  paddingBottom: isPDFView ? 8 : 0,
                 }}
               >
                 REVIVE OFFER &nbsp;
@@ -720,7 +724,7 @@ function GenerateTickets() {
         //           style={{
         //             position: "fixed",
         //             top: -5,
-        //             fontFamily: "Bahnschrift",
+        //             fontFamily: "BarlowCondensed",
         //             fontSize: 20,
         //             height: "auto",
         //             width: "auto",
@@ -780,7 +784,7 @@ function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Bahnschrift",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 20,
                     height: "auto",
                     width: "auto",
@@ -838,6 +842,9 @@ function GenerateTickets() {
             </div>
           );
         default:
+          if (offerType !== "ONGOING REVIVE OFFER") {
+            setOfferType("TEMPORARY REVIVE OFFER");
+          }
           return (
             <div
               style={{
@@ -851,7 +858,7 @@ function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Bahnschrift",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -870,18 +877,16 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "34px",
+                  fontSize: "48px",
                   textTransform: "uppercase",
-                  fontFamily: "Bahnschrift",
-                  // fontWeight: "600", // Semibold weight
+                  fontFamily: "BarlowCondensed",
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
-                HOT PRICE
+              HOT PRICE
               </Text>
-
               <Text
                 style={{
                   fontSize: "48px",
@@ -925,8 +930,8 @@ function GenerateTickets() {
                     fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "60px",
-                    paddingBottom: isPDFView ? 15 : 0,
+                      : "50px",
+                    paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
                   {values.offerType}
@@ -940,9 +945,9 @@ function GenerateTickets() {
                     textAlign: "center",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "60px",
+                      : "50px",
                     fontFamily: "Aptos",
-                    paddingBottom: isPDFView ? 15 : 0,
+                    paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
                   REVIVE OFFER &nbsp;
@@ -1175,7 +1180,7 @@ function GenerateTickets() {
 
               </select>
               <i
-                className="fa fa-chevron-down custom-dropdown-icon"
+                className="fa fa-chevron-down custom-dropdown-icon-2"
               ></i>
             </div>
 
@@ -1727,14 +1732,14 @@ function GenerateTickets() {
                     type="button"
                     className="clear-btn"
                     onClick={() => {
-                      setProductName("");
-                      setproductBrand("");
-                      setproductDesc("");
-                      setPrice("");
-                      setRrp("");
-                      setSave("");
-                      // setExpiry("");
-                      setCopies(1);
+                      setTicketData({
+                        productName: "",
+                        productDesc: "",
+                        price: "",
+                        rrp: "",
+                        save: "",
+                        copies: 1, 
+                      });
                       entriesCleared();
                     }}
                   >
@@ -1761,7 +1766,7 @@ function GenerateTickets() {
             </div>
 
             <div className="col-md-6 ticket-view">
-              <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "Bahnschrift" }}>PDF Live Preview</h5>
+              <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "BarlowCondensed" }}>PDF Live Preview</h5>
               <div className="pdf-preview">
                 <PDFViewer
                   showToolbar={false}
