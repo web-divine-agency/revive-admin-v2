@@ -135,8 +135,6 @@ function GenerateTickets() {
         try {
           await new Promise(resolve => setTimeout(resolve, 500));
           const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
-
-          // Create form data to upload the file to the server
           const response = await axiosInstance.post('/create-ticket', {
             ticket_type: template,
             data: ticketQueue
@@ -144,8 +142,6 @@ function GenerateTickets() {
 
           // console.log(ticketData);
           // console.log('Ticket successfully created:', response.data.message);
-
-          // Optionally download the PDF locally as well
           saveAs(blob, "ticket.pdf");
 
         } catch (error) {
