@@ -207,6 +207,14 @@ function GenerateTickets() {
               confirmButtonColor: "#0ABAA6",
 
             });
+            setTicketData({
+              productName: "",
+              productDesc: "",
+              price: "",
+              rrp: "",
+              save: "",
+              copies: 1, 
+            });
           } catch (error) {
             Swal.fire({
               title: "Error!",
@@ -416,7 +424,14 @@ function GenerateTickets() {
     }));
 
     setTicketQueue((prevQueue) => [...prevQueue, ...newTickets]);
-
+    setTicketData({
+      productName: "",
+      productDesc: "",
+      price: "",
+      rrp: "",
+      save: "",
+      copies: 1, 
+    });
     setProductName("");
     setPrice("");
     setRrp("");
@@ -825,7 +840,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "200px", fontFamily: "Arial", marginTop: "-20px" }}>
                 {values.price}
               </Text>
-              <Text style={{ fontSize: "20px", fontFamily: "ArialItalic" }}>
+              <Text style={{ fontSize: "20px", fontFamily: "ArialItalic", marginTop: "-10px" }}>
                 REVIVE OFFER &nbsp;
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
