@@ -703,7 +703,7 @@ function GenerateTickets() {
                   lineHeight: "1px",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "55px",
+                    : "65px",
                   paddingBottom: isPDFView ? 8 : 0,
                 }}
               >
@@ -842,7 +842,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "200px", fontFamily: "Arial", marginTop: "-20px" }}>
                 {values.price}
               </Text>
-              <Text style={{ fontSize: "20px", fontFamily: "ArialItalic", marginTop: "-10px" }}>
+              <Text style={{ fontSize: "20px", fontFamily: "Aptos", marginTop: "-10px" }}>
                 REVIVE OFFER &nbsp;
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
@@ -1641,40 +1641,49 @@ function GenerateTickets() {
   }, []);
 
   //handle expiry function
-  const handleExpiryChange = (e) => {
+  const handleStartDateChange = (e) => {
     const inputValue = e.target.value;
     const [year, month, day] = inputValue.split("-");
+    
     if (year.length > 4) {
       return;
     }
+  
+    // If there's an expiry date, check if the start date is within the valid range
+    if (expiry && new Date(inputValue) > new Date(expiry)) {
+      setDateError("Start date cannot be later than expiry date");
+      setTimeout(() => setDateError(""), 3000);
+      return;
+    }
+  
+    setStartDate(inputValue);
+    setDateError("");
+  };
+  
+  const handleExpiryChange = (e) => {
+    const inputValue = e.target.value;
+    const [year, month, day] = inputValue.split("-");
+    
+    if (year.length > 4) {
+      return;
+    }
+  
     setExpiry(inputValue);
-
+  
     if (new Date(inputValue) <= new Date(startDate)) {
       setDateError("Expiry date must be later than start date");
-      setTimeout(() =>
-        setDateError(""),
-        3000
-      );
+      setTimeout(() => setDateError(""), 3000);
     } else {
       setDateError("");
     }
   };
-
   //handle radio button
   const handleOfferTypeChange = (e) => {
     setOfferType(e.target.value);
   };
 
 
-  const handleStartDateChange = (e) => {
-    const inputValue = e.target.value;
-    const [year, month, day] = inputValue.split("-");
-    if (year.length > 4) {
-      return;
-    }
-    setStartDate(inputValue);
-    setDateError("");
-  };
+  
 
 
   return (
@@ -1749,6 +1758,7 @@ function GenerateTickets() {
                     type="button"
                     className="clear-btn"
                     onClick={() => {
+                      setCopies(1);
                       setTicketData({
                         productName: "",
                         productDesc: "",

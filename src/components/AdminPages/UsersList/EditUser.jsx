@@ -240,12 +240,12 @@ function EditUser() {
                 styles={{
                   control: (provided) => ({
                     ...provided,
-                    maxHeight: '100px',
+                    maxHeight: '200px',
                     overflowY: 'auto',
                   }),
                   valueContainer: (provided) => ({
                     ...provided,
-                    maxHeight: '100px',
+                    maxHeight: '200px',
                     overflowY: 'auto',
                   }),
                 }}
@@ -280,7 +280,7 @@ function EditUser() {
          
            
         
-          <button className="submit-btn mb-4 mt-4" type="submit">
+          <button className="submit-btn mb-4 mt-5" type="submit">
             Update
           </button>
 

@@ -166,6 +166,7 @@ function TicketsHistory() {
       flexDirection: 'row',
       justifyContent: 'content-start',
       marginBottom: 10,
+      gap: "15px"
     },
     item: {
       width: '33%',
@@ -185,23 +186,35 @@ function TicketsHistory() {
 
         {/* Loop through selectedTicket data, grouping every 3 items */}
         {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
-          <View key={rowIndex} style={styles.row}>
+          <View key={rowIndex} style={{
+            display: 'flex',
+            flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
+            justifyContent: 'content-start',
+            marginBottom: 10,
+            gap: "15px"
+          }}>
             {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
-              <View key={index} style={styles.item}>
+              <View key={index} style={{
+                width: selectedTicket.ticketType === 3 ? '100%' : '33%',
+                height: selectedTicket.ticketType === 3 ? '550px' : '',
+                textAlign: 'center',
+              }}>
                 {selectedTicket.ticketType === 3 && (
                   <Text style={{
-                    fontSize: "9px",
+                    fontSize: selectedTicket.ticketType === 3 ? '72px' : '15px',
                     textAlign: "center",
-                    fontFamily: "Aptos",
+                    fontFamily: selectedTicket.ticketType === 3 ? 'Barlow' : 'Aptos',
+                    textTransform: "uppercase",
                   }}>
                     {item.productBrand}
                   </Text>
                 )}
                 {selectedTicket.ticketType === 3 && (
                   <Text style={{
-                    fontSize: "9px",
+                    fontSize: "45px",
                     textAlign: "center",
-                    fontFamily: "Aptos",
+                    fontFamily: "Barlow",
+                    textTransform: "uppercase",
                   }}>
                     {item.productName}
                   </Text>
@@ -210,7 +223,7 @@ function TicketsHistory() {
                   textTransform: "uppercase",
                   fontFamily: "Barlow",
                   textAlign: "center",
-                  fontSize: selectedTicket.ticketType === 2 ? "30px" : "48px"
+                  fontSize: selectedTicket.ticketType === 2 ? "24px" : "48px"
 
                 }}>
                   {selectedTicket.ticketType !== 3 && (
@@ -220,7 +233,7 @@ function TicketsHistory() {
                   )}
                 </Text>
                 <Text style={{
-                  fontSize: "36px",
+                  fontSize: "26px",
                   textTransform: "uppercase",
                   fontFamily: "Barlow",
                   textAlign: "center",
@@ -231,22 +244,26 @@ function TicketsHistory() {
                   {selectedTicket.ticketType === 2 ? "Special Price" : ""}
                 </Text>
                 <Text style={{
-                  fontSize: "48px",
-                  paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: selectedTicket.ticketType === 3 ? '200px' : '48px',
+                  paddingBottom: "2px",
+                  marginTop: selectedTicket.ticketType === 3 ? '-20px' : '',
                   fontFamily: "Arial",
+                  marginBottom: "3px"
                 }}>{item.price}</Text>
+                {selectedTicket.ticketType !== 3 && (
+                  <Text style={{
+                    fontSize: "15px",
+                    textTransform: "uppercase",
+                    fontFamily: "Aptos",
+                    textAlign: "center",
+                  }}>{item.productName}</Text>
+                )}
                 <Text style={{
                   fontSize: "15px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                }}>{item.productName}</Text>
-                <Text style={{
-                  fontSize: "15px",
-                  textTransform: "uppercase",
-                  fontFamily: "Aptos",
-                  textAlign: "center",
+                  marginBottom: "3px"
                 }}>{item.productDesc}</Text>
 
                 {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && selectedTicket.ticketType !== 4 && (
@@ -256,10 +273,19 @@ function TicketsHistory() {
                 )}
                 {item.offerType !== "ONGOING REVIVE OFFER" ? (
                   <Text style={{
-                    fontSize: "9px",
+                    fontSize: selectedTicket.ticketType ===  3 ?  "20px" : "9px",
                     textAlign: "center",
                     fontFamily: "Aptos",
-                    marginBottom: selectedTicket.ticketType === 2 || 4 ? "80px" : "70"
+                    marginBottom: selectedTicket.ticketType === 4
+                    ? "90px"
+                    : selectedTicket.ticketType === 2
+                    ? "93px"
+                    : selectedTicket.ticketType === 1
+                    ? "75px"
+                     : selectedTicket.ticketType === 3
+                    ? "75px"
+                    : "",
+                  marginTop: selectedTicket.ticketType === 3 ? "-10px" : "",
                   }}>
                     REVIVE OFFER {item.startDate} {item.expiry}
                   </Text>
@@ -544,7 +570,7 @@ function TicketsHistory() {
           </Modal.Header>
           <Modal.Body>
             <Text>Date Created: {new Date(selectedTicket.date).toLocaleString()}</Text>
-            <PDFViewer showToolbar={false} width="100%" height="600">
+            <PDFViewer showToolbar={true} width="100%" height="600">
               <TicketPDF selectedTicket={selectedTicket} />
             </PDFViewer>
           </Modal.Body>
