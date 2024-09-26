@@ -239,7 +239,7 @@ function TicketsHistory() {
                   textAlign: "center",
                 }}>{item.productDesc}</Text>
 
-                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && (
+                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && selectedTicket.ticketType !== 4 &&(
                   <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                     RRP: ${item.rrp} Save: ${item.save}
                   </Text>
@@ -249,7 +249,7 @@ function TicketsHistory() {
                     fontSize: "9px",
                     textAlign: "center",
                     fontFamily: "Aptos",
-                    marginBottom: selectedTicket.ticketType === 2 ? "80px" : "70"
+                    marginBottom: selectedTicket.ticketType === 2 || 4 ? "80px" : "70"
                   }}>
                     REVIVE OFFER {item.startDate} {item.expiry}
                   </Text>

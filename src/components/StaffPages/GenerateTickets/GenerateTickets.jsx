@@ -624,7 +624,7 @@ function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "30px",
+                  fontSize: "29px",
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
@@ -636,7 +636,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "36px",
+                  fontSize: "33px",
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
