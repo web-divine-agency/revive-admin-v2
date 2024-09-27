@@ -65,6 +65,8 @@ function GenerateTickets() {
   const [rrp, setRrp] = useState("");
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
+  const [reviveOffer, setReviveOffer] = useState("");
+  const [tryMe, setTryMe] = useState("");
   const [startDate, setStartDate] = useState("");
   const [percentOff, setpercentOff] = useState("");
   const [productBrand, setproductBrand] = useState("");
@@ -79,12 +81,14 @@ function GenerateTickets() {
   const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
   const [dateError, setDateError] = useState("");
 
-  const [ticketData, setTicketData] = useState({ productName: "",
-  productDesc: "",
-  price: "",
-  rrp: "",
-  save: "",});
-  
+  const [ticketData, setTicketData] = useState({
+    productName: "",
+    productDesc: "",
+    price: "",
+    rrp: "",
+    save: "",
+  });
+
 
   const defaultValues = {
     productName: "Product Name",
@@ -97,6 +101,8 @@ function GenerateTickets() {
     percentOff: "00%",
     productBrand: "Brand",
     productDesc: "Description",
+    reviveOffer: "REVIVE OFFER",
+    tryMe: "TRY ME-LOVE ME!",
   };
   useEffect(() => {
     if (triggerPrint) {
@@ -214,7 +220,7 @@ function GenerateTickets() {
               price: "",
               rrp: "",
               save: "",
-              copies: 1, 
+              copies: 1,
             });
           } catch (error) {
             Swal.fire({
@@ -267,6 +273,31 @@ function GenerateTickets() {
     const lines = [];
     for (let i = 0; i < text.length; i += 19) {
       lines.push(text.substring(i, i + 19));
+      if (lines.length === 1) break;
+    }
+    return lines.join("\n");
+  };
+  const formatTextDescRevlon = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 16) {
+      lines.push(text.substring(i, i + 16));
+      if (lines.length === 3) break;
+    }
+    return lines.join("\n");
+  };
+  const  formatTextNameRevlon = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 16) {
+      lines.push(text.substring(i, i + 16));
+      if (lines.length === 1) break;
+    }
+    return lines.join("\n");
+  };
+
+  const formatTextGreen = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 18) {
+      lines.push(text.substring(i, i + 18));
       if (lines.length === 1) break;
     }
     return lines.join("\n");
@@ -331,11 +362,19 @@ function GenerateTickets() {
   };
 
   //limit ng text 17chars per line in small tickets description
-  const DescriptionformatText = (text) => {
+  const formatTextPercentage = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 15) {
       lines.push(text.substring(i, i + 15));
-      if (lines.length === 3) break;
+      if (lines.length === 2) break;
+    }
+    return lines.join("\n");
+  };
+  const formatTextPercentageName = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 15) {
+      lines.push(text.substring(i, i + 15));
+      if (lines.length === 1) break;
     }
     return lines.join("\n");
   };
@@ -362,7 +401,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -370,6 +409,51 @@ function GenerateTickets() {
   const getTicketStyle = () => {
     switch (template) {
       case "CATALOGUE SPECIALS PRICE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "PERCENTAGE OFF TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "REVLON FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "GREEN FRIDAY SALE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "MUST TRY TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "NEW IN STORE TAGS":
         return {
           height: "auto",
           width: "185px",
@@ -421,6 +505,8 @@ function GenerateTickets() {
       percentOff: ticketData.percentOff,
       productBrand: ticketData.productBrand,
       productDesc: ticketData.productDesc,
+      reviveOffer: ticketData.reviveOffer,
+      tryMe: ticketData.tryMe,
       addedToQueue: true,
     }));
 
@@ -431,7 +517,7 @@ function GenerateTickets() {
       price: "",
       rrp: "",
       save: "",
-      copies: 1, 
+      copies: 1,
     });
     setProductName("");
     setPrice("");
@@ -460,6 +546,8 @@ function GenerateTickets() {
         percentOff: ticketData.percentOff || defaultValues.percentOff,
         productBrand: ticketData.productBrand || defaultValues.productBrand,
         productDesc: ticketData.productDesc || defaultValues.productDesc,
+        reviveOffer: ticketData.reviveOffer || defaultValues.reviveOffer,
+        tryMe: ticketData.tryMe || defaultValues.tryMe,
       };
 
       switch (template) {
@@ -592,6 +680,338 @@ function GenerateTickets() {
               /> */}
             </div>
           );
+        case "GREEN FRIDAY SALE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "24px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
+                }}
+              >
+                GREEN FRIDAY SALE
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                RRP ${values.rrp}  Save ${values.save}
+              </Text> */}
+
+
+              <Text
+                style={{
+                  fontSize: "9px",
+                  textAlign: "center",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "70px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 10 : 0,
+                }}
+              >
+                REVIVE OFFER AVAILABLE {"\n"}
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
+
+              </Text>
+
+              {/* <Image
+                src={revive_logo}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
+                  marginBottom: values.productName.includes("\n")
+                    ? "25px"
+                    : "40px",
+                }}
+              /> */}
+            </div>
+          );
+        case "MUST TRY TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "43px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 8 : 0,
+                }}
+              >
+                MUST TRY
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  // paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                RRP ${values.rrp}  Save ${values.save}
+              </Text> */}
+
+
+              <Text
+                style={{
+                  fontSize: "17px",
+                  textAlign: "center",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "55px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 5 : 0,
+                }}
+              >
+                {values.reviveOffer}
+              </Text>
+
+              {/* <Image
+                src={revive_logo}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
+                  marginBottom: values.productName.includes("\n")
+                    ? "25px"
+                    : "40px",
+                }}
+              /> */}
+            </div>
+          );
+        case "NEW IN STORE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "33px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 8 : 0,
+                }}
+              >
+                NEW IN STORE
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  // paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                RRP ${values.rrp}  Save ${values.save}
+              </Text> */}
+
+
+              <Text
+                style={{
+                  fontSize: "19px",
+                  textAlign: "center",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "60px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 5 : 0,
+                }}
+              >
+                {values.tryMe}
+              </Text>
+
+              {/* <Image
+                src={revive_logo}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
+                  marginBottom: values.productName.includes("\n")
+                    ? "25px"
+                    : "40px",
+                }}
+              /> */}
+            </div>
+          );
         case "CATALOGUE SPECIALS PRICE TAGS":
           return (
             <div
@@ -671,7 +1091,7 @@ function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "15px",
-                  fontFamily: "ArialNarrow",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -685,7 +1105,7 @@ function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "15px",
-                  fontFamily: "ArialNarrow",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -785,6 +1205,195 @@ function GenerateTickets() {
         //       </Text>
         //     </div>
         //   );
+        case "REVLON FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              
+             
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  // paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "90px"
+                    : "105px",
+                  // paddingBottom: isPDFView ? 0 : 0,
+                }}
+              >
+                REVLON FRAGRANCES {"\n"}
+                ONGOING REVIVE OFFER
+              </Text>
+              
+            </div>
+          );
+        case "PERCENTAGE OFF TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+              <Text style={{ fontSize: "75px", fontFamily: "BarlowCondensed", marginTop: isPDFView ? 10 : 0, }}>
+                {values.percentOff}
+                <Text style={{ fontSize: "42px", fontFamily: "BarlowCondensed" }}>
+                  OFF
+                </Text>
+              </Text>
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "19px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "19px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginTop: "3px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "40px"
+                    : "60px",
+                  paddingBottom: isPDFView ? 8 : 0,
+                }}
+              >
+                REVIVE OFFER AVAILABLE {"\n"}
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
+              </Text>
+              {/* <Image
+                src={revive_logo_white}
+                style={{
+                  width: 90,
+                  height: 50,
+                  marginTop: "5px",
+                  marginBottom: values.productName.includes("\n")
+                    ? "20px"
+                    : "40px",
+                }}
+              /> */}
+            </div>
+          );
+
+       
         case "A4 BIG TICKET LANDSCAPE":
           return (
             <div
@@ -903,7 +1512,7 @@ function GenerateTickets() {
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
-              HOT PRICE
+                HOT PRICE
               </Text>
               <Text
                 style={{
@@ -1020,6 +1629,8 @@ function GenerateTickets() {
         percentOff: ticketData.percentOff || defaultValues.percentOff,
         productBrand: ticketData.productBrand || defaultValues.productBrand,
         productDesc: ticketData.productDesc || defaultValues.productDesc,
+        reviveOffer: ticketData.reviveOffer || defaultValues.reviveOffer,
+        tryMe: ticketData.tryMe || defaultValues.tryMe,
         addedToQueue: false,
       };
 
@@ -1230,6 +1841,348 @@ function GenerateTickets() {
             </div>
           </>
         );
+      case "GREEN FRIDAY SALE TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            {/* <div className="form-group">
+              <label>RRP</label>
+              <input
+                type="text"
+                name="rrp" // Added name
+                className="form-control"
+                value={ticketData.rrp || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Save</label>
+              <input
+                type="text"
+                name="save" // Added name
+                className="form-control"
+                value={ticketData.save || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "save",
+                      value: formatSave(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div> */}
+
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  name="expiry"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+          </>
+        );
+      case "MUST TRY TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            {/* <div className="form-group">
+                <label>RRP</label>
+                <input
+                  type="text"
+                  name="rrp" // Added name
+                  className="form-control"
+                  value={ticketData.rrp || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "rrp",
+                        value: formatRrp(filteredValue),
+                      },
+                    })
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label>Save</label>
+                <input
+                  type="text"
+                  name="save" // Added name
+                  className="form-control"
+                  value={ticketData.save || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "save",
+                        value: formatSave(filteredValue),
+                      },
+                    })
+                  }}
+                />
+              </div> */}
+            <div className="form-group">
+              <label>Offer</label>
+              <input
+                type="text"
+                name="reviveOffer" // Added name
+                className="form-control"
+                value={ticketData.reviveOffer || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "reviveOffer",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+          </>
+        );
+      case "NEW IN STORE TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            {/* <div className="form-group">
+                <label>RRP</label>
+                <input
+                  type="text"
+                  name="rrp" // Added name
+                  className="form-control"
+                  value={ticketData.rrp || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "rrp",
+                        value: formatRrp(filteredValue),
+                      },
+                    })
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label>Save</label>
+                <input
+                  type="text"
+                  name="save" // Added name
+                  className="form-control"
+                  value={ticketData.save || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "save",
+                        value: formatSave(filteredValue),
+                      },
+                    })
+                  }}
+                />
+              </div> */}
+            <div className="form-group">
+              <label>Offer</label>
+              <input
+                type="text"
+                name="tryMe" // Added name
+                className="form-control"
+                value={ticketData.tryMe || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "tryMe",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+          </>
+        );
       case "CATALOGUE SPECIALS PRICE TAGS":
         return (
           <>
@@ -1304,6 +2257,209 @@ function GenerateTickets() {
                     target: {
                       name: "productDesc",
                       value: formatText(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  name="expiry"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+            {/* <div className="form-group" style={{ position: "relative" }}>
+              <label>Expiry</label>
+              <input
+                type="date"
+                className="form-control"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+              />
+              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
+            </div> */}
+          </>
+        );
+      // case "Big Tickets (P)":
+      //   return (
+      //     <>
+      //       <div className="form-group">
+      //         <label>Brand</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={productBrand}
+      //           onChange={(e) =>
+      //             setproductBrand(BrandformatText(e.target.value))
+      //           }
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Product Name</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={productName}
+      //           onChange={(e) => setProductName(BigformatText(e.target.value))}
+      //         />
+      //       </div>
+      //       <div className="form-group">
+      //         <label>Price</label>
+      //         <input
+      //           type="text"
+      //           className="form-control"
+      //           value={price.replace("$", "")}
+      //           onChange={(e) => {
+      //             const filteredValue = e.target.value.replace(/e/gi, '');
+      //             setPrice("$" + formatPrice(filteredValue))
+      //           }}
+      //         />
+      //       </div>
+      //       <div className="form-group" style={{ position: "relative" }}>
+      //         <label>Expiry</label>
+      //         <input
+      //           type="date"
+      //           className="form-control"
+      //           value={expiry}
+      //           onChange={handleExpiryChange}
+      //           min={getTodayDate()}
+      //         />
+      //         <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
+      //       </div>
+      //     </>
+      //   );
+      case "REVLON FRAGRANCE TAGS":
+        return (
+          <>
+            
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextDescRevlon(e.target.value),
+                    },
+                  })  
+                }
+              />
+            </div>
+           
+           
+          </>
+        );
+     
+      case "PERCENTAGE OFF TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Percent Off</label>
+              <input
+                name="percentOff"
+                type="text"
+                className="form-control"
+                value={ticketData.percentOff?.replace("%", "") || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "percentOff",
+                      value: PercentageformatText(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextPercentageName(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextPercentage(e.target.value),
                     },
                   })
                 }
@@ -1645,32 +2801,32 @@ function GenerateTickets() {
   const handleStartDateChange = (e) => {
     const inputValue = e.target.value;
     const [year, month, day] = inputValue.split("-");
-    
+
     if (year.length > 4) {
       return;
     }
-  
+
     // If there's an expiry date, check if the start date is within the valid range
     if (expiry && new Date(inputValue) > new Date(expiry)) {
       setDateError("Start date cannot be later than expiry date");
       setTimeout(() => setDateError(""), 3000);
       return;
     }
-  
+
     setStartDate(inputValue);
     setDateError("");
   };
-  
+
   const handleExpiryChange = (e) => {
     const inputValue = e.target.value;
     const [year, month, day] = inputValue.split("-");
-    
+
     if (year.length > 4) {
       return;
     }
-  
+
     setExpiry(inputValue);
-  
+
     if (new Date(inputValue) <= new Date(startDate)) {
       setDateError("Expiry date must be later than start date");
       setTimeout(() => setDateError(""), 3000);
@@ -1714,6 +2870,11 @@ function GenerateTickets() {
               <option value="CATALOGUE SPECIALS PRICE TAGS">CATALOGUE SPECIALS PRICE TAGS</option>
               {/* <option value="Big Tickets (P)">Big Tickets (P)</option> */}
               <option value="A4 BIG TICKET LANDSCAPE">A4 BIG TICKET LANDSCAPE</option>
+              <option value="GREEN FRIDAY SALE TAGS">GREEN FRIDAY SALE TAGS</option>
+              <option value="MUST TRY TAGS">MUST TRY TAGS</option>
+              <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
+              <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
+              <option value="REVLON FRAGRANCE TAGS">REVLON FRAGRANCE TAGS</option>
             </select>
           </div>
         </div>
@@ -1762,7 +2923,7 @@ function GenerateTickets() {
                         price: "",
                         rrp: "",
                         save: "",
-                        copies: 1, 
+                        copies: 1,
                       });
                       entriesCleared();
                     }}

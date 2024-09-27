@@ -357,7 +357,7 @@ function TicketsHistory() {
         date: new Date(ticket.createdAt)
       };
       setSelectedTicket(formattedTicketData);
-      console.log(formattedTicketData);
+      // console.log(formattedTicketData);
       // console.log(ticket);
       setShowModal(true);
     } catch (error) {
