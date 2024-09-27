@@ -21,10 +21,12 @@ function UsersList() {
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
-
+  
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [roles, setRoles] = useState([]);
+  const [roleFilter, setRoleFilter] = useState('');
 
   useEffect(() => {
     // success login swal
@@ -55,7 +57,18 @@ function UsersList() {
         console.error("Error fetching users:", error);
       }
     };
+
+    const fetchRoles = async () => {
+      try{
+        const response = await axiosInstance.get("/roles");
+        setRoles(response.data);
+      }catch(error){
+        console.error(response.status.error);
+      }
+    }
+
     fetchUsers();
+    fetchRoles();
   }, [navigate]);
 
   useEffect(() => {
@@ -100,12 +113,10 @@ function UsersList() {
     let tempUsers = users.filter(
       (user) => user.id !== loggedInUser.id);
 
-      if (filter) {
-        tempUsers = tempUsers.filter((user) => {
-          if (filter === "Staff") return user.roles?.map((r) => r.role_name).join(", ") === "Staff";
-          if (filter === "Admin") return user.roles?.map((r) => r.role_name).join(", ") === "Admin";
-          return true;
-        }, );
+      if (roleFilter) {
+        tempUsers = tempUsers.filter((user) => 
+          user.roles?.map((r) => r.role_name).join(", ") === roleFilter
+        );
       }
 
       if (search) {
@@ -124,7 +135,7 @@ function UsersList() {
     };
 
     applyFilters();
-  }, [filter, search, users, loggedInUser, selectedBranchId]);
+  }, [filter, roleFilter, search, users, loggedInUser, selectedBranchId]);
   
   
 
@@ -298,16 +309,19 @@ function UsersList() {
         <div className="col-lg-12 col-md-6">
           <h3>Users List</h3>
           <div className="top-filter">
-            <select
+          <select
               name="filter"
-              id="filter"
-              value={filter}
               className="mr-4"
-              onChange={(e) => setFilter(e.target.value)}
+              id="filter"
+              value={roleFilter}
+              onChange={e => setRoleFilter(e.target.value)}
             >
-              <option value="">All Users</option>
-              <option value="Staff">Staffs</option>
-              <option value="Admin">Admins</option>
+              <option value="">All Roles</option>
+              {roles.map(role => (
+                <option key={role.id} value={role.role_name}>
+                  {role.role_name}
+                </option>
+              ))}
             </select>
             <select
                 name="filter"

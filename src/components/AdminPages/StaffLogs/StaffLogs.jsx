@@ -18,8 +18,11 @@ function StaffLogs() {
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
   const [selectedLogs, setSelectedLogs] = useState([]); // To handle mass delete
-
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [branchFilter, setBranchFilter] = useState(''); // New state for branch filter
+  const [branches, setBranches] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [roleFilter, setRoleFilter] = useState('');
 
   useEffect(() => {
     const fetchLogs = async () => {
@@ -39,7 +42,18 @@ function StaffLogs() {
         console.error('Error fetching staff logs:', error);
       }
     };
+
+    const fetchBranches = async () => {
+      try {
+        const response = await axiosInstance.get('/branches');
+        setBranches(response.data); // Assuming backend returns a list of branches
+      } catch (error) {
+        console.error('Error fetching branches:', error);
+      }
+    };
+
     fetchLogs();
+    fetchBranches();
   }, [navigate]);
 
   const handleDeleteLog = async (id) =>
@@ -208,17 +222,37 @@ function StaffLogs() {
         console.error("Error fetching logged-in user:", error);
       }
     };
+
+    const fetchRoles = async () => {
+      try{
+        const response = await axiosInstance.get("/roles");
+        setRoles(response.data);
+      }catch(error){
+        console.error(response.status.error);
+      }
+    }
     
     fetchLoggedInUser();
+    fetchRoles();
   }, []);
+
+
 
   const filteredData = data
   .filter(item => {
-    // Apply role-based filtering from dropdown
-    if (filter === 'Staffs') return item.role === 'Staff';
-    if (filter === 'Admins') return item.role === 'Admin';
+    // Apply branch-based filtering
+    if (roleFilter) {
+      return item.role.includes(roleFilter); // Match branch name to selected branch
+    }
     return true;
   })
+  .filter(item => {
+      // Apply branch-based filtering
+      if (branchFilter) {
+        return item.branch.includes(branchFilter); // Match branch name to selected branch
+      }
+      return true;
+    })
   .filter(item => {
     // Apply search-based filtering
     return item.name.toLowerCase().includes(search.toLowerCase());
@@ -230,15 +264,32 @@ function StaffLogs() {
         <div className="col-lg-12 col-md-6">
           <h3>Staff Logs </h3>
           <div className='top-filter'>
+          <select
+              name="filter"
+              className="mr-4"
+              id="filter"
+              value={roleFilter}
+              onChange={e => setRoleFilter(e.target.value)}
+            >
+              <option value="">All Roles</option>
+              {roles.map(role => (
+                <option key={role.id} value={role.role_name}>
+                  {role.role_name}
+                </option>
+              ))}
+            </select>
             <select
               name="filter"
               id="filter"
-              value={filter}
-              onChange={e => setFilter(e.target.value)}
+              value={branchFilter}
+              onChange={e => setBranchFilter(e.target.value)}
             >
-              <option value="">All Users</option>
-              <option value="Staffs">Staffs</option>
-              <option value="Admins">Admins</option>
+              <option value="">All Branches</option>
+              {branches.map(branch => (
+                <option key={branch.id} value={branch.branch_name}>
+                  {branch.branch_name}
+                </option>
+              ))}
             </select>
             <input
               id='search-bar'

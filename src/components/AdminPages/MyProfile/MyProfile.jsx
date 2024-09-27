@@ -186,8 +186,8 @@ function MyProfile() {
             </form>
           </div>
           <div className="col-lg-4 profile-user text-center">
-            <img src={profile_avatar} alt="Profile Avatar" className="profile-avatar" />
-            <h5>{`${first_name} ${last_name}`}</h5>
+            <img src={profile_avatar} alt="Profile Avatar" className="profile-avatar" style={{position: "absolute", height: "120px", width: "120px", top: "-65px"}} />
+            <h5 className="mt-3">{`${first_name} ${last_name}`}</h5>
             <h6>Role: {role}</h6>
             <h6>Branch: {branch}</h6>
           </div>

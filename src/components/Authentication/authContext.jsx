@@ -1,8 +1,9 @@
 // authContext.js
-import { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axiosInstance from '../../../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from './getCookie'
+import Swal from 'sweetalert2'; 
 
 export const AuthContext = createContext();
 
@@ -10,7 +11,6 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-
 
 
   useEffect(() => {
@@ -23,33 +23,26 @@ export const AuthContextProvider = ({ children }) => {
           setIsAuthenticated(true);
         })
         .catch(error => {
-          console.error('Error fetching user data:', error);
           setIsAuthenticated(false);
+          showSessionExpiredPopup();
         });
     }
+        
   }, []);
 
-  useEffect(() => {
-    const handleBackButton = () => {
-      const accessToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('accessToken='))
-        ?.split('=')[1];
-
-
-      if (!accessToken) {
-        navigate('/');
-      }
-    };
-
-    window.addEventListener('popstate', handleBackButton);
-
-    return () => {
-      window.removeEventListener('popstate', handleBackButton);
-    };
-  }, [navigate]);
-
-
+  const showSessionExpiredPopup = () => {
+    Swal.fire({
+        title: 'Session Expired',
+        text: 'Your session token has expired. Please login again.',
+        icon: 'warning',
+        timer: 5000, // Wait for 5 seconds before redirecting
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    }).then(() => {
+        logout(); // Redirect to login after the popup
+    });
+};
 
   const login = (userData) => {
     setUser(userData);
@@ -66,7 +59,7 @@ export const AuthContextProvider = ({ children }) => {
 
       setUser(null);
       setIsAuthenticated(false);
-      console.log("asdfasdfas");
+      console.log("Logged Out");
       navigate('/');
     } catch (error) {
       console.error('Logout failed:', error);

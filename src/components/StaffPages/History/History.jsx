@@ -23,6 +23,8 @@ import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
+import { Tooltip } from 'react-tooltip';
+
 
 
 Font.register({
@@ -176,137 +178,163 @@ function TicketsHistory() {
   });
   const TicketPDF = ({ selectedTicket }) => (
     <Document>
-      <Page
-        size='A4'
-        style={styles.page}
-        orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
+  <Page
+    size='A4'
+    style={styles.page}
+    orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
+  >
+    {/* Loop through selectedTicket data, grouping every 3 items */}
+    {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
+      <View
+        key={rowIndex}
+        style={{
+          display: 'flex',
+          flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
+          justifyContent: 'content-start',
+          marginBottom: 10,
+          gap: "15px",
+        }}
       >
-        {/* <Text>Ticket ID: {selectedTicket.id}</Text>
-        <Text>Ticket Type: {selectedTicket.ticketType}</Text> */}
-
-        {/* Loop through selectedTicket data, grouping every 3 items */}
-        {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
-          <View key={rowIndex} style={{
-            display: 'flex',
-            flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
-            justifyContent: 'content-start',
-            marginBottom: 10,
-            gap: "15px"
-          }}>
-            {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
-              <View key={index} style={{
-                width: selectedTicket.ticketType === 3 ? '100%' : '33%',
-                height: selectedTicket.ticketType === 3 ? '550px' : '',
-                textAlign: 'center',
-              }}>
-                {selectedTicket.ticketType === 3 && (
-                  <Text style={{
-                    fontSize: selectedTicket.ticketType === 3 ? '72px' : '15px',
-                    textAlign: "center",
-                    fontFamily: selectedTicket.ticketType === 3 ? 'Barlow' : 'Aptos',
-                    textTransform: "uppercase",
-                  }}>
-                    {item.productBrand}
-                  </Text>
-                )}
-                {selectedTicket.ticketType === 3 && (
-                  <Text style={{
-                    fontSize: "45px",
-                    textAlign: "center",
-                    fontFamily: "Barlow",
-                    textTransform: "uppercase",
-                  }}>
-                    {item.productName}
-                  </Text>
-                )}
-                <Text style={{
-                  textTransform: "uppercase",
-                  fontFamily: "Barlow",
+        {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
+          <View
+            key={index}
+            style={{
+              width: selectedTicket.ticketType === 3 ? '100%' : '33%',
+              height: selectedTicket.ticketType === 3 ? '550px' : '',
+              textAlign: 'center',
+            }}
+          >
+            {selectedTicket.ticketType === 3 && (
+              <Text
+                style={{
+                  fontSize: selectedTicket.ticketType === 3 ? '72px' : '15px',
                   textAlign: "center",
-                  fontSize: selectedTicket.ticketType === 2 ? "24px" : "48px"
-
-                }}>
-                  {selectedTicket.ticketType !== 3 && (
-                    <Text>
-                      {selectedTicket.ticketType === 2 ? "Catalogue" : "HOT PRICE"}
-                    </Text>
-                  )}
-                </Text>
-                <Text style={{
-                  fontSize: "26px",
+                  fontFamily: selectedTicket.ticketType === 3 ? 'Barlow' : 'Aptos',
                   textTransform: "uppercase",
-                  fontFamily: "Barlow",
+                }}
+              >
+                {item.productBrand || "Brand"}
+              </Text>
+            )}
+            {selectedTicket.ticketType === 3 && (
+              <Text
+                style={{
+                  fontSize: "45px",
                   textAlign: "center",
-                  // marginTop: isPDFView ? 10 : 0,
-                  lineHeight: "1px",
-
-                }}>
-                  {selectedTicket.ticketType === 2 ? "Special Price" : ""}
+                  fontFamily: "Barlow",
+                  textTransform: "uppercase",
+                }}
+              >
+                {item.productName || "Product Name"}
+              </Text>
+            )}
+            <Text
+              style={{
+                textTransform: "uppercase",
+                fontFamily: "Barlow",
+                textAlign: "center",
+                fontSize: selectedTicket.ticketType === 2 ? "24px" : "48px",
+              }}
+            >
+              {selectedTicket.ticketType !== 3 && (
+                <Text>
+                  {selectedTicket.ticketType === 2 ? "Catalogue" : "HOT PRICE"}
                 </Text>
-                <Text style={{
-                  fontSize: selectedTicket.ticketType === 3 ? '200px' : '48px',
-                  paddingBottom: "2px",
-                  marginTop: selectedTicket.ticketType === 3 ? '-20px' : '',
-                  fontFamily: "Arial",
-                  marginBottom: "3px"
-                }}>{item.price}</Text>
-                {selectedTicket.ticketType !== 3 && (
-                  <Text style={{
-                    fontSize: "15px",
-                    textTransform: "uppercase",
-                    fontFamily: "Aptos",
-                    textAlign: "center",
-                  }}>{item.productName}</Text>
-                )}
-                <Text style={{
+              )}
+            </Text>
+            <Text
+              style={{
+                fontSize: "26px",
+                textTransform: "uppercase",
+                fontFamily: "Barlow",
+                textAlign: "center",
+                lineHeight: "1px",
+              }}
+            >
+              {selectedTicket.ticketType === 2 ? "Special Price" : ""}
+            </Text>
+            <Text
+              style={{
+                fontSize: selectedTicket.ticketType === 3 ? '200px' : '48px',
+                paddingBottom: "2px",
+                marginTop: selectedTicket.ticketType === 3 ? '-20px' : '',
+                fontFamily: "Arial",
+                marginBottom: "3px",
+              }}
+            >
+              {item.price || "Price"}
+            </Text>
+            {selectedTicket.ticketType !== 3 && (
+              <Text
+                style={{
                   fontSize: "15px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginBottom: "3px"
-                }}>{item.productDesc}</Text>
+                }}
+              >
+                {item.productName || "Product Name"}
+              </Text>
+            )}
+            <Text
+              style={{
+                fontSize: "15px",
+                textTransform: "uppercase",
+                fontFamily: "Aptos",
+                textAlign: "center",
+                marginBottom: "3px",
+              }}
+            >
+              {item.productDesc || "Product Description"}
+            </Text>
 
-                {selectedTicket.ticketType !== 2 && selectedTicket.ticketType !== 3 && selectedTicket.ticketType !== 4 && (
-                  <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                    RRP: ${item.rrp} Save: ${item.save}
-                  </Text>
-                )}
-                {item.offerType !== "ONGOING REVIVE OFFER" ? (
-                  <Text style={{
-                    fontSize: selectedTicket.ticketType ===  3 ?  "20px" : "9px",
-                    textAlign: "center",
-                    fontFamily: "Aptos",
-                    marginBottom: selectedTicket.ticketType === 4
+            {selectedTicket.ticketType !== 2 &&
+              selectedTicket.ticketType !== 3 &&
+              selectedTicket.ticketType !== 4 && (
+                <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                  RRP: ${item.rrp} Save: ${item.save}
+                </Text>
+              )}
+
+            {item.offerType !== "ONGOING REVIVE OFFER" ? (
+              <Text
+                style={{
+                  fontSize: selectedTicket.ticketType === 3 ? "20px" : "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  marginBottom: selectedTicket.ticketType === 4
                     ? "90px"
                     : selectedTicket.ticketType === 2
                     ? "93px"
                     : selectedTicket.ticketType === 1
                     ? "75px"
-                     : selectedTicket.ticketType === 3
+                    : selectedTicket.ticketType === 3
                     ? "75px"
                     : "",
                   marginTop: selectedTicket.ticketType === 3 ? "-10px" : "",
-                  }}>
-                    REVIVE OFFER {item.startDate} {item.expiry}
-                  </Text>
-                ) : (
-                  <Text style={{
-                    fontSize: "9px",
-                    textAlign: "center",
-                    fontFamily: "Aptos",
-                    marginBottom: "70px"
-                  }}>
-                    ONGOING REVIVE OFFER
-                  </Text>
-                )}
-
-              </View>
-
-            ))}
+                }}
+              >
+                REVIVE OFFER {item.startDate} {item.expiry}
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  marginBottom: "70px",
+                }}
+              >
+                ONGOING REVIVE OFFER
+              </Text>
+            )}
           </View>
         ))}
-      </Page>
-    </Document>
+      </View>
+    ))}
+  </Page>
+</Document>
+
   );
 
 
@@ -373,7 +401,13 @@ function TicketsHistory() {
     {
       name: "Ticket Type",
       selector: (row) => row.ticketType,
-      sortable: true
+      sortable: true,
+      cell: (row) => (
+        <div data-tooltip-id={`tooltip-${row.ticketType}`} data-tooltip-content={row.ticketType}>
+          {row.ticketType}
+          <Tooltip id={`tooltip-${row.ticketType}`} />
+        </div>
+      ),
     },
     {
       name: "Action",

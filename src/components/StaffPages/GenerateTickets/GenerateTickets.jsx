@@ -79,7 +79,12 @@ function GenerateTickets() {
   const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
   const [dateError, setDateError] = useState("");
 
-  const [ticketData, setTicketData] = useState({});
+  const [ticketData, setTicketData] = useState({ productName: "",
+  productDesc: "",
+  price: "",
+  rrp: "",
+  save: "",});
+  
 
   const defaultValues = {
     productName: "Product Name",

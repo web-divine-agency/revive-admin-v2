@@ -1,10 +1,8 @@
 // src/axiosInstance.js
 import axios from 'axios';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import {AuthContext} from './src/components/Authentication/authContext';
 import {getCookie} from './src/components/Authentication/getCookie'
-import Swal from 'sweetalert2'; 
-import { useNavigate } from 'react-router-dom'; 
 
 const axiosInstance = axios.create({
     baseURL: 'https://revive.imseoninja.com/api',
@@ -33,29 +31,15 @@ axiosInstance.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
-const showSessionExpiredPopup = (navigate) => {
-    Swal.fire({
-        title: 'Session Expired',
-        text: 'Your session has expired. You will be redirected to the login page.',
-        icon: 'warning',
-        timer: 5000, // Wait for 5 seconds before redirecting
-        showConfirmButton: false,
-        allowOutsideClick: false,
-        allowEscapeKey: false
-    }).then(() => {
-        navigate('/'); // Redirect to login after the popup
-    });
-};
 
 // Response interceptor to handle token expiration
 axiosInstance.interceptors.response.use((response) => {
     return response;
 }, async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.status === 401 && !originalRequest._retry) {
+    const { logout, showSessionExpiredPopup } = useContext(AuthContext);
+    if (error.response.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true;
-        const navigate = useNavigate(); 
         const refreshToken = getCookie('refreshToken');
        if (!isRefreshing) {
             isRefreshing = true;
@@ -70,8 +54,7 @@ axiosInstance.interceptors.response.use((response) => {
             return axiosInstance(originalRequest);
         } catch (refreshError) {
             isRefreshing = false;
-            useContext(AuthContext).logout();
-            showSessionExpiredPopup(navigate); // Log out on refresh token failure
+            showSessionExpiredPopup();// Log out on refresh token failure
             return Promise.reject(refreshError);
         }
     }
@@ -82,7 +65,7 @@ axiosInstance.interceptors.response.use((response) => {
       });
   });
 }
-
+return Promise.reject(error);
 });
 
 export default axiosInstance;

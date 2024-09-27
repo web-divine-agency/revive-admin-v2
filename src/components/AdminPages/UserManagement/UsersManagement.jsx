@@ -141,7 +141,7 @@ function UserRoleManagement() {
             height="25"
             style={{ cursor: "pointer" }}
           />
-          {row.role_name !== "Admin" && (
+         {row.role_name !== "Admin" && row.role_name !== "Staff" && (
             <img
               className="ml-3"
               src={delete_icon}

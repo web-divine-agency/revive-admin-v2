@@ -16,7 +16,7 @@ function Navbar({ role }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // e.preventDefault();
     Swal.fire({
       title: "Log Out!",
@@ -33,8 +33,10 @@ function Navbar({ role }) {
         cancelButton: "custom-cancel-button",
         title: "custom-swal-title",
       },
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
+        try {
+          await axiosInstance.post(`/logout`);
         logout(); 
         Swal.fire({
           title: "Logged Out!",
@@ -49,10 +51,14 @@ function Navbar({ role }) {
             title: "custom-swal-title",
           },
         }
-        ).then(() => {
+      ).then(() => {
           navigate('/login'); 
         });
+      }catch{
+
       }
+    }
+
     });
   };
 

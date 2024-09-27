@@ -22,47 +22,46 @@ function Branches() {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
 
-
-
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await axiosInstance.get('/branches');
-        const formattedData = response.data.map(branch => ({
+        const response = await axiosInstance.get("/branches");
+        const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
           address: branch.branch_address,
           operating_hours: branch.operating_hours,
-          status: getBranchStatus(branch)
+          status: getBranchStatus(branch),
         }));
         setData(formattedData);
         setFilteredData(formattedData);
       } catch (error) {
-        console.error('Error fetching staff logs:', error);
+        console.error("Error fetching staff logs:", error);
       }
     };
     fetchBranches();
   }, [navigate]);
 
   //filter branches
-   useEffect(() => {
-    const results = data.filter(branch => 
-      (selectedBranchId ? branch.id === parseInt(selectedBranchId) : true) &&
-      (branch.branch_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      branch.address.toLowerCase().includes(searchTerm.toLowerCase()))
+  useEffect(() => {
+    const results = data.filter(
+      (branch) =>
+        (selectedBranchId ? branch.id === parseInt(selectedBranchId) : true) &&
+        (branch.branch_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          branch.address.toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredData(results);
   }, [searchTerm, data, selectedBranchId]);
 
   const handleBranchSelect = (e) => {
     setSelectedBranchId(e.target.value);
-    console.log("Selected Branch ID:", e.target.value); 
+    console.log("Selected Branch ID:", e.target.value);
   };
 
   const getBranchStatus = (branch) => {
-    if (!branch.operating_hours || typeof branch.operating_hours !== 'object') {
+    if (!branch.operating_hours || typeof branch.operating_hours !== "object") {
       // Handle cases where operating_hours might be undefined or not an object
-      return 'Unknown'; // or 'Closed' as a fallback
+      return "Unknown"; // or 'Closed' as a fallback
     }
 
     const currentTime = new Date();
@@ -71,8 +70,10 @@ function Branches() {
     const openTime = branch.operating_hours.open.split(":");
     const closeTime = branch.operating_hours.close.split(":");
 
-    const openMinutes = parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
-    let closeMinutes = parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
+    const openMinutes =
+      parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
+    let closeMinutes =
+      parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
 
     // Adjust closeMinutes for overnight periods
     if (closeMinutes < openMinutes) {
@@ -85,7 +86,9 @@ function Branches() {
     }
 
     // Determine if the current time falls within the open hours
-    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes ? 'Open' : 'Closed';
+    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes
+      ? "Open"
+      : "Closed";
   };
 
   //modal view
@@ -107,7 +110,7 @@ function Branches() {
       title: "Are you sure?",
       text: "You won’t be able to revert this!",
       showCancelButton: true,
-      icon: 'warning',
+      icon: "warning",
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",
@@ -168,7 +171,7 @@ function Branches() {
     {
       name: "Operating Hours",
       selector: (row) => {
-        if (typeof row.operating_hours === 'object') {
+        if (typeof row.operating_hours === "object") {
           return `${row.operating_hours.open} - ${row.operating_hours.close}`;
         }
         return row.operating_hours;
@@ -229,15 +232,18 @@ function Branches() {
     },
   ];
 
-
-
   return (
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Branches</h3>
           <div className="top-filter">
-            <select onChange={handleBranchSelect} value={selectedBranchId}>
+            <select
+              name="filter"
+              id="filter"
+              onChange={handleBranchSelect}
+              value={selectedBranchId}
+            >
               <option value="">All Branches</option>
               {data.map((branch) => (
                 <option key={branch.id} value={branch.id}>
@@ -267,7 +273,6 @@ function Branches() {
               pagination
               paginationPerPage={10}
               paginationRowsPerPageOptions={[10, 20]}
-              
             />
           </div>
         </div>
@@ -285,7 +290,8 @@ function Branches() {
               <p>{selectedBranches.address}</p>
               <h5>Operating Hours</h5>
               <p>
-                Open: {selectedBranches.operating_hours?.open} - Close: {selectedBranches.operating_hours?.close}
+                Open: {selectedBranches.operating_hours?.open} - Close:{" "}
+                {selectedBranches.operating_hours?.close}
               </p>
               <h5>Status</h5>
               <p>{selectedBranches.status}</p>
