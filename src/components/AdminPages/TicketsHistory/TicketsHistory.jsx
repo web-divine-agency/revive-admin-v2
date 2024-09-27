@@ -81,7 +81,7 @@ function TicketsHistory() {
           branch_id: tickets.branch.branch_name,
           role: tickets.user.roles?.map((r) => r.role_name).join(", "),
           date: new Date(tickets.createdAt)
-        }));
+        })).sort((a, b) => b.date - a.date);
         setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);

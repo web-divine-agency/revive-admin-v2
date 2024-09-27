@@ -6,6 +6,7 @@ import { IconContext } from "react-icons";
 import profile_avatar from "../../assets/images/profile_avatar.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Authentication/authContext";
+import axiosInstance from "../../../axiosInstance";
 import check from "../../assets/images/check.png";
 import Swal from "sweetalert2";
 
@@ -15,14 +16,13 @@ function Navbar({ role }) {
   const { logout } = useContext(AuthContext);
   const [activeIndex, setActiveIndex] = useState(null);
 
-
   const handleLogout = async () => {
     // e.preventDefault();
     Swal.fire({
       title: "Log Out!",
       text: "Do you really want to log out?",
       showCancelButton: true,
-      icon: 'warning',
+      icon: "warning",
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",
@@ -33,32 +33,28 @@ function Navbar({ role }) {
         cancelButton: "custom-cancel-button",
         title: "custom-swal-title",
       },
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await axiosInstance.post(`/logout`);
-        logout(); 
-        Swal.fire({
-          title: "Logged Out!",
-          text: "You have been logged out successfully.",
-          imageUrl: check,
-          imageWidth: 100,
-          imageHeight: 100,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-          customClass: {
-            confirmButton: "custom-success-confirm-button",
-            title: "custom-swal-title",
-          },
-        }
-      ).then(() => {
-          navigate('/login'); 
-        });
-      }catch{
-
+          logout();
+          Swal.fire({
+            title: "Logged Out!",
+            text: "You have been logged out successfully.",
+            imageUrl: check,
+            imageWidth: 100,
+            imageHeight: 100,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0ABAA6",
+            customClass: {
+              confirmButton: "custom-success-confirm-button",
+              title: "custom-swal-title",
+            },
+          }).then(() => {
+            navigate("/login");
+          });
+        } catch {}
       }
-    }
-
     });
   };
 
@@ -67,7 +63,7 @@ function Navbar({ role }) {
       handleLogout();
     } else {
       navigate(item.path);
-      setActiveIndex(index); 
+      setActiveIndex(index);
     }
   };
   return (
@@ -197,7 +193,9 @@ function Navbar({ role }) {
                 return (
                   <React.Fragment key={index}>
                     <li
-                      className={`${item.cName} sidebar-nav-list ${activeIndex === index ? 'active' : ''}`}
+                      className={`${item.cName} sidebar-nav-list ${
+                        activeIndex === index ? "active" : ""
+                      }`}
                     >
                       <Link
                         className="sidebar-nav-link"
@@ -208,9 +206,10 @@ function Navbar({ role }) {
                         <span>{item.title}</span>
                       </Link>
                     </li>
-                    {index < sidebarData.length - 1 && <hr className="nav-divider" />}
+                    {index < sidebarData.length - 1 && (
+                      <hr className="nav-divider" />
+                    )}
                   </React.Fragment>
-
                 );
               })}
             </ul>
