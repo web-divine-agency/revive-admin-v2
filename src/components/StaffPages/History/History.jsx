@@ -23,7 +23,8 @@ import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
-import { Tooltip } from 'react-tooltip';
+
+
 
 
 
@@ -69,7 +70,7 @@ function TicketsHistory() {
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
- 
+
   useEffect(() => {
     const fetchTickets = async () => {
       try {
@@ -82,7 +83,7 @@ function TicketsHistory() {
           branch_id: tickets.branch.branch_name,
           role: tickets.user.roles?.map((r) => r.role_name).join(", "),
           date: new Date(tickets.createdAt)
-        }));
+        })).sort((a, b) => b.date - a.date);
         setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
@@ -178,162 +179,164 @@ function TicketsHistory() {
   });
   const TicketPDF = ({ selectedTicket }) => (
     <Document>
-  <Page
-    size='A4'
-    style={styles.page}
-    orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
-  >
-    {/* Loop through selectedTicket data, grouping every 3 items */}
-    {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
-      <View
-        key={rowIndex}
-        style={{
-          display: 'flex',
-          flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
-          justifyContent: 'content-start',
-          marginBottom: 10,
-          gap: "15px",
-        }}
+      <Page
+        size='A4'
+        style={styles.page}
+        orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
       >
-        {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
+        {/* Loop through selectedTicket data, grouping every 3 items */}
+        {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
           <View
-            key={index}
+            key={rowIndex}
             style={{
-              width: selectedTicket.ticketType === 3 ? '100%' : '33%',
-              height: selectedTicket.ticketType === 3 ? '550px' : '',
-              textAlign: 'center',
+              display: 'flex',
+              flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
+              justifyContent: 'content-start',
+              marginBottom: 10,
+              gap: "15px",
             }}
           >
-            {selectedTicket.ticketType === 3 && (
-              <Text
+            {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
+              <View
+                key={index}
                 style={{
-                  fontSize: selectedTicket.ticketType === 3 ? '72px' : '15px',
-                  textAlign: "center",
-                  fontFamily: selectedTicket.ticketType === 3 ? 'Barlow' : 'Aptos',
-                  textTransform: "uppercase",
+                  width: selectedTicket.ticketType === 3 ? '100%' : '33%',
+                  height: selectedTicket.ticketType === 3 ? '550px' : '',
+                  textAlign: 'center',
                 }}
               >
-                {item.productBrand || "Brand"}
-              </Text>
-            )}
-            {selectedTicket.ticketType === 3 && (
-              <Text
-                style={{
-                  fontSize: "45px",
-                  textAlign: "center",
-                  fontFamily: "Barlow",
-                  textTransform: "uppercase",
-                }}
-              >
-                {item.productName || "Product Name"}
-              </Text>
-            )}
-            <Text
-              style={{
-                textTransform: "uppercase",
-                fontFamily: "Barlow",
-                textAlign: "center",
-                fontSize: selectedTicket.ticketType === 2 ? "24px" : "48px",
-              }}
-            >
-              {selectedTicket.ticketType !== 3 && (
-                <Text>
-                  {selectedTicket.ticketType === 2 ? "Catalogue" : "HOT PRICE"}
+                {selectedTicket.ticketType === 3 && (
+                  <Text
+                    style={{
+                      fontSize: selectedTicket.ticketType === 3 ? '72px' : '15px',
+                      textAlign: "center",
+                      fontFamily: selectedTicket.ticketType === 3 ? 'Barlow' : 'Aptos',
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {item.productBrand || "Brand"}
+                  </Text>
+                )}
+                {selectedTicket.ticketType === 3 && (
+                  <Text
+                    style={{
+                      fontSize: "45px",
+                      textAlign: "center",
+                      fontFamily: "Barlow",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {item.productName || "Product Name"}
+                  </Text>
+                )}
+                <Text
+                  style={{
+                    textTransform: "uppercase",
+                    fontFamily: "Barlow",
+                    textAlign: "center",
+                    fontSize: selectedTicket.ticketType === 2 ? "24px" : "48px",
+                  }}
+                >
+                  {selectedTicket.ticketType !== 3 && (
+                    <Text>
+                      {selectedTicket.ticketType === 2 ? "Catalogue" : "HOT PRICE"}
+                    </Text>
+                  )}
                 </Text>
-              )}
-            </Text>
-            <Text
-              style={{
-                fontSize: "26px",
-                textTransform: "uppercase",
-                fontFamily: "Barlow",
-                textAlign: "center",
-                lineHeight: "1px",
-              }}
-            >
-              {selectedTicket.ticketType === 2 ? "Special Price" : ""}
-            </Text>
-            <Text
-              style={{
-                fontSize: selectedTicket.ticketType === 3 ? '200px' : '48px',
-                paddingBottom: "2px",
-                marginTop: selectedTicket.ticketType === 3 ? '-20px' : '',
-                fontFamily: "Arial",
-                marginBottom: "3px",
-              }}
-            >
-              {item.price || "Price"}
-            </Text>
-            {selectedTicket.ticketType !== 3 && (
-              <Text
-                style={{
-                  fontSize: "15px",
-                  textTransform: "uppercase",
-                  fontFamily: "Aptos",
-                  textAlign: "center",
-                }}
-              >
-                {item.productName || "Product Name"}
-              </Text>
-            )}
-            <Text
-              style={{
-                fontSize: "15px",
-                textTransform: "uppercase",
-                fontFamily: "Aptos",
-                textAlign: "center",
-                marginBottom: "3px",
-              }}
-            >
-              {item.productDesc || "Product Description"}
-            </Text>
-
-            {selectedTicket.ticketType !== 2 &&
-              selectedTicket.ticketType !== 3 &&
-              selectedTicket.ticketType !== 4 && (
-                <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                  RRP: ${item.rrp} Save: ${item.save}
+                <Text
+                  style={{
+                    fontSize: "26px",
+                    textTransform: "uppercase",
+                    fontFamily: "Barlow",
+                    textAlign: "center",
+                    lineHeight: "1px",
+                  }}
+                >
+                  {selectedTicket.ticketType === 2 ? "Special Price" : ""}
                 </Text>
-              )}
+                <Text
+                  style={{
+                    fontSize: selectedTicket.ticketType === 3 ? '200px' : '48px',
+                    paddingBottom: "2px",
+                    marginTop: selectedTicket.ticketType === 3 ? '-20px' : '',
+                    fontFamily: "Arial",
+                    marginBottom: "3px",
+                  }}
+                >
+                  {item.price || "Price"}
+                </Text>
+                {selectedTicket.ticketType !== 3 && (
+                  <Text
+                    style={{
+                      fontSize: "15px",
+                      textTransform: "uppercase",
+                      fontFamily: "Aptos",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.productName || "Product Name"}
+                  </Text>
+                )}
+                {selectedTicket.ticketType !== 3 && (
+                  <Text
+                    style={{
+                      fontSize: "15px",
+                      textTransform: "uppercase",
+                      fontFamily: "Aptos",
+                      textAlign: "center",
+                      marginBottom: "3px",
+                    }}
+                  >
+                    {item.productDesc || "Product Description"}
+                  </Text>
+                )}
 
-            {item.offerType !== "ONGOING REVIVE OFFER" ? (
-              <Text
-                style={{
-                  fontSize: selectedTicket.ticketType === 3 ? "20px" : "9px",
-                  textAlign: "center",
-                  fontFamily: "Aptos",
-                  marginBottom: selectedTicket.ticketType === 4
-                    ? "90px"
-                    : selectedTicket.ticketType === 2
-                    ? "93px"
-                    : selectedTicket.ticketType === 1
-                    ? "75px"
-                    : selectedTicket.ticketType === 3
-                    ? "75px"
-                    : "",
-                  marginTop: selectedTicket.ticketType === 3 ? "-10px" : "",
-                }}
-              >
-                REVIVE OFFER {item.startDate} {item.expiry}
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  fontSize: "9px",
-                  textAlign: "center",
-                  fontFamily: "Aptos",
-                  marginBottom: "70px",
-                }}
-              >
-                ONGOING REVIVE OFFER
-              </Text>
-            )}
+                {selectedTicket.ticketType !== 2 &&
+                  selectedTicket.ticketType !== 3 &&
+                  selectedTicket.ticketType !== 4 && (
+                    <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                      RRP: ${item.rrp} Save: ${item.save}
+                    </Text>
+                  )}
+
+                {item.offerType !== "ONGOING REVIVE OFFER" ? (
+                  <Text
+                    style={{
+                      fontSize: selectedTicket.ticketType === 3 ? "20px" : "9px",
+                      textAlign: "center",
+                      fontFamily: "Aptos",
+                      marginBottom: selectedTicket.ticketType === 4
+                        ? "90px"
+                        : selectedTicket.ticketType === 2
+                          ? "93px"
+                          : selectedTicket.ticketType === 1
+                            ? "75px"
+                            : selectedTicket.ticketType === 3
+                              ? "75px"
+                              : "",
+                      marginTop: selectedTicket.ticketType === 3 ? "-10px" : "",
+                    }}
+                  >
+                    REVIVE OFFER {item.startDate} {item.expiry}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontSize: "9px",
+                      textAlign: "center",
+                      fontFamily: "Aptos",
+                      marginBottom: "70px",
+                    }}
+                  >
+                    ONGOING REVIVE OFFER
+                  </Text>
+                )}
+              </View>
+            ))}
           </View>
         ))}
-      </View>
-    ))}
-  </Page>
-</Document>
+      </Page>
+    </Document>
 
   );
 
@@ -392,7 +395,7 @@ function TicketsHistory() {
       selector: (row) => row.branch_id,
       sortable: true
     },
-   
+
     {
       name: "Role",
       selector: (row) => row.role,
@@ -403,9 +406,8 @@ function TicketsHistory() {
       selector: (row) => row.ticketType,
       sortable: true,
       cell: (row) => (
-        <div data-tooltip-id={`tooltip-${row.ticketType}`} data-tooltip-content={row.ticketType}>
+        <div>
           {row.ticketType}
-          <Tooltip id={`tooltip-${row.ticketType}`} />
         </div>
       ),
     },
@@ -462,8 +464,8 @@ function TicketsHistory() {
               columns={columns}
               data={filteredTickets}
               pagination
-              paginationPerPage={10} 
-              paginationRowsPerPageOptions={[10, 20]} 
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
         </div>

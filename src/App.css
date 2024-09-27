@@ -576,4 +576,7 @@ input[type="date"] {
   font-size: 18px !important;
 }
 
+#ticketTemplate{
+  width: auto;
+}
 /* End of Generate Ticket Style */

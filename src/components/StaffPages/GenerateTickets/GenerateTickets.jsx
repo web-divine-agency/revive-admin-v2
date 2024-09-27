@@ -1683,10 +1683,6 @@ function GenerateTickets() {
     setOfferType(e.target.value);
   };
 
-
-  
-
-
   return (
     <div className="container generate-ticket-container">
       <div className="col-md-12">

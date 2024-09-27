@@ -24,7 +24,8 @@ import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
-import { Tooltip} from 'react-tooltip';
+
+
 
 
 Font.register({
@@ -473,9 +474,8 @@ function TicketsHistory() {
       selector: (row) => row.ticketType,
       sortable: true,
       cell: (row) => (
-        <div data-tooltip-id={`tooltip-${row.ticketType}`} data-tooltip-content={row.ticketType}>
+        <div>
           {row.ticketType}
-          <Tooltip id={`tooltip-${row.ticketType}`} />
         </div>
       ),
     },
