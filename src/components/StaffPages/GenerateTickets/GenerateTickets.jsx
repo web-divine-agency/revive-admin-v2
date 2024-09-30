@@ -93,6 +93,7 @@ function GenerateTickets() {
   });
 
 
+
   const defaultValues = {
     productName: "Product Name",
     productNameValue: "Greater Product Name",
@@ -137,11 +138,32 @@ function GenerateTickets() {
   };
 
   const handleTicketData = (e) => {
-    setTicketData({
-      ...ticketData, valueType, offerType, expiry, startDate,
-      [e.target.name]: e.target.value
+    const { name, value } = e.target;
+  
+    setTicketData((prevData) => {
+      const updatedData = {
+        ...prevData, 
+        valueType, 
+        offerType, 
+        expiry, 
+        startDate,
+        [name]: value
+      };
+  
+      // Recalculate 'save' if 'price' or 'rrp' is updated
+      if (name === 'price' || name === 'rrp') {
+        const price = parseFloat(updatedData.price.replace("$", "")) || 0;
+        const rrp = parseFloat(updatedData.rrp) || 0;
+        const save = rrp > price ? rrp - price : 0;
+  
+        // Update 'save' in the state
+        updatedData.save = save.toFixed(2);
+      }
+  
+      return updatedData;
     });
   };
+  
 
   //handle generate ticket function
   useEffect(() => {
@@ -946,9 +968,9 @@ function GenerateTickets() {
                     textAlign: "center",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "60px",
+                      : "40px",
                     fontFamily: "Aptos",
-                    paddingBottom: isPDFView ? 10 : 0,
+                    paddingBottom: isPDFView ? 5 : 0,
                   }}
                 >
                   I'M CHEAPER THAN {"\n"}
@@ -957,7 +979,6 @@ function GenerateTickets() {
                     textAlign: "center",
                     fontFamily: "AptosBold",
                     textTransform: "uppercase",
-                    paddingBottom: isPDFView ? 10 : 0,
                   }}> {values.productNameValue}{"\n"}</Text>
                   <Text style={{
                     fontSize: "10px",
@@ -2819,42 +2840,7 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            {/* <div className="form-group">
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
-                value={ticketData.rrp || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "rrp",
-                      value: formatRrp(filteredValue),
-                    },
-                  })
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Save</label>
-              <input
-                type="text"
-                name="save" // Added name
-                className="form-control"
-                value={ticketData.save || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "save",
-                      value: formatSave(filteredValue),
-                    },
-                  })
-                }}
-              />
-            </div> */}
+           
             <div className="form-group" >
               <label>Offer Type</label>
               <select
@@ -4036,7 +4022,7 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Save</label>
-              <input
+              <input disabled
                 type="text"
                 name="save" // Added name
                 className="form-control"
@@ -4450,8 +4436,8 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Save</label>
-              <input
-                type="text"
+              <input disabled
+                type="text" 
                 name="save" // Added name
                 className="form-control"
                 value={ticketData.save || ""}
