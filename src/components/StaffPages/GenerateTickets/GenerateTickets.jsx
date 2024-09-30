@@ -2150,7 +2150,7 @@ function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Aptos",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2163,7 +2163,7 @@ function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Aptos",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2180,7 +2180,8 @@ function GenerateTickets() {
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
-                  marginBottom: "3px"
+                  marginBottom: "3px",
+                  marginTop: "4px"
                 }}
               >
                 {values.price}
@@ -2194,9 +2195,9 @@ function GenerateTickets() {
                   fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
-                    ? "50px"
+                    ? "30px"
                     : "105px",
-                  paddingBottom: values.productDesc.includes("\n") ? 50 : (isPDFView ? 20 : 0),
+                  paddingBottom: values.productDesc.includes("\n") ? 70 : (isPDFView ? 15 : 0),
 
                 }}
               >
@@ -2244,7 +2245,7 @@ function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Aptos",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2257,7 +2258,7 @@ function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Aptos",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
