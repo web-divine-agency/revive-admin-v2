@@ -285,7 +285,7 @@ function GenerateTickets() {
     }
     return lines.join("\n");
   };
-  const  formatTextNameRevlon = (text) => {
+  const formatTextNameRevlon = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 16) {
       lines.push(text.substring(i, i + 16));
@@ -302,6 +302,26 @@ function GenerateTickets() {
     }
     return lines.join("\n");
   };
+
+  const formatTextA4Ticket = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 19) {
+      lines.push(text.substring(i, i + 19));
+      if (lines.length === 1) break;
+    }
+    return lines.join("\n");
+  };
+
+
+  const formatDescA4Ticket = (text) => {
+    const lines = [];
+    for (let i = 0; i < text.length; i += 19) {
+      lines.push(text.substring(i, i + 19));
+      if (lines.length === 2) break;
+    }
+    return lines.join("\n");
+  };
+
 
   //limit price to 5 digits
   const formatPrice = (value) => {
@@ -401,7 +421,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -435,6 +455,24 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
+      case "FROSTBLAND FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "COTY FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
       case "GREEN FRIDAY SALE TAGS":
         return {
           height: "auto",
@@ -444,7 +482,34 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
+      case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "DB FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
       case "MUST TRY TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "CLEARANCE TAGS":
         return {
           height: "auto",
           width: "185px",
@@ -473,6 +538,15 @@ function GenerateTickets() {
       //     paddingBottom: "200px",
       //   };
       case "A4 BIG TICKET LANDSCAPE":
+        return {
+          height: "585px",
+          width: "850px",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          paddingTop: "20px",
+        };
+      case "A4 TICKET - PERCENTAGE OFF":
         return {
           height: "585px",
           width: "850px",
@@ -792,6 +866,180 @@ function GenerateTickets() {
               /> */}
             </div>
           );
+        case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "24px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
+                }}
+              >
+                GREEN FRIDAY SALE
+              </Text>
+              <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+                {values.percentOff}
+                <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+                  OFF
+                </Text>
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+
+
+              <Text
+                style={{
+                  fontSize: "9px",
+                  textAlign: "center",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "75px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 10 : 0,
+                }}
+              >
+                REVIVE OFFER AVAILABLE {"\n"}
+                {formatDateForDisplay(values.expiry)}
+
+              </Text>
+            </div>
+          );
+        case "DB FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "27px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
+                }}
+              >
+                DESIGN BRAND {"\n"} FRAGRANCE
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: "50px",
+                  // paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "13px",
+                  textTransform: "uppercase",
+                  fontFamily: "AptosBold",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                TOTAL BEAUTY NETWORK {"\n"} FRAGRANCES
+              </Text>
+              <Text
+                style={{
+                  fontSize: "9px",
+                  textAlign: "center",
+                  marginBottom: "50px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 10 : 0,
+                  marginTop: "5px",
+                }}
+              >
+                ONGOING REVIVE OFFER
+
+
+              </Text>
+            </div>
+          );
         case "MUST TRY TAGS":
           return (
             <div
@@ -900,6 +1148,116 @@ function GenerateTickets() {
                     : "40px",
                 }}
               /> */}
+            </div>
+          );
+        case "CLEARANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "40px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 8 : 0,
+                }}
+              >
+                CLEARANCE
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  marginTop: "3px",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  // paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                  RRP ${values.rrp}  Save ${values.save}
+                </Text> */}
+
+
+              <Text
+                style={{
+                  fontSize: "17px",
+                  textAlign: "center",
+                  marginBottom: values.productName.includes("\n")
+                    ? "70px"
+                    : "55px",
+                  fontFamily: "Aptos",
+                  paddingBottom: isPDFView ? 5 : 0,
+                }}
+              >
+                {values.reviveOffer}
+              </Text>
+
+              {/* <Image
+                  src={revive_logo}
+                  style={{
+                    width: 80,
+                    height: 40,
+                    marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
+                    marginBottom: values.productName.includes("\n")
+                      ? "25px"
+                      : "40px",
+                  }}
+                /> */}
             </div>
           );
         case "NEW IN STORE TAGS":
@@ -1236,8 +1594,8 @@ function GenerateTickets() {
                   {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
                 </Text>
               )}
-              
-             
+
+
               <Text
                 style={{
                   marginTop: "5px",
@@ -1286,15 +1644,208 @@ function GenerateTickets() {
                   fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
-                    ? "90px"
+                    ? "50px"
                     : "105px",
-                  // paddingBottom: isPDFView ? 0 : 0,
+                  paddingBottom: values.productDesc.includes("\n") ? 50 : (isPDFView ? 20 : 0),
+
                 }}
               >
-                REVLON FRAGRANCES {"\n"}
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> REVLON FRAGRANCES</Text>
+                {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
-              
+
+            </div>
+          );
+        case "FROSTBLAND FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  // paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "50px"
+                    : "105px",
+                  paddingBottom: values.productDesc.includes("\n") ? 50 : (isPDFView ? 20 : 0),
+
+                }}
+              >
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> FROSTBLAND FRAGRANCE TAGS</Text>
+                {"\n"}
+                ONGOING REVIVE OFFER
+              </Text>
+
+            </div>
+          );
+        case "COTY FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "Aptos",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+
+              <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "10px", textAlign: "center", lineHeight: "1px", }}>
+                RRP ${values.rrp}{"\n"}<Text style={{ fontSize: "15px", fontFamily: "AptosBold", marginTop: "2px", lineHeight: "1px", }}>Save ${values.save} </Text>
+              </Text>
+              <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> COTY FRAGRANCES</Text>
+              <Text
+                style={{
+                  paddingTop: "3px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "50px"
+                    : "70px",
+                  paddingBottom: isPDFView ? 15 : 0,
+
+                }}
+              >
+                OFFER ENDS {formatDateForDisplay(values.expiry)}
+              </Text>
+
             </div>
           );
         case "PERCENTAGE OFF TAGS":
@@ -1393,7 +1944,7 @@ function GenerateTickets() {
             </div>
           );
 
-       
+
         case "A4 BIG TICKET LANDSCAPE":
           return (
             <div
@@ -1466,6 +2017,78 @@ function GenerateTickets() {
                  right: "56%",
                 }}
               /> */}
+            </div>
+          );
+        case "A4 TICKET - PERCENTAGE OFF":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 20,
+                    height: "auto",
+                    width: "auto",
+                    padding: "4px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                    marginTop: 30,
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text style={{ fontSize: "200px", fontFamily: "AptosBold", lineHeight: "1px", }}>
+                {values.percentOff}
+                <Text style={{ fontSize: "200px", fontFamily: "AptosBold", lineHeight: "1px",}}>
+                  OFF
+                </Text>
+              </Text>
+              <Text
+                style={{
+                  fontSize: "40px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginTop: "10px",
+            
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "40px",
+                  textTransform: "uppercase",
+                  fontFamily: "Aptos",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+
+              <Text style={{ fontSize: "20px", fontFamily: "Aptos", marginTop: "10px"}}>
+                REVIVE OFFER AVAILABLE &nbsp;
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
+              </Text>
+
             </div>
           );
         default:
@@ -1689,7 +2312,7 @@ function GenerateTickets() {
 
 
     const pageSize = template.includes("A4 BIG TICKET LANDSCAPE") ? "A4" : "A4";
-    const pageOrientation = template.includes("A4 BIG TICKET LANDSCAPE") ? "landscape" : "portrait";
+    const pageOrientation = template.includes("A4 BIG TICKET LANDSCAPE") || template.includes("A4 TICKET - PERCENTAGE OFF") ? "landscape" : "portrait";
     const backgroundColor = template.includes("CATALOGUE") || template.includes("LANDSCAPE") ? "#FFFFFF" : "#FFFFFF";
 
 
@@ -1961,6 +2584,99 @@ function GenerateTickets() {
             </div>
           </>
         );
+      case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
+        return (
+          <>
+            <div className="form-group">
+              <label>Percent Off</label>
+              <input
+                name="percentOff"
+                type="text"
+                className="form-control"
+                value={ticketData.percentOff?.replace("%", "") || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "percentOff",
+                      value: PercentageformatText(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+
+            <div className="mb-3">
+              <label>Expiry</label>
+              <input
+                type="date"
+                name="expiry"
+                className="form-control"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+              />
+              <i className="fa fa-calendar custom-date-icon-3" style={{ color: "black", zIndex: "1000" }}></i>
+            </div>
+          </>
+        );
+      case "DB FRAGRANCE TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+          </>
+        );
       case "MUST TRY TAGS":
         return (
           <>
@@ -2052,6 +2768,81 @@ function GenerateTickets() {
                   }}
                 />
               </div> */}
+            <div className="form-group">
+              <label>Offer</label>
+              <input
+                type="text"
+                name="reviveOffer" // Added name
+                className="form-control"
+                value={ticketData.reviveOffer || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "reviveOffer",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+          </>
+        );
+      case "CLEARANCE TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextGreen(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
             <div className="form-group">
               <label>Offer</label>
               <input
@@ -2352,7 +3143,7 @@ function GenerateTickets() {
       case "REVLON FRAGRANCE TAGS":
         return (
           <>
-            
+
             <div className="form-group">
               <label>Price</label>
               <input
@@ -2401,15 +3192,182 @@ function GenerateTickets() {
                       name: "productDesc",
                       value: formatTextDescRevlon(e.target.value),
                     },
-                  })  
+                  })
                 }
               />
             </div>
-           
-           
+
+
           </>
         );
-     
+      case "FROSTBLAND FRAGRANCE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextDescRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+
+
+          </>
+        );
+      case "COTY FRAGRANCE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>RRP</label>
+              <input
+                type="text"
+                name="rrp" // Added name
+                className="form-control"
+                value={ticketData.rrp || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Save</label>
+              <input
+                type="text"
+                name="save" // Added name
+                className="form-control"
+                value={ticketData.save || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "save",
+                      value: formatSave(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Expiry</label>
+              <input
+                type="date"
+                name="expiry"
+                className="form-control"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+              />
+              <i className="fa fa-calendar custom-date-icon-2" style={{ color: "black", zIndex: "1000" }}></i>
+            </div>
+
+
+          </>
+        );
       case "PERCENTAGE OFF TAGS":
         return (
           <>
@@ -2605,6 +3563,88 @@ function GenerateTickets() {
                     },
                   });
                 }}
+              />
+            </div>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  className="form-control"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry</label>
+                <input
+                  type="date"
+                  name="expiry"
+                  className="form-control"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+          </>
+        );
+      case "A4 TICKET - PERCENTAGE OFF":
+        return (
+          <>
+            <div className="form-group">
+              <label>Percent Off</label>
+              <input
+                name="percentOff"
+                type="text"
+                className="form-control"
+                value={ticketData.percentOff?.replace("%", "") || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "percentOff",
+                      value: PercentageformatText(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextA4Ticket(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatDescA4Ticket(e.target.value),
+                    },
+                  })
+                }
               />
             </div>
             <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -2870,11 +3910,18 @@ function GenerateTickets() {
               <option value="CATALOGUE SPECIALS PRICE TAGS">CATALOGUE SPECIALS PRICE TAGS</option>
               {/* <option value="Big Tickets (P)">Big Tickets (P)</option> */}
               <option value="A4 BIG TICKET LANDSCAPE">A4 BIG TICKET LANDSCAPE</option>
+              <option value="A4 TICKET - PERCENTAGE OFF">A4 TICKET - PERCENTAGE OFF</option>
+              <option value="A4 TICKET - NEW IN STORE">A4 TICKET - NEW IN STORE</option>
               <option value="GREEN FRIDAY SALE TAGS">GREEN FRIDAY SALE TAGS</option>
+              <option value="GREEN FRIDAY SALE TAGS - PERCENTAGE OFF">GREEN FRIDAY SALE TAGS - PERCENTAGE OFF</option>
               <option value="MUST TRY TAGS">MUST TRY TAGS</option>
               <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
               <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
               <option value="REVLON FRAGRANCE TAGS">REVLON FRAGRANCE TAGS</option>
+              <option value="FROSTBLAND FRAGRANCE TAGS">FROSTBLAND FRAGRANCE TAGS</option>
+              <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
+              <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
+              <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
             </select>
           </div>
         </div>

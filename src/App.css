@@ -575,7 +575,22 @@ input[type="date"] {
   z-index: 2;
   font-size: 18px !important;
 }
-
+.custom-date-icon-2 {
+  position: absolute;
+  left: 395px;
+  top: 455px;
+  pointer-events: none;
+  z-index: 2;
+  font-size: 18px !important;
+}
+.custom-date-icon-3 {
+  position: absolute;
+  left: 395px;
+  top: 322px;
+  pointer-events: none;
+  z-index: 2;
+  font-size: 18px !important;
+}
 #ticketTemplate{
   width: auto;
 }
