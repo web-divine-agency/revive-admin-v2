@@ -139,31 +139,31 @@ function GenerateTickets() {
 
   const handleTicketData = (e) => {
     const { name, value } = e.target;
-  
+
     setTicketData((prevData) => {
       const updatedData = {
-        ...prevData, 
-        valueType, 
-        offerType, 
-        expiry, 
+        ...prevData,
+        valueType,
+        offerType,
+        expiry,
         startDate,
         [name]: value
       };
-  
+
       // Recalculate 'save' if 'price' or 'rrp' is updated
       if (name === 'price' || name === 'rrp') {
         const price = parseFloat(updatedData.price.replace("$", "")) || 0;
         const rrp = parseFloat(updatedData.rrp) || 0;
         const save = rrp > price ? rrp - price : 0;
-  
+
         // Update 'save' in the state
         updatedData.save = save.toFixed(2);
       }
-  
+
       return updatedData;
     });
   };
-  
+
 
   //handle generate ticket function
   useEffect(() => {
@@ -178,8 +178,7 @@ function GenerateTickets() {
             data: ticketQueue
           });
 
-          // console.log(ticketData);
-          // console.log('Ticket successfully created:', response.data.message);
+
           saveAs(blob, "ticket.pdf");
 
         } catch (error) {
@@ -606,16 +605,6 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
-      // case "Big Tickets (P)":
-      //   return {
-      //     height: "100%",
-      //     width: "850px",
-      //     display: "flex",
-      //     alignItems: "center",
-      //     flexDirection: "column",
-      //     paddingTop: "200px",
-      //     paddingBottom: "200px",
-      //   };
       case "A4 BIG TICKET LANDSCAPE":
         return {
           height: "585px",
@@ -1945,80 +1934,8 @@ function GenerateTickets() {
                 REVIVE OFFER &nbsp;
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
-              {/* <Image
-                src={revive_logo_white}
-                style={{
-                  width: 90,
-                  height: 50,
-                  marginTop: "5px",
-                  marginBottom: values.productName.includes("\n")
-                    ? "20px"
-                    : "40px",
-                }}
-              /> */}
             </div>
           );
-
-        // case "Big Tickets (P)":
-        //   return (
-        //     <div
-        //       style={{
-        //         position: "relative",
-        //         display: "flex",
-        //         flexDirection: "column",
-        //         alignItems: "center",
-        //       }}
-        //     >
-        //       {!isPDFView && (
-        //         <Text
-        //           style={{
-        //             position: "fixed",
-        //             top: -5,
-        //             fontFamily: "BarlowCondensed",
-        //             fontSize: 20,
-        //             height: "auto",
-        //             width: "auto",
-        //             padding: "4px",
-        //             borderRadius: "5px",
-        //             backgroundColor: ticket.addedToQueue ? "#e3fae9" : "#f7d7d7",
-        //             color: ticket.addedToQueue ? "green" : "red",
-        //             zIndex: 1000,
-        //             pointerEvents: "none",
-        //           }}
-        //           className="no-print"
-        //         >
-        //           {ticket.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
-        //         </Text>
-        //       )}
-        //       <Text
-        //         style={{
-        //           fontSize: "72px",
-        //           fontFamily: "Arial",
-        //           textTransform: "uppercase",
-        //         }}
-        //       >
-        //         {values.productBrand}
-        //       </Text>
-        //       <Text
-        //         style={{
-        //           fontSize: "45px",
-        //           fontFamily: "Arial",
-        //           textAlign: "center",
-        //           textTransform: "uppercase",
-        //         }}
-        //       >
-        //         {values.productName}
-        //         {"\n"}
-        //       </Text>
-        //       <Text style={{ fontSize: values.price.length >= 5 ? "150px" : "180px", fontFamily: "Arial" }}>
-        //         {values.price}
-        //       </Text>
-
-        //       <Text style={{ fontSize: "14px", fontFamily: "ArialItalic" }}>
-        //         REVIVE OFFER AVAILABLE - {formatDateForDisplay(values.expiry)}
-        //       </Text>
-        //     </div>
-        //   );
         case "REVLON FRAGRANCE TAGS":
           return (
             <div
@@ -2841,7 +2758,7 @@ function GenerateTickets() {
                 }}
               />
             </div>
-           
+
             <div className="form-group" >
               <label>Offer Type</label>
               <select
@@ -4438,7 +4355,7 @@ function GenerateTickets() {
             <div className="form-group">
               <label>Save</label>
               <input disabled
-                type="text" 
+                type="text"
                 name="save" // Added name
                 className="form-control"
                 value={ticketData.save || ""}
