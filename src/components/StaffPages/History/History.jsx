@@ -1385,6 +1385,113 @@ function TicketsHistory() {
                   </div>
 
                 )}
+                {selectedTicket.ticketType === 18 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                   
+                    <Text
+                      style={{
+                        fontSize: "32px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        // fontWeight: "600", // Semibold weight
+                        // fontStretch: "condensed", // Condensed style
+                        textAlign: "center",
+                        marginTop: 10,
+                      }}
+                    >
+                      SUPER SAVING
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        paddingBottom: 2,
+                        // paddingTop: 2,
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {item.price}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "AptosBold",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "AptosBold",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+          
+                    {item.valueType !== "I'M CHEAPER THAN" && (
+                      <Text
+                        style={{
+                          fontSize: "15px",
+                          textAlign: "center",
+                          fontFamily: "Aptos",
+                          marginBottom: "90px",
+                         
+                        }}
+                      >
+                        {item.valueType} {"\n"}
+                        <Text style={{
+                          fontSize: "10px",
+                          textAlign: "center",
+                          fontFamily: "Aptos",
+
+                        }}>ONGOING REVIVE OFFER</Text>
+                      </Text>
+                    )}
+
+                    {item.valueType === "I'M CHEAPER THAN" && (
+                      <Text
+                        style={{
+                          fontSize: "15px",
+                          textAlign: "center",
+                          marginBottom: "73px",
+                          fontFamily: "Aptos",
+                       
+                        }}
+                      >
+                        I'M CHEAPER THAN {"\n"}
+                        <Text style={{
+                          fontSize: "15px",
+                          textAlign: "center",
+                          fontFamily: "AptosBold",
+                          textTransform: "uppercase",
+                        }}> {item.productNameValue}{"\n"}</Text>
+                        <Text style={{
+                          fontSize: "10px",
+                          textAlign: "center",
+                          fontFamily: "Aptos",
+
+                        }}>ONGOING REVIVE OFFER</Text>
+
+                      </Text>
+                    )}
+                   
+                  </div>
+
+                )}
                 {/* END */}
               </View>
             ))}

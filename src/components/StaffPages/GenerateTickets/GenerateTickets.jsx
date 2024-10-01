@@ -1585,6 +1585,7 @@ function GenerateTickets() {
                 style={{
                   fontSize: "19px",
                   textAlign: "center",
+                  textTransform: "uppercase",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "60px",
