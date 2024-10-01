@@ -166,7 +166,7 @@ function TicketsHistory() {
       paddingTop: 35,
       paddingLeft: 10,
       paddingRight: 10,
-    
+
     },
     row: {
       display: 'flex',
@@ -185,7 +185,7 @@ function TicketsHistory() {
       <Page
         size='A4'
         style={styles.page}
-        orientation={selectedTicket.ticketType === 3 ? "landscape" : "portrait"}
+        orientation={selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? "landscape" : "portrait"}
       >
         {/* Loop through selectedTicket data, grouping every 3 items */}
         {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
@@ -193,7 +193,7 @@ function TicketsHistory() {
             key={rowIndex}
             style={{
               display: 'flex',
-              flexDirection: selectedTicket.ticketType === 3 ? 'column' : 'row',
+              flexDirection: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? 'column' : 'row',
               justifyContent: 'content-start',
               gap: "15px",
             }}
@@ -202,8 +202,8 @@ function TicketsHistory() {
               <View
                 key={index}
                 style={{
-                  width: selectedTicket.ticketType === 3 ? '100%' : '33%',
-                  height: selectedTicket.ticketType === 3 ? '550px' : '',
+                  width: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? '100%' : '33%',
+                  height: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? '550px' : '',
                   textAlign: 'center',
                 }}
               >
@@ -673,7 +673,7 @@ function TicketsHistory() {
                       alignItems: "center",
                     }}
                   >
-                   
+
                     <Text
                       style={{
                         fontSize: "33px",
@@ -735,201 +735,655 @@ function TicketsHistory() {
                 )}
                 {selectedTicket.ticketType === 8 && (
                   <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                 
-    
-                  <Text style={{ fontSize: "75px", fontFamily: "BarlowCondensed", marginTop: 10, }}>
-                    {item.percentOff}
-                    <Text style={{ fontSize: "42px", fontFamily: "BarlowCondensed" }}>
-                      OFF
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+
+                    <Text style={{ fontSize: "75px", fontFamily: "BarlowCondensed", marginTop: 10, }}>
+                      {item.percentOff}
+                      <Text style={{ fontSize: "42px", fontFamily: "BarlowCondensed" }}>
+                        OFF
+                      </Text>
                     </Text>
-                  </Text>
-                  <Text
-                    style={{
-                      marginTop: "5px",
-                      fontSize: "19px",
-                      fontFamily: "Aptos",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      lineHeight: "1px",
-    
-                    }}
-                  >
-                    {item.productName}
-                    {"\n"}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: "19px",
-                      fontFamily: "Aptos",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      lineHeight: "1px",
-                      marginBottom: "3px"
-                    }}
-                  >
-                    {item.productDesc}
-                    {"\n"}
-                  </Text>
-                  <Text
-                    style={{
-                      paddingTop: "5px",
-                      fontSize: "9px",
-                      textAlign: "center",
-                      fontFamily: "Aptos",
-                      lineHeight: "1px",
-                      marginTop: "3px",
-                      marginBottom: item.productDesc.length < 16 ? "96px" : "77px",
-  
-                    }}
-                  >
-                    REVIVE OFFER AVAILABLE {"\n"}
-                    {item.startDate} - {item.expiry}
-                  </Text>
-                 
-                </div>
+                    <Text
+                      style={{
+                        marginTop: "5px",
+                        fontSize: "19px",
+                        fontFamily: "Aptos",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "19px",
+                        fontFamily: "Aptos",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        paddingTop: "5px",
+                        fontSize: "9px",
+                        textAlign: "center",
+                        fontFamily: "Aptos",
+                        lineHeight: "1px",
+                        marginTop: "3px",
+                        marginBottom: item.productDesc.length < 16 ? "96px" : "77px",
+
+                      }}
+                    >
+                      REVIVE OFFER AVAILABLE {"\n"}
+                      {item.startDate} - {item.expiry}
+                    </Text>
+
+                  </div>
                 )}
                 {selectedTicket.ticketType === 9 && (
                   <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
                     style={{
-                      marginTop: "5px",
-                      fontSize: "18px",
-                      fontFamily: "Aptos",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      lineHeight: "1px",
-    
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                     }}
                   >
-                    {item.productName}
-                    {"\n"}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: "18px",
-                      fontFamily: "Aptos",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      lineHeight: "1px",
-                      marginBottom: "3px"
-                    }}
-                  >
-                    {item.productDesc}
-                    {"\n"}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: "50px",
-                      fontFamily: "Arial",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                      lineHeight: "1px",
-                      marginBottom: "3px"
-                    }}
-                  >
-                    {item.price}
-                    {"\n"}
-                  </Text>
-                  <Text
-                    style={{
-                      // paddingTop: "5px",
-                      fontSize: "9px",
-                      textAlign: "center",
-                      fontFamily: "Aptos",
-                      lineHeight: "1px",
-                      marginBottom:item.productDesc.length < 17 ? "151px" : "133px",
-                    
-    
-                    }}
-                  >
-                    <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> REVLON FRAGRANCES</Text>
-                    {"\n"}
-                    ONGOING REVIVE OFFER
-                  </Text>
-    
-                </div>
+                    <Text
+                      style={{
+                        marginTop: "5px",
+                        fontSize: "18px",
+                        fontFamily: "Aptos",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "18px",
+                        fontFamily: "Aptos",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        fontFamily: "Arial",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.price}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        // paddingTop: "5px",
+                        fontSize: "9px",
+                        textAlign: "center",
+                        fontFamily: "Aptos",
+                        lineHeight: "1px",
+                        marginBottom: item.productDesc.length < 17 ? "151px" : "133px",
+
+
+                      }}
+                    >
+                      <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> REVLON FRAGRANCES</Text>
+                      {"\n"}
+                      ONGOING REVIVE OFFER
+                    </Text>
+
+                  </div>
                 )}
                 {selectedTicket.ticketType === 10 && (
-                   <div
-                   style={{
-                     position: "relative",
-                     display: "flex",
-                     flexDirection: "column",
-                     alignItems: "center",
-                   }}
-                 >
-                  
-                   <Text
-                     style={{
-                       fontSize: "24px",
-                       textTransform: "uppercase",
-                       fontFamily: "BarlowCondensed",
-                       // fontWeight: "600", // Semibold weight
-                       // fontStretch: "condensed", // Condensed style
-                       textAlign: "center",
-                       marginTop: 10,
-                     }}
-                   >
-                     GREEN FRIDAY SALE
-                   </Text>
-                   <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
-                     {item.percentOff}
-                     <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
-                       OFF
-                     </Text>
-                   </Text>
-                   <Text
-                     style={{
-                       fontSize: "16px",
-                       textTransform: "uppercase",
-                       fontFamily: "Aptos",
-                       textAlign: "center",
-                       marginTop: "3px",
-                     }}
-                   >
-                     {item.productName}
-                     {"\n"}
-                   </Text>
-                   <Text
-                     style={{
-                       fontSize: "16px",
-                       textTransform: "uppercase",
-                       fontFamily: "Aptos",
-                       textAlign: "center",
-                     }}
-                   >
-                     {item.productDesc}
-                     {"\n"}
-                   </Text>
-     
-     
-                   <Text
-                     style={{
-                       fontSize: "9px",
-                       textAlign: "center",
-                       marginBottom: "111px",
-                       fontFamily: "Aptos",
-                     }}
-                   >
-                     REVIVE OFFER AVAILABLE {"\n"}
-                     {item.expiry}
-     
-                   </Text>
-                 </div>
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text
+                      style={{
+                        fontSize: "24px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        // fontWeight: "600", // Semibold weight
+                        // fontStretch: "condensed", // Condensed style
+                        textAlign: "center",
+                        marginTop: 10,
+                      }}
+                    >
+                      GREEN FRIDAY SALE
+                    </Text>
+                    <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+                      {item.percentOff}
+                      <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+                        OFF
+                      </Text>
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+
+
+                    <Text
+                      style={{
+                        fontSize: "9px",
+                        textAlign: "center",
+                        marginBottom: "111px",
+                        fontFamily: "Aptos",
+                      }}
+                    >
+                      REVIVE OFFER AVAILABLE {"\n"}
+                      {item.expiry}
+
+                    </Text>
+                  </div>
+                )}
+                {selectedTicket.ticketType === 11 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+
+                    <Text
+                      style={{
+                        marginTop: "5px",
+                        fontSize: "18px",
+                        fontFamily: "AptosBold",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "18px",
+                        fontFamily: "AptosBold",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        fontFamily: "Arial",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px",
+                        marginTop: "4px"
+                      }}
+                    >
+                      {item.price}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        // paddingTop: "5px",
+                        fontSize: "9px",
+                        textAlign: "center",
+                        fontFamily: "Aptos",
+                        lineHeight: "1px",
+                        marginBottom: item.productDesc.length < 17 ? "147px" : "129px",
+                      }}
+                    >
+                      <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> FROSTBLAND FRAGRANCE TAGS</Text>
+                      {"\n"}
+                      ONGOING REVIVE OFFER
+                    </Text>
+
+                  </div>
+                )}
+
+                {selectedTicket.ticketType === 12 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text
+                      style={{
+                        fontSize: "27px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        // fontWeight: "600", // Semibold weight
+                        // fontStretch: "condensed", // Condensed style
+                        textAlign: "center",
+                        marginTop: 10,
+                      }}
+                    >
+                      DESIGN BRAND {"\n"} FRAGRANCE
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        // paddingBottom: 2,
+                        // paddingTop: 2,
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {item.price}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "13px",
+                        textTransform: "uppercase",
+                        fontFamily: "AptosBold",
+                        textAlign: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      TOTAL BEAUTY NETWORK {"\n"} FRAGRANCES
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "9px",
+                        textAlign: "center",
+                        marginBottom: "85px",
+                        fontFamily: "Aptos",
+                        marginTop: "5px",
+                      }}
+                    >
+                      ONGOING REVIVE OFFER
+
+
+                    </Text>
+                  </div>
+                )}
+                {selectedTicket.ticketType === 13 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+
+                    <Text
+                      style={{
+                        marginTop: "5px",
+                        fontSize: "18px",
+                        fontFamily: "AptosBold",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "18px",
+                        fontFamily: "AptosBold",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        fontFamily: "Arial",
+                        textTransform: "uppercase",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginBottom: "3px"
+                      }}
+                    >
+                      {item.price}
+                      {"\n"}
+                    </Text>
+
+                    <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "10px", textAlign: "center", lineHeight: "1px", }}>
+                      RRP ${item.rrp}{"\n"}<Text style={{ fontSize: "15px", fontFamily: "AptosBold", marginTop: "2px", lineHeight: "1px", }}>Save ${item.save} </Text>
+                    </Text>
+                    <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> COTY FRAGRANCES</Text>
+                    <Text
+                      style={{
+                        paddingTop: "3px",
+                        fontSize: "9px",
+                        textAlign: "center",
+                        fontFamily: "Aptos",
+                        lineHeight: "1px",
+                        marginBottom: "113px",
+
+
+                      }}
+                    >
+                      OFFER ENDS {item.expiry}
+                    </Text>
+
+                  </div>
+                )}
+                {selectedTicket.ticketType === 14 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        textAlign: "center",
+                        marginTop: 8,
+                      }}
+                    >
+                      CLEARANCE
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "16px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "50px",
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {item.price}
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontSize: "17px",
+                        textAlign: "center",
+                        marginBottom: "92px",
+                        fontFamily: "Aptos",
+
+                      }}
+                    >
+                      {item.reviveOffer}
+                    </Text>
+
+
+                  </div>
+                )}
+                {selectedTicket.ticketType === 15 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text style={{ fontSize: "200px", fontFamily: "AptosBold", lineHeight: "1px", }}>
+                      {item.percentOff}
+                      <Text style={{ fontSize: "200px", fontFamily: "AptosBold", lineHeight: "1px", }}>
+                        OFF
+                      </Text>
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                        marginTop: "10px",
+
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+
+                    <Text style={{ fontSize: "20px", fontFamily: "Aptos", marginTop: "10px" }}>
+                      REVIVE OFFER AVAILABLE &nbsp;
+                      {item.startDate} - {item.expiry}
+                    </Text>
+
+                  </div>
+                )}
+                {selectedTicket.ticketType === 16 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text
+                      style={{
+
+                        fontSize: "100px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        // fontWeight: "600", // Semibold weight
+                        // fontStretch: "condensed", // Condensed style
+                        textAlign: "center",
+                        marginTop: 8,
+                      }}
+                    >
+                      NEW IN STORE
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "170px",
+                        // paddingBottom: 2,
+                        // paddingTop: 2,
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {item.price}
+                    </Text>
+
+                    <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
+                      REVIVE OFFER AVAILABLE &nbsp;
+                      {item.startDate} - {item.expiry}
+                    </Text>
+
+
+                  </div>
+                )}
+                {selectedTicket.ticketType === 17 && (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <Text
+                      style={{
+
+                        fontSize: "120px",
+                        textTransform: "uppercase",
+                        fontFamily: "BarlowCondensed",
+                        // fontWeight: "600", // Semibold weight
+                        // fontStretch: "condensed", // Condensed style
+                        textAlign: "center",
+                      }}
+                    >
+                      CLEARANCE
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                      }}
+                    >
+                      {item.productName}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "40px",
+                        textTransform: "uppercase",
+                        fontFamily: "Aptos",
+                        textAlign: "center",
+                        lineHeight: "1px",
+                      }}
+                    >
+                      {item.productDesc}
+                      {"\n"}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "170px",
+                        // paddingBottom: 2,
+                        // paddingTop: 2,
+                        fontFamily: "Arial",
+                      }}
+                    >
+                      {item.price}
+                    </Text>
+                    <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
+                      REVIVE OFFER AVAILABLE &nbsp;
+                      {item.startDate} - {item.expiry}
+                    </Text>
+
+
+                  </div>
+
                 )}
                 {/* END */}
               </View>

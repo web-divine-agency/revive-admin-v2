@@ -179,7 +179,8 @@ function GenerateTickets() {
           });
 
 
-          saveAs(blob, "ticket.pdf");
+          const fileName = `Revive-${template}.pdf`;
+          saveAs(blob, fileName);
 
         } catch (error) {
           console.error('Error uploading PDF:', error);
