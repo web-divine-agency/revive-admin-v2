@@ -491,7 +491,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" || template === "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS" || template === "COSMAX FRAGRANCE TAGS"   ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -534,6 +534,15 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
+        case "COSMAX FRAGRANCE TAGS":
+          return {
+            height: "auto",
+            width: "185px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingTop: "25px",
+          };
       case "COTY FRAGRANCE TAGS":
         return {
           height: "auto",
@@ -606,6 +615,15 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
+        case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
+          return {
+            height: "auto",
+            width: "185px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingTop: "25px",
+          };
       case "A4 BIG TICKET LANDSCAPE":
         return {
           height: "585px",
@@ -892,6 +910,152 @@ function GenerateTickets() {
                 }}
               >
                 SUPER SAVING
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: "50px",
+                  paddingBottom: 2,
+                  // paddingTop: 2,
+                  fontFamily: "Arial",
+                }}
+              >
+                {values.price}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "AptosBold",
+                  textAlign: "center",
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  fontFamily: "AptosBold",
+                  textAlign: "center",
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                RRP ${values.rrp}  Save ${values.save}
+              </Text> */}
+              {valueType !== "I'M CHEAPER THAN" && (
+                <Text
+                  style={{
+                    fontSize: "15px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+                    marginBottom: values.productName.includes("\n")
+                      ? "70px"
+                      : "55px",
+                    paddingBottom: isPDFView ? 10 : 0,
+                  }}
+                >
+                  {values.valueType} {"\n"}
+                  <Text style={{
+                    fontSize: "10px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+
+                  }}>ONGOING REVIVE OFFER</Text>
+                </Text>
+              )}
+
+              {valueType === "I'M CHEAPER THAN" && (
+                <Text
+                  style={{
+                    fontSize: "15px",
+                    textAlign: "center",
+                    marginBottom: values.productName.includes("\n")
+                      ? "70px"
+                      : "40px",
+                    fontFamily: "Aptos",
+                    paddingBottom: isPDFView ? 5 : 0,
+                  }}
+                >
+                  I'M CHEAPER THAN {"\n"}
+                  <Text style={{
+                    fontSize: "15px",
+                    textAlign: "center",
+                    fontFamily: "AptosBold",
+                    textTransform: "uppercase",
+                  }}> {values.productNameValue}{"\n"}</Text>
+                  <Text style={{
+                    fontSize: "10px",
+                    textAlign: "center",
+                    fontFamily: "Aptos",
+
+                  }}>ONGOING REVIVE OFFER</Text>
+
+                </Text>
+              )}
+              {/* <Image
+                src={revive_logo}
+                style={{
+                  width: 80,
+                  height: 40,
+                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
+                  marginBottom: values.productName.includes("\n")
+                    ? "25px"
+                    : "40px",
+                }}
+              /> */}
+            </div>
+          );
+          case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
+          if (valueType !== "I'M GREATER VALUE!") {
+            setValueType("I'M CHEAPER THAN");
+          }
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    textAlign: "center",
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+              <Text
+                style={{
+                  fontSize: "32px",
+                  textTransform: "uppercase",
+                  fontFamily: "BarlowCondensed",
+                  // fontWeight: "600", // Semibold weight
+                  // fontStretch: "condensed", // Condensed style
+                  textAlign: "center",
+                  marginTop: isPDFView ? 10 : 0,
+                }}
+              >
+                VALUE PACK
               </Text>
 
               <Text
@@ -2114,13 +2278,108 @@ function GenerateTickets() {
                   fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
-                    ? "30px"
+                    ? "15px"
                     : "105px",
-                  paddingBottom: values.productDesc.includes("\n") ? 70 : (isPDFView ? 15 : 0),
+                  paddingBottom: values.productDesc.includes("\n") ? 90 : (isPDFView ? 15 : 0),
 
                 }}
               >
-                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> FROSTBLAND FRAGRANCE TAGS</Text>
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> FROSTBLAND FRAGRANCES</Text>
+                {"\n"}
+                ONGOING REVIVE OFFER
+              </Text>
+
+            </div>
+          );
+          case "COSMAX FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px",
+                  marginTop: "4px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  // paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "15px"
+                    : "105px",
+                  paddingBottom: values.productDesc.includes("\n") ? 90 : (isPDFView ? 15 : 0),
+
+                }}
+              >
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> COSMAX FRAGRANCES</Text>
                 {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
@@ -2807,6 +3066,100 @@ function GenerateTickets() {
           </>
         );
       case "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS":
+        return (
+          <>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+
+            <div className="form-group" >
+              <label>Value Type</label>
+              <select
+                className="form-control"
+
+                value={valueType}
+                onChange={handleValueTypeChange}
+              >
+                <option value="I'M GREATER VALUE!">I'M GREATER VALUE!</option>
+                <option value="I'M CHEAPER THAN">I'M CHEAPER THAN</option>
+
+              </select>
+              <i
+                className="fa fa-chevron-down custom-dropdown-icon-2"
+              ></i>
+            </div>
+
+            <div hidden={valueType === "I'M GREATER VALUE!"} className="form-group" >
+              <div className="form-group">
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  name="productNameValue" // Added name
+                  className="form-control"
+                  value={ticketData.productNameValue || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productNameValue",
+                        value: formatTextSuperSaving(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+            </div>
+          </>
+        );
+        case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
         return (
           <>
             <div className="form-group">
@@ -3866,6 +4219,66 @@ function GenerateTickets() {
 
           </>
         );
+        case "COSMAX FRAGRANCE TAGS":
+          return (
+            <>
+  
+              <div className="form-group">
+                <label>Price</label>
+                <input
+                  type="text"
+                  name="price" // Added name
+                  className="form-control"
+                  value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "price",
+                        value: "$" + formatPrice(filteredValue),
+                      },
+                    });
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  name="productName" // Added name
+                  className="form-control"
+                  value={ticketData.productName || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productName",
+                        value: formatTextNameRevlon(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <input
+                  type="text"
+                  name="productDesc" // Added name
+                  className="form-control"
+                  value={ticketData.productDesc || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextDescRevlon(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+  
+  
+            </>
+          );
       case "COTY FRAGRANCE TAGS":
         return (
           <>
@@ -4535,6 +4948,8 @@ function GenerateTickets() {
               <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
               <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
               <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS</option>
+              <option value="COSMAX FRAGRANCE TAGS">COSMAX FRAGRANCE TAGS</option>
+              <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">VALUE PACK TICKETS -I'M CHEAPER THAN TAGS</option>
             </select>
           </div>
         </div>
