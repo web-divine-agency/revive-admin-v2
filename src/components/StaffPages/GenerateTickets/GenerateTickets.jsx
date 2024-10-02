@@ -309,7 +309,7 @@ function GenerateTickets() {
     const lines = [];
     for (let i = 0; i < text.length; i += 16) {
       lines.push(text.substring(i, i + 16));
-      if (lines.length === 3) break;
+      if (lines.length === 2) break;
     }
     return lines.join("\n");
   };
@@ -491,7 +491,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" || template === "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS" || template === "COSMAX FRAGRANCE TAGS"   ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" || template === "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS" || template === "COSMAX FRAGRANCE TAGS" || template === "DAVKA FRAGRANCE TAGS" || template === "BASIC PRICE TAGS"  ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -543,6 +543,15 @@ function GenerateTickets() {
             alignItems: "center",
             paddingTop: "25px",
           };
+          case "DAVKA FRAGRANCE TAGS":
+            return {
+              height: "auto",
+              width: "185px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingTop: "25px",
+            };
       case "COTY FRAGRANCE TAGS":
         return {
           height: "auto",
@@ -552,6 +561,15 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
+        case "BASIC PRICE TAGS":
+          return {
+            height: "auto",
+            width: "185px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingTop: "25px",
+          };
       case "GREEN FRIDAY SALE TAGS":
         return {
           height: "auto",
@@ -679,10 +697,10 @@ function GenerateTickets() {
       price: ticketData.price,
       rrp: ticketData.rrp,
       save: ticketData.save,
-      offerType: offerType,
-      valueType: valueType,
-      expiry: expiry,
-      startDate: startDate,
+      offerType: ticketData.offerType,
+      valueType: ticketData.valueType,
+      expiry: ticketData.expiry,
+      startDate: ticketData.startDate,
       percentOff: ticketData.percentOff,
       productBrand: ticketData.productBrand,
       productDesc: ticketData.productDesc,
@@ -695,6 +713,7 @@ function GenerateTickets() {
     setTicketData({
       productName: "",
       productNameValue: "",
+      offerType: "",
       productDesc: "",
       price: "",
       rrp: "",
@@ -705,6 +724,7 @@ function GenerateTickets() {
     setPrice("");
     setRrp("");
     setSave("");
+    setOfferType("");
     setCopies(1);
     // setExpiry("Expiry");
     setpercentOff("");
@@ -815,9 +835,6 @@ function GenerateTickets() {
                 {values.productDesc}
                 {"\n"}
               </Text>
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                RRP ${values.rrp}  Save ${values.save}
-              </Text> */}
               {offerType !== "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
@@ -2182,10 +2199,13 @@ function GenerateTickets() {
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n")
-                    ? "50px"
-                    : "105px",
-                  paddingBottom: values.productDesc.includes("\n") ? 50 : (isPDFView ? 20 : 0),
+                  marginBottom: values.productDesc.includes("\n") 
+                  ? "15px" 
+                  : "105px",
+              paddingBottom: values.productDesc.includes("\n") 
+                  ? (isPDFView ? "90px" : "70px") 
+                  : (isPDFView ? "15px" : "0px"),
+              
 
                 }}
               >
@@ -2277,10 +2297,13 @@ function GenerateTickets() {
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n")
-                    ? "15px"
-                    : "105px",
-                  paddingBottom: values.productDesc.includes("\n") ? 90 : (isPDFView ? 15 : 0),
+                  marginBottom: values.productDesc.includes("\n") 
+                  ? "15px" 
+                  : "105px",
+              paddingBottom: values.productDesc.includes("\n") 
+                  ? (isPDFView ? "90px" : "70px") 
+                  : (isPDFView ? "15px" : "0px"),
+              
 
                 }}
               >
@@ -2372,14 +2395,115 @@ function GenerateTickets() {
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n")
-                    ? "15px"
-                    : "105px",
-                  paddingBottom: values.productDesc.includes("\n") ? 90 : (isPDFView ? 15 : 0),
+                  marginBottom: values.productDesc.includes("\n") 
+                  ? "15px" 
+                  : "105px",
+              paddingBottom: values.productDesc.includes("\n") 
+                  ? (isPDFView ? "90px" : "70px") 
+                  : (isPDFView ? "15px" : "0px"),
+              
 
                 }}
               >
                 <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> COSMAX FRAGRANCES</Text>
+                {"\n"}
+                ONGOING REVIVE OFFER
+              </Text>
+
+            </div>
+          );
+          case "DAVKA FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px",
+                  marginTop: "4px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  // paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n") 
+                  ? "15px" 
+                  : "105px",
+              paddingBottom: values.productDesc.includes("\n") 
+                  ? (isPDFView ? "90px" : "70px") 
+                  : (isPDFView ? "15px" : "0px"),
+              
+
+                }}
+              >
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> DAVKA FRAGRANCES</Text>
                 {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
@@ -2479,6 +2603,106 @@ function GenerateTickets() {
                 }}
               >
                 OFFER ENDS {formatDateForDisplay(values.expiry)}
+              </Text>
+
+            </div>
+          );
+          case "BASIC PRICE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "50px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px",
+                  marginTop: "3px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+
+              <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "10px", textAlign: "center", lineHeight: "1px", }}>
+                RRP ${values.rrp}{"\n"}<Text style={{ fontSize: "15px", fontFamily: "AptosBold", marginTop: "2px", lineHeight: "1px", }}>Save ${values.save} </Text>
+              </Text>
+                 
+              <Text style={{ fontSize: "11px", fontFamily: "Aptos", lineHeight: "1px", paddingTop: "2px" }}> REVIVE OFFER AVAILABLE</Text>
+              <Text
+                style={{
+                  paddingTop: "2px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "50px"
+                    : "60px",
+                  paddingBottom: isPDFView ? 20 : 0,
+
+                }}
+              >
+  
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
 
             </div>
@@ -2859,22 +3083,7 @@ function GenerateTickets() {
     const getTicketContainers = () => {
 
       const numberOfCopies = copies || 0;
-      // if (numberOfCopies === 0) {
-      //   return (
-      //     <View
-      //       style={{
-      //         display: "flex",
-      //         justifyContent: "center",
-      //         alignItems: "center",
-      //         paddingTop: "50%",
-      //         paddingbottom: "50%",
-      //         fontSize: "30px"
-      //       }}
-      //     >
-      //      {allT}
-      //     </View>
-      //   );
-      // }
+     
 
       const livePreviewTicket = {
         productName: ticketData.productName || defaultValues.productName,
@@ -3043,7 +3252,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3051,11 +3260,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3351,7 +3560,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3359,11 +3568,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3434,7 +3643,7 @@ function GenerateTickets() {
               <input
                 type="date"
                 name="expiry"
-                className="form-control"
+                className="form-control date-input-2"
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
@@ -3825,7 +4034,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3833,11 +4042,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3910,7 +4119,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3918,11 +4127,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4018,7 +4227,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4026,11 +4235,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4279,6 +4488,66 @@ function GenerateTickets() {
   
             </>
           );
+          case "DAVKA FRAGRANCE TAGS":
+          return (
+            <>
+  
+              <div className="form-group">
+                <label>Price</label>
+                <input
+                  type="text"
+                  name="price" // Added name
+                  className="form-control"
+                  value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, '');
+                    handleTicketData({
+                      target: {
+                        name: "price",
+                        value: "$" + formatPrice(filteredValue),
+                      },
+                    });
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <label>Product Name</label>
+                <input
+                  type="text"
+                  name="productName" // Added name
+                  className="form-control"
+                  value={ticketData.productName || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productName",
+                        value: formatTextNameRevlon(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <input
+                  type="text"
+                  name="productDesc" // Added name
+                  className="form-control"
+                  value={ticketData.productDesc || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextDescRevlon(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </div>
+  
+  
+            </>
+          );
       case "COTY FRAGRANCE TAGS":
         return (
           <>
@@ -4387,6 +4656,128 @@ function GenerateTickets() {
 
           </>
         );
+        case "BASIC PRICE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <input
+                type="text"
+                name="productDesc" // Added name
+                className="form-control"
+                value={ticketData.productDesc || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productDesc",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>RRP</label>
+              <input
+                type="text"
+                name="rrp" // Added name
+                className="form-control"
+                value={ticketData.rrp || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Save</label>
+              <input disabled
+                type="text"
+                name="save" // Added name
+                className="form-control"
+                value={ticketData.save || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "save",
+                      value: formatSave(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  className="form-control date-input"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry Date</label>
+                <input
+                  type="date"
+                  name="expiry"
+                  className="form-control date-input"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
+
+
+          </>
+        );
       case "PERCENTAGE OFF TAGS":
         return (
           <>
@@ -4448,7 +4839,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4456,11 +4847,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4590,7 +4981,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4598,11 +4989,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4672,7 +5063,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4680,11 +5071,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4808,7 +5199,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4816,11 +5207,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4950,6 +5341,8 @@ function GenerateTickets() {
               <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS</option>
               <option value="COSMAX FRAGRANCE TAGS">COSMAX FRAGRANCE TAGS</option>
               <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">VALUE PACK TICKETS -I'M CHEAPER THAN TAGS</option>
+              <option value="DAVKA FRAGRANCE TAGS">DAVKA FRAGRANCE TAGS</option>
+              <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
             </select>
           </div>
         </div>

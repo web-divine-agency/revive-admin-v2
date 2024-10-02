@@ -121,7 +121,7 @@ function Login() {
 
                 <div className="col-md-6 d-flex align-items-center justify-content-center">
                     <div className="card p-4" style={{ width: '450px' }}>
-                        <h2 className="text-center mb-4">{error ? 'Login Failed' : 'Login'}</h2>
+                        <h2 className="text-center mb-4">{selectedRole === 'Staff' ? 'Staff Login' : 'Admin Login'}</h2>
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={login}>
 

@@ -1,7 +1,16 @@
 /* * {
     border: 1px solid red;
 } */
+@media (max-width: 1366px) and (min-width: 1024px) {
+    .nav-text a {
 
+   
+        font-size: 14px !important;
+      
+    
+    }
+    
+}
 .logo {
     position: absolute;
     top: 0px;

@@ -21,12 +21,12 @@ function UsersList() {
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
-  
+
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [roles, setRoles] = useState([]);
-  const [roleFilter, setRoleFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState("");
 
   useEffect(() => {
     // success login swal
@@ -35,16 +35,15 @@ function UsersList() {
         title: "Login Successful",
         text: `Welcome`,
         imageUrl: check,
-        imageWidth: 100,  
-        imageHeight: 100, 
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       });
-  
+
       localStorage.removeItem("loginSuccess");
     }
   }, []);
-  
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -59,13 +58,13 @@ function UsersList() {
     };
 
     const fetchRoles = async () => {
-      try{
+      try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-      }catch(error){
+      } catch (error) {
         console.error(response.status.error);
       }
-    }
+    };
 
     fetchUsers();
     fetchRoles();
@@ -80,21 +79,21 @@ function UsersList() {
         console.error("Error fetching logged-in user:", error);
       }
     };
-    
+
     fetchLoggedInUser();
   }, []);
 
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await axiosInstance.get('/branches');
-        const formattedData = response.data.map(branch => ({
+        const response = await axiosInstance.get("/branches");
+        const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
         }));
         setBranches(formattedData);
       } catch (error) {
-        console.error('Error fetching staff logs:', error);
+        console.error("Error fetching staff logs:", error);
       }
     };
     fetchBranches();
@@ -107,27 +106,30 @@ function UsersList() {
   useEffect(() => {
     // Filter users whenever the filter or search state changes
     const applyFilters = () => {
-  
-      if (!loggedInUser) return; 
+      if (!loggedInUser) return;
 
-    let tempUsers = users.filter(
-      (user) => user.id !== loggedInUser.id);
+      let tempUsers = users.filter((user) => user.id !== loggedInUser.id);
 
       if (roleFilter) {
-        tempUsers = tempUsers.filter((user) => 
-          user.roles?.map((r) => r.role_name).join(", ") === roleFilter
+        tempUsers = tempUsers.filter(
+          (user) =>
+            user.roles?.map((r) => r.role_name).join(", ") === roleFilter
         );
       }
 
       if (search) {
         tempUsers = tempUsers.filter((user) =>
-          `${user.first_name} ${user.last_name}`.toLowerCase().includes(search.toLowerCase())
+          `${user.first_name} ${user.last_name}`
+            .toLowerCase()
+            .includes(search.toLowerCase())
         );
       }
 
       if (selectedBranchId) {
         tempUsers = tempUsers.filter((user) =>
-          user.branches?.some(branch => branch.id === parseInt(selectedBranchId))
+          user.branches?.some(
+            (branch) => branch.id === parseInt(selectedBranchId)
+          )
         );
       }
 
@@ -136,8 +138,6 @@ function UsersList() {
 
     applyFilters();
   }, [filter, roleFilter, search, users, loggedInUser, selectedBranchId]);
-  
-  
 
   const handleViewClick = (user) => {
     setSelectedUser(user);
@@ -147,7 +147,7 @@ function UsersList() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  
+
   const handleEditUserClick = (userId) => {
     navigate(`/edit-user/${userId}`);
   };
@@ -155,9 +155,9 @@ function UsersList() {
   const handleDeleteUserClick = async (userId) => {
     if (loggedInUser && userId === loggedInUser.id) {
       Swal.fire({
-        icon: 'error',
-        title: 'Cannot Delete Your Own Account',
-        text: 'You cannot delete your own account.',
+        icon: "error",
+        title: "Cannot Delete Your Own Account",
+        text: "You cannot delete your own account.",
       });
       return;
     }
@@ -166,7 +166,7 @@ function UsersList() {
       title: "Are you sure?",
       text: "You won’t be able to revert this!",
       showCancelButton: true,
-      icon: 'warning',
+      icon: "warning",
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",
@@ -187,8 +187,8 @@ function UsersList() {
             title: "Success!",
             text: "User has been deleted.",
             imageUrl: check,
-            imageWidth: 100,  
-            imageHeight: 100, 
+            imageWidth: 100,
+            imageHeight: 100,
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
             customClass: {
@@ -246,7 +246,8 @@ function UsersList() {
     },
     {
       name: "Branch",
-      selector: (row) => row.branches?.map((r) => r.branch_name).join(", ") || "N/A", 
+      selector: (row) =>
+        row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
     },
     {
@@ -269,7 +270,8 @@ function UsersList() {
                 name: `${row.first_name} ${row.last_name}`,
                 email: row.email,
                 username: row.username,
-                branch: row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
+                branch:
+                  row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
                 role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
               })
@@ -286,17 +288,17 @@ function UsersList() {
             height="25"
           />
           {loggedInUser && row.id !== loggedInUser.id && (
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete User"
-            alt="delete"
-            width="25"
-            height="25"
-            onClick={() => handleDeleteUserClick(row.id)}
-            style={{ cursor: "pointer" }}
-          />
-        )}
+            <img
+              className="ml-3"
+              src={delete_icon}
+              title="Delete User"
+              alt="delete"
+              width="25"
+              height="25"
+              onClick={() => handleDeleteUserClick(row.id)}
+              style={{ cursor: "pointer" }}
+            />
+          )}
         </div>
       ),
       sortable: false,
@@ -309,33 +311,33 @@ function UsersList() {
         <div className="col-lg-12 col-md-6">
           <h3>Users List</h3>
           <div className="top-filter">
-          <select
+            <select
               name="filter"
               className="mr-4"
               id="filter"
               value={roleFilter}
-              onChange={e => setRoleFilter(e.target.value)}
+              onChange={(e) => setRoleFilter(e.target.value)}
             >
               <option value="">All Roles</option>
-              {roles.map(role => (
+              {roles.map((role) => (
                 <option key={role.id} value={role.role_name}>
                   {role.role_name}
                 </option>
               ))}
             </select>
             <select
-                name="filter"
-                id="filter"
-                value={selectedBranchId}
-                onChange={handleBranchSelect}
-              >
-                <option value="">All Branches</option>
-                {branches.map(branch => (
-                  <option key={branch.id} value={branch.id}>
-                    {branch.branch_name}
-                  </option>
-                ))}
-              </select>
+              name="filter"
+              id="filter"
+              value={selectedBranchId}
+              onChange={handleBranchSelect}
+            >
+              <option value="">All Branches</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.branch_name}
+                </option>
+              ))}
+            </select>
             <input
               id="search-bar"
               type="text"
