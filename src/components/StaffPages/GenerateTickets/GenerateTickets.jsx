@@ -307,12 +307,12 @@ function GenerateTickets() {
   };
   const formatTextDescRevlon = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 16) {
-      lines.push(text.substring(i, i + 16));
-      if (lines.length === 2) break;
+    for (let i = 0; i < text.length && lines.length < 2; i += 33) {
+      lines.push(text.substring(i, i + 33));
     }
     return lines.join("\n");
   };
+
   const formatTextNameRevlon = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 16) {
@@ -383,15 +383,22 @@ function GenerateTickets() {
   };
 
 
+  // const formatDescA4Ticket = (text) => {
+  //   const lines = [];
+  //   for (let i = 0; i < text.length; i += 19) {
+  //     lines.push(text.substring(i, i + 19));
+  //     if (lines.length === 2) break;
+  //   }
+  //   return lines.join("\n");
+  // };
+
   const formatDescA4Ticket = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 19) {
-      lines.push(text.substring(i, i + 19));
-      if (lines.length === 2) break;
+    for (let i = 0; i < text.length && lines.length < 2; i += 39) {
+      lines.push(text.substring(i, i + 39));
     }
     return lines.join("\n");
   };
-
 
   //limit price to 5 digits
   const formatPrice = (value) => {
@@ -452,14 +459,23 @@ function GenerateTickets() {
   };
 
   //limit ng text 17chars per line in small tickets description
+  // const formatTextPercentage = (text) => {
+  //   const lines = [];
+  //   for (let i = 0; i < text.length; i += 15) {
+  //     lines.push(text.substring(i, i + 15));
+  //     if (lines.length === 2) break;
+  //   }
+  //   return lines.join("\n");
+  // };
+
   const formatTextPercentage = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 15) {
-      lines.push(text.substring(i, i + 15));
-      if (lines.length === 2) break;
+    for (let i = 0; i < text.length && lines.length < 2; i += 31) {
+      lines.push(text.substring(i, i + 31));
     }
     return lines.join("\n");
   };
+
   const formatTextPercentageName = (text) => {
     const lines = [];
     for (let i = 0; i < text.length; i += 15) {
@@ -470,11 +486,19 @@ function GenerateTickets() {
   };
 
   //limit ng text 25chars per line in big tickets
+  // const BigformatText = (text) => {
+  //   const lines = [];
+  //   for (let i = 0; i < text.length; i += 24) {
+  //     lines.push(text.substring(i, i + 24));
+  //     if (lines.length === 3) break;
+  //   }
+  //   return lines.join("\n");
+  // };
+
   const BigformatText = (text) => {
     const lines = [];
-    for (let i = 0; i < text.length; i += 24) {
-      lines.push(text.substring(i, i + 24));
-      if (lines.length === 3) break;
+    for (let i = 0; i < text.length && lines.length < 3; i += 75) {
+      lines.push(text.substring(i, i + 75));
     }
     return lines.join("\n");
   };
@@ -491,7 +515,7 @@ function GenerateTickets() {
     let newCopies = Number(e.target.value);
     // Ensure the value does not exceed 99 and is within the template-specific max
     newCopies = Math.min(newCopies, 99);
-    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" || template === "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS" || template === "COSMAX FRAGRANCE TAGS" || template === "DAVKA FRAGRANCE TAGS" || template === "BASIC PRICE TAGS"  ? 90 : 45);
+    newCopies = Math.min(newCopies, template === "CATALOGUE SPECIALS PRICE TAGS" || template === "HOT PRICE TAGS (with RRP + Save)" || template === "HOT PRICE TAGS (without RRP + Save)" || template === "COTY FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS" || template === "MUST TRY TAGS" || template === "NEW IN STORE TAGS" || template === "PERCENTAGE OFF TAGS" || template === "REVLON FRAGRANCE TAGS" || template === "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF" || template === "FROSTBLAND FRAGRANCE TAGS" || template === "DB FRAGRANCE TAGS" || template === "CLEARANCE TAGS" || template === "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS" || template === "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS" || template === "COSMAX FRAGRANCE TAGS" || template === "DAVKA FRAGRANCE TAGS" || template === "BASIC PRICE TAGS" ? 90 : 45);
     setCopies(newCopies);
   };
 
@@ -534,24 +558,33 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
-        case "COSMAX FRAGRANCE TAGS":
-          return {
-            height: "auto",
-            width: "185px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: "25px",
-          };
-          case "DAVKA FRAGRANCE TAGS":
-            return {
-              height: "auto",
-              width: "185px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              paddingTop: "25px",
-            };
+      case "COSMAX FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "BASIC PRICE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
+      case "DAVKA FRAGRANCE TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
       case "COTY FRAGRANCE TAGS":
         return {
           height: "auto",
@@ -561,15 +594,6 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
-        case "BASIC PRICE TAGS":
-          return {
-            height: "auto",
-            width: "185px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: "25px",
-          };
       case "GREEN FRIDAY SALE TAGS":
         return {
           height: "auto",
@@ -633,15 +657,15 @@ function GenerateTickets() {
           alignItems: "center",
           paddingTop: "25px",
         };
-        case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
-          return {
-            height: "auto",
-            width: "185px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: "25px",
-          };
+      case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
+        return {
+          height: "auto",
+          width: "185px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          paddingTop: "25px",
+        };
       case "A4 BIG TICKET LANDSCAPE":
         return {
           height: "585px",
@@ -697,10 +721,10 @@ function GenerateTickets() {
       price: ticketData.price,
       rrp: ticketData.rrp,
       save: ticketData.save,
-      offerType: ticketData.offerType,
-      valueType: ticketData.valueType,
-      expiry: ticketData.expiry,
-      startDate: ticketData.startDate,
+      offerType: offerType,
+      valueType: valueType,
+      expiry: expiry,
+      startDate: startDate,
       percentOff: ticketData.percentOff,
       productBrand: ticketData.productBrand,
       productDesc: ticketData.productDesc,
@@ -713,7 +737,6 @@ function GenerateTickets() {
     setTicketData({
       productName: "",
       productNameValue: "",
-      offerType: "",
       productDesc: "",
       price: "",
       rrp: "",
@@ -724,7 +747,6 @@ function GenerateTickets() {
     setPrice("");
     setRrp("");
     setSave("");
-    setOfferType("");
     setCopies(1);
     // setExpiry("Expiry");
     setpercentOff("");
@@ -815,7 +837,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -826,7 +848,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -835,6 +857,9 @@ function GenerateTickets() {
                 {values.productDesc}
                 {"\n"}
               </Text>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
+                RRP ${values.rrp}  Save ${values.save}
+              </Text> */}
               {offerType !== "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
@@ -923,7 +948,7 @@ function GenerateTickets() {
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
-                  marginTop: isPDFView ? 10 : 0,
+                  marginTop: isPDFView ? 5 : 0,
                 }}
               >
                 SUPER SAVING
@@ -941,7 +966,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
@@ -952,7 +977,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
@@ -967,12 +992,12 @@ function GenerateTickets() {
               {valueType !== "I'M CHEAPER THAN" && (
                 <Text
                   style={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     textAlign: "center",
                     fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "55px",
+                      : "60px",
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
@@ -989,18 +1014,18 @@ function GenerateTickets() {
               {valueType === "I'M CHEAPER THAN" && (
                 <Text
                   style={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     textAlign: "center",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
-                      : "40px",
+                      : "45px",
                     fontFamily: "Aptos",
-                    paddingBottom: isPDFView ? 5 : 0,
+                    paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
                   I'M CHEAPER THAN {"\n"}
                   <Text style={{
-                    fontSize: "15px",
+                    fontSize: "14px",
                     textAlign: "center",
                     fontFamily: "AptosBold",
                     textTransform: "uppercase",
@@ -1027,7 +1052,7 @@ function GenerateTickets() {
               /> */}
             </div>
           );
-          case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
+        case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
           if (valueType !== "I'M GREATER VALUE!") {
             setValueType("I'M CHEAPER THAN");
           }
@@ -1219,7 +1244,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1231,7 +1256,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1262,7 +1287,7 @@ function GenerateTickets() {
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "70px",
+                    : "75px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
@@ -1419,7 +1444,7 @@ function GenerateTickets() {
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
-                DESIGN BRAND {"\n"} FRAGRANCE
+                DESIGNER BRAND {"\n"} FRAGRANCE
               </Text>
 
               <Text
@@ -1434,9 +1459,10 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "13px",
+                  fontSize: "12px",
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
+                  lineHeight: "1px",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1447,7 +1473,7 @@ function GenerateTickets() {
                 style={{
                   fontSize: "9px",
                   textAlign: "center",
-                  marginBottom: "50px",
+                  marginBottom: "55px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
                   marginTop: "5px",
@@ -1505,7 +1531,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1517,7 +1543,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1548,7 +1574,7 @@ function GenerateTickets() {
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "55px",
+                    : "65px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
@@ -1725,7 +1751,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1737,7 +1763,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -1769,7 +1795,7 @@ function GenerateTickets() {
                   textTransform: "uppercase",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "60px",
+                    : "65px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
@@ -2154,7 +2180,7 @@ function GenerateTickets() {
 
               <Text
                 style={{
-                  marginTop: "5px",
+                  marginTop: "10px",
                   fontSize: "18px",
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
@@ -2186,7 +2212,7 @@ function GenerateTickets() {
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
-                  marginBottom: "3px"
+                  marginBottom: "10px"
                 }}
               >
                 {values.price}
@@ -2194,22 +2220,20 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  // paddingTop: "5px",
+                  paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n") 
-                  ? "15px" 
-                  : "105px",
-              paddingBottom: values.productDesc.includes("\n") 
-                  ? (isPDFView ? "90px" : "70px") 
-                  : (isPDFView ? "15px" : "0px"),
-              
-
+                  // lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "30px"
+                    : "85px",
+                  paddingBottom: values.productDesc.includes("\n")
+                    ? (isPDFView ? "50px" : "40px")
+                    : (isPDFView ? "20px" : "0px"),
                 }}
               >
-                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> REVLON FRAGRANCES</Text>
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", marginBottom: "3px" }}> REVLON FRAGRANCES</Text>
                 {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
@@ -2252,7 +2276,7 @@ function GenerateTickets() {
               <Text
                 style={{
                   marginTop: "5px",
-                  fontSize: "18px",
+                  fontSize: "17px",
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
@@ -2265,7 +2289,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: "17px",
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
@@ -2283,8 +2307,8 @@ function GenerateTickets() {
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
-                  marginBottom: "3px",
-                  marginTop: "4px"
+                  marginBottom: "12px",
+                  marginTop: "3px"
                 }}
               >
                 {values.price}
@@ -2292,29 +2316,28 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  // paddingTop: "5px",
+                  paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n") 
-                  ? "15px" 
-                  : "105px",
-              paddingBottom: values.productDesc.includes("\n") 
-                  ? (isPDFView ? "90px" : "70px") 
-                  : (isPDFView ? "15px" : "0px"),
-              
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "25px"
+                    : "90px",
+                  paddingBottom: values.productDesc.includes("\n")
+                    ? (isPDFView ? "65px" : "50px")
+                    : (isPDFView ? "15px" : "0px"),
 
                 }}
               >
-                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> FROSTBLAND FRAGRANCES</Text>
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: 1.2, marginTop: "3px", }}> FROSTBLAND FRAGRANCES</Text>
                 {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
 
             </div>
           );
-          case "COSMAX FRAGRANCE TAGS":
+        case "BASIC PRICE TAGS":
           return (
             <div
               style={{
@@ -2382,37 +2405,39 @@ function GenerateTickets() {
                   textAlign: "center",
                   lineHeight: "1px",
                   marginBottom: "3px",
-                  marginTop: "4px"
+                  marginTop: "3px"
                 }}
               >
                 {values.price}
                 {"\n"}
               </Text>
+
+              <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "10px", textAlign: "center", lineHeight: "1px", }}>
+                RRP ${values.rrp}{"\n"}<Text style={{ fontSize: "15px", fontFamily: "AptosBold", marginTop: "2px", lineHeight: "1px", }}>Save ${values.save} </Text>
+              </Text>
+
+              <Text style={{ fontSize: "11px", fontFamily: "Aptos", lineHeight: "1px", paddingTop: "2px" }}> REVIVE OFFER AVAILABLE</Text>
               <Text
                 style={{
-                  // paddingTop: "5px",
+                  paddingTop: "2px",
                   fontSize: "9px",
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n") 
-                  ? "15px" 
-                  : "105px",
-              paddingBottom: values.productDesc.includes("\n") 
-                  ? (isPDFView ? "90px" : "70px") 
-                  : (isPDFView ? "15px" : "0px"),
-              
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "50px"
+                    : "65px",
+                  paddingBottom: isPDFView ? 20 : 0,
 
                 }}
               >
-                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> COSMAX FRAGRANCES</Text>
-                {"\n"}
-                ONGOING REVIVE OFFER
+
+                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
 
             </div>
           );
-          case "DAVKA FRAGRANCE TAGS":
+        case "COSMAX FRAGRANCE TAGS":
           return (
             <div
               style={{
@@ -2474,12 +2499,12 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: "45px",
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
-                  marginBottom: "3px",
+                  marginBottom: "12px",
                   marginTop: "4px"
                 }}
               >
@@ -2488,22 +2513,118 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  // paddingTop: "5px",
+                  paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
                   fontFamily: "Aptos",
                   lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n") 
-                  ? "15px" 
-                  : "105px",
-              paddingBottom: values.productDesc.includes("\n") 
-                  ? (isPDFView ? "90px" : "70px") 
-                  : (isPDFView ? "15px" : "0px"),
-              
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "20px"
+                    : "90px",
+                  paddingBottom: values.productDesc.includes("\n")
+                    ? (isPDFView ? "70px" : "50px")
+                    : (isPDFView ? "15px" : "0px"),
 
                 }}
               >
-                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", lineHeight: "1px", }}> DAVKA FRAGRANCES</Text>
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", marginTop: "3px", lineHeight: "1.2px" }}> COSMAX FRAGRANCES</Text>
+                {"\n"}
+                ONGOING REVIVE OFFER
+              </Text>
+
+            </div>
+          );
+        case "DAVKA FRAGRANCE TAGS":
+          return (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!isPDFView && (
+                <Text
+                  style={{
+                    position: "fixed",
+                    top: -5,
+                    fontFamily: "BarlowCondensed",
+                    fontSize: 10,
+                    height: "auto",
+                    width: "auto",
+                    padding: "3px",
+                    borderRadius: "5px",
+                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
+                    color: ticketData.addedToQueue ? "green" : "red",
+                    zIndex: 1000,
+                    pointerEvents: "none",
+                  }}
+                  className="no-print"
+                >
+                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
+                </Text>
+              )}
+
+
+              <Text
+                style={{
+                  marginTop: "5px",
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+
+                }}
+              >
+                {values.productName}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "18px",
+                  fontFamily: "AptosBold",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "3px"
+                }}
+              >
+                {values.productDesc}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  fontSize: "45px",
+                  fontFamily: "Arial",
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  lineHeight: "1px",
+                  marginBottom: "12px",
+                  marginTop: "4px"
+                }}
+              >
+                {values.price}
+                {"\n"}
+              </Text>
+              <Text
+                style={{
+                  paddingTop: "5px",
+                  fontSize: "9px",
+                  textAlign: "center",
+                  fontFamily: "Aptos",
+                  lineHeight: "1px",
+                  marginBottom: values.productDesc.includes("\n")
+                    ? "20px"
+                    : "90px",
+                  paddingBottom: values.productDesc.includes("\n")
+                    ? (isPDFView ? "70px" : "50px")
+                    : (isPDFView ? "15px" : "0px"),
+
+                }}
+              >
+                <Text style={{ fontSize: "11px", fontFamily: "AptosBold", marginTop: "3px", lineHeight: "1.2px" }}> DAVKA FRAGRANCES</Text>
                 {"\n"}
                 ONGOING REVIVE OFFER
               </Text>
@@ -2607,106 +2728,6 @@ function GenerateTickets() {
 
             </div>
           );
-          case "BASIC PRICE TAGS":
-          return (
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {!isPDFView && (
-                <Text
-                  style={{
-                    position: "fixed",
-                    top: -5,
-                    fontFamily: "BarlowCondensed",
-                    fontSize: 10,
-                    height: "auto",
-                    width: "auto",
-                    padding: "3px",
-                    borderRadius: "5px",
-                    backgroundColor: ticketData.addedToQueue ? "#e3fae9" : "#f7d7d7",
-                    color: ticketData.addedToQueue ? "green" : "red",
-                    zIndex: 1000,
-                    pointerEvents: "none",
-                  }}
-                  className="no-print"
-                >
-                  {ticketData.addedToQueue ? "Added to Queue" : "Not Added to Queue"}
-                </Text>
-              )}
-
-
-              <Text
-                style={{
-                  marginTop: "5px",
-                  fontSize: "18px",
-                  fontFamily: "AptosBold",
-                  textTransform: "uppercase",
-                  textAlign: "center",
-                  lineHeight: "1px",
-
-                }}
-              >
-                {values.productName}
-                {"\n"}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "AptosBold",
-                  textTransform: "uppercase",
-                  textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px"
-                }}
-              >
-                {values.productDesc}
-                {"\n"}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "50px",
-                  fontFamily: "Arial",
-                  textTransform: "uppercase",
-                  textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
-                  marginTop: "3px"
-                }}
-              >
-                {values.price}
-                {"\n"}
-              </Text>
-
-              <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "10px", textAlign: "center", lineHeight: "1px", }}>
-                RRP ${values.rrp}{"\n"}<Text style={{ fontSize: "15px", fontFamily: "AptosBold", marginTop: "2px", lineHeight: "1px", }}>Save ${values.save} </Text>
-              </Text>
-                 
-              <Text style={{ fontSize: "11px", fontFamily: "Aptos", lineHeight: "1px", paddingTop: "2px" }}> REVIVE OFFER AVAILABLE</Text>
-              <Text
-                style={{
-                  paddingTop: "2px",
-                  fontSize: "9px",
-                  textAlign: "center",
-                  fontFamily: "Aptos",
-                  lineHeight: "1px",
-                  marginBottom: values.productDesc.includes("\n")
-                    ? "50px"
-                    : "60px",
-                  paddingBottom: isPDFView ? 20 : 0,
-
-                }}
-              >
-  
-                {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
-              </Text>
-
-            </div>
-          );
         case "PERCENTAGE OFF TAGS":
           return (
             <div
@@ -2739,9 +2760,9 @@ function GenerateTickets() {
                 </Text>
               )}
 
-              <Text style={{ fontSize: "75px", fontFamily: "BarlowCondensed", marginTop: isPDFView ? 10 : 0, }}>
+              <Text style={{ fontSize: "68px", fontFamily: "BarlowCondensed", marginTop: isPDFView ? 10 : 0, }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "42px", fontFamily: "BarlowCondensed" }}>
+                <Text style={{ fontSize: "36px", fontFamily: "BarlowCondensed" }}>
                   OFF
                 </Text>
               </Text>
@@ -2781,25 +2802,15 @@ function GenerateTickets() {
                   lineHeight: "1px",
                   marginTop: "3px",
                   marginBottom: values.productDesc.includes("\n")
-                    ? "40px"
-                    : "60px",
+                    ? "50px"
+                    : "70px",
                   paddingBottom: isPDFView ? 8 : 0,
                 }}
               >
                 REVIVE OFFER AVAILABLE {"\n"}
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
-              {/* <Image
-                src={revive_logo_white}
-                style={{
-                  width: 90,
-                  height: 50,
-                  marginTop: "5px",
-                  marginBottom: values.productName.includes("\n")
-                    ? "20px"
-                    : "40px",
-                }}
-              /> */}
+
             </div>
           );
 
@@ -3008,7 +3019,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -3019,7 +3030,7 @@ function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14px",
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
@@ -3083,7 +3094,22 @@ function GenerateTickets() {
     const getTicketContainers = () => {
 
       const numberOfCopies = copies || 0;
-     
+      // if (numberOfCopies === 0) {
+      //   return (
+      //     <View
+      //       style={{
+      //         display: "flex",
+      //         justifyContent: "center",
+      //         alignItems: "center",
+      //         paddingTop: "50%",
+      //         paddingbottom: "50%",
+      //         fontSize: "30px"
+      //       }}
+      //     >
+      //      {allT}
+      //     </View>
+      //   );
+      // }
 
       const livePreviewTicket = {
         productName: ticketData.productName || defaultValues.productName,
@@ -3139,9 +3165,9 @@ function GenerateTickets() {
               flexDirection: "row",
               flexWrap: "wrap",
               justifyContent: "content-start",
-              gap: "16px",
+              gap: "15px",
               alignItems: "center",
-              paddingLeft: "7px",
+              paddingLeft: "9px",
               // paddingRight: "px",
             }}
           >
@@ -3252,7 +3278,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3260,11 +3286,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3368,7 +3394,7 @@ function GenerateTickets() {
             </div>
           </>
         );
-        case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
+      case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
         return (
           <>
             <div className="form-group">
@@ -3560,7 +3586,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3568,11 +3594,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3643,7 +3669,7 @@ function GenerateTickets() {
               <input
                 type="date"
                 name="expiry"
-                className="form-control date-input-2"
+                className="form-control"
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
@@ -4034,7 +4060,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4042,11 +4068,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4119,7 +4145,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4127,11 +4153,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4227,7 +4253,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4235,11 +4261,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4349,26 +4375,179 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Description</label>
+              <textarea
+                name="productDesc"
+                className="form-control"
+                placeholder="Press Enter for a new line..."
+                value={ticketData.productDesc || ""}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 16)) {
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextDescRevlon(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 16)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
+                  }
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
+              />
+            </div>
+
+
+
+          </>
+        );
+      case "FROSTBLAND FRAGRANCE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
               <input
                 type="text"
-                name="productDesc" // Added name
+                name="price" // Added name
                 className="form-control"
-                value={ticketData.productDesc || ""}
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
                     target: {
-                      name: "productDesc",
-                      value: formatTextDescRevlon(e.target.value),
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
                     },
                   })
                 }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="productDesc"
+                className="form-control"
+                placeholder="Press Enter for a new line..."
+                value={ticketData.productDesc || ""}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 16)) {
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextDescRevlon(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 16)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
+                  }
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
+              />
+            </div>
+
+          </>
+        );
+      case "DAVKA FRAGRANCE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="productDesc"
+                className="form-control"
+                placeholder="Press Enter for a new line..."
+                value={ticketData.productDesc || ""}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 16)) {
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextDescRevlon(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 16)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
+                  }
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
               />
             </div>
 
 
           </>
         );
-      case "FROSTBLAND FRAGRANCE TAGS":
+      case "BASIC PRICE TAGS":
         return (
           <>
 
@@ -4418,136 +4597,150 @@ function GenerateTickets() {
                   handleTicketData({
                     target: {
                       name: "productDesc",
-                      value: formatTextDescRevlon(e.target.value),
+                      value: formatTextNameRevlon(e.target.value),
                     },
                   })
                 }
               />
             </div>
+            <div className="form-group">
+              <label>RRP</label>
+              <input
+                type="text"
+                name="rrp" // Added name
+                className="form-control"
+                value={ticketData.rrp || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Save</label>
+              <input disabled
+                type="text"
+                name="save" // Added name
+                className="form-control"
+                value={ticketData.save || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "save",
+                      value: formatSave(filteredValue),
+                    },
+                  })
+                }}
+              />
+            </div>
+            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  className="form-control date-input"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <label>Expiry Date</label>
+                <input
+                  type="date"
+                  name="expiry"
+                  className="form-control date-input"
+                  value={expiry}
+                  onChange={handleExpiryChange}
+                  min={getTodayDate()}
+                />
+                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
+              </div>
+            </div>
 
 
           </>
         );
-        case "COSMAX FRAGRANCE TAGS":
-          return (
-            <>
-  
-              <div className="form-group">
-                <label>Price</label>
-                <input
-                  type="text"
-                  name="price" // Added name
-                  className="form-control"
-                  value={ticketData.price ? ticketData.price.replace("$", "") : ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "price",
-                        value: "$" + formatPrice(filteredValue),
-                      },
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label>Product Name</label>
-                <input
-                  type="text"
-                  name="productName" // Added name
-                  className="form-control"
-                  value={ticketData.productName || ""}
-                  onChange={(e) =>
-                    handleTicketData({
-                      target: {
-                        name: "productName",
-                        value: formatTextNameRevlon(e.target.value),
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="form-group">
-                <label>Description</label>
-                <input
-                  type="text"
-                  name="productDesc" // Added name
-                  className="form-control"
-                  value={ticketData.productDesc || ""}
-                  onChange={(e) =>
-                    handleTicketData({
-                      target: {
-                        name: "productDesc",
-                        value: formatTextDescRevlon(e.target.value),
-                      },
-                    })
-                  }
-                />
-              </div>
-  
-  
-            </>
-          );
-          case "DAVKA FRAGRANCE TAGS":
-          return (
-            <>
-  
-              <div className="form-group">
-                <label>Price</label>
-                <input
-                  type="text"
-                  name="price" // Added name
-                  className="form-control"
-                  value={ticketData.price ? ticketData.price.replace("$", "") : ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "price",
-                        value: "$" + formatPrice(filteredValue),
-                      },
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label>Product Name</label>
-                <input
-                  type="text"
-                  name="productName" // Added name
-                  className="form-control"
-                  value={ticketData.productName || ""}
-                  onChange={(e) =>
-                    handleTicketData({
-                      target: {
-                        name: "productName",
-                        value: formatTextNameRevlon(e.target.value),
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="form-group">
-                <label>Description</label>
-                <input
-                  type="text"
-                  name="productDesc" // Added name
-                  className="form-control"
-                  value={ticketData.productDesc || ""}
-                  onChange={(e) =>
+      case "COSMAX FRAGRANCE TAGS":
+        return (
+          <>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price" // Added name
+                className="form-control"
+                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, '');
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Product Name</label>
+              <input
+                type="text"
+                name="productName" // Added name
+                className="form-control"
+                value={ticketData.productName || ""}
+                onChange={(e) =>
+                  handleTicketData({
+                    target: {
+                      name: "productName",
+                      value: formatTextNameRevlon(e.target.value),
+                    },
+                  })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="productDesc"
+                className="form-control"
+                placeholder="Press Enter for a new line..."
+                value={ticketData.productDesc || ""}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 16)) {
                     handleTicketData({
                       target: {
                         name: "productDesc",
-                        value: formatTextDescRevlon(e.target.value),
+                        value: formatTextDescRevlon(inputValue),
                       },
-                    })
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 16)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
                   }
-                />
-              </div>
-  
-  
-            </>
-          );
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
+              />
+            </div>
+
+
+
+          </>
+        );
       case "COTY FRAGRANCE TAGS":
         return (
           <>
@@ -4656,128 +4849,6 @@ function GenerateTickets() {
 
           </>
         );
-        case "BASIC PRICE TAGS":
-        return (
-          <>
-
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
-                value={ticketData.price ? ticketData.price.replace("$", "") : ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "price",
-                      value: "$" + formatPrice(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
-                value={ticketData.productName || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productName",
-                      value: formatTextNameRevlon(e.target.value),
-                    },
-                  })
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
-                value={ticketData.productDesc || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productDesc",
-                      value: formatTextNameRevlon(e.target.value),
-                    },
-                  })
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
-                value={ticketData.rrp || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "rrp",
-                      value: formatRrp(filteredValue),
-                    },
-                  })
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Save</label>
-              <input disabled
-                type="text"
-                name="save" // Added name
-                className="form-control"
-                value={ticketData.save || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "save",
-                      value: formatSave(filteredValue),
-                    },
-                  })
-                }}
-              />
-            </div>
-            <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i className="fa fa-calendar custom-date-icon" style={{ color: "black", zIndex: "1000" }}></i>
-              </div>
-            </div>
-
-
-          </>
-        );
       case "PERCENTAGE OFF TAGS":
         return (
           <>
@@ -4818,28 +4889,40 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
+              <textarea
+                name="productDesc"
                 className="form-control"
+                placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productDesc",
-                      value: formatTextPercentage(e.target.value),
-                    },
-                  })
-                }
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 15)) {
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextPercentage(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 15)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
+                  }
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={31} // Set max length to 32 characters (16 chars x 2 lines)
               />
             </div>
+
             <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <label>Start Date</label>
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4847,11 +4930,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4942,21 +5025,33 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
+              <textarea
+                name="productName"
                 className="form-control"
+                placeholder="Press Enter for a new line..."
                 value={ticketData.productName || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productName",
-                      value: BigformatText(e.target.value),
-                    },
-                  })
-                }
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 3 && lines.every(line => line.length <= 25)) {
+                    handleTicketData({
+                      target: {
+                        name: "productName",
+                        value: BigformatText(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 3 || (lines.length === 3 && lines[1].length > 25)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productName || "";
+                  }
+                }}
+                rows="3" // Set to 2 rows to match the limit
+                maxLength={75} // Set max length to 32 characters (16 chars x 2 lines)
               />
             </div>
+
             <div className="form-group">
               <label>Price</label>
               <input
@@ -4981,7 +5076,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4989,11 +5084,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -5042,28 +5137,40 @@ function GenerateTickets() {
             </div>
             <div className="form-group">
               <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
+              <textarea
+                name="productDesc"
                 className="form-control"
+                placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productDesc",
-                      value: formatDescA4Ticket(e.target.value),
-                    },
-                  })
-                }
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const lines = inputValue.split('\n');
+
+                  // Check for line count and character limits
+                  if (lines.length <= 2 && lines.every(line => line.length <= 19)) {
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatDescA4Ticket(inputValue),
+                      },
+                    });
+                  } else if (lines.length > 2 || (lines.length === 2 && lines[1].length > 19)) {
+                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    e.target.value = ticketData.productDesc || "";
+                  }
+                }}
+                rows="2" // Set to 2 rows to match the limit
+                maxLength={39} // Set max length to 32 characters (16 chars x 2 lines)
               />
             </div>
+
             <div className="form-group" style={{ position: "relative", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <label>Start Date</label>
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -5071,11 +5178,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -5199,7 +5306,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control date-input"
+                  className="form-control"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -5207,11 +5314,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
+                <label>Expiry</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control date-input"
+                  className="form-control"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
