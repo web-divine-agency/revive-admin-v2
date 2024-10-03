@@ -1574,7 +1574,7 @@ function GenerateTickets() {
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
-                    : "65px",
+                    : "60px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}

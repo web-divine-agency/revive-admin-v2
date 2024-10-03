@@ -3,6 +3,7 @@ import profile_avatar from "../../../assets/images/profile_avatar.png";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import close from "../../../assets/images/close.png";
+import check from "../../../assets/images/check.png";
 
 function MyProfile() {
   const [username, setUsername] = useState("");
