@@ -5404,7 +5404,7 @@ function GenerateTickets() {
   return (
     <div className="container generate-ticket-container">
       <div className="col-md-12">
-        <div className="row pl-4">
+        <div className="row pl-4 template-selection">
           <h3>Revive Pharmacy Price Ticket Generator</h3>
 
           <div className="ticket-filter">
@@ -5529,8 +5529,9 @@ function GenerateTickets() {
               <h5 className="mt-3" style={{ fontSize: "24px", fontFamily: "BarlowCondensed" }}>PDF Live Preview</h5>
               <div className="pdf-preview">
                 <PDFViewer
+                  className="pdf-paper"
                   showToolbar={false}
-                  style={{ width: "100%", height: "705px" }}
+                  style={{ width: "98%", height: "705px" }}
                 >
                   <MyDocument />
                 </PDFViewer>

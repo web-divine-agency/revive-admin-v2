@@ -26,14 +26,50 @@ button:hover {
     overflow-x: hidden;
     margin-right: -8rem !important;
     font-size: 13px !important;
+    padding: 2rem 2rem 2rem .8rem !important;
+  }
+  .generate-ticket-container .template-selection{
+    margin-left: -45px !important;
+
+  }
+  .pdf-paper{
+    width: 100% !important;
+  }
+  .generate-ticket-container .template-selection h3{
+   font-size: 22px !important;
+    
+  }
+  .generate-ticket-container .template-selection h5{
+    font-size: 22px !important;
+     
+   }
+  .generate-ticket-container {
+    margin-right: -4rem !important;
+    padding: 1rem 1rem 2rem 2rem !important;
   }
 
-  /* .ticket-copies-field{
-margin-right: 10px;
-  }
-  .clear-btn{
+  .generate-ticket-container .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-left: -8px !important;
+    min-width: 975px !important;
 
-  } */
+  }
+  .top-filter {
+    padding: 0px 0px 0px 20px !important;
+  }
+
+  .top-filter #filter {
+    padding: 5px 20px !important;
+    border: none !important;
+    border-radius: 30px !important;
+    color: #626262 !important;
+    cursor: pointer;
+    border: 1px solid #DFDFDF !important;
+  }
+
+
+
   .add-to-queue-btn {
     margin: 0 7px 0 7px;
   }
@@ -41,7 +77,7 @@ margin-right: 10px;
   .container-content {
     border: 1px solid #ccc;
     border-radius: 20px;
-    margin-left: -5px !important;
+    margin-left: 15px !important;
     min-width: 940px !important;
 
   }
@@ -59,7 +95,7 @@ margin-right: 10px;
   }
 
   .dataTables_wrapper .rdt_TableCell {
-    font-size: 13px !important;
+    font-size: 12px !important;
     color: #000000;
 
   }
@@ -92,22 +128,20 @@ margin-right: 10px;
   }
 
   .date-input {
-    width: 73% !important;
-    /* Adjust this percentage as needed */
+    width: 100% !important;
     font-size: 13px !important;
-
+    margin-right: -20px;
   }
 
   .date-input-2 {
     width: 100% !important;
-    /* Adjust this percentage as needed */
     font-size: 13px !important;
 
   }
 
   .custom-date-icon-1 {
     position: absolute;
-    left: 75px !important;
+    left: 90px !important;
     top: 25px;
     pointer-events: none;
     z-index: 2;
@@ -116,7 +150,7 @@ margin-right: 10px;
 
   .custom-date-icon {
     position: absolute;
-    left: 205px;
+    left: 212px;
     top: 25px;
     pointer-events: none;
     z-index: 2;
@@ -125,16 +159,16 @@ margin-right: 10px;
 
   .custom-date-icon-2 {
     position: absolute;
-    left: 285px !important;
+    left: 292px !important;
     top: 322px;
     pointer-events: none;
     z-index: 2;
     font-size: 18px !important;
   }
-  
+
   .custom-date-icon-3 {
     position: absolute;
-    left: 285px !important;
+    left: 292px !important;
     top: 322px;
     pointer-events: none;
     z-index: 2;
@@ -206,9 +240,18 @@ h3 {
   color: black !important;
 }
 
+.eHmiVN {
+  color: black !important;
+}
+
 .kqWIVd {
-  border-bottom: 1px solid #ffffff;
-  border-radius: 0 0 20px 20px;
+  border-bottom: 1px solid #ffffff !important;
+  border-radius: 0 0 20px 20px !important;
+}
+
+.fceIjj {
+  border-bottom: 1px solid #ffffff !important;
+  border-radius: 0 0 20px 20px !important;
 }
 
 /* End of table style */
@@ -577,8 +620,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .generate-ticket-container {
-
-  padding: 1rem 1rem;
+  margin-left: 12rem !important;
+  padding: 1rem 1rem 2rem 2rem;
 }
 
 .generate-ticket-container .container-content {

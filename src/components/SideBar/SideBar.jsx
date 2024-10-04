@@ -80,6 +80,7 @@ function Navbar({ role }) {
               <h5>My Profile</h5>
             </div>
           </div>
+          
           <hr className="profile-divider" />
           <nav className="nav-menu active">
             <div className="logo">
@@ -188,6 +189,7 @@ function Navbar({ role }) {
                 </defs>
               </svg>
             </div>
+            <div className="curve"></div>
             <ul className="nav-menu-items">
               {sidebarData.map((item, index) => {
                 return (
