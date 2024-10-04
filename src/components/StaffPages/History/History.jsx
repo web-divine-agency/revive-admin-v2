@@ -236,7 +236,7 @@ function TicketsHistory() {
                         marginTop: "3px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -247,7 +247,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -258,7 +258,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -306,7 +306,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -316,7 +316,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -327,7 +327,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
@@ -406,7 +406,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                       {"\n"}
                     </Text>
                     <Text
@@ -420,7 +420,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -434,7 +434,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -472,7 +472,7 @@ function TicketsHistory() {
                         marginTop: 10
                       }}
                     >
-                      {item.productBrand}
+                      {item.productBrand || "Brand"}
                     </Text>
                     <Text
                       style={{
@@ -483,11 +483,11 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text style={{ fontSize: "200px", fontFamily: "Arial", marginTop: "-20px" }}>
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text style={{ fontSize: "20px", fontFamily: "Aptos", marginTop: "-10px" }}>
                       REVIVE OFFER &nbsp;
@@ -537,7 +537,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -547,7 +547,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -558,7 +558,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
 
@@ -626,7 +626,7 @@ function TicketsHistory() {
                         marginTop: "3px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -637,7 +637,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -648,7 +648,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -696,7 +696,7 @@ function TicketsHistory() {
                         marginTop: "3px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -707,7 +707,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -718,7 +718,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
 
                     <Text
@@ -761,7 +761,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -774,7 +774,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -815,7 +815,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -828,7 +828,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -841,7 +841,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                       {"\n"}
                     </Text>
                     <Text
@@ -901,7 +901,7 @@ function TicketsHistory() {
                         marginTop: "3px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -912,7 +912,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
 
@@ -953,7 +953,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -966,7 +966,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -980,7 +980,7 @@ function TicketsHistory() {
                         marginTop: "4px"
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1022,7 +1022,7 @@ function TicketsHistory() {
                         marginTop: 10,
                       }}
                     >
-                      DESIGN BRAND {"\n"} FRAGRANCE
+                      DESIGNER BRAND {"\n"} FRAGRANCE
                     </Text>
 
                     <Text
@@ -1033,7 +1033,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -1083,7 +1083,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1096,7 +1096,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1109,7 +1109,7 @@ function TicketsHistory() {
                         marginBottom: "3px"
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                       {"\n"}
                     </Text>
 
@@ -1164,7 +1164,7 @@ function TicketsHistory() {
                         marginTop: "3px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1175,7 +1175,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1184,7 +1184,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
 
                     <Text
@@ -1229,7 +1229,7 @@ function TicketsHistory() {
 
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1241,7 +1241,7 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
 
@@ -1285,7 +1285,7 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1297,7 +1297,7 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1308,7 +1308,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
 
                     <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
@@ -1351,7 +1351,7 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1363,7 +1363,7 @@ function TicketsHistory() {
                         lineHeight: "1px",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1374,7 +1374,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
                       REVIVE OFFER AVAILABLE &nbsp;
@@ -1417,7 +1417,7 @@ function TicketsHistory() {
                         fontFamily: "Arial",
                       }}
                     >
-                      {item.price}
+                      {item.price || "Price"}
                     </Text>
                     <Text
                       style={{
@@ -1427,7 +1427,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productName}
+                      {item.productName || "Product Name"}
                       {"\n"}
                     </Text>
                     <Text
@@ -1438,7 +1438,7 @@ function TicketsHistory() {
                         textAlign: "center",
                       }}
                     >
-                      {item.productDesc}
+                      {item.productDesc || "Description"}
                       {"\n"}
                     </Text>
           
@@ -1478,7 +1478,7 @@ function TicketsHistory() {
                           textAlign: "center",
                           fontFamily: "AptosBold",
                           textTransform: "uppercase",
-                        }}> {item.productNameValue}{"\n"}</Text>
+                        }}> {item.productNameValue || "Product Name"}{"\n"}</Text>
                         <Text style={{
                           fontSize: "10px",
                           textAlign: "center",
@@ -1514,7 +1514,7 @@ function TicketsHistory() {
     
                     }}
                   >
-                    {item.productName}
+                    {item.productName || "Product Name"}
                     {"\n"}
                   </Text>
                   <Text
@@ -1527,7 +1527,7 @@ function TicketsHistory() {
                       marginBottom: "3px"
                     }}
                   >
-                    {item.productDesc}
+                    {item.productDesc || "Description"}
                     {"\n"}
                   </Text>
                   <Text
@@ -1541,7 +1541,7 @@ function TicketsHistory() {
                       marginTop: "4px"
                     }}
                   >
-                    {item.price}
+                    {item.price || "Price"}
                     {"\n"}
                   </Text>
                   <Text
@@ -1595,7 +1595,7 @@ function TicketsHistory() {
                        fontFamily: "Arial",
                      }}
                    >
-                     {item.price}
+                     {item.price || "Price"}
                    </Text>
                    <Text
                      style={{
@@ -1605,7 +1605,7 @@ function TicketsHistory() {
                        textAlign: "center",
                      }}
                    >
-                     {item.productName}
+                     {item.productName || "Product Name"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1616,7 +1616,7 @@ function TicketsHistory() {
                        textAlign: "center",
                      }}
                    >
-                     {item.productDesc}
+                     {item.productDesc || "Description"}
                      {"\n"}
                    </Text>
                  
@@ -1655,7 +1655,7 @@ function TicketsHistory() {
                          textAlign: "center",
                          fontFamily: "AptosBold",
                          textTransform: "uppercase",
-                       }}> {item.productNameValue}{"\n"}</Text>
+                       }}> {item.productNameValue || "Product Name"}{"\n"}</Text>
                        <Text style={{
                          fontSize: "10px",
                          textAlign: "center",
@@ -1689,7 +1689,7 @@ function TicketsHistory() {
      
                      }}
                    >
-                     {item.productName}
+                     {item.productName || "Product Name"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1702,7 +1702,7 @@ function TicketsHistory() {
                        marginBottom: "3px"
                      }}
                    >
-                     {item.productDesc}
+                     {item.productDesc || "Description"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1716,7 +1716,7 @@ function TicketsHistory() {
                        marginTop: "4px"
                      }}
                    >
-                     {item.price}
+                     {item.price || "Price"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1758,7 +1758,7 @@ function TicketsHistory() {
      
                      }}
                    >
-                     {item.productName}
+                     {item.productName || "Product Name"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1771,7 +1771,7 @@ function TicketsHistory() {
                        marginBottom: "3px"
                      }}
                    >
-                     {item.productDesc}
+                     {item.productDesc || "Description"}
                      {"\n"}
                    </Text>
                    <Text
@@ -1785,7 +1785,7 @@ function TicketsHistory() {
                        marginTop: "3px"
                      }}
                    >
-                     {item.price}
+                     {item.price || "Price"}
                      {"\n"}
                    </Text>
      

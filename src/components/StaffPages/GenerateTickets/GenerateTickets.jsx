@@ -3278,7 +3278,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3286,11 +3286,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3586,7 +3586,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -3594,11 +3594,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -3665,11 +3665,11 @@ function GenerateTickets() {
 
 
             <div className="mb-3">
-              <label>Expiry</label>
+              <label>Expiry Date</label>
               <input
                 type="date"
                 name="expiry"
-                className="form-control"
+                className="form-control date-input-2"
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
@@ -4060,7 +4060,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4068,11 +4068,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4145,7 +4145,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4153,11 +4153,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4253,7 +4253,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4261,11 +4261,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -4834,11 +4834,11 @@ function GenerateTickets() {
               />
             </div>
             <div className="mb-3">
-              <label>Expiry</label>
+              <label>Expiry Date</label>
               <input
                 type="date"
                 name="expiry"
-                className="form-control"
+                className="form-control date-input-2"
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
@@ -4922,7 +4922,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -4930,11 +4930,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -5076,7 +5076,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -5084,11 +5084,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -5170,7 +5170,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -5178,11 +5178,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
@@ -5306,7 +5306,7 @@ function GenerateTickets() {
                 <input
                   type="date"
                   name="startDate"
-                  className="form-control"
+                  className="form-control date-input"
                   value={startDate}
                   onChange={handleStartDateChange}
                   min={getTodayDate()}
@@ -5314,11 +5314,11 @@ function GenerateTickets() {
                 <i className="fa fa-calendar custom-date-icon-1" style={{ color: "black", zIndex: "1000" }}></i>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry</label>
+                <label>Expiry Date</label>
                 <input
                   type="date"
                   name="expiry"
-                  className="form-control"
+                  className="form-control date-input"
                   value={expiry}
                   onChange={handleExpiryChange}
                   min={getTodayDate()}
