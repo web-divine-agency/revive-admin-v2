@@ -121,7 +121,7 @@ function MyProfile() {
       <div className="col-lg-12">
         <div className="row custom-row">
           <div className="col-lg-7" style={{ paddingLeft: "0px", marginLeft: "-20px" }}>
-            <h3>Hello {first_name}</h3>
+            <h3>Hello, {first_name} {last_name}!</h3>
             <p>This is your profile page, where you can customize your profile and change your password as needed</p>
           </div>
           <div className="col-lg-4">

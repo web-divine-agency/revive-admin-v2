@@ -80,7 +80,7 @@ function GenerateTickets() {
   const [triggerDownload, setTriggerDownload] = useState(false);
   const [triggerPrint, setTriggerPrint] = useState(false);
   const [offerType, setOfferType] = useState("TEMPORARY REVIVE OFFER");
-  const [valueType, setValueType] = useState("I'M GREATER VALUE!");
+  const [valueType, setValueType] = useState("I'M CHEAPER THAN");
   const [dateError, setDateError] = useState("");
 
   const [ticketData, setTicketData] = useState({
@@ -714,15 +714,18 @@ function GenerateTickets() {
     }
   };
   const handleAddToQueue = () => {
-    // Capture current form values
+
+    const currentOfferType = offerType;
+    const currentValueType = valueType;
+
     const newTickets = Array.from({ length: copies }, () => ({
       productName: ticketData.productName,
       productNameValue: ticketData.productNameValue,
       price: ticketData.price,
       rrp: ticketData.rrp,
       save: ticketData.save,
-      offerType: offerType,
-      valueType: valueType,
+      offerType: currentOfferType,  
+      valueType: currentValueType,
       expiry: expiry,
       startDate: startDate,
       percentOff: ticketData.percentOff,
@@ -734,6 +737,8 @@ function GenerateTickets() {
     }));
 
     setTicketQueue((prevQueue) => [...prevQueue, ...newTickets]);
+
+    // Reset form data
     setTicketData({
       productName: "",
       productNameValue: "",
@@ -748,14 +753,14 @@ function GenerateTickets() {
     setRrp("");
     setSave("");
     setCopies(1);
-    // setExpiry("Expiry");
     setpercentOff("");
     setproductBrand("");
     setproductDesc("");
-
+    
+    
     setSuccessMessage("Added to queue successfully");
     setTimeout(() => setSuccessMessage(""), 3000);
-  };
+};
 
   const MyDocument = ({ isPDFView }) => {
     const renderContent = (ticketData) => {
@@ -857,10 +862,8 @@ function GenerateTickets() {
                 {values.productDesc}
                 {"\n"}
               </Text>
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                RRP ${values.rrp}  Save ${values.save}
-              </Text> */}
-              {offerType !== "TEMPORARY REVIVE OFFER" && (
+            
+              {ticketData.offerType !== "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
                     fontSize: "9px",
@@ -872,11 +875,11 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
-                  {values.offerType}
+                  ONGOING REVIVE OFFER
                 </Text>
               )}
 
-              {offerType === "TEMPORARY REVIVE OFFER" && (
+              {ticketData.offerType === "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
                     fontSize: "9px",
@@ -893,17 +896,7 @@ function GenerateTickets() {
 
                 </Text>
               )}
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+             
             </div>
           );
         case "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS":
@@ -989,7 +982,7 @@ function GenerateTickets() {
               {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
-              {valueType !== "I'M CHEAPER THAN" && (
+              {ticketData.valueType !== "I'M CHEAPER THAN" && (
                 <Text
                   style={{
                     fontSize: "14px",
@@ -1001,7 +994,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
-                  {values.valueType} {"\n"}
+                  I'M GREATER VALUE! {"\n"}
                   <Text style={{
                     fontSize: "10px",
                     textAlign: "center",
@@ -1011,7 +1004,7 @@ function GenerateTickets() {
                 </Text>
               )}
 
-              {valueType === "I'M CHEAPER THAN" && (
+              {ticketData.valueType === "I'M CHEAPER THAN" && (
                 <Text
                   style={{
                     fontSize: "14px",
@@ -1039,17 +1032,7 @@ function GenerateTickets() {
 
                 </Text>
               )}
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+              
             </div>
           );
         case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
@@ -1135,7 +1118,7 @@ function GenerateTickets() {
               {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
-              {valueType !== "I'M CHEAPER THAN" && (
+              {ticketData.valueType !== "I'M CHEAPER THAN" && (
                 <Text
                   style={{
                     fontSize: "15px",
@@ -1147,7 +1130,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
-                  {values.valueType} {"\n"}
+                  I'M GREATER VALUE {"\n"}
                   <Text style={{
                     fontSize: "10px",
                     textAlign: "center",
@@ -1157,7 +1140,7 @@ function GenerateTickets() {
                 </Text>
               )}
 
-              {valueType === "I'M CHEAPER THAN" && (
+              {ticketData.valueType === "I'M CHEAPER THAN" && (
                 <Text
                   style={{
                     fontSize: "15px",
@@ -1185,17 +1168,7 @@ function GenerateTickets() {
 
                 </Text>
               )}
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+              
             </div>
           );
         case "GREEN FRIDAY SALE TAGS":
@@ -1297,17 +1270,7 @@ function GenerateTickets() {
 
               </Text>
 
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+             
             </div>
           );
         case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
@@ -1582,17 +1545,7 @@ function GenerateTickets() {
                 {values.reviveOffer}
               </Text>
 
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+            
             </div>
           );
         case "CLEARANCE TAGS":
@@ -1692,17 +1645,7 @@ function GenerateTickets() {
                 {values.reviveOffer}
               </Text>
 
-              {/* <Image
-                  src={revive_logo}
-                  style={{
-                    width: 80,
-                    height: 40,
-                    marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                    marginBottom: values.productName.includes("\n")
-                      ? "25px"
-                      : "40px",
-                  }}
-                /> */}
+             
             </div>
           );
         case "NEW IN STORE TAGS":
@@ -1803,17 +1746,6 @@ function GenerateTickets() {
                 {values.tryMe}
               </Text>
 
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
             </div>
           );
         case "A4 TICKET - NEW IN STORE":
@@ -1907,17 +1839,7 @@ function GenerateTickets() {
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
 
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+             
             </div>
           );
         case "A4 TICKET - CLEARANCE":
@@ -2011,17 +1933,7 @@ function GenerateTickets() {
                 {formatDateForDisplay(values.startDate)} - {formatDateForDisplay(values.expiry)}
               </Text>
 
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+             
             </div>
           );
         case "CATALOGUE SPECIALS PRICE TAGS":
@@ -3042,7 +2954,7 @@ function GenerateTickets() {
               <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text>
-              {offerType !== "TEMPORARY REVIVE OFFER" && (
+              {ticketData.offerType !== "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
                     fontSize: "9px",
@@ -3054,11 +2966,11 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
-                  {values.offerType}
+                  ONGOING REVIVE OFFER
                 </Text>
               )}
 
-              {offerType === "TEMPORARY REVIVE OFFER" && (
+              {ticketData.offerType === "TEMPORARY REVIVE OFFER" && (
                 <Text
                   style={{
                     fontSize: "9px",
@@ -3075,17 +2987,7 @@ function GenerateTickets() {
 
                 </Text>
               )}
-              {/* <Image
-                src={revive_logo}
-                style={{
-                  width: 80,
-                  height: 40,
-                  marginTop: offerType === "TEMPORARY REVIVE OFFER" ? -37 : 0,
-                  marginBottom: values.productName.includes("\n")
-                    ? "25px"
-                    : "40px",
-                }}
-              /> */}
+            
             </div>
           );
       }
@@ -3094,22 +2996,7 @@ function GenerateTickets() {
     const getTicketContainers = () => {
 
       const numberOfCopies = copies || 0;
-      // if (numberOfCopies === 0) {
-      //   return (
-      //     <View
-      //       style={{
-      //         display: "flex",
-      //         justifyContent: "center",
-      //         alignItems: "center",
-      //         paddingTop: "50%",
-      //         paddingbottom: "50%",
-      //         fontSize: "30px"
-      //       }}
-      //     >
-      //      {allT}
-      //     </View>
-      //   );
-      // }
+      
 
       const livePreviewTicket = {
         productName: ticketData.productName || defaultValues.productName,
@@ -3118,6 +3005,7 @@ function GenerateTickets() {
         rrp: ticketData.rrp || defaultValues.rrp,
         save: ticketData.save || defaultValues.save,
         offerType: offerType || defaultValues.offerType,
+        valueType: valueType || defaultValues.valueType,
         expiry: expiry || defaultValues.expiry,
         startDate: startDate || defaultValues.startDate,
         percentOff: ticketData.percentOff || defaultValues.percentOff,
@@ -3127,13 +3015,6 @@ function GenerateTickets() {
         tryMe: ticketData.tryMe || defaultValues.tryMe,
         addedToQueue: false,
       };
-
-
-      const handleAddToQueue = () => {
-        const newTickets = Array(numberOfCopies).fill({ ...livePreviewTicket, addedToQueue: true });
-        setTicketQueue([...ticketQueue, ...newTickets]);
-      };
-
 
       const livePreviewTickets = Array(numberOfCopies).fill(livePreviewTicket);
       const allTickets = [...ticketQueue, ...livePreviewTickets];
@@ -3150,9 +3031,6 @@ function GenerateTickets() {
           return (
             <View key={index} style={ticketStyle}>
               {renderContent(currentTicket)}
-              {/* {!currentTicket.addedToQueue && index < numberOfCopies && (
-                <button onClick={handleAddToQueue}><Text>Add to Queue</Text></button>
-              )} */}
             </View>
           );
         });
@@ -5427,29 +5305,29 @@ function GenerateTickets() {
               }}
               value={template}
             >
-              <option value="HOT PRICE TAGS (with RRP + Save)">HOT PRICE TAGS (with RRP + Save)</option>
-              <option value="HOT PRICE TAGS (without RRP + Save)">HOT PRICE TAGS (without RRP + Save)</option>
-              <option value="CATALOGUE SPECIALS PRICE TAGS">CATALOGUE SPECIALS PRICE TAGS</option>
-              {/* <option value="Big Tickets (P)">Big Tickets (P)</option> */}
               <option value="A4 BIG TICKET LANDSCAPE">A4 BIG TICKET LANDSCAPE</option>
-              <option value="A4 TICKET - PERCENTAGE OFF">A4 TICKET - PERCENTAGE OFF</option>
-              <option value="A4 TICKET - NEW IN STORE">A4 TICKET - NEW IN STORE</option>
               <option value="A4 TICKET - CLEARANCE">A4 TICKET - CLEARANCE</option>
+              <option value="A4 TICKET - NEW IN STORE">A4 TICKET - NEW IN STORE</option>
+              <option value="A4 TICKET - PERCENTAGE OFF">A4 TICKET - PERCENTAGE OFF</option>
+              <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
+              <option value="CATALOGUE SPECIALS PRICE TAGS">CATALOGUE SPECIALS PRICE TAGS</option>
+              <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
+              <option value="COSMAX FRAGRANCE TAGS">COSMAX FRAGRANCE TAGS</option>
+              <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
+              <option value="DAVKA FRAGRANCE TAGS">DAVKA FRAGRANCE TAGS</option>
+              <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
+              <option value="FROSTBLAND FRAGRANCE TAGS">FROSTBLAND FRAGRANCE TAGS</option>
               <option value="GREEN FRIDAY SALE TAGS">GREEN FRIDAY SALE TAGS</option>
               <option value="GREEN FRIDAY SALE TAGS - PERCENTAGE OFF">GREEN FRIDAY SALE TAGS - PERCENTAGE OFF</option>
+              <option value="HOT PRICE TAGS (with RRP + Save)">HOT PRICE TAGS (with RRP + Save)</option>
+              <option value="HOT PRICE TAGS (without RRP + Save)">HOT PRICE TAGS (without RRP + Save)</option>
               <option value="MUST TRY TAGS">MUST TRY TAGS</option>
               <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
               <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
               <option value="REVLON FRAGRANCE TAGS">REVLON FRAGRANCE TAGS</option>
-              <option value="FROSTBLAND FRAGRANCE TAGS">FROSTBLAND FRAGRANCE TAGS</option>
-              <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
-              <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
-              <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
               <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS</option>
-              <option value="COSMAX FRAGRANCE TAGS">COSMAX FRAGRANCE TAGS</option>
-              <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">VALUE PACK TICKETS -I'M CHEAPER THAN TAGS</option>
-              <option value="DAVKA FRAGRANCE TAGS">DAVKA FRAGRANCE TAGS</option>
-              <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
+              <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">VALUE PACK TICKETS - I'M CHEAPER THAN TAGS</option>
+
             </select>
           </div>
         </div>

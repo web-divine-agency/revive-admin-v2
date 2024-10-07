@@ -32,6 +32,10 @@ button:hover {
     margin-left: -45px !important;
 
   }
+
+  .profile-update form{
+    margin-left: 0px !important;
+  }
   .pdf-paper{
     width: 100% !important;
   }
@@ -123,7 +127,7 @@ button:hover {
     height: 32px;
     margin-top: 20px;
     border: 1px solid #ccc;
-    width: 140px !important;
+    width: 146px !important;
     text-decoration: none;
   }
 
