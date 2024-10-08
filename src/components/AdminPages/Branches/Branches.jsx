@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
+import {useLoader} from "../../Loaders/LoaderContext";
+
 
 function Branches() {
   const navigate = useNavigate();
@@ -21,26 +23,42 @@ function Branches() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
+  const {setLoading} = useLoader();
+
 
   useEffect(() => {
     const fetchBranches = async () => {
+      setLoading(true);
       try {
         const response = await axiosInstance.get("/branches");
         const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
-          address: branch.branch_address,
+          address: formatAddress(branch.branch_address), 
           operating_hours: branch.operating_hours,
           status: getBranchStatus(branch),
         }));
         setData(formattedData);
         setFilteredData(formattedData);
       } catch (error) {
-        console.error("Error fetching staff logs:", error);
+        console.error("Error fetching branches:", error);
+      } finally{
+        setLoading(false);
       }
     };
+  
+ 
+    const formatAddress = (address) => {
+      return address
+        .split(",") // Split the address into parts based on commas
+        .map(part => part.trim()) // Remove extra spaces from each part
+        .filter(part => part.length > 0) // Filter out empty parts
+        .join(", "); // Join the remaining parts back together with a comma
+    };
+  
     fetchBranches();
   }, [navigate]);
+  
 
   //filter branches
   useEffect(() => {

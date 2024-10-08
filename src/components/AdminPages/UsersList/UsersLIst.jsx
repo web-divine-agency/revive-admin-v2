@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
+import {useLoader} from "../../Loaders/LoaderContext";
 
 function UsersList() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function UsersList() {
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState("");
 
+  const {setLoading} = useLoader();
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -46,14 +48,19 @@ function UsersList() {
   }, []);
 
   useEffect(() => {
+    
     const fetchUsers = async () => {
+      setLoading(true);
       try {
         const response = await axiosInstance.get("/users");
         setUsers(response.data);
         setFilteredUsers(response.data);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally{
+        setLoading(false);
       }
     };
 
@@ -352,6 +359,7 @@ function UsersList() {
               <i className="fa fa-plus"></i> Add New User
             </button>
           </div>
+       
           <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
@@ -362,6 +370,7 @@ function UsersList() {
               paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
+
         </div>
       </div>
 
@@ -400,7 +409,7 @@ function UsersList() {
             </div>
           </Modal.Body>
         </Modal>
-      )}
+      )} 
     </div>
   );
 }

@@ -129,7 +129,7 @@ function MyProfile() {
           </div>
           <div className="col-lg-7 profile-update">
             <h2>User Information</h2>
-            <form onSubmit={handleProfileUpdate} className="ml-4">
+            <form onSubmit={handleProfileUpdate}>
               <div className="d-flex justify-content-start">
                 <div className="form-group mr-5">
                   <label>User Name</label>
@@ -152,7 +152,7 @@ function MyProfile() {
               </div>
             </form>
             <h2 className="mt-4">Change Password</h2>
-            <form onSubmit={handleProfileUpdate} className="ml-4">
+            <form onSubmit={handleProfileUpdate}  >
               <div className="">
                 <div className="form-group">
                   <label>Old Password</label>

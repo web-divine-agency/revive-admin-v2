@@ -77,7 +77,7 @@ function EditBranch() {
             status: status
         };
         //add validation
-        if (!branch || !addressLine1 || !addressLine2 || !city || !state || !zipCode || !country || !openTime || !closeTime) {
+        if (!branch || !city || !state || !zipCode || !country || !openTime || !closeTime) {
             setError("All fields are required.");
             setTimeout(() => setError(""), 3000)
             return;
@@ -137,8 +137,8 @@ function EditBranch() {
                             <input type="text" className="form-control" value={city} onChange={(e) => setCity(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>State:</label>
-                            <select className="form-control" value={state} onChange={(e) => setState(e.target.value)}>
+                            <label>State:</label> <br />
+                            <select  value={state} onChange={(e) => setState(e.target.value)}>
                                 <option value="">Select State</option>
                                 {australianStates.map((state, index) => (
                                     <option key={index} value={state}>{state}</option>

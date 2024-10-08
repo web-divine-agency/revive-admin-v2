@@ -178,6 +178,9 @@ button:hover {
     z-index: 2;
     font-size: 18px !important;
   }
+  #search-bar {
+    padding: 8.5px 20px !important;
+  }
 }
 
 body {
@@ -204,7 +207,7 @@ body {
 
 
 #search-bar {
-  padding: 8.5px 20px;
+  padding: 6px 20px;
   border: none;
   border-radius: 30px;
   background-color: #FFFFFF;
@@ -244,7 +247,7 @@ h3 {
   color: black !important;
 }
 
-.eHmiVN {
+.eHmiVN option{
   color: black !important;
 }
 

@@ -49,7 +49,7 @@ function AddNewBranch() {
       status: status,
     };
 
-    if (!branch || !addressLine1 || !addressLine2 || !city || !state || !zipCode || !country || !openTime || !closeTime) {
+    if (!branch || !city || !state || !zipCode || !country || !openTime || !closeTime) {
       setError("All fields are required.");
       setTimeout(() => setError(""), 3000);
       return;
@@ -138,9 +138,8 @@ function AddNewBranch() {
               />
             </div>
             <div className="form-group">
-              <label>State:</label>
+              <label>State:</label> <br />
               <select
-                className="form-control"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
               >

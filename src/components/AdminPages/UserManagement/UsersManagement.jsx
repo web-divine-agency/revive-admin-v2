@@ -10,6 +10,8 @@ import { Modal, } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axiosInstance from "../../../../axiosInstance";
 import check from "../../../assets/images/check.png";
+import {useLoader} from "../../Loaders/LoaderContext";
+
 
 
 function UserRoleManagement() {
@@ -17,9 +19,12 @@ function UserRoleManagement() {
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [roles, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const {setLoading} = useLoader();
+
 
   // Get all roles
   useEffect(() => {
+    setLoading(true);
     const fetchRoles = async () => {
       try {
         const response = await axiosInstance.get("/roles");
@@ -27,13 +32,17 @@ function UserRoleManagement() {
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching roles:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchRoles();
-  }, [roles]);
+  }, []); 
+  
 
 
   const fetchRoleDetails = async (roleId) => {
+    
     try {
       const response = await axiosInstance.get(`/role/${roleId}`);
       const roleData = response.data;

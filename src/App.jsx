@@ -21,6 +21,7 @@ import QueueList from './components/StaffPages/QueueList/QueueList';
 import ProtectedRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthContextProvider } from './components/Authentication/authContext';
 import {getCookie} from './components/Authentication/getCookie';
+import { LoaderProvider } from './components/Loaders/LoaderContext';
 
 function Layout() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function Layout() {
   const shouldHideSidebar = noSidebarPaths.includes(location.pathname);
 
   return (
+    <LoaderProvider>
     <AuthContextProvider>
     <>
         {!shouldHideSidebar && location.pathname !== '/' && <SideBar role={userRole} />}
@@ -57,6 +59,7 @@ function Layout() {
       </Routes>
     </>
     </AuthContextProvider>
+    </LoaderProvider>
   );
 }
 

@@ -60,28 +60,82 @@ label {
     text-transform: capitalize;
     margin-top: 30px !important;
 }
+
 .custom-btn:hover {
     background-color: #0fa896;
     /* color: #000000; */
     border-color: #0ABAA6;
 }
-
-
-
 .header-title {
     color: #FFFFFF;
     text-align: center;
     position: relative;
     top: 100px;
-
+}
+@keyframes dropBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px); 
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(20px);
+    }
+    70% {
+        transform: translateY(-15px); 
+    }
+    85% {
+        transform: translateY(10px); 
+    }
+    95% {
+        transform: translateY(-5px); 
+    }
+    100% {
+        transform: translateY(0); 
+    }
 }
 
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0); 
+    }
+}
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0); 
+    }
+}
+
+.col-md-6 .card {
+    animation: slideInRight .7s ease-in-out; 
+    animation-fill-mode: both; 
+}
+
+.header-title h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px !important;
+    animation: dropBounce 1s ease-out; 
+}
 
 .bg-image {
     position: relative;
     bottom: -80px;
     left: 80px;
+    animation: slideInLeft 0.7s ease-in-out 0.5s; 
+    animation-fill-mode: both;
 }
+
 
 .custom-login select {
     height: 28px !important;
@@ -93,3 +147,4 @@ label {
     background-color: #FFFFFF !important;
     color: #626262;
 }
+

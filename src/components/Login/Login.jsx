@@ -111,8 +111,9 @@ function Login() {
             <div className="row">
                 <div className="col-lg-6 col-md-6 custom-col">
                     <div className="header-title">
-                        <h3>Welcome to Revive</h3>
-                        <h3>Pharmacy Price Ticket Generator</h3>
+                        <h3>Welcome to Revive Pharmacy Portal</h3>
+                        <br />
+                      
                     </div>
                     <div className='bg-image'>
                         <img className='img-fluid login_image' src={login_image_2} alt="Login" />

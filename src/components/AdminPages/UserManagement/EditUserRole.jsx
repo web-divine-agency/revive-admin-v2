@@ -93,9 +93,9 @@ function EditUserRole() {
           </div>
           <div className="form-group ml-5 mt-3">
             <label>Role Description:</label>
-            <input
+            <textarea
               type="text"
-              className="form-control col-lg-6"
+              className="form-control col-lg-3"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter new description for this role"

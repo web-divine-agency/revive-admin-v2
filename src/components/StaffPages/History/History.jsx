@@ -23,6 +23,8 @@ import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
+import {useLoader} from "../../Loaders/LoaderContext";
+
 
 
 
@@ -70,9 +72,12 @@ function TicketsHistory() {
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const {setLoading} = useLoader();
+
 
   useEffect(() => {
     const fetchTickets = async () => {
+      setLoading(true);
       try {
         const response = await axiosInstance.get('/tickets');
         const formattedData = response.data.map(tickets => ({
@@ -87,6 +92,8 @@ function TicketsHistory() {
         setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
+      } finally{
+        setLoading(false);
       }
     };
     fetchTickets();

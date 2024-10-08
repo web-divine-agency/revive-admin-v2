@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../../../axiosInstance';
 import Swal from 'sweetalert2'; // For alerts
 import delete_icon from "../../../assets/images/delete_icon.png";
+import {useLoader} from "../../Loaders/LoaderContext";
+
 
 
 function StaffLogs() {
@@ -23,9 +25,12 @@ function StaffLogs() {
   const [branches, setBranches] = useState([]);
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState('');
+  const {setLoading} = useLoader();
+
 
   useEffect(() => {
     const fetchLogs = async () => {
+      setLoading(true);
       try {
         const response = await axiosInstance.get('/staffLogs');
         const formattedData = response.data.map(staff_logs => ({
@@ -41,6 +46,9 @@ function StaffLogs() {
       } catch (error) {
         console.error('Error fetching staff logs:', error);
       }
+    finally{
+      setLoading(false);
+    }
     };
 
     const fetchBranches = async () => {
