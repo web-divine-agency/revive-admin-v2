@@ -78,6 +78,7 @@ button:hover {
     margin: 0 7px 0 7px;
   }
 
+  
   .container-content {
     border: 1px solid #ccc;
     border-radius: 20px;
@@ -282,7 +283,11 @@ h3 {
   justify-content: center !important;
   display: flex !important;
 }
-
+.add-user-btn:hover{
+  background-color:  #AEBE44 !important;
+  border-color: #AEBE44 !important;
+  font-weight: 600 !important;
+ }
 i {
   font-size: 24px !important;
 
@@ -300,6 +305,12 @@ i {
   display: flex;
   margin: auto;
 }
+
+.submit-btn:hover{
+  background-color:  #AEBE44 !important;
+  border-color: #AEBE44 !important;
+  font-weight: 700 !important;
+ }
 
 select {
   height: 38px;

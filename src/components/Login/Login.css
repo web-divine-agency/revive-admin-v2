@@ -50,21 +50,22 @@ label {
 }
 
 .custom-btn {
-    background-color: #0ABAA6;
+    background-color: #0B3A07;
     height: 50px;
     width: 180px;
     color: #FFFFFF;
     border-radius: 50px;
     font-size: 20px;
-    border-color: #0ABAA6;
+    /* border-color: #0ABAA6 !important; */
     text-transform: capitalize;
     margin-top: 30px !important;
+    border: none !important;
 }
 
 .custom-btn:hover {
-    background-color: #0fa896;
-    /* color: #000000; */
-    border-color: #0ABAA6;
+    background-color:#AEBE44;
+    font-weight: 700;
+   
 }
 .header-title {
     color: #FFFFFF;

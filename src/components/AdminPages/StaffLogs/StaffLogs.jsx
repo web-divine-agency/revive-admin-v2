@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../../../axiosInstance';
 import Swal from 'sweetalert2'; // For alerts
 import delete_icon from "../../../assets/images/delete_icon.png";
-import {useLoader} from "../../Loaders/LoaderContext";
+import { useLoader } from "../../Loaders/LoaderContext";
 
 
 
@@ -25,7 +25,7 @@ function StaffLogs() {
   const [branches, setBranches] = useState([]);
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState('');
-  const {setLoading} = useLoader();
+  const { setLoading } = useLoader();
 
 
   useEffect(() => {
@@ -39,16 +39,17 @@ function StaffLogs() {
           date: new Date(staff_logs.createdAt).toLocaleString(),
           role: staff_logs.user.roles[0]?.role_name || 'N/A',
           branch: staff_logs.user.branches?.map((r) => r.branch_name).join(", "),
-          action: staff_logs.action,
+          action: staff_logs.action === 'logout' ? 'Logged Out' :
+            staff_logs.action === 'login' ? 'Logged In' : staff_logs.action,
           sex: staff_logs.user.sex
         }));
         setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
       }
-    finally{
-      setLoading(false);
-    }
+      finally {
+        setLoading(false);
+      }
     };
 
     const fetchBranches = async () => {
@@ -64,8 +65,7 @@ function StaffLogs() {
     fetchBranches();
   }, [navigate]);
 
-  const handleDeleteLog = async (id) =>
-  {
+  const handleDeleteLog = async (id) => {
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -91,13 +91,13 @@ function StaffLogs() {
           title: 'Deleted!',
           text: 'The staff log has been deleted.',
           imageUrl: check,
-          imageWidth: 100,  
-          imageHeight: 100, 
+          imageWidth: 100,
+          imageHeight: 100,
           confirmButtonText: 'OK',
           confirmButtonColor: '#0B3A07',
         });
       }
-      
+
     } catch (error) {
       console.error('Error deleting staff log:', error);
       Swal.fire('Error!', 'Failed to delete the staff log.', 'error');
@@ -131,9 +131,9 @@ function StaffLogs() {
         Swal.fire({
           title: 'Deleted!',
           text: 'Selected staff logs have been deleted.',
-          imageUrl: check, 
-          imageWidth: 100, 
-          imageHeight: 100, 
+          imageUrl: check,
+          imageWidth: 100,
+          imageHeight: 100,
           confirmButtonText: 'OK',
           confirmButtonColor: '#0ABAA6',
         });
@@ -208,38 +208,38 @@ function StaffLogs() {
       cell: (row) => (
         <img
           className="ml-3"
-          src={delete_icon} 
+          src={delete_icon}
           title="Delete Log"
           style={{ cursor: "pointer" }}
-          onClick={() => handleDeleteLog(row.id)} 
+          onClick={() => handleDeleteLog(row.id)}
           alt="delete"
           width="25"
           height="25"
         />
       )
     }
-    
+
   ];
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const response = await axiosInstance.get("/user"); 
-        setLoggedInUser(response.data); 
+        const response = await axiosInstance.get("/user");
+        setLoggedInUser(response.data);
       } catch (error) {
         console.error("Error fetching logged-in user:", error);
       }
     };
 
     const fetchRoles = async () => {
-      try{
+      try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-      }catch(error){
+      } catch (error) {
         console.error(response.status.error);
       }
     }
-    
+
     fetchLoggedInUser();
     fetchRoles();
   }, []);
@@ -247,24 +247,24 @@ function StaffLogs() {
 
 
   const filteredData = data
-  .filter(item => {
-    // Apply branch-based filtering
-    if (roleFilter) {
-      return item.role.includes(roleFilter); // Match branch name to selected branch
-    }
-    return true;
-  })
-  .filter(item => {
+    .filter(item => {
+      // Apply branch-based filtering
+      if (roleFilter) {
+        return item.role.includes(roleFilter); // Match branch name to selected branch
+      }
+      return true;
+    })
+    .filter(item => {
       // Apply branch-based filtering
       if (branchFilter) {
         return item.branch.includes(branchFilter); // Match branch name to selected branch
       }
       return true;
     })
-  .filter(item => {
-    // Apply search-based filtering
-    return item.name.toLowerCase().includes(search.toLowerCase());
-  });
+    .filter(item => {
+      // Apply search-based filtering
+      return item.name.toLowerCase().includes(search.toLowerCase());
+    });
 
   return (
     <div className="container">
@@ -272,7 +272,7 @@ function StaffLogs() {
         <div className="col-lg-12 col-md-6">
           <h3>Staff Logs </h3>
           <div className='top-filter'>
-          <select
+            <select
               name="filter"
               className="mr-4"
               id="filter"

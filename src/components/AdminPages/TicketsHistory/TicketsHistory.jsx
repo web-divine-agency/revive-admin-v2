@@ -1953,11 +1953,11 @@ function TicketsHistory() {
       sortable: true
     },
 
-    {
-      name: "Role",
-      selector: (row) => row.role,
-      sortable: true
-    },
+    // {
+    //   name: "Role",
+    //   selector: (row) => row.role,
+    //   sortable: true
+    // },
     {
       name: "Ticket Type",
       selector: (row) => row.ticketType,

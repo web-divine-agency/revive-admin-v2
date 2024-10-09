@@ -11,6 +11,7 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [selectedRole, setSelectedRole] = useState('Staff');
+    const [showPassword, setShowPassword] = useState(false);
     // const [branches, setBranches] = useState([]);
     // const [selectedBranch, setSelectedBranch] = useState('Main');
     const [error, setError] = useState('');
@@ -113,7 +114,7 @@ function Login() {
                     <div className="header-title">
                         <h3>Welcome to Revive Pharmacy Portal</h3>
                         <br />
-                      
+
                     </div>
                     <div className='bg-image'>
                         <img className='img-fluid login_image' src={login_image_2} alt="Login" />
@@ -138,15 +139,24 @@ function Login() {
                                 />
                             </div>
                             <label htmlFor="password">Password</label><br />
-                            <div className="form-group mb-3">
+                            <div className="form-group">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     id="password"
-                                    className="form-control-lg w-100 mb-2"
+                                    className="form-control-lg w-100"
                                     value={password}
                                     placeholder="Password"
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="checkbox"
+                                    id="showPassword"
+                                    checked={showPassword}
+                                    onChange={() => setShowPassword(!showPassword)}
+                                /> &nbsp; 
+                                <label htmlFor="showPassword">Show Password</label>
                             </div>
                             <div className='d-flex'>
                                 {/* <div className="d-flex mb-3 mr-3">
@@ -183,7 +193,7 @@ function Login() {
                                 </div>
                             </div>
                             <div className='d-flex justify-content-center mt-1'>
-                                <button type="submit" className="btn btn-primary mt-2 custom-btn">LOGIN</button>
+                                <button type="submit" className="mt-2 custom-btn">LOGIN</button>
                             </div>
                         </form>
                     </div>

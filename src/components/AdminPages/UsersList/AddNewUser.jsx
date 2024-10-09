@@ -68,6 +68,10 @@ function AddNewUser() {
     ) {
       return "All fields are required.";
     }
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+  
     if (password !== confirmPassword) {
       return "Passwords do not match.";
     }

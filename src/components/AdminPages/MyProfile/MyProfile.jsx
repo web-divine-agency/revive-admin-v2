@@ -61,6 +61,24 @@ function MyProfile() {
       });
       return;
     }
+
+    if (newPassword.length < 8) {
+      Swal.fire({
+        title: "Invalid Password",
+        text: "Password must be at least 8 characters long",
+        imageUrl: close,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#EC221F",
+        customClass: {
+          confirmButton: "custom-error-confirm-button",
+          title: "custom-swal-title",
+        },
+      });
+      return;
+    }
+
     if (!oldPassword) {
       Swal.fire({
         title: 'Old Password Required',

@@ -241,16 +241,16 @@ function UsersList() {
       ),
       sortable: true,
     },
-    {
-      name: "Email",
-      selector: (row) => row.email || "N/A",
-      sortable: true,
-    },
-    {
-      name: "Username",
-      selector: (row) => row.username || "N/A",
-      sortable: true,
-    },
+    // {
+    //   name: "Email",
+    //   selector: (row) => row.email || "N/A",
+    //   sortable: true,
+    // },
+    // {
+    //   name: "Username",
+    //   selector: (row) => row.username || "N/A",
+    //   sortable: true,
+    // },
     {
       name: "Branch",
       selector: (row) =>
