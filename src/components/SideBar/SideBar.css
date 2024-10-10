@@ -212,3 +212,14 @@ ul {
     /* Adjust as needed */
     z-index: 1;
 }
+.time-display{
+    color: white;
+    font-size: 20px;
+}
+
+.time-display h6{
+    font-size: 24px;
+}
+.time-display p{
+    font-size: 14.5px;
+}
