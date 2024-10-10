@@ -11,6 +11,7 @@ import axiosInstance from '../../../../axiosInstance';
 import Swal from 'sweetalert2'; // For alerts
 import delete_icon from "../../../assets/images/delete_icon.png";
 import { useLoader } from "../../Loaders/LoaderContext";
+import { formatInTimeZone } from 'date-fns-tz';
 
 
 
@@ -69,7 +70,7 @@ function StaffLogs() {
     try {
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: "You won’t be able to revert this!.",
+        text: "You won’t be able to revert this!",
         showCancelButton: true,
         icon: 'warning',
         confirmButtonColor: "#EC221F",
@@ -184,9 +185,28 @@ function StaffLogs() {
     },
     {
       name: "Date",
-      selector: (row) => row.date,
-      sortable: true
+      selector: (row) => {
+        const date = new Date(row.date);
+        const options = { timeZone: "Australia/Sydney" };
+        
+        // Extract parts of the date separately
+        const month = date.toLocaleString("en-AU", { month: "short", ...options }); // 'Oct'
+        const day = date.toLocaleString("en-AU", { day: "numeric", ...options });   // '10'
+        const year = date.toLocaleString("en-AU", { year: "numeric", ...options }); // '2024'
+        const time = date.toLocaleString("en-AU", { 
+          hour: "numeric", 
+          minute: "2-digit", 
+          hour12: true, 
+          ...options 
+        });  // '12:27 PM'
+    
+        // Return the formatted string
+        return `${month} ${day}, ${year} ${time}`;
+      },
     },
+    
+
+
     {
       name: "Role",
       selector: (row) => row.role,

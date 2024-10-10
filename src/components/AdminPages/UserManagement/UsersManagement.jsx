@@ -194,17 +194,21 @@ function UserRoleManagement() {
       </div>
 
       {selectedUserRole && (
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Role Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h2>{selectedUserRole.role_name} Permissions</h2>
-            {selectedUserRole.permissions.map((permission, index) => (
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Role Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h2>{selectedUserRole.role_name} Permissions</h2>
+          {selectedUserRole.permissions
+            .filter((permission) => {
+              return selectedUserRole.role_name !== 'Admin' || permission.permission_name !== 'Generate Ticket';
+            })
+            .map((permission, index) => (
               <p key={index}>{permission.permission_name}</p>
             ))}
-          </Modal.Body>
-        </Modal>
+        </Modal.Body>
+      </Modal>
       )}
 
     </div>

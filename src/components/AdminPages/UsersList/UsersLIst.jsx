@@ -293,6 +293,7 @@ function UsersList() {
             alt="edit"
             width="25"
             height="25"
+            style={{ cursor: "pointer" }}
           />
           {loggedInUser && row.id !== loggedInUser.id && (
             <img

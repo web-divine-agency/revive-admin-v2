@@ -145,7 +145,7 @@ function MyProfile() {
           <div className="col-lg-4">
 
           </div>
-          <div className="col-lg-7 profile-update">
+          <div className="col-lg-7 profile-update pb-4">
             <h2>User Information</h2>
             <form onSubmit={handleProfileUpdate}>
               <div className="d-flex justify-content-start">
