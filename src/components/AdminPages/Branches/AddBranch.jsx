@@ -138,7 +138,7 @@ function AddNewBranch() {
               />
             </div>
             <div className="form-group">
-              <label>State:</label> <br />
+              <label>State:</label> <br />  
               <select
                 value={state}
                 onChange={(e) => setState(e.target.value)}

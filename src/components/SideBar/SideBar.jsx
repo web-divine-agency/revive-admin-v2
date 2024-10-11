@@ -40,7 +40,7 @@ function Navbar({ role }) {
       const date = new Date();
       
       const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-      const formattedDate = date.toLocaleDateString("en-US", optionsDate); // e.g., October 10, 2024
+      const formattedDate = date.toLocaleDateString("en-US", optionsDate);
       
       const optionsTime = {
         hour: 'numeric',
@@ -49,16 +49,12 @@ function Navbar({ role }) {
         hour12: true,
         timeZone: "Australia/Sydney"
       };
-      const formattedTime = date.toLocaleTimeString("en-US", optionsTime); // e.g., 10:12:10 AM
+      const formattedTime = date.toLocaleTimeString("en-US", optionsTime); 
       
       setCurrentTime(`${formattedDate} ${formattedTime}`);
     };
-    
-
-    const timerId = setInterval(updateTime, 1000); // Update every second
-    updateTime(); // Set immediately
-
-    // Cleanup interval on component unmount
+    const timerId = setInterval(updateTime, 1000); 
+    updateTime(); 
     return () => clearInterval(timerId);
   }, []);
 
