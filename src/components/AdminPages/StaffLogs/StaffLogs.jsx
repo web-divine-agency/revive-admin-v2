@@ -35,15 +35,16 @@ function StaffLogs() {
       try {
         const response = await axiosInstance.get('/staffLogs');
         const formattedData = response.data.map(staff_logs => ({
-          id: staff_logs.id,
-          name: `${staff_logs.user.first_name} ${staff_logs.user.last_name}`,
-          date: new Date(staff_logs.createdAt).toLocaleString(),
-          role: staff_logs.user.roles[0]?.role_name || 'N/A',
-          branch: staff_logs.user.branches?.map((r) => r.branch_name).join(", "),
-          action: staff_logs.action === 'logout' ? 'Logged Out' :
-            staff_logs.action === 'login' ? 'Logged In' : staff_logs.action,
-          sex: staff_logs.user.sex
+          id: staff_logs?.id,
+          name: `${staff_logs?.user?.first_name || 'N/A'} ${staff_logs?.user?.last_name || ''}`,
+          date: staff_logs?.createdAt ? new Date(staff_logs.createdAt).toLocaleString() : 'N/A',
+          role: staff_logs?.user?.roles?.[0]?.role_name || 'N/A',
+          branch: staff_logs?.user?.branches?.map(r => r.branch_name).join(", ") || 'N/A',
+          action: staff_logs?.action === 'logout' ? 'Logged Out' :
+                  staff_logs?.action === 'login' ? 'Logged In' : staff_logs?.action || 'Unknown Action',
+          sex: staff_logs?.user?.sex || 'N/A'
         }));
+        
         setData(formattedData);
       } catch (error) {
         console.error('Error fetching staff logs:', error);
