@@ -5,7 +5,7 @@ import {AuthContext} from './src/components/Authentication/authContext';
 import {getCookie} from './src/components/Authentication/getCookie'
 
 const axiosInstance = axios.create({
-    baseURL: 'https://revive.imseoninja.com/api',
+    baseURL: 'https://server.revivepharmacyportal.com.au/api',
 });
 
 let isRefreshing = false;

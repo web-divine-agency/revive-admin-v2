@@ -19,17 +19,14 @@ function Navbar({ role }) {
   const [last_name, setLastName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
 
-
   useEffect(() => {
     // Fetch current user details
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
-        const { first_name, last_name, } = response.data;
+        const { first_name, last_name } = response.data;
         setFirstName(first_name);
         setLastName(last_name);
-
-
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -38,23 +35,29 @@ function Navbar({ role }) {
     fetchUserDetails();
     const updateTime = () => {
       const date = new Date();
-      
-      const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+    
+      const optionsDate = { year: "numeric", month: "long", day: "numeric" };
       const formattedDate = date.toLocaleDateString("en-US", optionsDate);
-      
+    
       const optionsTime = {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
         hour12: true,
-        timeZone: "Australia/Sydney"
+        timeZone: "Australia/Sydney",
       };
-      const formattedTime = date.toLocaleTimeString("en-US", optionsTime); 
-      
-      setCurrentTime(`${formattedDate} ${formattedTime}`);
+      const formattedTime = date.toLocaleTimeString("en-US", optionsTime);
+    
+      // Add <br /> between date and time
+      setCurrentTime(
+        <>
+          {formattedDate} <br /> {formattedTime}
+        </>
+      );
     };
-    const timerId = setInterval(updateTime, 1000); 
-    updateTime(); 
+    
+    const timerId = setInterval(updateTime, 1000);
+    updateTime();
     return () => clearInterval(timerId);
   }, []);
 
@@ -95,7 +98,7 @@ function Navbar({ role }) {
           }).then(() => {
             navigate("/login");
           });
-        } catch { }
+        } catch {}
       }
     });
   };
@@ -236,16 +239,15 @@ function Navbar({ role }) {
               </div>
             </div>
 
-
-
             <div className="curve"></div>
             <ul className="nav-menu-items">
               {sidebarData.map((item, index) => {
                 return (
                   <React.Fragment key={index}>
                     <li
-                      className={`${item.cName} sidebar-nav-list ${activeIndex === index ? "active" : ""
-                        }`}
+                      className={`${item.cName} sidebar-nav-list ${
+                        activeIndex === index ? "active" : ""
+                      }`}
                     >
                       <Link
                         className="sidebar-nav-link"
