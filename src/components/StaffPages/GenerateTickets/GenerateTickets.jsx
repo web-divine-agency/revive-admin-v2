@@ -5622,8 +5622,8 @@ function GenerateTickets() {
                 value={optionType}
                 onChange={handleOptionTypeChange}
               >
-                <option value="With RRP">With RRP</option>
-                <option value="Without RRP">Without RRP</option>
+                <option value="With RRP">With RRP + Save</option>
+                <option value="Without RRP">Without RRP + Save</option>
               </select>
               <i className="fa fa-chevron-down custom-dropdown-icon"></i>
             </div>
@@ -5796,10 +5796,10 @@ function GenerateTickets() {
               }}
               value={template}
             >
-              <option value="">-- SELECT TEMPLATE --</option>
-              <option value="POPULAR">POPULAR TEMPLATES</option>
+              <option value="">-- SELECT TEMPLATES --</option>
+              <option value="HOT PRICE TAGS (RRP and non-RRP)">POPULAR TEMPLATES</option>
 
-              <option value="OTHER">OTHER FRAGRANCES</option>
+              <option value="COSMAX FRAGRANCE TAGS">OTHER FRAGRANCES</option>
               <option value="A4 BIG TICKET LANDSCAPE">
                 A4 BIG TICKET LANDSCAPE
               </option>
@@ -5870,7 +5870,7 @@ function GenerateTickets() {
               </option>
             </select>{" "}
             <br />
-            {template === "OTHER" && (
+            {template === "COSMAX FRAGRANCE TAGS" && (
               <div>
                 <h5>Other Fragrances</h5>
                 <select
@@ -5892,9 +5892,9 @@ function GenerateTickets() {
                   }}
                   value={template}
                 >
-                  <option value="COSMAX FRAGRANCE TAGS">
+                  {/* <option value="COSMAX FRAGRANCE TAGS">
                     -- SELECT OTHER FRAGRANCE --
-                  </option>
+                  </option> */}
                   <option value="COSMAX FRAGRANCE TAGS">
                     COSMAX FRAGRANCE TAGS
                   </option>
@@ -5911,7 +5911,7 @@ function GenerateTickets() {
                 </select>{" "}
               </div>
             )}
-            {template === "POPULAR" && (
+            {template === "HOT PRICE TAGS (RRP and non-RRP)" && (
               <div>
                 <h5>Popular Templates</h5>
                 <select
@@ -5933,9 +5933,9 @@ function GenerateTickets() {
                   }}
                   value={template}
                 >
-                  <option value="HOT PRICE TAGS (RRP and non-RRP)">
-                    --SELECT TEMPLATES--
-                  </option>
+                  {/* <option value="HOT PRICE TAGS (RRP and non-RRP)">
+                    -- SELECT TEMPLATES --
+                  </option> */}
                   {/* <option value="HOT PRICE TAGS (without RRP + Save)">
                   HOT PRICE TAGS (without RRP + Save)
                   </option> */}
@@ -5957,8 +5957,7 @@ function GenerateTickets() {
               style={{
                 height:
                   template === "HOT PRICE TAGS (RRP and non-RRP)" ||
-                  template === "POPULAR" ||
-                  template === "OTHER"
+                  template === ""  
                     ? 755
                     : "",
               }}
