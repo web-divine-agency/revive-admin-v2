@@ -40,6 +40,9 @@ function EditBranch() {
             try {
                 const response = await axiosInstance.get(`/branch/${branchId}`);
                 const { branch_name, branch_address, operating_hours, status } = response.data;
+                const parsedOperatingHours = JSON.parse(operating_hours); 
+                setOpenTime(parsedOperatingHours.open);
+                setCloseTime(parsedOperatingHours.close);
                 setBranch(branch_name);
                 const addressParts = branch_address.split(", ");
                 setAddressLine1(addressParts[0]);
@@ -48,8 +51,6 @@ function EditBranch() {
                 setState(addressParts[3]);
                 setZipCode(addressParts[4]);
                 setCountry(addressParts[5]);
-                setOpenTime(operating_hours.open);
-                setCloseTime(operating_hours.close);
                 setCountry('Australia');
                 setStatus(status);
             } catch (error) {

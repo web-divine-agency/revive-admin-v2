@@ -12,8 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
-import {useLoader} from "../../Loaders/LoaderContext";
-
+import { useLoader } from "../../Loaders/LoaderContext";
 
 function Branches() {
   const navigate = useNavigate();
@@ -23,42 +22,46 @@ function Branches() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
-  const {setLoading} = useLoader();
-
+  const { setLoading } = useLoader();
 
   useEffect(() => {
     const fetchBranches = async () => {
       setLoading(true);
       try {
         const response = await axiosInstance.get("/branches");
-        const formattedData = response.data.map((branch) => ({
-          id: branch.id,
-          branch_name: branch.branch_name,
-          address: formatAddress(branch.branch_address), 
-          operating_hours: branch.operating_hours,
-          status: getBranchStatus(branch),
-        }));
+        const formattedData = response.data.map((branch) => {
+          const parsedOperatingHours = JSON.parse(branch.operating_hours); // Parse first
+
+          return {
+            id: branch.id,
+            branch_name: branch.branch_name,
+            address: formatAddress(branch.branch_address),
+            operating_hours: parsedOperatingHours,
+            status: getBranchStatus({
+              ...branch,
+              operating_hours: parsedOperatingHours,
+            }), // Pass parsed data here
+          };
+        });
         setData(formattedData);
         setFilteredData(formattedData);
       } catch (error) {
         console.error("Error fetching branches:", error);
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
-  
- 
+
     const formatAddress = (address) => {
       return address
         .split(",") // Split the address into parts based on commas
-        .map(part => part.trim()) // Remove extra spaces from each part
-        .filter(part => part.length > 0) // Filter out empty parts
+        .map((part) => part.trim()) // Remove extra spaces from each part
+        .filter((part) => part.length > 0) // Filter out empty parts
         .join(", "); // Join the remaining parts back together with a comma
     };
-  
+
     fetchBranches();
   }, [navigate]);
-  
 
   //filter branches
   useEffect(() => {
@@ -78,33 +81,40 @@ function Branches() {
 
   const getBranchStatus = (branch) => {
     if (!branch.operating_hours || typeof branch.operating_hours !== "object") {
-      // Handle cases where operating_hours might be undefined or not an object
-      return "Unknown"; // or 'Closed' as a fallback
+      return "Undefined";
     }
-
     const currentTime = new Date();
-    let currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+    const options = {
+      timeZone: "Australia/Sydney",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    };
+    const formatter = new Intl.DateTimeFormat([], options);
+    const [hours, minutes, seconds] = formatter.format(currentTime).split(":");
+    const currentSeconds =
+      parseInt(hours, 10) * 3600 +
+      parseInt(minutes, 10) * 60 +
+      parseInt(seconds, 10);
 
     const openTime = branch.operating_hours.open.split(":");
     const closeTime = branch.operating_hours.close.split(":");
 
-    const openMinutes =
-      parseInt(openTime[0], 10) * 60 + parseInt(openTime[1], 10);
-    let closeMinutes =
-      parseInt(closeTime[0], 10) * 60 + parseInt(closeTime[1], 10);
+    const openSeconds =
+      parseInt(openTime[0], 10) * 3600 +
+      parseInt(openTime[1], 10) * 60 +
+      parseInt(openTime[2] || 0, 10);
+    let closeSeconds =
+      parseInt(closeTime[0], 10) * 3600 +
+      parseInt(closeTime[1], 10) * 60 +
+      parseInt(closeTime[2] || 0, 10);
 
-    // Adjust closeMinutes for overnight periods
-    if (closeMinutes < openMinutes) {
-      closeMinutes += 24 * 60; // Add 24 hours worth of minutes
+    if (closeSeconds < openSeconds) {
+      closeSeconds += 24 * 3600;
     }
 
-    // Adjust currentMinutes for overnight periods
-    if (currentMinutes < openMinutes) {
-      currentMinutes += 24 * 60; // Add 24 hours worth of minutes
-    }
-
-    // Determine if the current time falls within the open hours
-    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes
+    return currentSeconds >= openSeconds && currentSeconds <= closeSeconds
       ? "Open"
       : "Closed";
   };
@@ -202,6 +212,7 @@ function Branches() {
         <span
           style={{
             color: row.status === "Open" ? "green" : "red",
+            marginLeft: 0,
           }}
         >
           {row.status}

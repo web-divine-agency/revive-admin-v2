@@ -283,6 +283,21 @@ h3 {
   justify-content: center !important;
   display: flex !important;
 }
+.manage-ticket-btn{
+  background-color: #0B3A07 !important;
+  border-color: #0B3A07 !important;
+  justify-content: center !important;
+  display: flex !important;
+  width: auto;
+  position: absolute;
+  right: 50px;
+  top:  15px;
+}
+.manage-ticket-btn:hover{
+  background-color:  #AEBE44 !important;
+  border-color: #AEBE44 !important;
+  font-weight: 600 !important;
+ }
 .add-user-btn:hover{
   background-color:  #AEBE44 !important;
   border-color: #AEBE44 !important;

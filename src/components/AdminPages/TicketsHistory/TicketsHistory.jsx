@@ -84,7 +84,7 @@ function TicketsHistory() {
           ticketType: tickets.ticketType.ticket_type,
           data: tickets.data,
           user: `${tickets.user.first_name} ${tickets.user.last_name}`,
-          branch_id: tickets.branch.branch_name,
+          branch_id: tickets.branch?.branch_name,
           role: tickets.user.roles?.map((r) => r.role_name).join(", "),
           date: new Date(tickets.createdAt)
         })).sort((a, b) => b.date - a.date);
@@ -186,30 +186,60 @@ function TicketsHistory() {
   const TicketPDF = ({ selectedTicket }) => (
     <Document>
       <Page
-        size='A4'
+        size="A4"
         style={styles.page}
-        orientation={selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? "landscape" : "portrait"}
+        orientation={
+          selectedTicket.ticketType === 3 ||
+          selectedTicket.ticketType === 15 ||
+          selectedTicket.ticketType === 16 ||
+          selectedTicket.ticketType === 17
+            ? "landscape"
+            : "portrait"
+        }
       >
         {/* Loop through selectedTicket data, grouping every 3 items */}
-        {Array.from({ length: Math.ceil(selectedTicket.data.length / 3) }, (_, rowIndex) => (
-          <View
-            key={rowIndex}
-            style={{
-              display: 'flex',
-              flexDirection: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? 'column' : 'row',
-              justifyContent: 'content-start',
-              gap: "15px",
-            }}
-          >
-            {selectedTicket.data.slice(rowIndex * 3, rowIndex * 3 + 3).map((item, index) => (
+        {Array.isArray(selectedTicket?.data) &&
+          Array.from(
+            { length: Math.ceil(selectedTicket.data.length / 3) },
+            (_, rowIndex) => (
               <View
-                key={index}
+                key={rowIndex}
                 style={{
-                  width: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? '100%' : '33%',
-                  height: selectedTicket.ticketType === 3 || selectedTicket.ticketType === 15 || selectedTicket.ticketType === 16 || selectedTicket.ticketType === 17 ? '550px' : '',
-                  textAlign: 'center',
+                  display: "flex",
+                  flexDirection:
+                    selectedTicket.ticketType === 3 ||
+                    selectedTicket.ticketType === 15 ||
+                    selectedTicket.ticketType === 16 ||
+                    selectedTicket.ticketType === 17
+                      ? "column"
+                      : "row",
+                  justifyContent: "content-start",
+                  gap: "15px",
                 }}
               >
+                {selectedTicket.data
+                  .slice(rowIndex * 3, rowIndex * 3 + 3)
+                  .map((item, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        width:
+                          selectedTicket.ticketType === 3 ||
+                          selectedTicket.ticketType === 15 ||
+                          selectedTicket.ticketType === 16 ||
+                          selectedTicket.ticketType === 17
+                            ? "100%"
+                            : "33%",
+                        height:
+                          selectedTicket.ticketType === 3 ||
+                          selectedTicket.ticketType === 15 ||
+                          selectedTicket.ticketType === 16 ||
+                          selectedTicket.ticketType === 17
+                            ? "550px"
+                            : "",
+                        textAlign: "center",
+                      }}
+                    >
                 {selectedTicket.ticketType === 5 && (
                   <div
                     style={{
@@ -1839,7 +1869,10 @@ function TicketsHistory() {
       const formattedTicketData = {
         id: ticket.id,
         ticketType: ticket.ticket_type_id,
-        data: ticket.data,
+        data:
+        typeof ticket.data === "string"
+          ? JSON.parse(ticket.data)
+          : ticket.data,  
         date: new Date(ticket.createdAt)
       };
       setSelectedTicket(formattedTicketData);

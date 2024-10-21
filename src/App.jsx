@@ -22,6 +22,9 @@ import ProtectedRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthContextProvider } from './components/Authentication/authContext';
 import {getCookie} from './components/Authentication/getCookie';
 import { LoaderProvider } from './components/Loaders/LoaderContext';
+import TemplateManagement from './components/AdminPages/TemplateManagement/TemplateManagement';
+import EditUserTemplateAccess from './components/AdminPages/TemplateManagement/EditUserTemplateAccess';
+
 
 function Layout() {
   const location = useLocation();
@@ -41,6 +44,8 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/template-management" element={<ProtectedRoute element={<TemplateManagement />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-template-management" element={<ProtectedRoute element={<EditUserTemplateAccess />} allowedRoles={['Admin']} />} />
         <Route path="/user-management" element={<ProtectedRoute element={<UserRoleManagement />} allowedRoles={['Admin']} />} />
         <Route path="/staff-logs" element={<ProtectedRoute element={<StaffLogs />} allowedRoles={['Admin']} />} />
         <Route path="/tickets-history" element={<ProtectedRoute element={<TicketsHistory />} allowedRoles={['Admin']} />} />
@@ -51,7 +56,7 @@ function Layout() {
         <Route path="/add-new-role" element={<ProtectedRoute element={<AddNewRole />} allowedRoles={['Admin']} />} />
         <Route path="/add-branch" element={<ProtectedRoute element={<AddBranch />} allowedRoles={['Admin']} />} />
         <Route path="/edit-branch/:branchId" element={<ProtectedRoute element={<EditBranch />} allowedRoles={['Admin']} />} />
-        <Route path="/generate-tickets" element={<ProtectedRoute element={<GenerateTickets />} allowedRoles={['Staff']} />} />
+        <Route path="/generate-tickets" element={<ProtectedRoute element={<GenerateTickets />} allowedRoles={['Staff', 'Admin']} />} />
         <Route path="/history" element={<ProtectedRoute element={<History />} allowedRoles={['Staff']} />} />
         <Route path="/queue-list" element={<ProtectedRoute element={<QueueList />} allowedRoles={['Staff']} />} />
         <Route path="/my-profile" element={<ProtectedRoute element={<MyProfile />} allowedRoles={['Admin', 'Staff']} />} />

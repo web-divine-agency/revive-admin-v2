@@ -122,7 +122,7 @@ function Navbar({ role }) {
                 className="profile_avatar"
                 alt="Profile Avatar"
               />
-              <h5>My Profile</h5>
+         <h5>Signed in as: {first_name} {last_name}</h5>
             </div>
           </div>
 

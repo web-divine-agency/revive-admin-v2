@@ -30,6 +30,12 @@ export const AdminSidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Generate Ticket',
+    path: '/generate-tickets',
+    icon: <img className='navIcon' src={generate_ticket} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Tickets History',
     path: '/tickets-history',
     icon: <img className='navIcon' src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,

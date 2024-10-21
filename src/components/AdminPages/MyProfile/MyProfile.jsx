@@ -103,6 +103,9 @@ function MyProfile() {
         oldPassword,
         newPassword,
       });
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
       Swal.fire({
         title: 'Profile Updated',
         text: 'Your profile has been updated successfully.',
