@@ -14,8 +14,8 @@ function EditUserTemplateAccess() {
                     acc[ticket_type.ticket_type] = false; // Initialize all tickets as unchecked
                     return acc;
                 }, {});
-                setTicketTypes(response.data); // Store the raw ticket type data if needed
-                setSelectedTickets(formattedData); // Set initial state for checkboxes
+                setTicketTypes(response.data); 
+                setSelectedTickets(formattedData); 
             } catch (error) {
                 console.error('Error fetching ticket types:', error);
             }
@@ -25,7 +25,7 @@ function EditUserTemplateAccess() {
 
     const handleTicketChange = (e) => {
         const { name, checked } = e.target;
-        setSelectedTickets(prev => ({ ...prev, [name]: !prev [name] })); // Update selected tickets state
+        setSelectedTickets(prev => ({ ...prev, [name]: checked }));
     };
 
     const handleSubmit = (e) => {
@@ -40,7 +40,7 @@ function EditUserTemplateAccess() {
             <div className="container-content">
                 <form onSubmit={handleSubmit}>
                     <div className="form-group ml-5 mt-5">
-                        <label>Uncheck Templates to hide</label> <br />
+                        <label>Check Templates to hide</label> <br />
                         <div className="checkbox-container">
                             {ticketTypes.map(ticket => (
                                 <div className="d-flex flex-column align-items-start" key={ticket.id}>

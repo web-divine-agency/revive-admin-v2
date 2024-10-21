@@ -769,7 +769,7 @@ input[type="date"] {
 .custom-dropdown-icon {
   position: absolute;
   right: 80px;
-  top: 66%;
+  top: 70%;
   pointer-events: none;
   z-index: 2;
   font-size: 18px !important;
@@ -779,6 +779,14 @@ input[type="date"] {
   position: absolute;
   right: 80px;
   top: 47%;
+  pointer-events: none;
+  z-index: 2;
+  font-size: 18px !important;
+}
+.custom-dropdown-icon-3{
+  position: absolute;
+  right: 80px;
+  top: 60.5%;
   pointer-events: none;
   z-index: 2;
   font-size: 18px !important;
@@ -814,5 +822,9 @@ input[type="date"] {
 #ticketTemplate {
   width: auto;
 }
-
+.checkbox-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 10px; 
+}
 /* End of Generate Ticket Style */

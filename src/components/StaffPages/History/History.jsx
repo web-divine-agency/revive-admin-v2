@@ -84,7 +84,7 @@ function TicketsHistory() {
         const formattedData = response.data
           ?.map((tickets) => ({
             id: tickets.id,
-            ticketType: tickets.ticketType.ticket_type,
+            ticketType: tickets.ticketType?.ticket_type,
             data:
               typeof tickets.data === "string"
                 ? JSON.parse(tickets.data)
