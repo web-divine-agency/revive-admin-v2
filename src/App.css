@@ -367,6 +367,11 @@ h3 {
   border-color: #AEBE44 !important;
   font-weight: 600 !important;
  }
+ .manage-ticket-btn-2:hover{
+  background-color:  #AEBE44 !important;
+  border-color: #AEBE44 !important;
+  font-weight: 600 !important;
+ }
 .add-user-btn:hover{
   background-color:  #AEBE44 !important;
   border-color: #AEBE44 !important;

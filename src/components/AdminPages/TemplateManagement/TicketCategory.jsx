@@ -2,36 +2,17 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "../../../assets/images/view_icon.png";
-import edit_icon from "../../../assets/images/edit_icon.png";
-import delete_icon from "../../../assets/images/delete_icon.png";
-import man from "../../../assets/images/man.png";
-import woman from "../../../assets/images/woman.png";
 import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
 
 function TicketCategory() {
-  const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
-
-  const [branches, setBranches] = useState([]);
-  const [selectedBranchId, setSelectedBranchId] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [roles, setRoles] = useState([]);
-  const [roleFilter, setRoleFilter] = useState("");
-
   const [ticketTypes, setTicketTypes] = useState([]);
-
   const { setLoading } = useLoader();
+
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -70,23 +51,8 @@ function TicketCategory() {
   }, []);
 
   useEffect(() => {
-    // Filter users whenever the filter or search state changes
+   
     const applyFilters = () => {
-      if (!loggedInUser) return;
-
-      let tempUsers = users.filter(
-        (user) =>
-          user.id !== loggedInUser.id &&
-          user.roles?.map((r) => r.role_name).join(", ") !== "Admin"
-      );
-
-      if (roleFilter) {
-        tempUsers = tempUsers.filter(
-          (user) =>
-            user.roles?.map((r) => r.role_name).join(", ") === roleFilter
-        );
-      }
-
       if (search) {
         tempUsers = tempUsers.filter((user) =>
           `${user.first_name} ${user.last_name}`
@@ -95,19 +61,11 @@ function TicketCategory() {
         );
       }
 
-      if (selectedBranchId) {
-        tempUsers = tempUsers.filter((user) =>
-          user.branches?.some(
-            (branch) => branch.id === parseInt(selectedBranchId)
-          )
-        );
-      }
-
-      setFilteredUsers(tempUsers);
+    
     };
 
     applyFilters();
-  }, [filter, roleFilter, search, users, loggedInUser, selectedBranchId]);
+  }, [search]);
 
   const columns = [
     {
@@ -120,11 +78,19 @@ function TicketCategory() {
       name: "Action",
       selector: (row) => (
         <div>
-          <label className="mr-2">Popular</label>
-          <input className="mr-3" type="checkbox" />
-          <label className="mr-2">Other Fragrances</label>
-          <input type="checkbox" />
-        </div>
+      <label className="mr-2">Popular</label>
+      <input
+        className="mr-3"
+        type="checkbox"
+       
+        
+      />
+      <label className="mr-2">Other Fragrances</label>
+      <input
+        type="checkbox"
+        
+      />
+    </div>
       ),
       sortable: false,
     },
@@ -154,7 +120,10 @@ function TicketCategory() {
               paginationPerPage={10}
               paginationRowsPerPageOptions={[10, 20]}
             />
-            <button className="submit-btn mb-4 mt-4" type="submit">
+            <button
+              className="submit-btn mb-4 mt-4"
+              type="submit"
+            >
               SAVE
             </button>
           </div>
