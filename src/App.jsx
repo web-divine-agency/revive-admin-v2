@@ -24,6 +24,12 @@ import {getCookie} from './components/Authentication/getCookie';
 import { LoaderProvider } from './components/Loaders/LoaderContext';
 import TemplateManagement from './components/AdminPages/TemplateManagement/TemplateManagement';
 import EditUserTemplateAccess from './components/AdminPages/TemplateManagement/EditUserTemplateAccess';
+import ResourcePage from './components/AdminPages/Resources/resourcePage';
+import TicketCategory from './components/AdminPages/TemplateManagement/TicketCategory';
+import StaffResourcePage from './components/AdminPages/Resources/StaffResourcePage';
+
+
+
 
 
 function Layout() {
@@ -44,8 +50,11 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
+        <Route path="/get-resources" element={<ProtectedRoute element={<StaffResourcePage />} allowedRoles={['Staff']} />} />
+        <Route path="/ticket-category" element={<ProtectedRoute element={<TicketCategory />} allowedRoles={['Admin']} />} />
         <Route path="/template-management" element={<ProtectedRoute element={<TemplateManagement />} allowedRoles={['Admin']} />} />
-        <Route path="/edit-template-management" element={<ProtectedRoute element={<EditUserTemplateAccess />} allowedRoles={['Admin']} />} />
+        <Route path="/assign-tickets/:userId" element={<ProtectedRoute element={<EditUserTemplateAccess />} allowedRoles={['Admin']} />} />
         <Route path="/user-management" element={<ProtectedRoute element={<UserRoleManagement />} allowedRoles={['Admin']} />} />
         <Route path="/staff-logs" element={<ProtectedRoute element={<StaffLogs />} allowedRoles={['Admin']} />} />
         <Route path="/tickets-history" element={<ProtectedRoute element={<TicketsHistory />} allowedRoles={['Admin']} />} />

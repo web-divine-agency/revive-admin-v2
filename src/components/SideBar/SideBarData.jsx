@@ -6,6 +6,7 @@ import tickets_history from '../../assets/images/tickets_history.png';
 import branches from '../../assets/images/branches.png';
 import log_out from '../../assets/images/log_out.png';
 import generate_ticket from '../../assets/images/generate_ticket.png';
+import upload_resources from '../../assets/images/upload_resources.png';
 import queue_list from '../../assets/images/queue_list.png';
 import "./SideBar.css";
 
@@ -48,6 +49,12 @@ export const AdminSidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Upload Resources',
+    path: '/resources',
+    icon: <img className='navIcon' src={upload_resources} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Logout',
     path: '/',
     icon: <img className='navIcon' src={log_out} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
@@ -67,6 +74,12 @@ export const StaffSidebarData = [
     title: 'History',
     path: '/history',
     icon: <img className='navIcon' src={tickets_history} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Download Resources',
+    path: '/get-resources',
+    icon: <img className='navIcon' src={upload_resources} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
     cName: 'nav-text'
   },
   // {

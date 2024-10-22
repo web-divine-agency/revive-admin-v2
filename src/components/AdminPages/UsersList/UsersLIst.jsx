@@ -369,6 +369,7 @@ function UsersList() {
               pagination
               paginationPerPage={10}
               paginationRowsPerPageOptions={[10, 20]}
+              responsive
             />
           </div>
 

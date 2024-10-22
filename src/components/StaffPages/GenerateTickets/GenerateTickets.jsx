@@ -72,7 +72,9 @@ function GenerateTickets() {
   const [productBrand, setproductBrand] = useState("");
   const [productDesc, setproductDesc] = useState("");
   const [copies, setCopies] = useState(1);
-  const [template, setTemplate] = useState("HOT PRICE TAGS (RRP and non-RRP)");
+  const [template, setTemplate] = useState("");
+  const [assignedTickets, setAssignedTickets] = useState([]);
+  const [category, setCategory] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
   const [pdfBlob, setPdfBlob] = useState(null);
@@ -98,6 +100,7 @@ function GenerateTickets() {
   const handleOtherFragrance = () => {
     setTemplate("COSMAX FRAGRANCE TAGS");
   };
+
   const defaultValues = {
     productName: "Product Name",
     productNameValue: "Greater Product Name",
@@ -122,9 +125,13 @@ function GenerateTickets() {
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
-        const { roles } = response.data;
+        const { roles, assigned_tickets, assigned_tickets_category } =
+          response.data;
         const role = roles.length > 0 ? roles[0].role_name : "No Role";
         setRole(role);
+        setAssignedTickets(assigned_tickets);
+        setCategory(assigned_tickets_category);
+        //console.log(assigned_tickets)
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -5768,12 +5775,22 @@ function GenerateTickets() {
           <h3>Revive Pharmacy Price Ticket Generator</h3>
           {role === "Admin" && (
             <button
+              onClick={() => navigate("/ticket-category")}
+              className="btn btn-primary float-end manage-ticket-btn-2"
+            >
+             <i className="fa fa-list-alt"></i>
+             Ticket Category
+            </button>
+          )}
+          {role === "Admin" && (
+            <button
               onClick={() => navigate("/template-management")}
               className="btn btn-primary float-end manage-ticket-btn"
             >
               <i className="fa fa-cog"></i> Manage Template Access
             </button>
           )}
+        
           <div className="ticket-filter">
             <h5>Select Ticket Template</h5>
             <select
@@ -5797,155 +5814,175 @@ function GenerateTickets() {
               value={template}
             >
               <option value="">-- SELECT TEMPLATES --</option>
-              <option value="HOT PRICE TAGS (RRP and non-RRP)">POPULAR TEMPLATES</option>
-
-              <option value="COSMAX FRAGRANCE TAGS">OTHER FRAGRANCES</option>
-              <option value="A4 BIG TICKET LANDSCAPE">
-                A4 BIG TICKET LANDSCAPE
-              </option>
-              <option value="A4 TICKET - CLEARANCE">
-                A4 TICKET - CLEARANCE
-              </option>
-              <option value="A4 TICKET - NEW IN STORE">
-                A4 TICKET - NEW IN STORE
-              </option>
-              <option value="A4 TICKET - PERCENTAGE OFF">
-                A4 TICKET - PERCENTAGE OFF
-              </option>
-              <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
-              <option value="CATALOGUE SPECIALS PRICE TAGS">
-                CATALOGUE SPECIALS PRICE TAGS
-              </option>
-              <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
-              {template === "COSMAX FRAGRANCE TAGS" && (
-                <option value="COSMAX FRAGRANCE TAGS">
-                  COSMAX FRAGRANCE TAGS
-                </option>
-              )}
-              <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
-
-              {template === "DAVKA FRAGRANCE TAGS" && (
-                <option value="DAVKA FRAGRANCE TAGS">
-                  DAVKA FRAGRANCE TAGS
-                </option>
-              )}
-
-              <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
-              {template === "FROSTBLAND FRAGRANCE TAGS" && (
-                <option value="FROSTBLAND FRAGRANCE TAGS">
-                  FROSTBLAND FRAGRANCE TAGS
-                </option>
-              )}
-              <option value="GREEN FRIDAY SALE TAGS">
-                GREEN FRIDAY SALE TAGS
-              </option>
-              <option value="GREEN FRIDAY SALE TAGS - PERCENTAGE OFF">
-                GREEN FRIDAY SALE TAGS - PERCENTAGE OFF
-              </option>
-
-              {template === "HOT PRICE TAGS (RRP and non-RRP)" && (
+              {assignedTickets.includes("HOT PRICE TAGS (RRP and non-RRP)") && (
                 <option value="HOT PRICE TAGS (RRP and non-RRP)">
-                  HOT PRICE TAGS (RRP and non-RRP)
+                  POPULAR TEMPLATES
                 </option>
               )}
-              {/* {template === "POPULAR" && (
-              <option value="HOT PRICE TAGS (without RRP + Save)">
-                HOT PRICE TAGS (without RRP + Save)
-              </option>
-                )} */}
 
-              <option value="MUST TRY TAGS">MUST TRY TAGS</option>
-              <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
-              <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
-              {template === "REVLON FRAGRANCE TAGS" && (
-                <option value="REVLON FRAGRANCE TAGS">
-                  REVLON FRAGRANCE TAGS
+              {assignedTickets.some((ticket) =>
+                [
+                  "COSMAX FRAGRANCE TAGS",
+                  "DAVKA FRAGRANCE TAGS",
+                  "FROSTBLAND FRAGRANCE TAGS",
+                  "REVLON FRAGRANCE TAGS",
+                ].includes(ticket)
+              ) && (
+                <option value="COSMAX FRAGRANCE TAGS">OTHER FRAGRANCES</option>
+              )}
+
+              {assignedTickets.includes("A4 BIG TICKET LANDSCAPE") && (
+                <option value="A4 BIG TICKET LANDSCAPE">
+                  A4 BIG TICKET LANDSCAPE
                 </option>
               )}
-              <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">
-                SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS
-              </option>
-              <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">
-                VALUE PACK TICKETS - I'M CHEAPER THAN TAGS
-              </option>
+              {assignedTickets.includes("A4 TICKET - CLEARANCE") && (
+                <option value="A4 TICKET - CLEARANCE">
+                  A4 TICKET - CLEARANCE
+                </option>
+              )}
+              {assignedTickets.includes("A4 TICKET - NEW IN STORE") && (
+                <option value="A4 TICKET - NEW IN STORE">
+                  A4 TICKET - NEW IN STORE
+                </option>
+              )}
+              {assignedTickets.includes("A4 TICKET - PERCENTAGE OFF") && (
+                <option value="A4 TICKET - PERCENTAGE OFF">
+                  A4 TICKET - PERCENTAGE OFF
+                </option>
+              )}
+              {assignedTickets.includes("BASIC PRICE TAGS") && (
+                <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
+              )}
+              {assignedTickets.includes("CATALOGUE SPECIALS PRICE TAGS") && (
+                <option value="CATALOGUE SPECIALS PRICE TAGS">
+                  CATALOGUE SPECIALS PRICE TAGS
+                </option>
+              )}
+              {assignedTickets.includes("CLEARANCE TAGS") && (
+                <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
+              )}
+              {assignedTickets.includes("COTY FRAGRANCE TAGS") && (
+                <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
+              )}
+              {assignedTickets.includes("DB FRAGRANCE TAGS") && (
+                <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
+              )}
+              {assignedTickets.includes("GREEN FRIDAY SALE TAGS") && (
+                <option value="GREEN FRIDAY SALE TAGS">
+                  GREEN FRIDAY SALE TAGS
+                </option>
+              )}
+              {assignedTickets.includes(
+                "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF"
+              ) && (
+                <option value="GREEN FRIDAY SALE TAGS - PERCENTAGE OFF">
+                  GREEN FRIDAY SALE TAGS - PERCENTAGE OFF
+                </option>
+              )}
+
+              {assignedTickets.includes("MUST TRY TAGS") && (
+                <option value="MUST TRY TAGS">MUST TRY TAGS</option>
+              )}
+              {assignedTickets.includes("NEW IN STORE TAGS") && (
+                <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
+              )}
+              {assignedTickets.includes("PERCENTAGE OFF TAGS") && (
+                <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
+              )}
+              {assignedTickets.includes(
+                "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS"
+              ) && (
+                <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">
+                  SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS
+                </option>
+              )}
+              {assignedTickets.includes(
+                "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS"
+              ) && (
+                <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">
+                  VALUE PACK TICKETS -I'M CHEAPER THAN TAGS
+                </option>
+              )}
             </select>{" "}
             <br />
-            {template === "COSMAX FRAGRANCE TAGS" && (
-              <div>
-                <h5>Other Fragrances</h5>
-                <select
-                  name="ticketTemplate"
-                  id="ticketTemplate"
-                  onChange={(e) => {
-                    setProductName("");
-                    setproductBrand("");
-                    setPrice("");
-                    setRrp("");
-                    setSave("");
-                    setOfferType("");
-                    setOptionType("");
-                    // setExpiry("");
-                    setCopies(1);
-                    ticketsCleared();
-                    setTemplate(e.target.value);
-                    setTicketData({});
-                  }}
-                  value={template}
-                >
-                  {/* <option value="COSMAX FRAGRANCE TAGS">
-                    -- SELECT OTHER FRAGRANCE --
-                  </option> */}
-                  <option value="COSMAX FRAGRANCE TAGS">
-                    COSMAX FRAGRANCE TAGS
-                  </option>
-                  <option value="DAVKA FRAGRANCE TAGS">
-                    DAVKA FRAGRANCE TAGS
-                  </option>
-                  <option value="FROSTBLAND FRAGRANCE TAGS">
-                    FROSTBLAND FRAGRANCE TAGS
-                  </option>
-
-                  <option value="REVLON FRAGRANCE TAGS">
-                    REVLON FRAGRANCE TAGS
-                  </option>
-                </select>{" "}
-              </div>
-            )}
-            {template === "HOT PRICE TAGS (RRP and non-RRP)" && (
-              <div>
-                <h5>Popular Templates</h5>
-                <select
-                  name="ticketTemplate"
-                  id="ticketTemplate"
-                  onChange={(e) => {
-                    setProductName("");
-                    setproductBrand("");
-                    setPrice("");
-                    setRrp("");
-                    setSave("");
-                    setOfferType("");
-                    setOptionType("");
-                    // setExpiry("");
-                    setCopies(1);
-                    ticketsCleared();
-                    setTemplate(e.target.value);
-                    setTicketData({});
-                  }}
-                  value={template}
-                >
-                  {/* <option value="HOT PRICE TAGS (RRP and non-RRP)">
-                    -- SELECT TEMPLATES --
-                  </option> */}
-                  {/* <option value="HOT PRICE TAGS (without RRP + Save)">
-                  HOT PRICE TAGS (without RRP + Save)
-                  </option> */}
-
-                  <option value="HOT PRICE TAGS (RRP and non-RRP)">
-                    HOT PRICE TAGS (RRP and non-RRP)
-                  </option>
-                </select>{" "}
-              </div>
-            )}
+            {template === "COSMAX FRAGRANCE TAGS" &&
+              assignedTickets.some(
+                (ticket, index) => category[index] === "OTHER FRAGRANCES"
+              ) && (
+                <div>
+                  <h5>Other Fragrances</h5>
+                  <select
+                    name="ticketTemplate"
+                    id="ticketTemplate"
+                    onChange={(e) => {
+                      setProductName("");
+                      setproductBrand("");
+                      setPrice("");
+                      setRrp("");
+                      setSave("");
+                      setOfferType("");
+                      setOptionType("");
+                      setCopies(1);
+                      ticketsCleared();
+                      setTemplate(e.target.value);
+                      setTicketData({});
+                    }}
+                    value={template}
+                  >
+                    {/* <option value="">-- SELECT OTHER FRAGRANCE --</option> */}
+                    {assignedTickets
+                      .filter(
+                        (ticket, index) =>
+                          category[index] === "OTHER FRAGRANCES"
+                      )
+                      .map((ticket, idx) => (
+                        <option key={idx} value={ticket}>
+                          {ticket}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              )}
+            {template === "HOT PRICE TAGS (RRP and non-RRP)" &&
+              assignedTickets.some(
+                (ticket, index) => category[index] === "POPULAR TEMPLATES"
+              ) && (
+                <div>
+                  <h5>Popular Templates</h5>
+                  <select
+                    name="ticketTemplate"
+                    id="ticketTemplate"
+                    onChange={(e) => {
+                      setProductName("");
+                      setproductBrand("");
+                      setPrice("");
+                      setRrp("");
+                      setSave("");
+                      setOfferType("");
+                      setOptionType("");
+                      // setExpiry("");
+                      setCopies(1);
+                      ticketsCleared();
+                      setTemplate(e.target.value);
+                      setTicketData({});
+                    }}
+                    value={template}
+                  >
+                    {/* <option value="">-- SELECT POPULAR TEMPLATE --</option> */}
+                    {assignedTickets
+                      .filter(
+                        (ticket, index) =>
+                          category[index] === "POPULAR TEMPLATES"
+                      )
+                      .map((ticket, idx) => (
+                        <option key={idx} value={ticket}>
+                          {ticket}
+                        </option>
+                      ))}
+                  </select>{" "}
+                </div>
+              )}
           </div>
         </div>
       </div>
@@ -5957,7 +5994,7 @@ function GenerateTickets() {
               style={{
                 height:
                   template === "HOT PRICE TAGS (RRP and non-RRP)" ||
-                  template === ""  
+                  template === ""
                     ? 755
                     : "",
               }}
@@ -6003,12 +6040,13 @@ function GenerateTickets() {
                     className="form-control ticket-copies-field"
                     value={copies}
                     onChange={handleCopiesChange}
+                    disabled={template === ""}
                   />
                   <button
                     type="button"
                     className="add-to-queue-btn"
                     onClick={handleAddToQueue}
-                    disabled={copies === 0}
+                    disabled={copies === 0 || template === ""}
                   >
                     Add to Queue
                   </button>
@@ -6016,6 +6054,7 @@ function GenerateTickets() {
                   <button
                     type="button"
                     className="clear-btn"
+                    disabled={template === ""}
                     onClick={() => {
                       setCopies(1);
                       setTicketData({
@@ -6037,6 +6076,7 @@ function GenerateTickets() {
                     type="button"
                     className="print-btn"
                     onClick={handleGenerateClick}
+                    disabled={template === ""}
                   >
                     Generate Tickets
                   </button>
@@ -6044,6 +6084,7 @@ function GenerateTickets() {
                     type="button"
                     className="generate-tickets-btn"
                     onClick={handlePrint}
+                    disabled={template === ""}
                   >
                     Print
                   </button>

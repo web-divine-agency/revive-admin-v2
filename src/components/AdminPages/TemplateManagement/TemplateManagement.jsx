@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
-import {useLoader} from "../../Loaders/LoaderContext";
+import { useLoader } from "../../Loaders/LoaderContext";
 
 function TemplateManagement() {
   const navigate = useNavigate();
@@ -29,7 +29,9 @@ function TemplateManagement() {
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState("");
 
-  const {setLoading} = useLoader();
+  const [ticketTypes, setTicketTypes] = useState([]);
+
+  const { setLoading } = useLoader();
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -48,7 +50,6 @@ function TemplateManagement() {
   }, []);
 
   useEffect(() => {
-    
     const fetchUsers = async () => {
       setLoading(true);
       try {
@@ -59,7 +60,7 @@ function TemplateManagement() {
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -111,11 +112,32 @@ function TemplateManagement() {
   };
 
   useEffect(() => {
+    const fetchTicketTypes = async () => {
+      try {
+        const response = await axiosInstance.get("/ticketTypes");
+        const formattedData = response.data.map((ticket_type) => ({
+          id: ticket_type.id,
+          ticket_type: ticket_type.ticket_type,
+        }));
+        setTicketTypes(formattedData);
+        //console.log(ticketTypes);
+      } catch (error) {
+        console.error("Error fetching staff logs:", error);
+      }
+    };
+    fetchTicketTypes();
+  }, []);
+
+  useEffect(() => {
     // Filter users whenever the filter or search state changes
     const applyFilters = () => {
       if (!loggedInUser) return;
 
-      let tempUsers = users.filter((user) => user.id !== loggedInUser.id && user.roles?.map((r) => r.role_name).join(", ") !== 'Admin');
+      let tempUsers = users.filter(
+        (user) =>
+          user.id !== loggedInUser.id &&
+          user.roles?.map((r) => r.role_name).join(", ") !== "Admin"
+      );
 
       if (roleFilter) {
         tempUsers = tempUsers.filter(
@@ -156,9 +178,8 @@ function TemplateManagement() {
   };
 
   const handleEditAccessClick = (userId) => {
-    navigate('/edit-template-management');
+    navigate(`/assign-tickets/${userId}`);
   };
-
 
   const columns = [
     {
@@ -206,6 +227,9 @@ function TemplateManagement() {
               handleViewClick({
                 name: `${row.first_name} ${row.last_name}`,
                 profileImage: row.sex === "Male" ? man : woman,
+                ticket_type:
+                  row.ticketTypes?.map((r) => r.ticket_type).join(", ") ||
+                  "Default",
               })
             }
             style={{ cursor: "pointer" }}
@@ -268,7 +292,7 @@ function TemplateManagement() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-       
+
           <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
@@ -279,7 +303,6 @@ function TemplateManagement() {
               paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
-
         </div>
       </div>
 
@@ -300,13 +323,21 @@ function TemplateManagement() {
                   objectFit: "cover",
                 }}
               />
-              <div className="user-details">
-
+              <h2> {selectedUser.name} </h2>
+              <div className="ticketTypeListContainer">
+                <p> Allowed Templates: </p>
+                <h5>
+                  {selectedUser.ticket_type.split(",").map((type, index) => (
+                    <p className="allowedTickets" key={index}>
+                      {type.trim()}
+                    </p>
+                  ))}
+                </h5>
               </div>
             </div>
           </Modal.Body>
         </Modal>
-      )} 
+      )}
     </div>
   );
 }

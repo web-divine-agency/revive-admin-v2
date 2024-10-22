@@ -84,6 +84,8 @@ button:hover {
     border-radius: 20px;
     margin-left: 15px !important;
     min-width: 940px !important;
+    overflow-x: auto;
+    padding: 0 10px;
 
   }
 
@@ -184,6 +186,63 @@ button:hover {
   }
 }
 
+
+/* mobile responsiveness */
+@media (max-width: 768px) {
+  .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 375px !important;
+    margin-left: 0 !important;
+  
+  }
+  .container{
+    width: 400px;
+    margin-left: 0 !important;
+    padding: 5px !important;
+    
+  }
+  .dataTables_wrapper .rdt_TableCell {
+    font-size: 12px !important;
+    color: #000000;
+  
+  }
+  
+  .dataTables_wrapper .rdt_TableHead {
+    font-size: 12px !important;
+    color: #626262;
+  }
+  #search-bar {
+    padding: 6px 12px !important;
+    border: none;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    color: #626262;
+    cursor: text;
+    border: 1px solid #DFDFDF;
+    margin-left: 0 !important;
+  }
+  .top-filter {
+    padding: 0px 10px 20px 0px !important;
+  }
+  .add-user-btn{
+    margin-top: 30px;
+  }
+  .custom-profile-container {
+    border: 2px solid #DFDFDF;
+    border-radius: 20px;
+    padding: 2rem 0rem 2rem 0rem;
+    height: auto;
+    margin-left: 0rem !important;
+    margin-top: 5rem;
+    margin-bottom: 20px;
+    margin-right: 0rem;
+    display: flex;
+  width: auto;
+  }
+}
+
 body {
   width: 100% !important;
   display: flex;
@@ -199,7 +258,7 @@ body {
   border-radius: 20px;
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
-  margin-left: 7.8rem !important;
+  margin-left: 7.8rem;
   margin-top: 5rem !important;
   margin-bottom: 20px !important;
 
@@ -291,6 +350,16 @@ h3 {
   width: auto;
   position: absolute;
   right: 50px;
+  top:  15px;
+}
+.manage-ticket-btn-2{
+  background-color: #0B3A07 !important;
+  border-color: #0B3A07 !important;
+  justify-content: center !important;
+  display: flex !important;
+  width: auto;
+  position: absolute;
+  right: 300px;
   top:  15px;
 }
 .manage-ticket-btn:hover{
@@ -826,5 +895,14 @@ input[type="date"] {
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
   gap: 10px; 
+}
+.allowedTickets{
+ font-size: 18px !important;
+ line-height: 10px !important;
+}
+.ticketTypeListContainer{
+  height: 400px;
+  width: auto !important;
+ overflow-y: auto;
 }
 /* End of Generate Ticket Style */

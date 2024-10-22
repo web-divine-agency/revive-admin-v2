@@ -22,15 +22,15 @@
     }
     .time-display{
         color: white;
-        font-size: 20px;
-        margin-top: 15px !important;
+        font-size: 18px;
+        margin-top: 10px !important;
     }
     .nav-text {
         display: flex;
         justify-content: start;
         align-items: center;
         list-style: none;
-        height: 51px !important;
+        height: 45px !important;
     
     
     }
@@ -40,6 +40,55 @@
     }
 }
 
+.toggle-btn {
+   display: none;
+  }
+ /* mobile responsiveness */
+  @media (max-width: 768px){
+    .toggle-btn {
+        display: flex; 
+        position: fixed; 
+        top: 8px; 
+        left: 200px; 
+        z-index: 2; 
+        color: #fff; 
+        border: none; 
+        border-radius: 5px; 
+        padding: 10px 15px; 
+        cursor: pointer; 
+        transition: background-color 0.3s; 
+        flex-direction: column; 
+        
+    }
+    .profile {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        top: 1rem;
+        right: 30px !important;
+        cursor: pointer;
+    }
+    .sticky-header {
+        position: fixed;
+        width: 2800px;
+        height: 4rem;
+        top: 0rem;
+        left: 0rem !important;
+        right: 0rem !important;
+        background-color: #0B3A07;
+        /* Background color starting from hr */
+        padding-top: 2px;
+        /* Adjust as needed */
+        z-index: 1;
+    }
+}
+  .bar {
+    height: 4px; /* Height of the hamburger bars */
+    width: 30px; /* Width of the hamburger bars */
+    background-color: black; /* Color of the bars */
+    margin: 3px 0; /* Space between the bars */
+  }
+  
 .logo {
     position: absolute;
     top: 0px;
@@ -68,7 +117,7 @@ h1 {
     transition: 850ms;
     align-items: center;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 1;
 }
 
 .curve {
