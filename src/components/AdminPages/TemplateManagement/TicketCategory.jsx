@@ -11,10 +11,10 @@ import { useLoader } from "../../Loaders/LoaderContext";
 function TicketCategory() {
   const [search, setSearch] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState({}); // State to track selected categories
   const { setLoading } = useLoader();
 
   useEffect(() => {
-    // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
       Swal.fire({
         title: "Login Successful",
@@ -25,7 +25,6 @@ function TicketCategory() {
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       });
-
       localStorage.removeItem("loginSuccess");
     }
   }, []);
@@ -40,32 +39,51 @@ function TicketCategory() {
           ticket_type: ticket_type.ticket_type,
         }));
         setTicketTypes(formattedData);
-        //console.log(ticketTypes);
       } catch (error) {
-        console.error("Error fetching staff logs:", error);
-      }finally{
+        console.error("Error fetching ticket types:", error);
+      } finally {
         setLoading(false);
       }
     };
     fetchTicketTypes();
-  }, []);
+  }, [setLoading]);
 
-  useEffect(() => {
-   
-    const applyFilters = () => {
-      if (search) {
-        tempUsers = tempUsers.filter((user) =>
-          `${user.first_name} ${user.last_name}`
-            .toLowerCase()
-            .includes(search.toLowerCase())
-        );
-      }
+  // Handle checkbox selection
+  const handleCheckboxChange = (id, category) => {
+    setSelectedCategories((prevSelectedCategories) => ({
+      ...prevSelectedCategories,
+      [id]: category,
+    }));
+  };
 
-    
-    };
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      const updatePromises = Object.keys(selectedCategories).map(async (ticketId) => {
+        const category = selectedCategories[ticketId];
+        await axiosInstance.post(`/assign-ticket-category/${ticketId}`, { category });
+      });
 
-    applyFilters();
-  }, [search]);
+      await Promise.all(updatePromises);
+
+      Swal.fire({
+        title: "Success",
+        text: "Ticket categories updated successfully",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+    } catch (error) {
+      console.error("Error updating ticket categories:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Failed to update ticket categories",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const columns = [
     {
@@ -73,24 +91,24 @@ function TicketCategory() {
       selector: (row) => row.ticket_type || "N/A",
       sortable: true,
     },
-
     {
       name: "Action",
       selector: (row) => (
         <div>
-      <label className="mr-2">Popular</label>
-      <input
-        className="mr-3"
-        type="checkbox"
-       
-        
-      />
-      <label className="mr-2">Other Fragrances</label>
-      <input
-        type="checkbox"
-        
-      />
-    </div>
+        <label className="mr-2">Popular</label>
+        <input
+          className="mr-3"
+          type="checkbox"
+          checked={selectedCategories[row.id] === "Popular"}
+          onChange={() => handleCheckboxChange(row.id, "Popular")}
+        />
+        <label className="mr-2">Other Fragrances</label>
+        <input
+          type="checkbox"
+          checked={selectedCategories[row.id] === "Other Fragrances"}
+          onChange={() => handleCheckboxChange(row.id, "Other Fragrances")}
+        />
+      </div>
       ),
       sortable: false,
     },
@@ -123,6 +141,7 @@ function TicketCategory() {
             <button
               className="submit-btn mb-4 mt-4"
               type="submit"
+              onClick={handleSave}
             >
               SAVE
             </button>

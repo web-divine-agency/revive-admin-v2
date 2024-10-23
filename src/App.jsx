@@ -27,6 +27,8 @@ import EditUserTemplateAccess from './components/AdminPages/TemplateManagement/E
 import ResourcePage from './components/AdminPages/Resources/resourcePage';
 import TicketCategory from './components/AdminPages/TemplateManagement/TicketCategory';
 import StaffResourcePage from './components/AdminPages/Resources/StaffResourcePage';
+import ResourcesLists from './components/AdminPages/Resources/ResourcesLists';
+
 
 
 
@@ -50,6 +52,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
         <Route path="/get-resources" element={<ProtectedRoute element={<StaffResourcePage />} allowedRoles={['Staff']} />} />
         <Route path="/ticket-category" element={<ProtectedRoute element={<TicketCategory />} allowedRoles={['Admin']} />} />

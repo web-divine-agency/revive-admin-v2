@@ -17,7 +17,6 @@ button:hover {
   /* Optional shadow effect */
 }
 
-
 @media (max-width: 1366px) and (min-width: 1024px) {
   .container {
     transform: scale(1);
@@ -26,27 +25,24 @@ button:hover {
     overflow-x: hidden;
     margin-right: -8rem !important;
     font-size: 13px !important;
-    padding: 2rem 2rem 2rem .8rem !important;
+    padding: 2rem 2rem 2rem 0.8rem !important;
   }
-  .generate-ticket-container .template-selection{
+  .generate-ticket-container .template-selection {
     margin-left: -45px !important;
-
   }
 
-  .profile-update form{
+  .profile-update form {
     margin-left: 0px !important;
   }
-  .pdf-paper{
+  .pdf-paper {
     width: 100% !important;
   }
-  .generate-ticket-container .template-selection h3{
-   font-size: 22px !important;
-    
-  }
-  .generate-ticket-container .template-selection h5{
+  .generate-ticket-container .template-selection h3 {
     font-size: 22px !important;
-     
-   }
+  }
+  .generate-ticket-container .template-selection h5 {
+    font-size: 22px !important;
+  }
   .generate-ticket-container {
     margin-right: -4rem !important;
     padding: 1rem 1rem 2rem 2rem !important;
@@ -57,7 +53,6 @@ button:hover {
     border-radius: 20px;
     margin-left: -8px !important;
     min-width: 975px !important;
-
   }
   .top-filter {
     padding: 0px 0px 0px 20px !important;
@@ -69,16 +64,13 @@ button:hover {
     border-radius: 30px !important;
     color: #626262 !important;
     cursor: pointer;
-    border: 1px solid #DFDFDF !important;
+    border: 1px solid #dfdfdf !important;
   }
-
-
 
   .add-to-queue-btn {
     margin: 0 7px 0 7px;
   }
 
-  
   .container-content {
     border: 1px solid #ccc;
     border-radius: 20px;
@@ -86,7 +78,6 @@ button:hover {
     min-width: 940px !important;
     overflow-x: auto;
     padding: 0 10px;
-
   }
 
   .generate-ticket-container .form-group label {
@@ -104,7 +95,6 @@ button:hover {
   .dataTables_wrapper .rdt_TableCell {
     font-size: 12px !important;
     color: #000000;
-
   }
 
   .dataTables_wrapper .rdt_TableHead {
@@ -121,7 +111,7 @@ button:hover {
   }
 
   .ticket-form .print-btn {
-    background-color: #F3F2ED;
+    background-color: #f3f2ed;
     color: #000000;
     font-size: 12px;
     border: none;
@@ -143,7 +133,6 @@ button:hover {
   .date-input-2 {
     width: 100% !important;
     font-size: 13px !important;
-
   }
 
   .custom-date-icon-1 {
@@ -186,7 +175,6 @@ button:hover {
   }
 }
 
-
 /* mobile responsiveness */
 @media (max-width: 768px) {
   .container-content {
@@ -195,20 +183,17 @@ button:hover {
     margin: 20px;
     min-width: 375px !important;
     margin-left: 0 !important;
-  
   }
-  .container{
-    width: 400px;
+  .container {
+    width: 395px;
     margin-left: 0 !important;
     padding: 5px !important;
-    
   }
   .dataTables_wrapper .rdt_TableCell {
     font-size: 12px !important;
     color: #000000;
-  
   }
-  
+
   .dataTables_wrapper .rdt_TableHead {
     font-size: 12px !important;
     color: #626262;
@@ -217,20 +202,20 @@ button:hover {
     padding: 6px 12px !important;
     border: none;
     border-radius: 30px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     color: #626262;
     cursor: text;
-    border: 1px solid #DFDFDF;
+    border: 1px solid #dfdfdf;
     margin-left: 0 !important;
   }
   .top-filter {
     padding: 0px 10px 20px 0px !important;
   }
-  .add-user-btn{
+  .add-user-btn {
     margin-top: 30px;
   }
   .custom-profile-container {
-    border: 2px solid #DFDFDF;
+    border: 2px solid #dfdfdf;
     border-radius: 20px;
     padding: 2rem 0rem 2rem 0rem;
     height: auto;
@@ -239,7 +224,7 @@ button:hover {
     margin-bottom: 20px;
     margin-right: 0rem;
     display: flex;
-  width: auto;
+    width: auto;
   }
 }
 
@@ -249,31 +234,27 @@ body {
   place-items: center;
   justify-content: center;
   min-height: 100vh;
-
 }
 
 /* Components Style */
 .container {
-  border: 2px solid #DFDFDF;
+  border: 2px solid #dfdfdf;
   border-radius: 20px;
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
   margin-left: 7.8rem;
   margin-top: 5rem !important;
   margin-bottom: 20px !important;
-
 }
-
-
 
 #search-bar {
   padding: 6px 20px;
   border: none;
   border-radius: 30px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #626262;
   cursor: text;
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
   margin-left: 30px;
 }
 
@@ -282,7 +263,6 @@ body {
   border-radius: 20px;
   margin: 20px;
   min-width: 1015px;
-
 }
 
 h3 {
@@ -295,7 +275,6 @@ h3 {
 .dataTables_wrapper .rdt_TableCell {
   font-size: 15px;
   color: #000000;
-
 }
 
 .dataTables_wrapper .rdt_TableHead {
@@ -307,7 +286,7 @@ h3 {
   color: black !important;
 }
 
-.eHmiVN option{
+.eHmiVN option {
   color: black !important;
 }
 
@@ -333,50 +312,50 @@ h3 {
   border-radius: 30px !important;
   color: #626262 !important;
   cursor: pointer;
-  border: 1px solid #DFDFDF !important;
+  border: 1px solid #dfdfdf !important;
 }
 
 .add-user-btn {
-  background-color: #0B3A07 !important;
-  border-color: #0B3A07 !important;
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
   justify-content: center !important;
   display: flex !important;
 }
-.manage-ticket-btn{
-  background-color: #0B3A07 !important;
-  border-color: #0B3A07 !important;
+.manage-ticket-btn {
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
   justify-content: center !important;
   display: flex !important;
   width: auto;
   position: absolute;
   right: 50px;
-  top:  15px;
+  top: 15px;
 }
-.manage-ticket-btn-2{
-  background-color: #0B3A07 !important;
-  border-color: #0B3A07 !important;
+.manage-ticket-btn-2 {
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
   justify-content: center !important;
   display: flex !important;
   width: auto;
   position: absolute;
   right: 300px;
-  top:  15px;
+  top: 15px;
 }
-.manage-ticket-btn:hover{
-  background-color:  #AEBE44 !important;
-  border-color: #AEBE44 !important;
+.manage-ticket-btn:hover {
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
   font-weight: 600 !important;
- }
- .manage-ticket-btn-2:hover{
-  background-color:  #AEBE44 !important;
-  border-color: #AEBE44 !important;
+}
+.manage-ticket-btn-2:hover {
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
   font-weight: 600 !important;
- }
-.add-user-btn:hover{
-  background-color:  #AEBE44 !important;
-  border-color: #AEBE44 !important;
+}
+.add-user-btn:hover {
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
   font-weight: 600 !important;
- }
+}
 i {
   font-size: 24px !important;
 
@@ -384,8 +363,8 @@ i {
 }
 
 .submit-btn {
-  background-color: #0B3A07;
-  color: #FFFFFF;
+  background-color: #0b3a07;
+  color: #ffffff;
   font-size: 14px;
   border: none;
   font-weight: 600;
@@ -395,25 +374,22 @@ i {
   margin: auto;
 }
 
-.submit-btn:hover{
-  background-color:  #AEBE44 !important;
-  border-color: #AEBE44 !important;
+.submit-btn:hover {
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
   font-weight: 700 !important;
- }
+}
 
 select {
   height: 38px;
   width: 208px;
-  background-color: #EFEFEF !important;
+  background-color: #efefef !important;
   padding: 5px;
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
   border-radius: 5px;
   margin-bottom: 5px;
   color: #626262;
-
 }
-
-
 
 label {
   color: #626262;
@@ -422,8 +398,8 @@ label {
 }
 
 input {
-  background-color: #EFEFEF !important;
-  border: 1.5px solid #D9D9D9 !important;
+  background-color: #efefef !important;
+  border: 1.5px solid #d9d9d9 !important;
 }
 
 .dataTables_wrapper .profile-image {
@@ -432,7 +408,6 @@ input {
   height: 50px !important;
   width: 50px !important;
   margin: 5px 0px 5px 0px;
-
 }
 
 .profile-container {
@@ -443,7 +418,6 @@ input {
   cursor: pointer;
   margin-bottom: 50px;
   text-align: center;
-
 }
 
 .profile-container h2 {
@@ -474,7 +448,8 @@ input {
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%)
+    contrast(100%);
 }
 
 .branch-status {
@@ -516,7 +491,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 /* end component style */
 
-
 /* swal custom style */
 .custom-cancel-button {
   border: 1px solid #000000;
@@ -525,7 +499,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 139px;
   padding: 5px;
   border-radius: 8px;
-
 }
 
 .custom-confirm-button {
@@ -547,14 +520,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   height: 40px;
   width: 139px;
   padding: 5px;
-
 }
 
 /* end of swal custom style */
 
 /* My Profile style */
 .custom-profile-container {
-  border: 2px solid #DFDFDF;
+  border: 2px solid #dfdfdf;
   border-radius: 20px;
   padding: 2rem 0rem 2rem 0rem;
   height: auto;
@@ -563,7 +535,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin-bottom: 20px;
   margin-right: 4rem;
   display: flex;
-
 }
 
 .profile-update {
@@ -601,8 +572,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-profile-container .submit-btn {
-  background-color: #0B3A07;
-  color: #FFFFFF;
+  background-color: #0b3a07;
+  color: #ffffff;
   font-size: 14px;
   border: none;
   font-weight: 600;
@@ -620,7 +591,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .custom-row {
   display: flex;
   justify-content: center;
-
 }
 
 .custom-row h3 {
@@ -629,16 +599,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-row p {
-
   padding-left: 0;
 }
 
 /* End of My Profile Style */
 
-
 /* Generate Ticket Style */
 .ticket-form {
-  background-color: #0B3A07;
+  background-color: #0b3a07;
   margin-top: 1rem;
   border-radius: 3px;
   height: 690px;
@@ -648,16 +616,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin-top: -5rem;
   border-radius: 3px;
   border: 1px solid #000000;
-
 }
 
 .ticket-form h5 {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .ticket-form .clear-btn {
-  background-color: #C6AA58;
-  color: #FFFFFF;
+  background-color: #c6aa58;
+  color: #ffffff;
   font-size: 12px;
   border: none;
   font-weight: 600;
@@ -666,8 +633,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .ticket-form .add-to-queue-btn {
-  background-color: #109F69;
-  color: #FFFFFF;
+  background-color: #109f69;
+  color: #ffffff;
   font-size: 12px;
   border: none;
   font-weight: 600;
@@ -677,7 +644,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .ticket-form .generate-tickets-btn {
   background-color: gray;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 12px;
   border: none;
   font-weight: 600;
@@ -690,7 +657,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .ticket-form .print-btn {
-  background-color: #F3F2ED;
+  background-color: #f3f2ed;
   color: #000000;
   font-size: 12px;
   border: none;
@@ -711,7 +678,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   font-weight: 600;
 }
 
-
 .ticket-form form {
   padding: 50px 65px;
   line-height: 10px;
@@ -723,7 +689,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .ticket-form label {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .generate-ticket-container {
@@ -785,7 +751,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .square-ticket .expiry {
   font-size: 13px;
   font-weight: lighter;
-
 }
 
 .ticket-container {
@@ -799,16 +764,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding-top: 20px;
 }
 
-
-
 .pdf-preview {
   /* border: 1px solid #000000; */
   height: auto;
   padding-top: 10px;
   width: 600px;
   overflow: hidden;
-
-
 }
 
 .page-style {
@@ -816,8 +777,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   right: 0;
   transform: translateX(-50%);
   top: 0;
-
-
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -857,7 +816,7 @@ input[type="date"] {
   z-index: 2;
   font-size: 18px !important;
 }
-.custom-dropdown-icon-3{
+.custom-dropdown-icon-3 {
   position: absolute;
   right: 80px;
   top: 60.5%;
@@ -898,16 +857,259 @@ input[type="date"] {
 }
 .checkbox-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 10px; 
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
-.allowedTickets{
- font-size: 18px !important;
- line-height: 10px !important;
+.allowedTickets {
+  font-size: 18px !important;
+  line-height: 10px !important;
 }
-.ticketTypeListContainer{
+.ticketTypeListContainer {
   height: 400px;
   width: auto !important;
- overflow-y: auto;
+  overflow-y: auto;
 }
 /* End of Generate Ticket Style */
+
+/* resource page css */
+.resource-page {
+  padding: 20px;
+}
+
+.resource-page .title {
+  font-size: 30px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 10px;
+}
+
+.resource-page .description {
+  font-size: 25px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 10px;
+  height: 200px;
+  color: #000000;
+}
+.resource-page form {
+  display: flex;
+  flex-direction: column;
+}
+.resource-page form a{
+  background-color: #00000000 !important;
+  border-color: #00000000 !important;
+  width: 150px;
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  margin-left: 10px;
+  cursor: pointer;
+
+}
+.resource-page form a img{
+  margin-left: -15px;
+
+}
+.resource-page form a:hover{
+  transform: scale(1.03) !important;
+  /* Zoom in slightly */
+ 
+}
+
+
+.upload-box {
+  border: 2px dashed #bbb;
+  border-radius: 8px;
+  padding: 30px 30px 15px 30px;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.recently-uploaded p{
+  font-size: 16px;
+  line-height: 1px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.upload-content img {
+  width: 70px;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #007bff;
+  background: #f9f9f9;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+}
+
+.file-input:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.recently-uploaded h3 {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.uploaded-files {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.uploaded-files h4 {
+  font-size: 15px;
+  font-weight: 700;
+}
+.uploaded-files img {
+  width: 70px !important;
+}
+.file-item {
+  text-align: center;
+  flex: 0 1 120px;
+}
+
+.file-item img {
+  width: 50px;
+  display: block;
+  margin: 0 auto;
+}
+
+.file-item p {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.file-item {
+  position: relative;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.file-item:hover .copy-icon {
+  display: block;
+}
+
+.copy-icon {
+  display: none; 
+  position: absolute;
+  top: 100px;
+left: 15px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.copy-icon:hover {
+  background-color: #e0e0e0;
+}
+.upload-resource-btn{
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
+  justify-content: center !important;
+
+}
+.upload-resource-btn:hover{
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
+  font-weight: 600 !important;
+
+}
+.publish-btn{
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
+  justify-content: center !important;
+  margin-right: 20px;
+  margin-top: -40px;
+}
+.publish-btn:hover{
+  background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
+  font-weight: 600 !important;
+}
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .upload-section h2 {
+    font-size: 20px;
+  }
+
+  .upload-section p {
+    font-size: 13px;
+  }
+
+  .upload-box {
+    padding: 30px;
+  }
+
+  .file-input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .recently-uploaded h3 {
+    font-size: 16px;
+  }
+
+  .uploaded-files {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .file-item {
+    flex: 0 1 100px;
+  }
+
+  .file-item img {
+    width: 40px;
+  }
+
+  .file-item p {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-section h2 {
+    font-size: 18px;
+  }
+
+  .upload-section p {
+    font-size: 12px;
+  }
+
+  .upload-box {
+    padding: 20px;
+  }
+
+  .file-input {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .recently-uploaded h3 {
+    font-size: 14px;
+  }
+
+  .file-item {
+    flex: 0 1 80px;
+  }
+
+  .file-item img {
+    width: 35px;
+  }
+
+  .file-item p {
+    font-size: 10px;
+  }
+}
+
+/* end of resource page css */

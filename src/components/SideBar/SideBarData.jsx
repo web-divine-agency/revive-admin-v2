@@ -49,8 +49,8 @@ export const AdminSidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Upload Resources',
-    path: '/resources',
+    title: 'Resources',
+    path: '/resources-list',
     icon: <img className='navIcon' src={upload_resources} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
     cName: 'nav-text'
   },

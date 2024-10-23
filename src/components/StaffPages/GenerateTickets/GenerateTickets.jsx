@@ -5813,97 +5813,23 @@ function GenerateTickets() {
               }}
               value={template}
             >
-              <option value="">-- SELECT TEMPLATES --</option>
-              {assignedTickets.includes("HOT PRICE TAGS (RRP and non-RRP)") && (
-                <option value="HOT PRICE TAGS (RRP and non-RRP)">
-                  POPULAR TEMPLATES
-                </option>
+              <option value="">-- SELECT A TEMPLATE --</option>
+              {assignedTickets.some((ticket, index) => category[index] === "POPULAR TEMPLATES") && (
+                <option value="HOT PRICE TAGS (RRP and non-RRP)">POPULAR TEMPLATES</option>
+              )}
+              
+              {assignedTickets.some((ticket, index) => category[index] === "OTHER FRAGRANCES") && (
+                <option value="COSMAX FRAGRANCE TAGS"> OTHER FRAGRANCES </option>
               )}
 
-              {assignedTickets.some((ticket) =>
-                [
-                  "COSMAX FRAGRANCE TAGS",
-                  "DAVKA FRAGRANCE TAGS",
-                  "FROSTBLAND FRAGRANCE TAGS",
-                  "REVLON FRAGRANCE TAGS",
-                ].includes(ticket)
-              ) && (
-                <option value="COSMAX FRAGRANCE TAGS">OTHER FRAGRANCES</option>
-              )}
+              {assignedTickets
+                .filter((ticket, index) => category[index] !== "POPULAR TEMPLATES" && category[index] !== "OTHER FRAGRANCES")
+                .map((ticket, idx) => (
+                  <option key={idx} value={ticket}>
+                    {ticket}
+                  </option>
+              ))}
 
-              {assignedTickets.includes("A4 BIG TICKET LANDSCAPE") && (
-                <option value="A4 BIG TICKET LANDSCAPE">
-                  A4 BIG TICKET LANDSCAPE
-                </option>
-              )}
-              {assignedTickets.includes("A4 TICKET - CLEARANCE") && (
-                <option value="A4 TICKET - CLEARANCE">
-                  A4 TICKET - CLEARANCE
-                </option>
-              )}
-              {assignedTickets.includes("A4 TICKET - NEW IN STORE") && (
-                <option value="A4 TICKET - NEW IN STORE">
-                  A4 TICKET - NEW IN STORE
-                </option>
-              )}
-              {assignedTickets.includes("A4 TICKET - PERCENTAGE OFF") && (
-                <option value="A4 TICKET - PERCENTAGE OFF">
-                  A4 TICKET - PERCENTAGE OFF
-                </option>
-              )}
-              {assignedTickets.includes("BASIC PRICE TAGS") && (
-                <option value="BASIC PRICE TAGS">BASIC PRICE TAGS</option>
-              )}
-              {assignedTickets.includes("CATALOGUE SPECIALS PRICE TAGS") && (
-                <option value="CATALOGUE SPECIALS PRICE TAGS">
-                  CATALOGUE SPECIALS PRICE TAGS
-                </option>
-              )}
-              {assignedTickets.includes("CLEARANCE TAGS") && (
-                <option value="CLEARANCE TAGS">CLEARANCE TAGS</option>
-              )}
-              {assignedTickets.includes("COTY FRAGRANCE TAGS") && (
-                <option value="COTY FRAGRANCE TAGS">COTY FRAGRANCE TAGS</option>
-              )}
-              {assignedTickets.includes("DB FRAGRANCE TAGS") && (
-                <option value="DB FRAGRANCE TAGS">DB FRAGRANCE TAGS</option>
-              )}
-              {assignedTickets.includes("GREEN FRIDAY SALE TAGS") && (
-                <option value="GREEN FRIDAY SALE TAGS">
-                  GREEN FRIDAY SALE TAGS
-                </option>
-              )}
-              {assignedTickets.includes(
-                "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF"
-              ) && (
-                <option value="GREEN FRIDAY SALE TAGS - PERCENTAGE OFF">
-                  GREEN FRIDAY SALE TAGS - PERCENTAGE OFF
-                </option>
-              )}
-
-              {assignedTickets.includes("MUST TRY TAGS") && (
-                <option value="MUST TRY TAGS">MUST TRY TAGS</option>
-              )}
-              {assignedTickets.includes("NEW IN STORE TAGS") && (
-                <option value="NEW IN STORE TAGS">NEW IN STORE TAGS</option>
-              )}
-              {assignedTickets.includes("PERCENTAGE OFF TAGS") && (
-                <option value="PERCENTAGE OFF TAGS">PERCENTAGE OFF TAGS</option>
-              )}
-              {assignedTickets.includes(
-                "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS"
-              ) && (
-                <option value="SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS">
-                  SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS
-                </option>
-              )}
-              {assignedTickets.includes(
-                "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS"
-              ) && (
-                <option value="VALUE PACK TICKETS -I'M CHEAPER THAN TAGS">
-                  VALUE PACK TICKETS -I'M CHEAPER THAN TAGS
-                </option>
-              )}
             </select>{" "}
             <br />
             {template === "COSMAX FRAGRANCE TAGS" &&
