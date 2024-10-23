@@ -114,9 +114,17 @@ const ResourcePage = () => {
               <textarea
                 className="description"
                 type="text"
-                placeholder="Add description/paste link"
+                placeholder="Add description"
                 id="name"
                 name="name"
+                required
+              />
+               <input
+                className="link"
+                type="text"
+                placeholder="Paste Link"
+                id="link"
+                name="link"
                 required
               />
               <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
@@ -159,7 +167,7 @@ const ResourcePage = () => {
           <div className="recently-uploaded">
             <h3>Recently Uploaded</h3>
             <p>
-            After you upload a file, you can copy its link and paste it into the description field.
+            After you upload a file, you can copy its link and paste it into the link field.
             </p>
             <div className="uploaded-files">
               

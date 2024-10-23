@@ -882,6 +882,12 @@ input[type="date"] {
   border: none !important;
   margin-bottom: 10px;
 }
+.resource-page .link {
+  font-size: 20px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 10px;
+}
 
 .resource-page .description {
   font-size: 25px;
