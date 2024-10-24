@@ -28,6 +28,7 @@ import ResourcePage from './components/AdminPages/Resources/resourcePage';
 import TicketCategory from './components/AdminPages/TemplateManagement/TicketCategory';
 import StaffResourcePage from './components/AdminPages/Resources/StaffResourcePage';
 import ResourcesLists from './components/AdminPages/Resources/ResourcesLists';
+import ViewResources from './components/AdminPages/Resources/ViewResources';
 
 
 
@@ -52,6 +53,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/view-resource" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
         <Route path="/get-resources" element={<ProtectedRoute element={<StaffResourcePage />} allowedRoles={['Staff']} />} />

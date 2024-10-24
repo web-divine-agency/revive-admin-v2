@@ -6,23 +6,41 @@ import greater_than from "../../../assets/images/greater_than.png";
 import sample_vid from "../../../assets/images/sample_vid.mp4";
 import sample_pdf from "../../../assets/images/sample_pdf.pdf";
 import { FiCopy } from "react-icons/fi";
+import { FaTimes } from "react-icons/fa";
 
 const ResourcePage = () => {
   const [showModal, setShowModal] = useState(false);
+  const [additionalFields, setAdditionalFields] = useState([]);
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const [copiedLink, setCopiedLink] = useState(null);
 
+  const removeField = (index) => {
+    const fields = [...additionalFields];
+    fields.splice(index, 1);
+    setAdditionalFields(fields);
+  };
+
   const handleCopyLink = (link) => {
-    const fullLink = `${window.location.origin}${link}`; // Create the full URL
+    const fullLink = `${window.location.origin}${link}`;
     navigator.clipboard
       .writeText(fullLink)
       .then(() => {
-        setCopiedLink(link); // Set the copied link in the state
-        setTimeout(() => setCopiedLink(null), 2000); // Hide "Link copied!" after 2 seconds
+        setCopiedLink(link);
+        setTimeout(() => setCopiedLink(null), 2000);
       })
       .catch((error) => console.error("Failed to copy link: ", error));
+  };
+
+  const addNewField = () => {
+    setAdditionalFields([...additionalFields, ""]);
+  };
+
+  const handleFieldChange = (index, value) => {
+    const fields = [...additionalFields];
+    fields[index] = value;
+    setAdditionalFields(fields);
   };
 
   const resources = [
@@ -89,17 +107,13 @@ const ResourcePage = () => {
     <div className="container">
       <h3>Create Resources</h3>
       <button
-              onClick={() => navigate("/resources")}
-              className="btn btn-primary float-end publish-btn"
-            >
-             <i className="fa fa-paper-plane"></i>
-
-              Publish
-            </button>
+        onClick={() => navigate("/resources")}
+        className="btn btn-primary float-end publish-btn"
+      >
+        <i className="fa fa-paper-plane"></i> Publish
+      </button>
       <div className="container-content">
-      
         <div className="resource-page">
-          
           <div>
             <form action="">
               <input
@@ -119,7 +133,39 @@ const ResourcePage = () => {
                 name="name"
                 required
               />
-               <input
+              <div>
+              {additionalFields.map((field, index) => (
+                  <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                    <textarea
+                      className="additonal-field"
+                      type="text"
+                      placeholder={`Add additional instruction ${index + 1}`}
+                      value={field}
+                      onChange={(e) => handleFieldChange(index, e.target.value)}
+                      style={{ marginRight: "10px" }}
+                    />
+                   <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => removeField(index)}
+                      style={{ display: "flex", alignItems: "center", marginTop: "-80px" }}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="mt-2 mb-4 add-field"
+                onClick={addNewField}
+              >
+                <i className="fa fa-plus"></i>Add field
+              </button>
+              <h5>
+                Optional<span style={{ color: "red" }}>*</span>
+              </h5>
+              <input
                 className="link"
                 type="text"
                 placeholder="Paste Link"
@@ -127,12 +173,11 @@ const ResourcePage = () => {
                 name="link"
                 required
               />
-              <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
-              <a onClick={handleShow} >
-                Add  File <img src={greater_than} alt="" height={40}/>
-              </a>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <a onClick={handleShow}>
+               Add File <img src={greater_than} alt="" height={40} />
+                </a>
               </div>
-              
             </form>
           </div>
         </div>
@@ -161,16 +206,21 @@ const ResourcePage = () => {
                   className="file-input"
                 />
               </div>
-              <button type="" className="btn btn-primary upload-resource-btn mt-3">Upload</button>
+              <button
+                type=""
+                className="btn btn-primary upload-resource-btn mt-3"
+              >
+                Upload
+              </button>
             </div>
           </div>
           <div className="recently-uploaded">
             <h3>Recently Uploaded</h3>
             <p>
-            After you upload a file, you can copy its link and paste it into the link field.
+              After you upload a file, you can copy its link and paste it into
+              the link field.
             </p>
             <div className="uploaded-files">
-              
               {resources.map((resource, index) => (
                 <div key={index} className="file-item">
                   <a

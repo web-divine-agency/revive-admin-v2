@@ -1,112 +1,77 @@
-import React, { useState, useEffect } from "react";
-import DataTable from "react-data-table-component";
-import "../../../App.css";
-import "font-awesome/css/font-awesome.min.css";
-import check from "../../../assets/images/check.png";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import delete_icon from "../../../assets/images/delete_icon.png";
+import sample_pdf from "../../../assets/images/sample_pdf.pdf";
+import sample_vid from "../../../assets/images/sample_vid.mp4";
+import revive_logo from "../../../assets/images/revive-logo.png";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance";
-import { useLoader } from "../../Loaders/LoaderContext";
-import view_icon from "../../../assets/images/view_icon.png";
-
 
 function StaffResourcePage() {
   const [search, setSearch] = useState("");
-  const { setLoading } = useLoader();
   const navigate = useNavigate();
-  
-  
- //create a data for the array columns
+
+  const handleDeleteResource = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t be able to revert this!",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#EC221F",
+      cancelButtonColor: "#00000000",
+      cancelTextColor: "#000000",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        container: "custom-container",
+        confirmButton: "custom-confirm-button",
+        cancelButton: "custom-cancel-button",
+        title: "custom-swal-title",
+      },
+    });
+
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: "The resource  has been deleted.",
+        imageUrl: check,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0B3A07",
+      });
+    }
+  };
+  // Create a data array for the resources
   const data = [
     {
       title: "Resource 1",
-      description: "sample description",
-      link: "http://localhost:5173/src/assets/images/sample_pdf.pdf",
+      description: "Sample PDF document",
+      link: sample_pdf, // Use a valid link to your PDF file
       author: "John User",
-      icon: <img src={check} alt="Check Icon" />,
+      type: "pdf",
     },
     {
       title: "Resource 2",
-      description: "sample description",
-      link: "http://localhost:5173/src/assets/images/sample_vid.mp4",
+      description: "Sample video file",
+      link: sample_vid,
       author: "James Rogan",
-      icon: <img src={check} alt="Check Icon" />,
+      type: "video",
     },
     {
       title: "Resource 3",
-      description: "sample description",
-      link: "http://localhost:5173/src/assets/images/revive-logo.png",
+      description: "Sample image file",
+      link: revive_logo,
       author: "Jane Doe",
-      icon: <img src={check} alt="Check Icon" />,
+      type: "image",
     },
     {
       title: "Resource 4",
-      description: "sample description",
-      link: "http://localhost:5173/src/assets/images/sample_pdf.pdf",
+      description: "Another PDF document",
+      link: sample_vid,
       author: "Ari El",
-      icon: <img src={check} alt="Check Icon" />,
+      type: "pdf",
     },
-];
-
-
-const columns = [
-  {
-    name: "Title",
-    selector: (data) => data.title || "N/A",
-    sortable: true,
-  },
-  {
-    name: "Description",
-    selector: (data) => data.description || "N/A",
-    sortable: true,
-  },
-  {
-    name: "Link",
-    selector: (data) =>
-      data.link ? (
-        <a href={data.link} target="_blank" rel="noopener noreferrer">
-          {data.link}
-        </a>
-      ) : (
-        "N/A"
-      ),
-    sortable: true,
-  },
-  {
-    name: "Author",
-    selector: (data) => data.author || "N/A",
-    sortable: true,
-  },
-  {
-    name: "Action",
-    selector: (row) => (
-      <div>
-        <img
-          src={view_icon}
-          title="View User Details"
-          alt="view"
-          width="25"
-          height="25"
-          // onClick={() =>
-          //   handleViewClick({
-          //     name: `${row.first_name} ${row.last_name}`,
-          //     email: row.email,
-          //     username: row.username,
-          //     branch:
-          //       row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
-          //     role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
-          //     profileImage: row.sex === "Male" ? man : woman,
-          //   })
-          // }
-          style={{ cursor: "pointer" }}
-        />
-       
-      </div>
-    ),
-    sortable: false,
-  },
-];
-
+    // More resources can be added here...
+  ];
 
   return (
     <div className="container">
@@ -121,17 +86,68 @@ const columns = [
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {/* <button
+              onClick={() => navigate("/resources")}
+              className="btn btn-primary float-end add-resource-btn"
+            >
+              <i className="fa fa-plus"></i> Add New Resource
+            </button> */}
           </div>
 
           <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={data}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
+            <div className="resources-content">
+              {data.map((resource, index) => (
+                <div key={index} className="resources-card">
+                  <div className="card">
+                    <div className="card-body">
+                      {/* <button className="delete-resource-btn">
+                        <img
+                          src={delete_icon}
+                          height={24}
+                          alt=""
+                          onClick={() => handleDeleteResource()}
+                        />
+                      </button> */}
+                      <div
+                        onClick={() =>
+                          navigate("/view-resource", { state: resource })
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        {" "}
+                        
+                        <h5 className="card-title">{resource.title}</h5>
+                        <p className="card-text">{resource.description}</p>
+                        <p className="card-text">Author: {resource.author}</p>
+                        {resource.type === "pdf" && (
+                          <embed
+                            src={resource.link}
+                            type="application/pdf"
+                            width="100%"
+                            height="200px"
+                            title="PDF Document"
+                          />
+                        )}
+                        {resource.type === "video" && (
+                          <video width="100%" height="200" controls>
+                            <source src={resource.link} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
+                        {resource.type === "image" && (
+                          <img
+                            src={resource.link}
+                            alt="Resource"
+                            width="100%"
+                            height="200"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

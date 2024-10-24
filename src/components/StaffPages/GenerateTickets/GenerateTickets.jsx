@@ -125,13 +125,13 @@ function GenerateTickets() {
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
-        const { roles, assigned_tickets, assigned_tickets_category } =
+        const { roles, assigned_tickets, assigned_ticket_categories } =
           response.data;
         const role = roles.length > 0 ? roles[0].role_name : "No Role";
         setRole(role);
         setAssignedTickets(assigned_tickets);
-        setCategory(assigned_tickets_category);
-        //console.log(assigned_tickets)
+        setCategory(assigned_ticket_categories);
+        //console.log(assigned_ticket_categories)
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -5778,8 +5778,8 @@ function GenerateTickets() {
               onClick={() => navigate("/ticket-category")}
               className="btn btn-primary float-end manage-ticket-btn-2"
             >
-             <i className="fa fa-list-alt"></i>
-             Ticket Category
+              <i className="fa fa-list-alt"></i>
+              Ticket Category
             </button>
           )}
           {role === "Admin" && (
@@ -5790,7 +5790,7 @@ function GenerateTickets() {
               <i className="fa fa-cog"></i> Manage Template Access
             </button>
           )}
-        
+
           <div className="ticket-filter">
             <h5>Select Ticket Template</h5>
             <select
@@ -5804,7 +5804,6 @@ function GenerateTickets() {
                 setSave("");
                 setOfferType("");
                 setOptionType("");
-                // setExpiry("");
                 setCopies(1);
                 ticketsCleared();
 
@@ -5814,27 +5813,57 @@ function GenerateTickets() {
               value={template}
             >
               <option value="">-- SELECT A TEMPLATE --</option>
-              {assignedTickets.some((ticket, index) => category[index] === "POPULAR TEMPLATES") && (
-                <option value="HOT PRICE TAGS (RRP and non-RRP)">POPULAR TEMPLATES</option>
-              )}
-              
-              {assignedTickets.some((ticket, index) => category[index] === "OTHER FRAGRANCES") && (
-                <option value="COSMAX FRAGRANCE TAGS"> OTHER FRAGRANCES </option>
-              )}
+              <option style={{ fontWeight: "bold" }} value="POPULAR TEMPLATES">
+                POPULAR TEMPLATES
+              </option>
+              <option style={{ fontWeight: "bold" }} value="OTHER FRAGRANCES">
+                {" "}
+                OTHER FRAGRANCES
+              </option>
 
-              {assignedTickets
-                .filter((ticket, index) => category[index] !== "POPULAR TEMPLATES" && category[index] !== "OTHER FRAGRANCES")
-                .map((ticket, idx) => (
-                  <option key={idx} value={ticket}>
-                    {ticket}
-                  </option>
-              ))}
+              {/* Popular Templates */}
+              {template === "POPULAR TEMPLATES" &&
+                assignedTickets
+                  .filter((ticket) =>
+                    ticket.category.includes("POPULAR TEMPLATES")
+                  )
+                  .map((ticket, idx) => (
+                    <option key={idx} value={ticket.ticket_name}>
+                      {ticket.ticket_name}
+                    </option>
+                  ))}
 
+              {/* Other Fragrances */}
+              {template === "OTHER FRAGRANCES" &&
+                assignedTickets
+                  .filter((ticket) =>
+                    ticket.category.includes("OTHER FRAGRANCES")
+                  )
+                  .map((ticket, idx) => (
+                    <option key={idx} value={ticket.ticket_name}>
+                      {ticket.ticket_name}
+                    </option>
+                  ))}
+
+              {/* General Tickets */}
+              {template !== "OTHER FRAGRANCES" &&
+                template !== "POPULAR TEMPLATES" &&
+                assignedTickets
+                  .filter(
+                    (ticket) =>
+                      !ticket.category.includes("POPULAR TEMPLATES") &&
+                      !ticket.category.includes("OTHER FRAGRANCES")
+                  )
+                  .map((ticket, idx) => (
+                    <option key={idx} value={ticket.ticket_name}>
+                      {ticket.ticket_name}
+                    </option>
+                  ))}
             </select>{" "}
             <br />
-            {template === "COSMAX FRAGRANCE TAGS" &&
-              assignedTickets.some(
-                (ticket, index) => category[index] === "OTHER FRAGRANCES"
+            {template === "OTHER FRAGRANCES" &&
+              assignedTickets.some((ticket) =>
+                ticket.category.includes("OTHER FRAGRANCES")
               ) && (
                 <div>
                   <h5>Other Fragrances</h5>
@@ -5856,23 +5885,21 @@ function GenerateTickets() {
                     }}
                     value={template}
                   >
-                    {/* <option value="">-- SELECT OTHER FRAGRANCE --</option> */}
                     {assignedTickets
-                      .filter(
-                        (ticket, index) =>
-                          category[index] === "OTHER FRAGRANCES"
+                      .filter((ticket) =>
+                        ticket.category.includes("OTHER FRAGRANCES")
                       )
                       .map((ticket, idx) => (
-                        <option key={idx} value={ticket}>
-                          {ticket}
+                        <option key={idx} value={ticket.ticket_name}>
+                          {ticket.ticket_name}
                         </option>
                       ))}
                   </select>
                 </div>
               )}
-            {template === "HOT PRICE TAGS (RRP and non-RRP)" &&
-              assignedTickets.some(
-                (ticket, index) => category[index] === "POPULAR TEMPLATES"
+            {template === "POPULAR TEMPLATES" &&
+              assignedTickets.some((ticket) =>
+                ticket.category.includes("POPULAR TEMPLATES")
               ) && (
                 <div>
                   <h5>Popular Templates</h5>
@@ -5887,7 +5914,6 @@ function GenerateTickets() {
                       setSave("");
                       setOfferType("");
                       setOptionType("");
-                      // setExpiry("");
                       setCopies(1);
                       ticketsCleared();
                       setTemplate(e.target.value);
@@ -5895,18 +5921,16 @@ function GenerateTickets() {
                     }}
                     value={template}
                   >
-                    {/* <option value="">-- SELECT POPULAR TEMPLATE --</option> */}
                     {assignedTickets
-                      .filter(
-                        (ticket, index) =>
-                          category[index] === "POPULAR TEMPLATES"
+                      .filter((ticket) =>
+                        ticket.category.includes("POPULAR TEMPLATES")
                       )
                       .map((ticket, idx) => (
-                        <option key={idx} value={ticket}>
-                          {ticket}
+                        <option key={idx} value={ticket.ticket_name}>
+                          {ticket.ticket_name}
                         </option>
                       ))}
-                  </select>{" "}
+                  </select>
                 </div>
               )}
           </div>
@@ -5920,6 +5944,8 @@ function GenerateTickets() {
               style={{
                 height:
                   template === "HOT PRICE TAGS (RRP and non-RRP)" ||
+                  template === "POPULAR TEMPLATES" ||
+                  template === "OTHER FRAGRANCES" ||
                   template === ""
                     ? 755
                     : "",

@@ -821,6 +821,24 @@ input[type="date"] {
 /* End of Generate Ticket Style */
 
 /* resource page css */
+.created-resource{
+  padding: 20px;
+}
+
+.created-resource .title {
+  font-size: 25px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 5px;
+}
+.created-resource .description {
+  font-size: 20px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 50px;
+  height: auto;
+  color: #000000;
+}
 .resource-page {
   padding: 20px;
 }
@@ -846,6 +864,17 @@ input[type="date"] {
   height: 200px;
   color: #000000;
 }
+.resource-page .additonal-field {
+  font-size: 25px;
+  background-color: #00000000 !important;
+  border: none !important;
+  margin-bottom: 10px;
+  height: 100px;
+  color: #000000;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+}
 .resource-page form {
   display: flex;
   flex-direction: column;
@@ -868,10 +897,13 @@ input[type="date"] {
 }
 .resource-page form a:hover{
   transform: scale(1.03) !important;
-  /* Zoom in slightly */
- 
 }
-
+.add-field{
+  width: 150px;
+  background-color: #00000000;
+  color: #000000;
+  border: none;
+}
 
 .upload-box {
   border: 2px dashed #bbb;
@@ -991,16 +1023,76 @@ left: 15px;
   border-color: #aebe44 !important;
   font-weight: 600 !important;
 }
+.resources-container{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.resources-container h2{
+  margin-bottom: 30px;
+}
+.resources-container p{
+  width: auto;
+
+}
+.resources-list{
+  display: flex;
+  flex-direction: row;
+}
+.resources-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 20px;
+}
+
+.resources-card {
+  /* flex: 1 1 calc(33.333% - 20px);  */
+  width: calc(33.333% - 15px);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+
+}
+
+.resources-card .card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+}
+.add-resource-btn {
+  background-color: #0b3a07 !important;
+  border-color: #0b3a07 !important;
+  justify-content: center !important;
+  display: flex !important;
+}
+.add-resource-btn:hover{
+   background-color: #aebe44 !important;
+  border-color: #aebe44 !important;
+  font-weight: 600 !important;
+}
+.delete-resource-btn{
+  position: fixed;
+  top: 1px;
+  right: 2px;
+  background-color: #00000000;
+  border: #00000000;
+}
+.resources-card:hover {
+  transform: scale(1.05); 
+}
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 768px) {
+  .resources-card {
+    flex: 1 1 calc(100% - 20px); /* Show 2 per row for tablets */
+  }
   .upload-section h2 {
     font-size: 20px;
   }
   .dataTables_wrapper table {
     width: 100% !important;
   }
-
-  
   .container-content {
     border: 1px solid #ccc;
     border-radius: 20px;
@@ -1010,7 +1102,7 @@ left: 15px;
   }
   .container {
     width: 390px;
-    margin-left: 0 !important;
+    margin-left: 0px !important;
     padding: 5px !important;
   }
   .dataTables_wrapper .rdt_TableCell {
@@ -1058,7 +1150,6 @@ left: 15px;
     width: 100% !important;
 
   }
-
   .upload-section p {
     font-size: 13px;
   }
@@ -1095,10 +1186,12 @@ left: 15px;
 }
 
 @media (max-width: 480px) {
+  .resources-card {
+    flex: 1 1 calc(100% - 20px); /* Show 1 per row for mobile */
+  }
   .upload-section h2 {
     font-size: 18px;
   }
-
   .upload-section p {
     font-size: 12px;
   }

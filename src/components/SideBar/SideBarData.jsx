@@ -77,7 +77,7 @@ export const StaffSidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Download Resources',
+    title: 'View Resources',
     path: '/get-resources',
     icon: <img className='navIcon' src={upload_resources} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />,
     cName: 'nav-text'

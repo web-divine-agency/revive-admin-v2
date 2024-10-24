@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
+//import check from "../../../assets/images/check.png";
 
 function TicketCategory() {
   const [search, setSearch] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState({}); // State to track selected categories
   const { setLoading } = useLoader();
 
@@ -29,7 +31,18 @@ function TicketCategory() {
     }
   }, []);
 
+
+
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoryResponse = await axiosInstance.get("/categories"); // Fetch all categories
+        setCategories(categoryResponse.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+  
     const fetchTicketTypes = async () => {
       setLoading(true);
       try {
@@ -37,35 +50,68 @@ function TicketCategory() {
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
+          categories: ticket_type.categories.map(category => ({
+            id: category.id, 
+            name: category.category_name
+          })) 
         }));
         setTicketTypes(formattedData);
+  
+        const initialCategories = formattedData.reduce((acc, ticket) => {
+          acc[ticket.id] = ticket.categories.map(c => c.id); // Store only category ids
+          return acc;
+        }, {});
+        setSelectedCategories(initialCategories);
+  
+        console.log(formattedData);
       } catch (error) {
         console.error("Error fetching ticket types:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchTicketTypes();
+  
+    fetchCategories(); // Fetch categories
+    fetchTicketTypes(); // Fetch ticket types with their categories
   }, [setLoading]);
 
   // Handle checkbox selection
-  const handleCheckboxChange = (id, category) => {
-    setSelectedCategories((prevSelectedCategories) => ({
-      ...prevSelectedCategories,
-      [id]: category,
-    }));
+  const handleCheckboxChange = (ticketId, categoryId) => {
+    setSelectedCategories((prevSelectedCategories) => {
+      const currentCategories = Array.isArray(prevSelectedCategories[ticketId])
+        ? prevSelectedCategories[ticketId]
+        : [];
+  
+      if (currentCategories.includes(categoryId)) {
+        return {
+          ...prevSelectedCategories,
+          [ticketId]: currentCategories.filter((id) => id !== categoryId),
+        };
+      } else {
+        return {
+          ...prevSelectedCategories,
+          [ticketId]: [...currentCategories, categoryId],
+        };
+      }
+    });
   };
-
+  
+  
+  
   const handleSave = async () => {
     setLoading(true);
     try {
-      const updatePromises = Object.keys(selectedCategories).map(async (ticketId) => {
-        const category = selectedCategories[ticketId];
-        await axiosInstance.post(`/assign-ticket-category/${ticketId}`, { category });
+      const updatePromises = ticketTypes.map(async (ticket) => {
+        const ticketId = ticket.id;
+        const currentCategories = selectedCategories[ticketId] || [];
+        // Send the update request for each ticket with the selected categories
+        await axiosInstance.post(`/assign-ticket-category/${ticketId}`, {
+          categories: currentCategories, // Send the selected categories
+        });
       });
-
+  
       await Promise.all(updatePromises);
-
+  
       Swal.fire({
         title: "Success",
         text: "Ticket categories updated successfully",
@@ -84,6 +130,8 @@ function TicketCategory() {
       setLoading(false);
     }
   };
+  
+  
 
   const columns = [
     {
@@ -95,24 +143,23 @@ function TicketCategory() {
       name: "Action",
       selector: (row) => (
         <div>
-        <label className="mr-2">Popular</label>
-        <input
-          className="mr-3"
-          type="checkbox"
-          checked={selectedCategories[row.id] === "Popular"}
-          onChange={() => handleCheckboxChange(row.id, "Popular")}
-        />
-        <label className="mr-2">Other Fragrances</label>
-        <input
-          type="checkbox"
-          checked={selectedCategories[row.id] === "Other Fragrances"}
-          onChange={() => handleCheckboxChange(row.id, "Other Fragrances")}
-        />
-      </div>
+          {categories.map((category) => (
+            <div key={category.id}>
+              <label className="mr-2">{category.category_name}</label>
+              <input
+                className="mr-3"
+                type="checkbox"
+                checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
+                onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
+              />
+            </div>
+          ))}
+        </div>
       ),
       sortable: false,
     },
   ];
+  
 
   return (
     <div className="container">
@@ -136,7 +183,7 @@ function TicketCategory() {
               data={ticketTypes}
               pagination
               paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
+              paginationRowsPerPageOptions={[10, 25]}
             />
             <button
               className="submit-btn mb-4 mt-4"
