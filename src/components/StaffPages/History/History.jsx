@@ -89,9 +89,9 @@ function TicketsHistory() {
               typeof tickets.data === "string"
                 ? JSON.parse(tickets.data)
                 : tickets.data,
-            user: `${tickets.user.first_name} ${tickets.user.last_name}`,
+            user: `${tickets.user?.first_name} ${tickets.user?.last_name}`,
             branch_id: tickets.branch?.branch_name,
-            role: tickets.user.roles?.map((r) => r.role_name).join(", "),
+            role: tickets.user?.roles?.map((r) => r.role_name).join(", "),
             date: new Date(tickets.createdAt),
           }))
           .sort((a, b) => b.date - a.date);

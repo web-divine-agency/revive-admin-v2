@@ -60,6 +60,9 @@
         flex-direction: column; 
         
     }
+    .sidebar-nav{
+        height: 100% !important;
+    }
     .profile {
         display: flex;
         justify-content: center;

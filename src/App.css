@@ -175,58 +175,7 @@ button:hover {
   }
 }
 
-/* mobile responsiveness */
-@media (max-width: 768px) {
-  .container-content {
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin: 20px;
-    min-width: 375px !important;
-    margin-left: 0 !important;
-  }
-  .container {
-    width: 395px;
-    margin-left: 0 !important;
-    padding: 5px !important;
-  }
-  .dataTables_wrapper .rdt_TableCell {
-    font-size: 12px !important;
-    color: #000000;
-  }
 
-  .dataTables_wrapper .rdt_TableHead {
-    font-size: 12px !important;
-    color: #626262;
-  }
-  #search-bar {
-    padding: 6px 12px !important;
-    border: none;
-    border-radius: 30px;
-    background-color: #ffffff;
-    color: #626262;
-    cursor: text;
-    border: 1px solid #dfdfdf;
-    margin-left: 0 !important;
-  }
-  .top-filter {
-    padding: 0px 10px 20px 0px !important;
-  }
-  .add-user-btn {
-    margin-top: 30px;
-  }
-  .custom-profile-container {
-    border: 2px solid #dfdfdf;
-    border-radius: 20px;
-    padding: 2rem 0rem 2rem 0rem;
-    height: auto;
-    margin-left: 0rem !important;
-    margin-top: 5rem;
-    margin-bottom: 20px;
-    margin-right: 0rem;
-    display: flex;
-    width: auto;
-  }
-}
 
 body {
   width: 100% !important;
@@ -1046,6 +995,68 @@ left: 15px;
 @media (max-width: 768px) {
   .upload-section h2 {
     font-size: 20px;
+  }
+  .dataTables_wrapper table {
+    width: 100% !important;
+  }
+
+  
+  .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 375px !important;
+    margin-left: 0 !important;
+  }
+  .container {
+    width: 390px;
+    margin-left: 0 !important;
+    padding: 5px !important;
+  }
+  .dataTables_wrapper .rdt_TableCell {
+    font-size: 12px !important;
+    color: #000000;
+  }
+
+  .dataTables_wrapper .rdt_TableHead {
+    font-size: 12px !important;
+    color: #626262;
+  }
+  #search-bar {
+    padding: 6px 12px !important;
+    border: none;
+    border-radius: 30px;
+    background-color: #ffffff;
+    color: #626262;
+    cursor: text;
+    border: 1px solid #dfdfdf;
+    margin-left: 0 !important;
+  }
+  .top-filter {
+    padding: 0px 10px 20px 0px !important;
+  }
+  .add-user-btn {
+    margin-top: 30px;
+  }
+  .custom-profile-container {
+    border: 2px solid #dfdfdf;
+    border-radius: 20px;
+    padding: 2rem 0rem 2rem 0rem;
+    height: auto;
+    margin-left: 0rem !important;
+    margin-top: 5rem;
+    margin-bottom: 20px;
+    margin-right: 0rem;
+    display: flex;
+    width: auto;
+  }
+
+  /* Adjust pagination layout for mobile */
+  .rdt_Pagination select {
+    /* display: block !important; */
+    text-align: center !important;
+    width: 100% !important;
+
   }
 
   .upload-section p {

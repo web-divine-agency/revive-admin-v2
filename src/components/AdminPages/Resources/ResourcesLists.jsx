@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
+import view_icon from "../../../assets/images/view_icon.png";
+import edit_icon from "../../../assets/images/edit_icon.png";
+import delete_icon from "../../../assets/images/delete_icon.png";
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
@@ -26,14 +29,14 @@ function ResourcesLists() {
     {
       title: "Resource 2",
       description: "sample description",
-      link: "http://localhost:5173/src/assets/images/sample_pdf.pdf",
+      link: "http://localhost:5173/src/assets/images/sample_vid.mp4",
       author: "James Rogan",
       icon: <img src={check} alt="Check Icon" />,
     },
     {
       title: "Resource 3",
       description: "sample description",
-      link: "http://localhost:5173/src/assets/images/sample_pdf.pdf",
+      link: "http://localhost:5173/src/assets/images/revive-logo.png",
       author: "Jane Doe",
       icon: <img src={check} alt="Check Icon" />,
     },
@@ -47,29 +50,85 @@ function ResourcesLists() {
 ];
 
 
-  const columns = [
-    {
-      name: "Title",
-      selector: (data) => data.title || "N/A",
-      sortable: true,
-    },
-    {
-        name: "Description",
-        selector: (data) => data.description || "N/A",
-        sortable: true,
-      },
-      {
-        name: "Link",
-        selector: (data) => data.link || "N/A",
-        sortable: true,
-      },
-      {
-        name: "Author",
-        selector: (data) => data.author || "N/A",
-        sortable: true,
-      },
-  
-  ];
+const columns = [
+  {
+    name: "Title",
+    selector: (data) => data.title || "N/A",
+    sortable: true,
+  },
+  {
+    name: "Description",
+    selector: (data) => data.description || "N/A",
+    sortable: true,
+  },
+  {
+    name: "Link",
+    selector: (data) =>
+      data.link ? (
+        <a href={data.link} target="_blank" rel="noopener noreferrer">
+          {data.link}
+        </a>
+      ) : (
+        "N/A"
+      ),
+    sortable: true,
+  },
+  {
+    name: "Author",
+    selector: (data) => data.author || "N/A",
+    sortable: true,
+  },
+  {
+    name: "Action",
+    selector: (row) => (
+      <div>
+        <img
+          src={view_icon}
+          title="View User Details"
+          alt="view"
+          width="25"
+          height="25"
+          // onClick={() =>
+          //   handleViewClick({
+          //     name: `${row.first_name} ${row.last_name}`,
+          //     email: row.email,
+          //     username: row.username,
+          //     branch:
+          //       row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
+          //     role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
+          //     profileImage: row.sex === "Male" ? man : woman,
+          //   })
+          // }
+          style={{ cursor: "pointer" }}
+        />
+        <img
+          className="ml-3"
+          src={edit_icon}
+          title="Edit User Details"
+          // onClick={() => handleEditUserClick(row.id)}
+          alt="edit"
+          width="25"
+          height="25"
+          style={{ cursor: "pointer" }}
+        />
+      
+          <img
+            className="ml-3"
+            src={delete_icon}
+            title="Delete User"
+            alt="delete"
+            width="25"
+            height="25"
+            // onClick={() => handleDeleteUserClick(row.id)}
+            style={{ cursor: "pointer" }}
+          />
+ 
+      </div>
+    ),
+    sortable: false,
+  },
+];
+
 
   return (
     <div className="container">
@@ -100,6 +159,7 @@ function ResourcesLists() {
               pagination
               paginationPerPage={10}
               paginationRowsPerPageOptions={[10, 20]}
+              responsive
             />
           </div>
         </div>
