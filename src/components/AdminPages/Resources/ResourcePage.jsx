@@ -116,6 +116,10 @@ const ResourcePage = () => {
         <div className="resource-page">
           <div>
             <form action="">
+              <select name="" id="" className="mb-3">
+                <option value="">GENERAL RESOURCES</option>
+                <option value="">TROUBLESHOOTING RESOURCES</option>
+              </select>
               <input
                 className="title"
                 type="text"

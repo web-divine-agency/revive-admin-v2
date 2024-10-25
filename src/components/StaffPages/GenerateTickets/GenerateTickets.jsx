@@ -3226,7 +3226,7 @@ function GenerateTickets() {
                     textAlign: "center",
                     fontFamily: "Aptos",
                     marginBottom:
-                      ticketData.offerType === "With RRP" ? "70px" : "60px",
+                      ticketData.offerType === "With RRP" ? "70px" : "50px",
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
@@ -3240,7 +3240,7 @@ function GenerateTickets() {
                     fontSize: "9px",
                     textAlign: "center",
                     marginBottom:
-                      ticketData.offerType === "With RRP" ? "70px" : "60px",
+                      ticketData.offerType === "With RRP" ? "70px" : "50px",
                     fontFamily: "Aptos",
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
@@ -5806,133 +5806,116 @@ function GenerateTickets() {
                 setOptionType("");
                 setCopies(1);
                 ticketsCleared();
-
                 setTemplate(e.target.value);
                 setTicketData({});
               }}
               value={template}
             >
-              <option value="">-- SELECT A TEMPLATE --</option>
+              <option value="">
+                {template ? `Selected: ${template}` : "-- SELECT A TEMPLATE --"}
+              </option>
               <option style={{ fontWeight: "bold" }} value="POPULAR TEMPLATES">
                 POPULAR TEMPLATES
               </option>
               <option style={{ fontWeight: "bold" }} value="OTHER FRAGRANCES">
-                {" "}
                 OTHER FRAGRANCES
               </option>
 
-              {/* Popular Templates */}
-              {template === "POPULAR TEMPLATES" &&
-                assignedTickets
-                  .filter((ticket) =>
-                    ticket.category.includes("POPULAR TEMPLATES")
-                  )
-                  .map((ticket, idx) => (
-                    <option key={idx} value={ticket.ticket_name}>
-                      {ticket.ticket_name}
-                    </option>
-                  ))}
+              {/* General Templates */}
+              {assignedTickets
+                .filter(
+                  (ticket) =>
+                    !ticket.category.includes("POPULAR TEMPLATES") &&
+                    !ticket.category.includes("OTHER FRAGRANCES")
+                )
+                .map((ticket, idx) => (
+                  <option key={idx} value={ticket.ticket_name}>
+                    {ticket.ticket_name}
+                  </option>
+                ))}
+            </select>
 
-              {/* Other Fragrances */}
-              {template === "OTHER FRAGRANCES" &&
-                assignedTickets
-                  .filter((ticket) =>
-                    ticket.category.includes("OTHER FRAGRANCES")
-                  )
-                  .map((ticket, idx) => (
-                    <option key={idx} value={ticket.ticket_name}>
-                      {ticket.ticket_name}
-                    </option>
-                  ))}
+            {/* Other Fragrances Dropdown */}
+            {(template === "OTHER FRAGRANCES" ||
+              assignedTickets.some(
+                (ticket) =>
+                  ticket.category.includes("OTHER FRAGRANCES") &&
+                  template === ticket.ticket_name
+              )) && (
+              <div>
+                <h5>Other Fragrances</h5>
+                <select
+                  name="ticketTemplate"
+                  id="ticketTemplate"
+                  onChange={(e) => {
+                    setProductName("");
+                    setproductBrand("");
+                    setPrice("");
+                    setRrp("");
+                    setSave("");
+                    setOfferType("");
+                    setOptionType("");
+                    setCopies(1);
+                    ticketsCleared();
+                    setTemplate(e.target.value);
+                    setTicketData({});
+                  }}
+                  value={template}
+                >
+                  <option value="">-- Select Other Fragrances --</option>
+                  {assignedTickets
+                    .filter((ticket) =>
+                      ticket.category.includes("OTHER FRAGRANCES")
+                    )
+                    .map((ticket, idx) => (
+                      <option key={idx} value={ticket.ticket_name}>
+                        {ticket.ticket_name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            )}
 
-              {/* General Tickets */}
-              {template !== "OTHER FRAGRANCES" &&
-                template !== "POPULAR TEMPLATES" &&
-                assignedTickets
-                  .filter(
-                    (ticket) =>
-                      !ticket.category.includes("POPULAR TEMPLATES") &&
-                      !ticket.category.includes("OTHER FRAGRANCES")
-                  )
-                  .map((ticket, idx) => (
-                    <option key={idx} value={ticket.ticket_name}>
-                      {ticket.ticket_name}
-                    </option>
-                  ))}
-            </select>{" "}
-            <br />
-            {template === "OTHER FRAGRANCES" &&
-              assignedTickets.some((ticket) =>
-                ticket.category.includes("OTHER FRAGRANCES")
-              ) && (
-                <div>
-                  <h5>Other Fragrances</h5>
-                  <select
-                    name="ticketTemplate"
-                    id="ticketTemplate"
-                    onChange={(e) => {
-                      setProductName("");
-                      setproductBrand("");
-                      setPrice("");
-                      setRrp("");
-                      setSave("");
-                      setOfferType("");
-                      setOptionType("");
-                      setCopies(1);
-                      ticketsCleared();
-                      setTemplate(e.target.value);
-                      setTicketData({});
-                    }}
-                    value={template}
-                  >
-                    {assignedTickets
-                      .filter((ticket) =>
-                        ticket.category.includes("OTHER FRAGRANCES")
-                      )
-                      .map((ticket, idx) => (
-                        <option key={idx} value={ticket.ticket_name}>
-                          {ticket.ticket_name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              )}
-            {template === "POPULAR TEMPLATES" &&
-              assignedTickets.some((ticket) =>
-                ticket.category.includes("POPULAR TEMPLATES")
-              ) && (
-                <div>
-                  <h5>Popular Templates</h5>
-                  <select
-                    name="ticketTemplate"
-                    id="ticketTemplate"
-                    onChange={(e) => {
-                      setProductName("");
-                      setproductBrand("");
-                      setPrice("");
-                      setRrp("");
-                      setSave("");
-                      setOfferType("");
-                      setOptionType("");
-                      setCopies(1);
-                      ticketsCleared();
-                      setTemplate(e.target.value);
-                      setTicketData({});
-                    }}
-                    value={template}
-                  >
-                    {assignedTickets
-                      .filter((ticket) =>
-                        ticket.category.includes("POPULAR TEMPLATES")
-                      )
-                      .map((ticket, idx) => (
-                        <option key={idx} value={ticket.ticket_name}>
-                          {ticket.ticket_name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              )}
+            {/* Popular Templates Dropdown */}
+            {(template === "POPULAR TEMPLATES" ||
+              assignedTickets.some(
+                (ticket) =>
+                  ticket.category.includes("POPULAR TEMPLATES") &&
+                  template === ticket.ticket_name
+              )) && (
+              <div>
+                <h5>Popular Templates</h5>
+                <select
+                  name="ticketTemplate"
+                  id="ticketTemplate"
+                  onChange={(e) => {
+                    setProductName("");
+                    setproductBrand("");
+                    setPrice("");
+                    setRrp("");
+                    setSave("");
+                    setOfferType("");
+                    setOptionType("");
+                    setCopies(1);
+                    ticketsCleared();
+                    setTemplate(e.target.value);
+                    setTicketData({});
+                  }}
+                  value={template}
+                >
+                  <option value="">-- Select Popular Templates --</option>
+                  {assignedTickets
+                    .filter((ticket) =>
+                      ticket.category.includes("POPULAR TEMPLATES")
+                    )
+                    .map((ticket, idx) => (
+                      <option key={idx} value={ticket.ticket_name}>
+                        {ticket.ticket_name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -5992,13 +5975,22 @@ function GenerateTickets() {
                     className="form-control ticket-copies-field"
                     value={copies}
                     onChange={handleCopiesChange}
-                    disabled={template === ""}
+                    disabled={
+                      template === "" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === "POPULAR TEMPLATES"
+                    }
                   />
                   <button
                     type="button"
                     className="add-to-queue-btn"
                     onClick={handleAddToQueue}
-                    disabled={copies === 0 || template === ""}
+                    disabled={
+                      copies === 0 ||
+                      template === "" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === "POPULAR TEMPLATES"
+                    }
                   >
                     Add to Queue
                   </button>
@@ -6006,7 +5998,11 @@ function GenerateTickets() {
                   <button
                     type="button"
                     className="clear-btn"
-                    disabled={template === ""}
+                    disabled={
+                      template === "" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === "POPULAR TEMPLATES"
+                    }
                     onClick={() => {
                       setCopies(1);
                       setTicketData({
@@ -6028,7 +6024,11 @@ function GenerateTickets() {
                     type="button"
                     className="print-btn"
                     onClick={handleGenerateClick}
-                    disabled={template === ""}
+                    disabled={
+                      template === "" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === "POPULAR TEMPLATES"
+                    }
                   >
                     Generate Tickets
                   </button>
@@ -6036,7 +6036,11 @@ function GenerateTickets() {
                     type="button"
                     className="generate-tickets-btn"
                     onClick={handlePrint}
-                    disabled={template === ""}
+                    disabled={
+                      template === "" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === "POPULAR TEMPLATES"
+                    }
                   >
                     Print
                   </button>

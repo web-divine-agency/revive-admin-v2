@@ -34,24 +34,35 @@ const ViewResources = () => {
             <div>
               <h2 className="description">{resource.description}</h2>
             </div>
+            <div>
+            <h2 className="title font-weight-bold mb-3">Instruction</h2> <br />
+            <h2 className="description">{resource.instructions}</h2>
+
+
+            </div>
             {resource.type === "pdf" && (
-                        <iframe
-                          src={resource.link}
-                          type="application/pdf"
-                          width="100%"
-                          height="800px"
-                          title="PDF Document"
-                        />
-                      )}
-                      {resource.type === "video" && (
-                        <video width="100%" height="100%" controls>
-                          <source src={resource.link} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                      )}
-                      {resource.type === "image" && (
-                        <img src={resource.link} alt="Resource" width="100%" height="100%" />
-                      )}
+              <iframe
+                src={resource.link}
+                type="application/pdf"
+                width="100%"
+                height="800px"
+                title="PDF Document"
+              />
+            )}
+            {resource.type === "video" && (
+              <video width="100%" height="100%" controls>
+                <source src={resource.link} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+            {resource.type === "image" && (
+              <img
+                src={resource.link}
+                alt="Resource"
+                width="100%"
+                height="100%"
+              />
+            )}
             {/* <div className="uploaded-files">
               {resources.map((resource, index) => (
                 <div key={index} className="file-item">

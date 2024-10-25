@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
+  const [showTroubleshooting, setShowTroubleshooting] = useState(false); // State to manage visibility
   const navigate = useNavigate();
 
   const handleDeleteResource = () => {
@@ -26,28 +27,30 @@ function ResourcesLists() {
         cancelButton: "custom-cancel-button",
         title: "custom-swal-title",
       },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "The resource has been deleted.",
+          imageUrl: delete_icon,
+          imageWidth: 100,
+          imageHeight: 100,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#0B3A07",
+        });
+      }
     });
-
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "Deleted!",
-        text: "The resource  has been deleted.",
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0B3A07",
-      });
-    }
   };
-  // Create a data array for the resources
-  const data = [
+
+  // Separate data arrays for general resources and troubleshooting resources
+  const generalResources = [
     {
       title: "Resource 1",
       description: "Sample PDF document",
-      link: sample_pdf, // Use a valid link to your PDF file
+      link: sample_pdf,
       author: "John User",
       type: "pdf",
+      instructions: "instruction sample 1",
     },
     {
       title: "Resource 2",
@@ -55,6 +58,7 @@ function ResourcesLists() {
       link: sample_vid,
       author: "James Rogan",
       type: "video",
+      instructions: "instruction sample 2",
     },
     {
       title: "Resource 3",
@@ -62,16 +66,78 @@ function ResourcesLists() {
       link: revive_logo,
       author: "Jane Doe",
       type: "image",
+      instructions: "instruction sample 3",
+    },
+  ];
+
+  const troubleshootingResources = [
+    {
+      title: "Troubleshooting Guide 1",
+      description: "Guide to fix common issue A",
+      link: sample_pdf,
+      author: "Support Team",
+      type: "pdf",
+      instructions: "Follow the steps to resolve issue A",
     },
     {
-      title: "Resource 4",
-      description: "Another PDF document",
+      title: "Troubleshooting Guide 2",
+      description: "Video tutorial on fixing issue B",
       link: sample_vid,
-      author: "Ari El",
-      type: "pdf",
+      author: "Support Team",
+      type: "video",
+      instructions: "Watch the video to resolve issue B",
     },
-    // More resources can be added here...
   ];
+
+  const renderResourceCard = (resource) => (
+    <div key={resource.title} className="resources-card">
+      <div className="card">
+        <div className="card-body">
+          <button className="delete-resource-btn">
+            <img
+              src={delete_icon}
+              height={24}
+              alt=""
+              onClick={() => handleDeleteResource()}
+            />
+          </button>
+          <div
+            onClick={() =>
+              navigate("/view-resource", { state: resource })
+            }
+            style={{ cursor: "pointer" }}
+          >
+            <h5 className="card-title">{resource.title}</h5>
+            <p className="card-text">{resource.description}</p>
+            <p className="card-text">Author: {resource.author}</p>
+            {resource.type === "pdf" && (
+              <embed
+                src={resource.link}
+                type="application/pdf"
+                width="100%"
+                height="200px"
+                title="PDF Document"
+              />
+            )}
+            {resource.type === "video" && (
+              <video width="100%" height="200" controls>
+                <source src={resource.link} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+            {resource.type === "image" && (
+              <img
+                src={resource.link}
+                alt="Resource"
+                width="100%"
+                height="200"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="container">
@@ -95,58 +161,24 @@ function ResourcesLists() {
           </div>
 
           <div className="container-content">
+            <h3 className="mt-3">General Resources</h3>
             <div className="resources-content">
-              {data.map((resource, index) => (
-                <div key={index} className="resources-card">
-                  <div className="card">
-                    <div className="card-body">
-                      <button className="delete-resource-btn">
-                        <img
-                          src={delete_icon}
-                          height={24}
-                          alt=""
-                          onClick={() => handleDeleteResource()}
-                        />
-                      </button>
-                      <div
-                        onClick={() =>
-                          navigate("/view-resource", { state: resource })
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        {" "}
-                        
-                        <h5 className="card-title">{resource.title}</h5>
-                        <p className="card-text">{resource.description}</p>
-                        <p className="card-text">Author: {resource.author}</p>
-                        {resource.type === "pdf" && (
-                          <embed
-                            src={resource.link}
-                            type="application/pdf"
-                            width="100%"
-                            height="200px"
-                            title="PDF Document"
-                          />
-                        )}
-                        {resource.type === "video" && (
-                          <video width="100%" height="200" controls>
-                            <source src={resource.link} type="video/mp4" />
-                            Your browser does not support the video tag.
-                          </video>
-                        )}
-                        {resource.type === "image" && (
-                          <img
-                            src={resource.link}
-                            alt="Resource"
-                            width="100%"
-                            height="200"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
+              {generalResources.map((resource) => renderResourceCard(resource))}
+            </div>
+
+            {/* Troubleshooting Folder */}
+            <div className="troubleshooting-folder">
+              <h4
+                onClick={() => setShowTroubleshooting(!showTroubleshooting)} // Toggle visibility
+                style={{ cursor: "pointer", color: "#007bff" }}
+              >
+               <h3 className="mt-3">Troubleshooting Resources {showTroubleshooting ? "▲" : "▼"}</h3> 
+              </h4>
+              {showTroubleshooting && (
+                <div className="resources-content">
+                  {troubleshootingResources.map((resource) => renderResourceCard(resource))}
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

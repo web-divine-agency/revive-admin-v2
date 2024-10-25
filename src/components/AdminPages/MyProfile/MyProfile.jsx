@@ -62,7 +62,7 @@ function MyProfile() {
       return;
     }
 
-    if (newPassword.length < 8) {
+    if (newPassword && newPassword.length < 8) {
       Swal.fire({
         title: "Invalid Password",
         text: "Password must be at least 8 characters long",
