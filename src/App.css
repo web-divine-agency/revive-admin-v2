@@ -178,7 +178,7 @@ button:hover {
 
 
 body {
-  width: 100% !important;
+  width: 100%;
   display: flex;
   place-items: center;
   justify-content: center;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import delete_icon from "../../../assets/images/delete_icon.png";
+import check from "../../../assets/images/check.png";
 import sample_pdf from "../../../assets/images/sample_pdf.pdf";
 import sample_vid from "../../../assets/images/sample_vid.mp4";
 import revive_logo from "../../../assets/images/revive-logo.png";
@@ -30,13 +31,17 @@ function ResourcesLists() {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Deleted!",
-          text: "The resource has been deleted.",
-          imageUrl: delete_icon,
+          title: "Success!",
+          text: "Ticket has been deleted.",
+          imageUrl: check,
           imageWidth: 100,
           imageHeight: 100,
           confirmButtonText: "OK",
-          confirmButtonColor: "#0B3A07",
+          confirmButtonColor: "#0ABAA6",
+          customClass: {
+            confirmButton: "custom-success-confirm-button",
+            title: "custom-swal-title",
+          },
         });
       }
     });
