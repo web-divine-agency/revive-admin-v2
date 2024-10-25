@@ -145,6 +145,23 @@ function ResourcesLists() {
         <div className="col-lg-12 col-md-6">
           <h3>Resources Lists</h3>
           <div className="top-filter">
+          <select
+              name="filter"
+              className="mr-4"
+              id="filter"
+              // value={roleFilter}
+              // onChange={(e) => setRoleFilter(e.target.value)}
+            >
+              <option value="">All Admins</option>
+              <option value="">Admin 1</option>
+              <option value="">Admin 2</option>
+              <option value="">Admin 3</option>
+              {/* {roles.map((role) => (
+                <option key={role.id} value={role.role_name}>
+                  {role.role_name}
+                </option>
+              ))} */}
+            </select>
             <input
               id="search-bar"
               type="text"

@@ -24,11 +24,16 @@ import {getCookie} from './components/Authentication/getCookie';
 import { LoaderProvider } from './components/Loaders/LoaderContext';
 import TemplateManagement from './components/AdminPages/TemplateManagement/TemplateManagement';
 import EditUserTemplateAccess from './components/AdminPages/TemplateManagement/EditUserTemplateAccess';
-import ResourcePage from './components/AdminPages/Resources/resourcePage';
+import ResourcePage from './components/AdminPages/Resources/ResourcePage';
 import TicketCategory from './components/AdminPages/TemplateManagement/TicketCategory';
 import StaffResourcePage from './components/AdminPages/Resources/StaffResourcePage';
 import ResourcesLists from './components/AdminPages/Resources/ResourcesLists';
 import ViewResources from './components/AdminPages/Resources/ViewResources';
+import ForgotPassword from './components/PasswordReset/ForgotPassword';
+import ResetPassword from './components/PasswordReset/ResetPassword';
+import CheckEmail from './components/PasswordReset/CheckEmail';
+
+
 
 
 
@@ -49,10 +54,13 @@ function Layout() {
     <LoaderProvider>
     <AuthContextProvider>
     <>
-        {!shouldHideSidebar && location.pathname !== '/' && <SideBar role={userRole} />}
+        {!shouldHideSidebar && location.pathname !== '/' && location.pathname !== '/forgot-password' && location.pathname !== '/reset-password' && location.pathname !== '/open-email' && <SideBar role={userRole} />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
+        <Route path="/forgot-password"  element={<ForgotPassword />}/>
+        <Route path="/reset-password"  element={<ResetPassword />}/>
+        <Route path="/open-email"  element={<CheckEmail />}/>
         <Route path="/view-resource" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />

@@ -149,7 +149,7 @@ function Login() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group ">
                                 <input
                                     type="checkbox"
                                     id="showPassword"
@@ -157,6 +157,7 @@ function Login() {
                                     onChange={() => setShowPassword(!showPassword)}
                                 /> &nbsp; 
                                 <label htmlFor="showPassword">Show Password</label>
+                                <a style={{cursor: "pointer"}} className='float-end' onClick={()=>navigate("/forgot-password")}>Forgot Password?</a>
                             </div>
                             <div className='d-flex'>
                                 {/* <div className="d-flex mb-3 mr-3">
