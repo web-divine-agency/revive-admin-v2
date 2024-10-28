@@ -105,7 +105,7 @@ const ResourcePage = () => {
 
   return (
     <div className="container">
-      <h3>Create Resources</h3>
+      <h3 className="create-resources-text">Create Resources</h3>
       <button
         onClick={() => navigate("/resources")}
         className="btn btn-primary float-end publish-btn"

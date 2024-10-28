@@ -183,6 +183,7 @@ body {
   place-items: center;
   justify-content: center;
   min-height: 100vh;
+
 }
 
 /* Components Style */
@@ -1099,6 +1100,7 @@ left: 15px;
     margin: 20px;
     min-width: 375px !important;
     margin-left: 0 !important;
+    margin-top:28px !important;
   }
   .container {
     width: 390px;
@@ -1121,15 +1123,23 @@ left: 15px;
     background-color: #ffffff;
     color: #626262;
     cursor: text;
+    width: 100%;
     border: 1px solid #dfdfdf;
     margin-left: 0 !important;
+    margin-bottom: 10px;
   }
   .top-filter {
     padding: 0px 10px 20px 0px !important;
+    width: 100% !important;
+  }
+  .top-filter select{
+    width: 100%;
+    margin-bottom: 10px;
   }
   .add-user-btn {
-    margin-top: 30px;
+    margin-top: 0px !important;
   }
+ 
   .custom-profile-container {
     border: 2px solid #dfdfdf;
     border-radius: 20px;
@@ -1186,6 +1196,26 @@ left: 15px;
 }
 
 @media (max-width: 480px) {
+  .create-resources-text{
+   margin-bottom: 45px;
+  }
+  .publish-btn{
+margin-top: -50px !important;
+margin-right: 0px !important;
+  }
+  .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 335px !important;
+    margin-left: 0 !important;
+    margin-top:28px !important;
+  }
+  .container {
+    width: 350px;
+    margin-left: 0px !important;
+    padding: 5px !important;
+  }
   .resources-card {
     flex: 1 1 calc(100% - 20px); /* Show 1 per row for mobile */
   }
