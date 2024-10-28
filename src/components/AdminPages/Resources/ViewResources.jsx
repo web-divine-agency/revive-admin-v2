@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../../App.css";
 import sample_vid from "../../../assets/images/sample_vid.mp4";
-import { FiCopy } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 
 const ViewResources = () => {
@@ -23,22 +23,27 @@ const ViewResources = () => {
 
   return (
     <div className="container">
-      <h3>Created Resources</h3>
+      <h3>
+        <a href="/resources-list" className="back-btn">
+          <FiArrowLeft /> Back <br />
+        </a>
+        Created Resources
+      </h3>
+
       <div className="container-content">
         <div className="created-resource">
           <div>
             <div>
-              <h2 className="title">{resource.title}</h2>
+              <h2 className="title">{resource.resource_title}</h2>
             </div>
             <br />
             <div>
-              <h2 className="description">{resource.description}</h2>
+              <h2 className="description">{resource.resource_body}</h2>
             </div>
             <div>
-            <h2 className="title font-weight-bold mb-3">Instruction</h2> <br />
-            <h2 className="description">{resource.instructions}</h2>
-
-
+              <h2 className="title font-weight-bold mb-3">Instruction</h2>{" "}
+              <br />
+              <h2 className="description">{resource.instructions}</h2>
             </div>
             {resource.type === "pdf" && (
               <iframe

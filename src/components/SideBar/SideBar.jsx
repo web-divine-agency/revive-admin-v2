@@ -19,9 +19,17 @@ function Navbar({ role }) {
   const [last_name, setLastName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
-  const [position, setPosition] = useState({ left: '190px' });
+  const [position, setPosition] = useState({ left: '5px' });
+  const isMobile = window.innerWidth < 768;
 
-  
+  useEffect(() => {
+    // Set openMenu to false if isMobile is true
+    if (isMobile) {
+      setOpenMenu(false);
+    } else {
+      setOpenMenu(true); // Optionally set to true when not mobile
+    }
+  }, [isMobile]); 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
     setPosition((prevPosition) => ({
@@ -119,6 +127,12 @@ function Navbar({ role }) {
     } else {
       navigate(item.path);
       setActiveIndex(index);
+      if (isMobile) {
+        setOpenMenu(false);
+        setPosition((prevPosition) => ({
+          left: prevPosition.left === '190px' ? '5px' : '190px',
+        }));
+      }
     }
   };
   return (

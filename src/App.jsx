@@ -26,7 +26,6 @@ import TemplateManagement from './components/AdminPages/TemplateManagement/Templ
 import EditUserTemplateAccess from './components/AdminPages/TemplateManagement/EditUserTemplateAccess';
 import ResourcePage from './components/AdminPages/Resources/ResourcePage';
 import TicketCategory from './components/AdminPages/TemplateManagement/TicketCategory';
-import StaffResourcePage from './components/AdminPages/Resources/StaffResourcePage';
 import ResourcesLists from './components/AdminPages/Resources/ResourcesLists';
 import ViewResources from './components/AdminPages/Resources/ViewResources';
 import ForgotPassword from './components/PasswordReset/ForgotPassword';
@@ -62,9 +61,8 @@ function Layout() {
         <Route path="/reset-password"  element={<ResetPassword />}/>
         <Route path="/open-email"  element={<CheckEmail />}/>
         <Route path="/view-resource" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
-        <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin']} />} />
+        <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
-        <Route path="/get-resources" element={<ProtectedRoute element={<StaffResourcePage />} allowedRoles={['Staff']} />} />
         <Route path="/ticket-category" element={<ProtectedRoute element={<TicketCategory />} allowedRoles={['Admin']} />} />
         <Route path="/template-management" element={<ProtectedRoute element={<TemplateManagement />} allowedRoles={['Admin']} />} />
         <Route path="/assign-tickets/:userId" element={<ProtectedRoute element={<EditUserTemplateAccess />} allowedRoles={['Admin']} />} />

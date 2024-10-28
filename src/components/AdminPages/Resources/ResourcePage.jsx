@@ -1,26 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "../../../App.css";
+import { useNavigate } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
 import greater_than from "../../../assets/images/greater_than.png";
-import sample_vid from "../../../assets/images/sample_vid.mp4";
-import sample_pdf from "../../../assets/images/sample_pdf.pdf";
 import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
+import axiosInstance from "../../../../axiosInstance";
+import {useLoader} from "../../Loaders/LoaderContext";
+import { FiArrowLeft } from "react-icons/fi";
+
 
 const ResourcePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [additionalFields, setAdditionalFields] = useState([]);
-
+  const [resources, setResources] = useState([]);
+  const [formData, setFormData] = useState({
+    resource_title: "",
+    resource_body: "",
+    status: "draft",
+  });
+  const [resourceMedia, setResourceMedia] = useState(null);
+  const navigate = useNavigate();
+  const {setLoading} = useLoader();
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const [copiedLink, setCopiedLink] = useState(null);
 
-  const removeField = (index) => {
-    const fields = [...additionalFields];
-    fields.splice(index, 1);
-    setAdditionalFields(fields);
-  };
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await axiosInstance.get("/all-resources"); // Modify API endpoint as needed
+        setResources(response.data.data); // Assuming response structure has resources array
+      } catch (error) {
+        console.error("Error fetching resources:", error);
+      }
+    };
+    fetchResources();
+  }, [setLoading]);
+
+ 
 
   const handleCopyLink = (link) => {
     const fullLink = `${window.location.origin}${link}`;
@@ -37,77 +57,113 @@ const ResourcePage = () => {
     setAdditionalFields([...additionalFields, ""]);
   };
 
+  const removeField = (index) => {
+    const fields = [...additionalFields];
+    fields.splice(index, 1);
+    setAdditionalFields(fields);
+  };
+
   const handleFieldChange = (index, value) => {
     const fields = [...additionalFields];
     fields[index] = value;
     setAdditionalFields(fields);
   };
 
-  const resources = [
-    {
-      name: "PDF_File_1",
-      type: "pdf",
-      file: sample_pdf,
-    },
-    {
-      name: "Word_Document_2",
-      type: "doc",
-      file: "/assets/files/sample.docx",
-    },
-    {
-      name: "Excel_Sheet_3",
-      type: "excel",
-      file: "/assets/files/sample.xlsx",
-    },
-    {
-      name: "Image_File_4",
-      type: "image",
-      file: upload_icon,
-    },
-    {
-      name: "Video_File_5",
-      type: "video",
-      file: sample_vid,
-    },
-  ];
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files); // Store multiple files
+    setResourceMedia(files);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formDataToSend = new FormData();
+    formDataToSend.append("resource_title", formData.resource_title);
+    formDataToSend.append("resource_body", formData.resource_body);
+    formDataToSend.append("status", formData.status);
+
+    // Append media files
+    if (resourceMedia) {
+      resourceMedia.forEach((file) => {
+        formDataToSend.append("resource_media[]", file); // Send each file
+      });
+    }
+
+    // Convert additional fields to JSON and add to form data
+    //formDataToSend.append("additional_fields", JSON.stringify(additionalFields));
+
+    try {
+      await axiosInstance.post("/create-resource", formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Resource created successfully!");
+      setFormData({
+        resource_title: "",
+        resource_body: "",
+        status: "draft",
+      });
+    } catch (error) {
+      console.error("Error creating resource:", error);
+    }
+  };
 
   const renderPreview = (resource) => {
-    switch (resource.type) {
+    const fileExtension = resource.resource_media.split('.').pop().toLowerCase();
+
+    switch (fileExtension) {
       case "pdf":
         return (
           <iframe
-            src={resource.file}
+            src={resource.resource_media}
             width="150px"
             height="100px"
-            title={resource.name}
+            title={resource.title}
           ></iframe>
         );
-      case "image":
-        return <img src={resource.file} alt={resource.name} width="150px" />;
-      case "video":
+      case "jpg":
+      case "jpeg":
+      case "png":
+      case "gif":
+        return <img src={resource.resource_media} alt={resource.title} width="150px" title={resource.title} />;
+      case "mp4":
+      case "mov":
+      case "avi":
         return (
           <video width="150" controls>
-            <source src={resource.file} type="video/mp4" />
+            <source src={resource.resource_media} type={`video/${fileExtension}`} />
             Your browser does not support the video tag.
           </video>
         );
       case "doc":
-      case "excel":
+      case "docx":
+      case "xls":
+      case "xlsx":
         return (
-          <a href={resource.file} target="_blank" rel="noopener noreferrer">
-            {resource.name} (Preview not supported. Click to download.)
+          <a href={resource.resource_media} target="_blank" rel="noopener noreferrer">
+            {resource.title} (Preview not supported. Click to download.)
           </a>
         );
       default:
         return <p>No preview available</p>;
     }
-  };
+};
+
 
   return (
     <div className="container">
-      <h3 className="create-resources-text">Create Resources</h3>
+      <form onSubmit={handleSubmit}>
+      <h3 className="create-resources-text">
+      <a href="/resources-list" className="back-btn">
+          <FiArrowLeft /> Back  <br />
+        </a>
+        Create Resources</h3>
       <button
         onClick={() => navigate("/resources")}
+        type="submit"
         className="btn btn-primary float-end publish-btn"
       >
         <i className="fa fa-paper-plane"></i> Publish
@@ -115,17 +171,14 @@ const ResourcePage = () => {
       <div className="container-content">
         <div className="resource-page">
           <div>
-            <form action="">
-              <select name="" id="" className="mb-3">
-                <option value="">GENERAL RESOURCES</option>
-                <option value="">TROUBLESHOOTING RESOURCES</option>
-              </select>
               <input
                 className="title"
                 type="text"
                 placeholder="Add title"
                 id="title"
-                name="title"
+                name="resource_title"
+                value={formData.resource_title}
+                onChange={handleInputChange}
                 required
               />
               <br />
@@ -134,7 +187,9 @@ const ResourcePage = () => {
                 type="text"
                 placeholder="Add description"
                 id="name"
-                name="name"
+                name="resource_body"
+                value={formData.resource_body}
+                onChange={handleInputChange}
                 required
               />
               <div>
@@ -175,14 +230,13 @@ const ResourcePage = () => {
                 placeholder="Paste Link"
                 id="link"
                 name="link"
-                required
               />
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <a onClick={handleShow}>
                Add File <img src={greater_than} alt="" height={40} />
                 </a>
               </div>
-            </form>
+            
           </div>
         </div>
       </div>
@@ -205,13 +259,14 @@ const ResourcePage = () => {
                 <input
                   type="file"
                   id="fileInput"
-                  name="fileInput"
+                  name="resource_media"
+                  onChange={handleFileChange}
                   multiple
                   className="file-input"
                 />
               </div>
               <button
-                type=""
+                type="submit"
                 className="btn btn-primary upload-resource-btn mt-3"
               >
                 Upload
@@ -225,26 +280,26 @@ const ResourcePage = () => {
               the link field.
             </p>
             <div className="uploaded-files">
-              {resources.map((resource, index) => (
+              {resources?.map((resource, index) => (
                 <div key={index} className="file-item">
                   <a
-                    href={resource.file}
+                    href={resource.resource_media}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <h4>{resource.name}</h4>
+                    <h4>{resource.resource_title}</h4>
                     {renderPreview(resource)}
                   </a>
 
                   <div
                     className="copy-icon"
-                    onClick={() => handleCopyLink(resource.file)}
+                    onClick={() => handleCopyLink(resource.resource_media)}
                     title="Copy Link"
                   >
                     <FiCopy size={28} />
                   </div>
 
-                  {copiedLink === resource.file && (
+                  {copiedLink === resource.resource_media && (
                     <span
                       style={{
                         color: "gray",
@@ -267,6 +322,7 @@ const ResourcePage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </form>
     </div>
   );
 };
