@@ -1146,12 +1146,13 @@ input[type="date"] {
     border: 1px solid #ccc;
     border-radius: 20px;
     margin: 20px;
-   min-width: 705px;
+   min-width: 710px;
     margin-left: 0 !important;
     margin-top: 28px !important;
   }
   .container {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     margin-left: 0px !important;
     padding: 5px !important;
   }
@@ -1275,7 +1276,7 @@ input[type="date"] {
  
 }
 
-@media (max-width: 430px) and (min-width: 425px) {
+@media (max-width: 767px) and (min-width: 425px) {
   .create-resources-text {
     margin-bottom: 45px;
   }
@@ -1342,7 +1343,7 @@ input[type="date"] {
     margin-bottom: 0 ;
   }
 }
-@media (max-width: 375px){
+@media (max-width: 424px) and (min-width: 361px){
   .container-content {
     border: 1px solid #ccc;
     border-radius: 20px;
@@ -1350,6 +1351,10 @@ input[type="date"] {
     min-width: 352px !important;
     margin-left: 0 !important;
     margin-top: 28px !important;
+  }
+  .publish-btn {
+    margin-top: -25px;
+    margin-right: 0px;
   }
   .container {
     width: 365px;
@@ -1373,12 +1378,13 @@ input[type="date"] {
     border: 1px solid #ccc;
     border-radius: 20px;
     margin: 20px;
-    min-width: 287px !important;
-    margin-left: 0 !important;
-    margin-top: 28px !important;
+    min-width: 290px !important;
+    margin-left: 0;
+    margin-top: 28px;
   }
   .container {
-    width: 300px;
+    width: 100% ;
+    max-width: 340px;
     margin-left: 0px !important;
     padding: 5px !important;
   }
@@ -1392,6 +1398,12 @@ input[type="date"] {
     padding: 0px 10px 20px 0px !important;
     width: 100% !important;
     margin-bottom: 0 ;
+  }
+  .publish-btn {
+    margin-top: -20px;
+    margin-right: 0px;
+    height: 35px;
+    padding: 0 10px;
   }
 }
 
