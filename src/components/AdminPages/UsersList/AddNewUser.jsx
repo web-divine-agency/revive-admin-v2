@@ -3,11 +3,10 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 const animatedComponents = makeAnimated();
-
 
 function AddNewUser() {
   const [last_name, setLastname] = useState("");
@@ -31,7 +30,7 @@ function AddNewUser() {
     const fetchBranches = async () => {
       try {
         const response = await axiosInstance.get("/branches");
-        const options = response.data.map(branch => ({
+        const options = response.data.map((branch) => ({
           value: branch.id,
           label: branch.branch_name,
         }));
@@ -71,7 +70,7 @@ function AddNewUser() {
     if (password.length < 8) {
       return "Password must be at least 8 characters long.";
     }
-  
+
     if (password !== confirmPassword) {
       return "Passwords do not match.";
     }
@@ -100,7 +99,7 @@ function AddNewUser() {
       const response = await axiosInstance.post("/addUser", {
         last_name,
         first_name,
-        branch_ids: selectedBranches.map(branch => branch.value),
+        branch_ids: selectedBranches.map((branch) => branch.value),
         password,
         email,
         sex,
@@ -142,8 +141,28 @@ function AddNewUser() {
       <h3>Add New User</h3>
       <div className="container-content">
         <form onSubmit={addUser} className="add-user-form">
-          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {error && (
+              <div
+                className="alert alert-danger"
+                style={{
+                  position: "absolute",
+                  left: "25%",
+                  top: "-10px",
+                  width: "50%",
+                  padding: "4px",
+                }}
+              >
+                {error}
+              </div>
+            )}
           </div>
 
           <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3 add-user-fields">
@@ -205,7 +224,10 @@ function AddNewUser() {
             </div>
           </div>
           <div className="d-flex justify-content-between ml-5 add-user-fields">
-            <div className="form-group add-branch-select" style={{ width: "205px", height: "0" }}>
+            <div
+              className="form-group add-branch-select"
+              style={{ width: "205px", height: "0" }}
+            >
               <label>Branches:</label>
               <Select
                 closeMenuOnSelect={false}
@@ -217,19 +239,19 @@ function AddNewUser() {
                 styles={{
                   control: (provided) => ({
                     ...provided,
-                    maxHeight: '200px',
-                    overflowY: 'auto',
+                    maxHeight: "200px",
+                    overflowY: "auto",
                   }),
                   valueContainer: (provided) => ({
                     ...provided,
-                    maxHeight: '200px',
-                    overflowY: 'auto',
+                    maxHeight: "200px",
+                    overflowY: "auto",
                   }),
                 }}
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group role-field">
               <label>Role:</label>
               <br />
               <select

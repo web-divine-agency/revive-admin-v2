@@ -150,9 +150,9 @@ function MyProfile() {
           </div>
           <div className="col-lg-7 profile-update pb-4">
             <h2>User Information</h2>
-            <form onSubmit={handleProfileUpdate}>
-              <div className="d-flex justify-content-start">
-                <div className="form-group mr-5">
+            <form onSubmit={handleProfileUpdate} className="user-info-form">
+              <div className="d-flex justify-content-start user-info-fields">
+                <div className="form-group mr-5 username-field">
                   <label>User Name</label>
                   <input
                     type="text"

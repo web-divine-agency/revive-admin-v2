@@ -255,7 +255,7 @@ function EditUser() {
                 }}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group role-field">
               <label>Role:</label>
               <br />
               <select

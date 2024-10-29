@@ -163,11 +163,11 @@ function AddNewBranch() {
 
           </div>
           <div className="d-flex justify-content-between ml-5 add-branch-fields">
-            <div className="form-group">
+            <div className="form-group country-field">
               <label>Country:</label>
               <input type="text" disabled className="form-control" value={country} />
             </div>
-            <div className="form-group">
+            <div className="form-group opening-time-field">
               <label>Opening Time:</label>
               <input
                 type="time"
