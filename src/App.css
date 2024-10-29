@@ -1146,12 +1146,12 @@ input[type="date"] {
     border: 1px solid #ccc;
     border-radius: 20px;
     margin: 20px;
-    min-width: 375px !important;
+   min-width: 705px;
     margin-left: 0 !important;
     margin-top: 28px !important;
   }
   .container {
-    width: 390px;
+    width: 800px;
     margin-left: 0px !important;
     padding: 5px !important;
   }
@@ -1179,13 +1179,17 @@ input[type="date"] {
   .top-filter {
     padding: 0px 10px 20px 0px !important;
     width: 100% !important;
+    margin-bottom: -50px ;
   }
   .top-filter select {
     width: 100%;
     margin-bottom: 10px;
   }
   .add-user-btn {
-    margin-top: 0px !important;
+    margin-right: -375px;
+  }
+  .add-resource-btn {
+    margin-right: -375px;
   }
 
   .custom-profile-container {
@@ -1205,7 +1209,7 @@ input[type="date"] {
   .rdt_Pagination select {
     /* display: block !important; */
     text-align: center !important;
-    width: 100% !important;
+    width: 100px !important;
   }
   .upload-section p {
     font-size: 13px;
@@ -1246,9 +1250,32 @@ input[type="date"] {
   .recently-uploaded p {
     line-height: 20px;
   }
+  .add-user-form .add-user-fields{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+  .add-branch-form .add-branch-fields{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+  .add-branch-fields .closing-time-field{
+    margin-top: -180px;
+
+  }
+  .add-branch-fields .status-field{
+    margin-top: 35px;
+
+  }
+  .add-user-form .add-branch-select{
+    width: 0;
+    height: 70px !important;
+  }
+ 
 }
 
-@media (max-width: 480px) {
+@media (max-width: 430px) and (min-width: 425px) {
   .create-resources-text {
     margin-bottom: 45px;
   }
@@ -1260,12 +1287,12 @@ input[type="date"] {
     border: 1px solid #ccc;
     border-radius: 20px;
     margin: 20px;
-    min-width: 335px !important;
+    min-width: 385px !important;
     margin-left: 0 !important;
     margin-top: 28px !important;
   }
   .container {
-    width: 350px;
+    width: 398px;
     margin-left: 0px !important;
     padding: 5px !important;
   }
@@ -1302,6 +1329,69 @@ input[type="date"] {
 
   .file-item p {
     font-size: 10px;
+  }
+  .add-user-btn {
+    margin-right: 0;
+  }
+  .add-resource-btn {
+    margin-right: 0;
+  }
+  .top-filter {
+    padding: 0px 10px 20px 0px !important;
+    width: 100% !important;
+    margin-bottom: 0 ;
+  }
+}
+@media (max-width: 375px){
+  .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 352px !important;
+    margin-left: 0 !important;
+    margin-top: 28px !important;
+  }
+  .container {
+    width: 365px;
+    margin-left: 0px !important;
+    padding: 5px !important;
+  }
+  .add-user-btn {
+    margin-right: 0;
+  }
+  .add-resource-btn {
+    margin-right: 0;
+  }
+  .top-filter {
+    padding: 0px 10px 20px 0px !important;
+    width: 100% !important;
+    margin-bottom: 0 ;
+  }
+}
+@media (max-width: 360px) and (min-width: 320px) {
+  .container-content {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin: 20px;
+    min-width: 287px !important;
+    margin-left: 0 !important;
+    margin-top: 28px !important;
+  }
+  .container {
+    width: 300px;
+    margin-left: 0px !important;
+    padding: 5px !important;
+  }
+  .add-user-btn {
+    margin-right: 0;
+  }
+  .add-resource-btn {
+    margin-right: 0;
+  }
+  .top-filter {
+    padding: 0px 10px 20px 0px !important;
+    width: 100% !important;
+    margin-bottom: 0 ;
   }
 }
 

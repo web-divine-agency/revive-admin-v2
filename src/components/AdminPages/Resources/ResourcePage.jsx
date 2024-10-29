@@ -4,11 +4,14 @@ import "../../../App.css";
 import { useNavigate } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
 import greater_than from "../../../assets/images/greater_than.png";
+import check from "../../../assets/images/check.png";
 import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance";
 import {useLoader} from "../../Loaders/LoaderContext";
 import { FiArrowLeft } from "react-icons/fi";
+import Swal from "sweetalert2";
+
 
 
 const ResourcePage = () => {
@@ -100,7 +103,17 @@ const ResourcePage = () => {
       await axiosInstance.post("/create-resource", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert("Resource created successfully!");
+      Swal.fire({
+        title: "Success!",
+        text: "Resource has been created.",
+        imageUrl: check,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonColor: "#0ABAA6",
+      }).then(() => {
+        // Redirect to user list
+        navigate("/resources-list");
+      });
       setFormData({
         resource_title: "",
         resource_body: "",

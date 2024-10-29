@@ -8,7 +8,7 @@ import check from "../../../assets/images/check.png";
 import woman from '../../../assets/images/woman.png';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../../../axiosInstance';
-import Swal from 'sweetalert2'; // For alerts
+import Swal from 'sweetalert2'; 
 import delete_icon from "../../../assets/images/delete_icon.png";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { formatInTimeZone } from 'date-fns-tz';

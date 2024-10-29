@@ -293,20 +293,20 @@ function GenerateTickets() {
     }
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("loginSuccess") === "true") {
-      Swal.fire({
-        title: "Login Successful",
-        text: `Welcome`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      });
-      localStorage.removeItem("loginSuccess");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("loginSuccess") === "true") {
+  //     Swal.fire({
+  //       title: "Login Successful",
+  //       text: `Welcome`,
+  //       imageUrl: check,
+  //       imageWidth: 100,
+  //       imageHeight: 100,
+  //       confirmButtonText: "OK",
+  //       confirmButtonColor: "#0ABAA6",
+  //     });
+  //     localStorage.removeItem("loginSuccess");
+  //   }
+  // }, []);
   //clear the forms
   const entriesCleared = () => {
     setSuccessMessage("Entries cleared successfully.");

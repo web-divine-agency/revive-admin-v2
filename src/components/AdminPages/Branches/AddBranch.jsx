@@ -94,11 +94,11 @@ function AddNewBranch() {
     <div className="container">
       <h3>Add Branch</h3>
       <div className="container-content">
-        <form onSubmit={addBranch}>
+        <form onSubmit={addBranch} className="add-branch-form">
           <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
             {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
           </div>
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3 add-branch-fields">
             <div className="form-group">
               <label>Branch Name:</label>
               <input
@@ -127,7 +127,7 @@ function AddNewBranch() {
               />
             </div>
           </div>
-          <div className="d-flex justify-content-between ml-5 mr-5">
+          <div className="d-flex justify-content-between ml-5 mr-5 add-branch-fields">
             <div className="form-group">
               <label>City:</label>
               <input
@@ -162,7 +162,7 @@ function AddNewBranch() {
             </div>
 
           </div>
-          <div className="d-flex justify-content-between ml-5">
+          <div className="d-flex justify-content-between ml-5 add-branch-fields">
             <div className="form-group">
               <label>Country:</label>
               <input type="text" disabled className="form-control" value={country} />
@@ -188,8 +188,8 @@ function AddNewBranch() {
 
           </div>
      
-          <div className="d-flex justify-content-between ml-5">
-            <div className="form-group">
+          <div className="d-flex justify-content-between ml-5 add-branch-fields">
+            <div className="form-group status-field">
               <label>Status:</label>
               <br />
               <select
@@ -202,7 +202,7 @@ function AddNewBranch() {
               </select>
             </div>
 
-            <div className="form-group">
+            <div className="form-group closing-time-field">
               <label>Closing Time:</label>
               <input
                 type="time"

@@ -20,7 +20,7 @@ function Navbar({ role }) {
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [position, setPosition] = useState({ left: '5px' });
-  const isMobile = window.innerWidth < 768;
+  const isMobile = window.innerWidth <= 768;
 
   useEffect(() => {
     // Set openMenu to false if isMobile is true
@@ -29,7 +29,7 @@ function Navbar({ role }) {
     } else {
       setOpenMenu(true); // Optionally set to true when not mobile
     }
-  }, [isMobile]); 
+  }, [isMobile]);
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
     setPosition((prevPosition) => ({
@@ -101,21 +101,22 @@ function Navbar({ role }) {
         try {
           await axiosInstance.post(`/logout`);
           logout();
-          Swal.fire({
-            title: "Logged Out!",
-            text: "You have been logged out successfully.",
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-            customClass: {
-              confirmButton: "custom-success-confirm-button",
-              title: "custom-swal-title",
-            },
-          }).then(() => {
-            navigate("/login");
-          });
+          navigate("/login");
+          // Swal.fire({
+          //   title: "Logged Out!",
+          //   text: "You have been logged out successfully.",
+          //   imageUrl: check,
+          //   imageWidth: 100,
+          //   imageHeight: 100,
+          //   confirmButtonText: "OK",
+          //   confirmButtonColor: "#0ABAA6",
+          //   customClass: {
+          //     confirmButton: "custom-success-confirm-button",
+          //     title: "custom-swal-title",
+          //   },
+          // }).then(() => {
+          //   navigate("/login");
+          // });
         } catch {}
       }
     });
@@ -130,7 +131,7 @@ function Navbar({ role }) {
       if (isMobile) {
         setOpenMenu(false);
         setPosition((prevPosition) => ({
-          left: prevPosition.left === '190px' ? '5px' : '190px',
+          left: prevPosition.left === "190px" ? "5px" : "190px",
         }));
       }
     }
@@ -152,7 +153,7 @@ function Navbar({ role }) {
                 alt="Profile Avatar"
               />
               <h5>
-                Signed in as: {first_name} {last_name}
+               Hello, {first_name} {last_name}
               </h5>
             </div>
           </div>

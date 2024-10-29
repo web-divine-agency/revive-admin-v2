@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./PasswordReset.css";
 import password_icon from "../../assets/images/password.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useParams } from "react-router-dom";
+import axiosInstance from "../../../axiosInstance";
 
 // Mock data
 const users = [
@@ -14,22 +15,31 @@ function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { passwordToken } = useParams();
 
-  const handleResetPassword = (e) => {
-    e.preventDefault();
+  const handleResetPassword = async (e) => {
+    e.preventDefault(); 
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
+  
 
-    const user = users.find((user) => user.email === email);
-    if (user) {
-      user.password = password;
+    try {
+      const response = await axiosInstance.post("/confirm-reset-password", {
+        token : passwordToken , 
+        newPassword : password
+       });
+      
       setMessage("Password reset successful!");
       setTimeout(() => navigate("/login"), 2000);
-    } else {
+      console.log("No Redirect");
+    } catch (error) {
       setMessage("User not found.");
+   
     }
+
+
   };
 
   return (

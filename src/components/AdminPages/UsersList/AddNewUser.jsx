@@ -141,12 +141,12 @@ function AddNewUser() {
     <div className="container">
       <h3>Add New User</h3>
       <div className="container-content">
-        <form onSubmit={addUser}>
+        <form onSubmit={addUser} className="add-user-form">
           <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
             {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
           </div>
 
-          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3">
+          <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3 add-user-fields">
             <div className="form-group">
               <label>Last Name:</label>
               <input
@@ -175,7 +175,7 @@ function AddNewUser() {
               </select>
             </div>
           </div>
-          <div className="d-flex justify-content-between ml-5 mr-5">
+          <div className="d-flex justify-content-between ml-5 mr-5 add-user-fields">
             <div className="form-group">
               <label>Username:</label>
               <input
@@ -204,8 +204,8 @@ function AddNewUser() {
               />
             </div>
           </div>
-          <div className="d-flex justify-content-between ml-5">
-            <div className="form-group" style={{ width: "205px", height: "0" }}>
+          <div className="d-flex justify-content-between ml-5 add-user-fields">
+            <div className="form-group add-branch-select" style={{ width: "205px", height: "0" }}>
               <label>Branches:</label>
               <Select
                 closeMenuOnSelect={false}

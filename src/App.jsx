@@ -44,24 +44,30 @@ function Layout() {
   const userRole = getCookie('role_name');
   const noSidebarPaths = ['/', '/not-authorized'];
 
+const  isSegmentCorrect = (url , pathNameURL) => {
 
+    const url_check = pathNameURL;
+    const regex = new RegExp(`/${url_check}/[a-zA-Z0-9]+$`);
+    return regex.test(url);
+
+  }
 
   // Check if the current path should hide the sidebar
   const shouldHideSidebar = noSidebarPaths.includes(location.pathname);
-
+//  console.log(location);
   return (
     <LoaderProvider>
     <AuthContextProvider>
     <>
-        {!shouldHideSidebar && location.pathname !== '/' && location.pathname !== '/forgot-password' && location.pathname !== '/reset-password' && location.pathname !== '/open-email' && <SideBar role={userRole} />}
+        {!shouldHideSidebar && location.pathname !== '/' && location.pathname !== '/forgot-password' && !isSegmentCorrect( location.pathname , "reset-password" ) && location.pathname !== '/open-email' && <SideBar role={userRole} />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/userlist" element={<ProtectedRoute element={<UsersList />} allowedRoles={['Admin']} />} />
         <Route path="/forgot-password"  element={<ForgotPassword />}/>
-        <Route path="/reset-password"  element={<ResetPassword />}/>
+        <Route path="/reset-password/:passwordToken" name="reset-password"  element={<ResetPassword />}/>
         <Route path="/open-email"  element={<CheckEmail />}/>
         <Route path="/view-resource" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
-        <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin', 'Staff']} />} />
+        <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
         <Route path="/ticket-category" element={<ProtectedRoute element={<TicketCategory />} allowedRoles={['Admin']} />} />
         <Route path="/template-management" element={<ProtectedRoute element={<TemplateManagement />} allowedRoles={['Admin']} />} />

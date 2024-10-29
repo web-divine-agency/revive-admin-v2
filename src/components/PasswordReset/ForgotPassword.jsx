@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import "./PasswordReset.css";
 import password from "../../assets/images/password.png";
+import axiosInstance from "../../../axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 // Mock data
-const users = [{ email: "test@example.com", password: "123456" }];
+const users = [{ email: "test@example.com" }];
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -13,17 +14,22 @@ function ForgotPassword() {
   const [isEmailNotFound, setIsEmailNotFound] = useState(false);
   const navigate = useNavigate();
 
-  const handlePasswordResetRequest = (e) => {
+  const handlePasswordResetRequest = async (e) => {
     e.preventDefault();
-    const user = users.find((user) => user.email === email);
-    if (user) {
+
+
+    try {
+      const response = await axiosInstance.post("/reset-password", {email});
+
       setMessage("Reset instructions sent! Check your email.");
       setIsEmailNotFound(false);
       setTimeout(() => navigate("/open-email", { state: { email } }), 3000);
-    } else {
+    } catch (error) {
       setMessage("Email not found.");
       setIsEmailNotFound(true);
+      // setSuccessMessage("");
     }
+
   };
 
   return (
