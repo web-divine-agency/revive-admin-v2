@@ -5565,7 +5565,8 @@ function GenerateTickets() {
                 }
               />
             </div>
-            <div className="form-group">
+            <div className="d-flex justify-content-between">
+            <div className="form-group" style={{width: 120}}>
               <label>Price</label>
               <input
                 type="text"
@@ -5585,7 +5586,7 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{width: 120}}>
               <label>RRP</label>
               <input
                 type="text"
@@ -5603,7 +5604,7 @@ function GenerateTickets() {
                 }}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group" style={{width: 120}}>
               <label>Save</label>
               <input
                 disabled
@@ -5621,6 +5622,7 @@ function GenerateTickets() {
                   });
                 }}
               />
+            </div>
             </div>
             <div className="form-group">
               <label>RRP Option</label>
@@ -5935,7 +5937,7 @@ function GenerateTickets() {
               }}
             >
               <h5>Enter Text below</h5>
-              <form>
+              <form className="p-4">
                 <div style={{ position: "relative", textAlign: "center" }}>
                   {successMessage && (
                     <div

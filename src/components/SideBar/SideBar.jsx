@@ -19,8 +19,13 @@ function Navbar({ role }) {
   const [last_name, setLastName] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
-  const [position, setPosition] = useState({ left: '5px' });
+  const [position, setPosition] = useState({ left: "5px" });
   const isMobile = window.innerWidth <= 768;
+  const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
+
+  const handleDropdownToggle = (index) => {
+    setDropdownOpenIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   useEffect(() => {
     // Set openMenu to false if isMobile is true
@@ -33,7 +38,7 @@ function Navbar({ role }) {
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
     setPosition((prevPosition) => ({
-      left: prevPosition.left === '190px' ? '5px' : '190px',
+      left: prevPosition.left === "190px" ? "5px" : "190px",
     }));
   };
 
@@ -125,6 +130,8 @@ function Navbar({ role }) {
   const handleItemClick = (index, item) => {
     if (item.title === "Logout") {
       handleLogout();
+    } else if (item.submenu) {
+      handleDropdownToggle(index);
     } else {
       navigate(item.path);
       setActiveIndex(index);
@@ -139,7 +146,11 @@ function Navbar({ role }) {
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <div onClick={toggleMenu} className="toggle-btn" style={{ position: 'fixed', left: position.left }}>
+        <div
+          onClick={toggleMenu}
+          className="toggle-btn"
+          style={{ position: "fixed", left: position.left }}
+        >
           <div className="bar"></div>
           <div className="bar"></div>
           <div className="bar"></div>
@@ -153,7 +164,7 @@ function Navbar({ role }) {
                 alt="Profile Avatar"
               />
               <h5>
-               Hello, {first_name} {last_name}
+                Hello, {first_name} {last_name}
               </h5>
             </div>
           </div>
@@ -276,29 +287,53 @@ function Navbar({ role }) {
 
                 <div className="curve"></div>
                 <ul className="nav-menu-items">
-                  {sidebarData.map((item, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        <li
-                          className={`${item.cName} sidebar-nav-list ${
-                            activeIndex === index ? "active" : ""
-                          }`}
+                  {sidebarData.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <li
+                        className={`${item.cName} sidebar-nav-list ${
+                          activeIndex === index ? "active" : ""
+                        }`}
+                        onClick={() => handleItemClick(index, item)}
+                      >
+                        <Link
+                          className="sidebar-nav-link"
+                          to={item.title !== "Logout" ? item.path : null}
                         >
-                          <Link
-                            className="sidebar-nav-link"
-                            to={item.title !== "Logout" ? item.path : null}
-                            onClick={() => handleItemClick(index, item)}
-                          >
-                            {item.icon}
-                            <span>{item.title}</span>
-                          </Link>
-                        </li>
-                        {index < sidebarData.length - 1 && (
-                          <hr className="nav-divider" />
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
+                          {item.icon}
+                          <span>{item.title}</span>
+                        </Link>
+                      </li>
+
+                      {item.submenu && dropdownOpenIndex === index && (
+                        <ul className="nav-menu-items submenu">
+                          {item.submenu.map((subItem, subIndex) => (
+                            <React.Fragment key={subIndex}>
+                               {subIndex < item.submenu.length - 1 && ( // Add divider only if it's not the last item
+                                <hr className="nav-divider" />
+                              )}
+                              <li
+                                className="nav-text sidebar-nav-list"
+                                onClick={() => handleItemClick(index, subItem)}
+                              >
+                                <Link
+                                  className="sidebar-nav-link"
+                                  to={subItem.path}
+                                > {subItem.icon}
+                                  <span>{subItem.title}</span>
+                                 
+                                </Link>
+                              </li>
+                             
+                            </React.Fragment>
+                          ))}
+                        </ul>
+                      )}
+
+                      {index < sidebarData.length - 1 && (
+                        <hr className="nav-divider" />
+                      )}
+                    </React.Fragment>
+                  ))}
                 </ul>
               </nav>
             </div>

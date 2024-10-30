@@ -156,8 +156,8 @@ const ResourcePage = () => {
                 <option value="" disabled>
                   Select Category
                 </option>
-                <option value="General Resources">General Resources</option>
-                <option value="Troubleshooting Resources">Troubleshooting Resources</option>
+                <option value="General Resource">General Resources</option>
+                <option value="Troubleshooting Resource">Troubleshooting Resources</option>
               </select>
 
               <br />

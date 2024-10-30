@@ -23,15 +23,18 @@ function ForgotPassword() {
 
       setMessage("Reset instructions sent! Check your email.");
       setIsEmailNotFound(false);
-      setTimeout(() => navigate("/open-email", { state: { email } }), 3000);
+     setTimeout(() => navigate("/open-email", { state: { email } }), 3000);
     } catch (error) {
-      setMessage("Email not found.");
+      setMessage("Oops! We couldn't locate that email.");
       setIsEmailNotFound(true);
       // setSuccessMessage("");
     }
 
   };
-
+  const handleHideAlert = async (e) => {
+    setIsEmailNotFound(false);
+    setMessage("");
+  }
   return (
     <div className="forgot-password-container">
       <div className="forgot-password-card">
@@ -43,6 +46,7 @@ function ForgotPassword() {
         {message && (
           <p className={`alert ${isEmailNotFound ? "alert-danger" : "alert-success"}`}>
             {message}
+           {isEmailNotFound &&  <div className={"close-quick-alert"} onClick={handleHideAlert}></div>}
           </p>
         )}
         <form className="forgot-password-form" onSubmit={handlePasswordResetRequest}>
@@ -50,7 +54,7 @@ function ForgotPassword() {
           <input
             type="email"
             id="email"
-            placeholder="Enter your email"
+            // placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

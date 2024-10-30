@@ -14,7 +14,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     // const [branches, setBranches] = useState([]);
     // const [selectedBranch, setSelectedBranch] = useState('Main');
-    const [error, setError] = useState('');
+    const [error, setError] = useState({value: "" , isShow : false});
     const navigate = useNavigate();
 
     const login = async (event) => {
@@ -29,19 +29,24 @@ function Login() {
             // console.log("User ID:", user.id);
             if (selectedRole !== roleName) {
                 // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
-                Swal.fire({
-                    title: 'Role Mismatch',
-                    text: 'Please select your assigned role.',
-                    imageUrl: close,
-                    imageWidth: 100,
-                    imageHeight: 100,
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#EC221F",
-                    customClass: {
-                        confirmButton: "custom-error-confirm-button",
-                        title: "custom-swal-title",
-                    },
-                })
+
+                setError({
+                    value : "Invalid login, Please check your credentials",
+                    isShow : true 
+                });
+                // Swal.fire({
+                //     title: 'Role Mismatch',
+                //     text: 'Please select your assigned role.',
+                //     imageUrl: close,
+                //     imageWidth: 100,
+                //     imageHeight: 100,
+                //     confirmButtonText: "OK",
+                //     confirmButtonColor: "#EC221F",
+                //     customClass: {
+                //         confirmButton: "custom-error-confirm-button",
+                //         title: "custom-swal-title",
+                //     },
+                // })
                 return;
             }
             // if (selectedBranch !== branch) {
@@ -74,19 +79,24 @@ function Login() {
             }
         } catch (error) {
             console.error('Login error:', error);
-            Swal.fire({
-                title: 'Invalid username or password!',
-                text: 'Please check your credentials',
-                imageUrl: close,
-                imageWidth: 100,
-                imageHeight: 100,
-                confirmButtonText: "OK",
-                confirmButtonColor: "#EC221F",
-                customClass: {
-                    confirmButton: "custom-error-confirm-button",
-                    title: "custom-swal-title",
-                },
-            })
+
+            setError({
+                value : "Invalid login ,Please check your credentials ",
+                isShow : true 
+            });
+            // Swal.fire({
+            //     title: 'Invalid username or password!',
+            //     text: 'Please check your credentials',
+            //     imageUrl: close,
+            //     imageWidth: 100,
+            //     imageHeight: 100,
+            //     confirmButtonText: "OK",
+            //     confirmButtonColor: "#EC221F",
+            //     customClass: {
+            //         confirmButton: "custom-error-confirm-button",
+            //         title: "custom-swal-title",
+            //     },
+            // })
             return;
         }
     };
@@ -124,11 +134,11 @@ function Login() {
                 <div className="col-md-6 d-flex align-items-center justify-content-center">
                     <div className="card p-4 login-form-wrap" style={{ width: '450px' }}>
                         <h2 className="text-left mb-4">{selectedRole === 'Staff' ? 'Staff Login' : 'Admin Login'}</h2>
-                        {error && <div className="alert alert-danger">{error}</div>}
+                        {(error.value !== "" && error.isShow === true) && <div className="alert alert-danger">{error.value}<div className={"close-quick-alert"} onClick={()=>setError({...error , isShow:false})}></div></div>}
                         <form onSubmit={login}>
 
                             <label htmlFor="username">Username</label><br />
-                            <div className="form-group mb-3">
+                            <div className="form-group mb-3 ">
                                 <input
                                     type="text"
                                     id="username"
@@ -137,6 +147,7 @@ function Login() {
                                     // placeholder="Username"
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
+                                
                             </div>
                             <label htmlFor="password">Password</label><br />
                             <div className="form-group">
@@ -194,7 +205,7 @@ function Login() {
                                 </div>
                             </div>
                             <div className='d-flex justify-content-left mt-1'>
-                                <button type="submit" className="mt-2 custom-btn">LOGIN</button>
+                                <button type="submit" className="mt-2 custom-btn">Login</button>
                             </div>
                         </form>
                     </div>
