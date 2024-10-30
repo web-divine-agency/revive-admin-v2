@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import "../../../App.css";
 import check from "../../../assets/images/check.png";
 import Swal from "sweetalert2";
+import { FiArrowLeft } from "react-icons/fi";
+
 
 function EditUserTemplateAccess() {
     const { userId } = useParams();
@@ -85,7 +87,12 @@ function EditUserTemplateAccess() {
 
     return (
         <div className="container">
-            <h3>Edit User's Template Access</h3>
+            <h3>
+            <a href="/template-management" className="back-btn">
+          <FiArrowLeft /> Back <br />
+        </a>
+                
+                Edit User's Template Access</h3>
             <div className="container-content">
                 <form onSubmit={assignTickets}>
                     <div className="form-group ml-5 mt-5">

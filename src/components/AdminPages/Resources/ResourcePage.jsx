@@ -8,16 +8,15 @@ import check from "../../../assets/images/check.png";
 import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance";
-import {useLoader} from "../../Loaders/LoaderContext";
+import { useLoader } from "../../Loaders/LoaderContext";
 import { FiArrowLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
-
-
 
 const ResourcePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [additionalFields, setAdditionalFields] = useState([]);
   const [resources, setResources] = useState([]);
+  const [category, setCategory] = useState([]);
   const [formData, setFormData] = useState({
     resource_title: "",
     resource_body: "",
@@ -25,11 +24,10 @@ const ResourcePage = () => {
   });
   const [resourceMedia, setResourceMedia] = useState(null);
   const navigate = useNavigate();
-  const {setLoading} = useLoader();
+  const { setLoading } = useLoader();
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const [copiedLink, setCopiedLink] = useState(null);
-
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -42,8 +40,6 @@ const ResourcePage = () => {
     };
     fetchResources();
   }, [setLoading]);
-
- 
 
   const handleCopyLink = (link) => {
     const fullLink = `${window.location.origin}${link}`;
@@ -88,11 +84,16 @@ const ResourcePage = () => {
     formDataToSend.append("resource_title", formData.resource_title);
     formDataToSend.append("resource_body", formData.resource_body);
     formDataToSend.append("status", formData.status);
+    formDataToSend.append("category", formData.category);
+    formDataToSend.append(
+      "additional_fields",
+      JSON.stringify(additionalFields)
+    );
 
     // Append media files
-    if (resourceMedia) {
+    if (resourceMedia.length > 0) {
       resourceMedia.forEach((file) => {
-        formDataToSend.append("resource_media[]", file); // Send each file
+        formDataToSend.append("resource_media", file); // Send each file
       });
     }
 
@@ -119,71 +120,47 @@ const ResourcePage = () => {
         resource_body: "",
         status: "draft",
       });
+      setResourceMedia([]);
+      setAdditionalFields([]);
     } catch (error) {
       console.error("Error creating resource:", error);
     }
   };
 
-  const renderPreview = (resource) => {
-    const fileExtension = resource.resource_media.split('.').pop().toLowerCase();
-
-    switch (fileExtension) {
-      case "pdf":
-        return (
-          <iframe
-            src={resource.resource_media}
-            width="150px"
-            height="100px"
-            title={resource.title}
-          ></iframe>
-        );
-      case "jpg":
-      case "jpeg":
-      case "png":
-      case "gif":
-        return <img src={resource.resource_media} alt={resource.title} width="150px" title={resource.title} />;
-      case "mp4":
-      case "mov":
-      case "avi":
-        return (
-          <video width="150" controls>
-            <source src={resource.resource_media} type={`video/${fileExtension}`} />
-            Your browser does not support the video tag.
-          </video>
-        );
-      case "doc":
-      case "docx":
-      case "xls":
-      case "xlsx":
-        return (
-          <a href={resource.resource_media} target="_blank" rel="noopener noreferrer">
-            {resource.title} (Preview not supported. Click to download.)
-          </a>
-        );
-      default:
-        return <p>No preview available</p>;
-    }
-};
-
-
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-      <h3 className="create-resources-text">
-      <a href="/resources-list" className="back-btn">
-          <FiArrowLeft /> Back  <br />
-        </a>
-        Create Resources</h3>
-      <button
-        onClick={() => navigate("/resources")}
-        type="submit"
-        className="btn btn-primary float-end publish-btn"
-      >
-        <i className="fa fa-paper-plane"></i> Publish
-      </button>
-      <div className="container-content">
-        <div className="resource-page">
-          <div>
+        <h3 className="create-resources-text">
+          <a href="/resources-list" className="back-btn">
+            <FiArrowLeft /> Back <br />
+          </a>
+          Create Resources
+        </h3>
+        <button
+          onClick={() => navigate("/resources")}
+          type="submit"
+          className="btn btn-primary float-end publish-btn"
+        >
+          {/* <i className="fa fa-paper-plane"></i>  */}
+          Publish
+        </button>
+        <div className="container-content">
+          <div className="resource-page">
+            <div>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="General Resources">General Resources</option>
+                <option value="Troubleshooting Resources">Troubleshooting Resources</option>
+              </select>
+
+              <br />
               <input
                 className="title"
                 type="text"
@@ -196,7 +173,7 @@ const ResourcePage = () => {
               />
               <br />
               <textarea
-                className="description"
+                className="description w-100"
                 type="text"
                 placeholder="Add description"
                 id="name"
@@ -206,8 +183,15 @@ const ResourcePage = () => {
                 required
               />
               <div>
-              {additionalFields.map((field, index) => (
-                  <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                {additionalFields.map((field, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
                     <textarea
                       className="additonal-field"
                       type="text"
@@ -216,11 +200,15 @@ const ResourcePage = () => {
                       onChange={(e) => handleFieldChange(index, e.target.value)}
                       style={{ marginRight: "10px" }}
                     />
-                   <button
+                    <button
                       type="button"
                       className="btn btn-danger"
                       onClick={() => removeField(index)}
-                      style={{ display: "flex", alignItems: "center", marginTop: "-80px" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "-80px",
+                      }}
                     >
                       <FaTimes />
                     </button>
@@ -234,107 +222,31 @@ const ResourcePage = () => {
               >
                 <i className="fa fa-plus"></i>Add field
               </button>
-              <h5>
-                Optional<span style={{ color: "red" }}>*</span>
-              </h5>
-              <input
-                className="link"
-                type="text"
-                placeholder="Paste Link"
-                id="link"
-                name="link"
-              />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <a onClick={handleShow}>
-               Add File <img src={greater_than} alt="" height={40} />
-                </a>
+              <h5>Upload Files</h5>
+              <div className="upload-box mb-4 text-center">
+                <div className="upload-content">
+                  <img src={upload_icon} alt="Upload" />
+                  <p>Browse and choose the files you want to upload</p>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    name="resource_media"
+                    onChange={handleFileChange}
+                    multiple
+                    className="file-input"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary upload-resource-btn mt-3"
+                  onClick={() => console.log(resourceMedia)} // Optional action for upload preview
+                >
+                  Show Selected Files
+                </button>
               </div>
-            
+            </div>
           </div>
         </div>
-      </div>
-
-      <Modal show={showModal} onHide={handleClose} centered size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>Upload your resources</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="text-center">
-            <p>
-              You can upload any type of file, such as training materials,
-              presentations, images, or documents.
-            </p>
-
-            <div className="upload-box mb-4">
-              <div className="upload-content">
-                <img src={upload_icon} alt="Upload" />
-                <p>Browse and choose the files you want to upload</p>
-                <input
-                  type="file"
-                  id="fileInput"
-                  name="resource_media"
-                  onChange={handleFileChange}
-                  multiple
-                  className="file-input"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary upload-resource-btn mt-3"
-              >
-                Upload
-              </button>
-            </div>
-          </div>
-          <div className="recently-uploaded">
-            <h3>Recently Uploaded</h3>
-            <p>
-              After you upload a file, you can copy its link and paste it into
-              the link field.
-            </p>
-            <div className="uploaded-files">
-              {resources?.map((resource, index) => (
-                <div key={index} className="file-item">
-                  <a
-                    href={resource.resource_media}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <h4>{resource.resource_title}</h4>
-                    {renderPreview(resource)}
-                  </a>
-
-                  <div
-                    className="copy-icon"
-                    onClick={() => handleCopyLink(resource.resource_media)}
-                    title="Copy Link"
-                  >
-                    <FiCopy size={28} />
-                  </div>
-
-                  {copiedLink === resource.resource_media && (
-                    <span
-                      style={{
-                        color: "gray",
-                        position: "absolute",
-                        top: -25,
-                        left: 10,
-                      }}
-                    >
-                      Link copied!
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
       </form>
     </div>
   );

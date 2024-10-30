@@ -3,6 +3,7 @@ import "../../../App.css";
 import sample_vid from "../../../assets/images/sample_vid.mp4";
 import { FiArrowLeft } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
+import revive_logo from "../../../assets/images/revive-logo.png";
 
 const ViewResources = () => {
   const location = useLocation();
@@ -43,66 +44,49 @@ const ViewResources = () => {
             <div>
               <h2 className="title font-weight-bold mb-3">Instruction</h2>{" "}
               <br />
-              <h2 className="description">{resource.instructions}</h2>
+              <h2 className="description">{resource.additional_fields}</h2>
             </div>
-            {resource.type === "pdf" && (
-              <iframe
-                src={resource.link}
-                type="application/pdf"
-                width="100%"
-                height="800px"
-                title="PDF Document"
-              />
+            {resource?.resource_media ? (
+              JSON.parse(resource?.resource_media).map((media, index) =>
+                media.endsWith(".pdf") ? (
+                  <embed
+                    key={index}
+                    src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                    type="application/pdf"
+                    width="50%"
+                    height="600px"
+                    title="PDF Document"
+                  />
+                ) : media.endsWith(".mp4") ? (
+                  <video key={index} width="100%" height="100%" controls>
+                    <source
+                      src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                      type="video/mp4"
+                    />
+                  </video>
+                ) : media.endsWith(".jpg") ||
+                  media.endsWith(".jpeg") ||
+                  media.endsWith(".png") ? (
+                  <img
+                    key={index}
+                    src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                    alt="Resource Image"
+                    width="auto"
+                    height="300px"
+                  />
+                ) : (
+                  <img
+                    key={index}
+                    src={revive_logo}
+                    alt="No Media"
+                    width="100%"
+                    height="200"
+                  />
+                )
+              )
+            ) : (
+              <img src={revive_logo} alt="No Media" width="100%" height="200" />
             )}
-            {resource.type === "video" && (
-              <video width="100%" height="100%" controls>
-                <source src={resource.link} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            )}
-            {resource.type === "image" && (
-              <img
-                src={resource.link}
-                alt="Resource"
-                width="100%"
-                height="100%"
-              />
-            )}
-            {/* <div className="uploaded-files">
-              {resources.map((resource, index) => (
-                <div key={index} className="file-item">
-                  <a
-                    href={resource.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <h4>{resource.name}</h4>
-                    {renderPreview(resource)}
-                  </a>
-
-                  <div
-                    className="copy-icon"
-                    onClick={() => handleCopyLink(resource.file)}
-                    title="Copy Link"
-                  >
-                    <FiCopy size={28} />
-                  </div>
-
-                  {copiedLink === resource.file && (
-                    <span
-                      style={{
-                        color: "gray",
-                        position: "absolute",
-                        top: -25,
-                        left: 10,
-                      }}
-                    >
-                      Link copied!
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div> */}
           </div>
         </div>
       </div>

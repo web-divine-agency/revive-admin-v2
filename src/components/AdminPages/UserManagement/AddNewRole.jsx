@@ -3,7 +3,7 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-
+import { FiArrowLeft } from "react-icons/fi";
 
 function AddNewRole() {
   const navigate = useNavigate();
@@ -13,9 +13,8 @@ function AddNewRole() {
   const defaultPermissions = [
     { permission_name: "Generate Ticket", permission_id: 1 },
     { permission_name: "View Ticket History", permission_id: 4 },
-    { permission_name: "Manage Account", permission_id: 7 }
+    { permission_name: "Manage Account", permission_id: 7 },
   ];
-
 
   const addUserRole = async (e) => {
     e.preventDefault();
@@ -33,13 +32,12 @@ function AddNewRole() {
       if (roleResponse && roleResponse.data) {
         const newRoleId = parseInt(message.split(": ")[1]);
 
-
         for (const permission of defaultPermissions) {
-        await axiosInstance.post("/create-rolePermission", {
-          role_id: newRoleId,
-          permission_id: permission.permission_id
-        });
-      }
+          await axiosInstance.post("/create-rolePermission", {
+            role_id: newRoleId,
+            permission_id: permission.permission_id,
+          });
+        }
 
         console.log("All selected permissions assigned successfully.");
       }
@@ -49,8 +47,8 @@ function AddNewRole() {
         title: "Role Added Successfully",
         text: `New Role added!`,
         imageUrl: check,
-        imageWidth: 100,  
-        imageHeight: 100, 
+        imageWidth: 100,
+        imageHeight: 100,
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       }).then(() => {
@@ -70,7 +68,12 @@ function AddNewRole() {
 
   return (
     <div className="container">
-      <h3>Add New User Role</h3>
+      <h3>
+        <a href="/user-management" className="back-btn">
+          <FiArrowLeft /> Back <br />
+        </a>
+        Add New User Role
+      </h3>
       <div className="container-content">
         <form onSubmit={addUserRole}>
           <div className="form-group ml-5 mt-3">

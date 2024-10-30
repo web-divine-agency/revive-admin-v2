@@ -3,6 +3,8 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
+import { FiArrowLeft } from "react-icons/fi";
+
 
 
 function AddNewBranch() {
@@ -92,7 +94,11 @@ function AddNewBranch() {
 
   return (
     <div className="container">
-      <h3>Add Branch</h3>
+      <h3>
+      <a href="/branches" className="back-btn">
+          <FiArrowLeft /> Back <br />
+        </a>
+        Add Branch</h3>
       <div className="container-content">
         <form onSubmit={addBranch} className="add-branch-form">
           <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
@@ -220,7 +226,7 @@ function AddNewBranch() {
               />
             </div>
           </div>
-          <button className="submit-btn mb-4 mt-4" type="submit">
+          <button className="submit-btn mb-4 mt-4 submit-branch-btn" type="submit">
             SAVE
           </button>
         </form>

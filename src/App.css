@@ -1047,6 +1047,13 @@ margin-left: 8rem;
   transform: scale(1.05);
 }
 
+.resources-card .card{
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
 .resources-card {
   /* flex: 1 1 calc(33.333% - 20px);  */
   width: calc(33.33% - 15px);
@@ -1057,12 +1064,14 @@ margin-left: 8rem;
   font-size: 18px;
   font-weight: bold;
 text-decoration: none !important;
+display: flex;
+align-items: center;
 }
 
 
 .pagination-controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 10px;
   gap: 20px;

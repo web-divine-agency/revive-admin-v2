@@ -7,6 +7,7 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import resources_placeholder from "../../../assets/images/resources_placeholder.png";
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
@@ -115,10 +116,9 @@ function ResourcesLists() {
   // Pagination calculations
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResources = filteredResources.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentResources = filteredResources
+  .filter(resource => resource.category === "General Resource")
+  .slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredResources.length / itemsPerPage);
 
   // Pagination controls
@@ -133,6 +133,46 @@ function ResourcesLists() {
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reset to first page on items-per-page change
+  };
+
+  const renderResourceCard = (resource) => {
+    return (
+      <div key={resource.id} className="resources-card">
+        <div className="card">
+          <div className="card-body">
+            {role === "Admin" && (
+              <button
+                className="delete-resource-btn"
+                onClick={() => handleDeleteResource(resource.id)}
+              >
+                <img src={delete_icon} height={24} alt="Delete" />
+              </button>
+            )}
+            <div
+              onClick={() =>
+                navigate("/view-resource", { state: resource })
+              }
+              style={{ cursor: "pointer" }}
+            >
+              <h5 className="card-title">{resource.resource_title}</h5>
+              <p className="card-text">{resource.resource_body}</p>
+              <p className="card-text">
+                Author:{" "}
+                {resource.user
+                  ? `${resource.user.first_name} ${resource.user.last_name}`
+                  : "Unknown"}
+              </p>
+              <img
+                src={resources_placeholder}
+                alt="No Media"
+                width="100%"
+                height="200"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -211,47 +251,12 @@ function ResourcesLists() {
                             ? `${resource.user.first_name} ${resource.user.last_name}`
                             : "Unknown"}
                         </p>
-                        {resource?.resource_media ? (
-                          JSON.parse(resource?.resource_media).map((media, index) => (
-                            media.endsWith(".pdf") ? (
-                              <embed
-                                key={index}
-                                src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                                type="application/pdf"
-                                width="100%"
-                                height="200px"
-                                title="PDF Document"
-                              />
-                            ) : media.endsWith(".mp4") ? (
-                              <video key={index} width="100%" height="200" controls>
-                                <source src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`} type="video/mp4" />
-                              </video>
-                            ) : media.endsWith(".jpg") || media.endsWith(".jpeg") || media.endsWith(".png") ? (
-                              <img
-                                key={index}
-                                src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                                alt="Resource Image"
-                                width="100%"
-                                height="200"
-                              />
-                            ) : (
-                              <img
-                                key={index}
-                                src={revive_logo}
-                                alt="No Media"
-                                width="100%"
-                                height="200"
-                              />
-                            )
-                          ))
-                        ) : (
-                          <img
-                            src={revive_logo}
+                        <img
+                            src={resources_placeholder}
                             alt="No Media"
-                            width="100%"
-                            height="200"
+                            width="60%"
+                            height="auto"
                           />
-                        )}
                       </div>
                     </div>
                   </div>
@@ -303,14 +308,14 @@ function ResourcesLists() {
                   Troubleshooting Resources {showTroubleshooting ? "▲" : "▼"}
                 </h3>
               </h4>
-              {/*{showTroubleshooting && (
+              {showTroubleshooting && (
                 <div className="resources-content">
                   {troubleshootingResources
-                    .filter((resource) => resource.category === "Troubleshooting Resource")
+                    .filter((resource) => resource?.category === "Troubleshooting Resource")
                     .map((resource) => renderResourceCard(resource))
                   }
                 </div>
-                )}*/}
+                )}
             </div>
           </div>
         </div>
