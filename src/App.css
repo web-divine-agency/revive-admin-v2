@@ -54,17 +54,14 @@ button:hover {
     margin-left: -8px !important;
     min-width: 975px !important;
   }
-  .top-filter {
-    padding: 0px 0px 0px 20px !important;
-  }
+ 
 
   .top-filter #filter {
-    padding: 5px 20px !important;
-    border: none !important;
-    border-radius: 30px !important;
-    color: #626262 !important;
+    border: none ;
+    border-radius: 3px ;
+    color: #626262 ;
     cursor: pointer;
-    border: 1px solid #dfdfdf !important;
+    border: 1px solid #dfdfdf ;
   }
 
   .add-to-queue-btn {
@@ -72,12 +69,10 @@ button:hover {
   }
 
   .container-content {
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin-left: 15px !important;
+   
+   
     min-width: 940px !important;
     overflow-x: auto;
-    padding: 0 10px;
   }
 
   .generate-ticket-container .form-group label {
@@ -93,8 +88,9 @@ button:hover {
   }
 
   .dataTables_wrapper .rdt_TableCell {
-    font-size: 12px !important;
-    color: #000000;
+    font-size: 14px;
+    color: #525252;
+    padding: 9px 14px;
   }
 
   .dataTables_wrapper .rdt_TableHead {
@@ -171,7 +167,7 @@ button:hover {
     font-size: 18px !important;
   }
   #search-bar {
-    padding: 8.5px 20px !important;
+    padding: 8.5px 20px ;
   }
 }
 
@@ -185,43 +181,43 @@ body {
 
 /* Components Style */
 .container {
-  border: 2px solid #dfdfdf;
-  border-radius: 20px;
+  border-radius: 13px;
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
   margin-left: 7.8rem;
-  margin-top: 5rem !important;
+  margin-top: 6rem ;
   margin-bottom: 20px !important;
 }
 
 #search-bar {
-  padding: 6px 20px;
+  padding: 8.2px 20px;
   border: none;
-  border-radius: 30px;
+  border-radius: 3px;
   background-color: #ffffff;
   color: #626262;
   cursor: text;
   border: 1px solid #dfdfdf;
-  margin-left: 30px;
 }
 
 .container-content {
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  margin: 20px;
+  
+  margin-top: 42px;
   min-width: 1015px;
 }
-
+.title-page{
+  margin-bottom: 40px;
+}
 h3 {
-  padding: 0px 0px 10px 20px;
-  font-size: 25px !important;
-  font-weight: 700 !important;
+
+  font-size: 25px ;
+  font-weight: 500 ;
 }
 
 /* Start of table style */
 .dataTables_wrapper .rdt_TableCell {
-  font-size: 15px;
-  color: #000000;
+  font-size: 14px;
+  color: #525252;
+  padding: 9px 14px;
 }
 
 .dataTables_wrapper .rdt_TableHead {
@@ -249,24 +245,24 @@ h3 {
 
 /* End of table style */
 
-.top-filter {
-  padding: 0px 20px 0px 20px;
-}
+
 
 .top-filter #filter {
-  padding: 5px 20px !important;
-  border: none !important;
-  border-radius: 30px !important;
-  color: #626262 !important;
+  border: none ;
+  border-radius: 3px ;
+  color: #626262 ;
   cursor: pointer;
-  border: 1px solid #dfdfdf !important;
+  border: 1px solid #dfdfdf ;
+  margin-right: 6px;
 }
 
 .add-user-btn {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
-  justify-content: center !important;
-  display: flex !important;
+  background-color: #0B3A07;
+  color: #FFFFFF;
+  border-radius: 5px;
+  border: none !important;
+  padding: 7px 20px; 
+  font-size: 14px;
 }
 .manage-ticket-btn {
   background-color: #0b3a07 !important;
@@ -289,19 +285,19 @@ h3 {
   top: 15px;
 }
 .manage-ticket-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
-  font-weight: 600 !important;
+  background-color: #aebe44 ;
+  border-color: #aebe44 ;
+  font-weight: 400;
 }
 .manage-ticket-btn-2:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
-  font-weight: 600 !important;
+  background-color: #aebe44 ;
+  border-color: #aebe44 ;
+  font-weight: 400 ;
 }
 .add-user-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
-  font-weight: 600 !important;
+  background-color: #aebe44 ;
+  border-color: #aebe44 ;
+  font-weight: 400 ;
 }
 i {
   font-size: 24px !important;
@@ -345,33 +341,19 @@ label {
 }
 
 input {
-  background-color: #efefef !important;
-  border: 1.5px solid #d9d9d9 !important;
+  background-color: #efefef ;
+  border: 1.5px solid #d9d9d9 ;
 }
 
 .dataTables_wrapper .profile-image {
   border-radius: 50% !important;
   object-fit: cover !important;
-  height: 50px !important;
-  width: 50px !important;
+  height: 35px  !important;
+  width: 35px  !important;
   margin: 5px 0px 5px 0px;
 }
 
-.profile-container {
-  display: flex;
-  flex-direction: column !important;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 50px;
-  text-align: center;
-}
 
-.profile-container h2 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
 
 .profile-container h5 {
   font-size: 15px;
@@ -809,12 +791,13 @@ input[type="date"] {
 }
 .allowedTickets {
   font-size: 18px !important;
-  line-height: 10px !important;
+  line-height: 15px !important;
 }
 .ticketTypeListContainer {
   height: 400px;
-  width: auto !important;
+  width: 700px;
   overflow-y: auto;
+ padding: 0 40px;
 }
 /* End of Generate Ticket Style */
 
@@ -1037,21 +1020,11 @@ input[type="date"] {
   justify-content: flex-start;
   gap: 20px;
   padding: 20px;
+  width: 950px;
+/* border: 1px solid red; */
+margin-left: 8rem;
 }
 
-.resources-card {
-  /* flex: 1 1 calc(33.333% - 20px);  */
-  width: calc(33.333% - 15px);
-  margin-bottom: 20px;
-  transition: transform 0.3s ease;
-}
-
-.resources-card .card {
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 .add-resource-btn {
   background-color: #0b3a07 !important;
   border-color: #0b3a07 !important;
@@ -1073,9 +1046,19 @@ input[type="date"] {
 .resources-card:hover {
   transform: scale(1.05);
 }
-.back-btn {
-  display: none;
+
+.resources-card {
+  /* flex: 1 1 calc(33.333% - 20px);  */
+  width: calc(33.33% - 15px);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
+.back-btn {
+  font-size: 18px;
+  font-weight: bold;
+text-decoration: none !important;
+}
+
 
 .pagination-controls {
   display: flex;
@@ -1115,6 +1098,17 @@ input[type="date"] {
 
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 768px) {
+  .resources-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+
+  /* border: 1px solid red; */
+  margin-left: 0;
+  }
   .pagination-controls {
     display: flex;
     flex-direction: column;
@@ -1134,7 +1128,7 @@ input[type="date"] {
     font-size: 20px;
   }
   .resources-card {
-    flex: 1 1 calc(100% - 20px); /* Show 2 per row for tablets */
+    flex: 1 1 calc(100% - 10px); /* Show 2 per row for tablets */
   }
   .upload-section h2 {
     font-size: 20px;

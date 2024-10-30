@@ -2231,7 +2231,7 @@ function TicketsHistory() {
           <h3>Tickets History List</h3>
           <div className="top-filter">
             <select
-              className="mr-4"
+              // className="mr-4"
               name="filter"
               id="filter"
               value={selectedBranchId}

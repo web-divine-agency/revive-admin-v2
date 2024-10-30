@@ -307,23 +307,26 @@ function TemplateManagement() {
       </div>
 
       {selectedUser && (
-        <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal show={showModal} size="lg" onHide={handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>User Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="profile-container">
-              <img
-                src={selectedUser.profileImage}
-                alt={selectedUser.name}
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <h2> {selectedUser.name} </h2>
+              <div className="profile-image">
+                <img
+                  src={selectedUser.profileImage}
+                  alt={selectedUser.name}
+                  style={{
+                    width: "170px",
+                    height: "auto",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+               <center> <h2> {selectedUser.name} </h2></center> 
+              </div>
+             
               <div className="ticketTypeListContainer">
                 <p> Allowed Templates: </p>
                 <h5>

@@ -175,7 +175,7 @@ function UserRoleManagement() {
           <h3>User Role Management</h3>
           <div className='top-filter'>
             <button onClick={() => navigate("/add-new-role")} className="btn btn-primary float-start add-user-btn">
-              <i className="fa fa-plus"></i> Add New Role
+              Add New Role
             </button>
             <br></br>
           </div>

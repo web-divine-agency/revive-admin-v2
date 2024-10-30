@@ -13,6 +13,7 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import {useLoader} from "../../Loaders/LoaderContext";
+import './UserList.css' 
 
 function UsersList() {
   const navigate = useNavigate();
@@ -223,6 +224,7 @@ function UsersList() {
   const columns = [
     {
       name: "Name",
+      width: '40%',
       selector: (row) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
@@ -236,7 +238,11 @@ function UsersList() {
               marginRight: "10px",
             }}
           />
-          {row.first_name} {row.last_name}
+          
+         <div className="user-details">
+            <span> {row.first_name} {row.last_name}</span>
+            <span className="user-email-row">{row.email}</span>
+         </div>
         </div>
       ),
       sortable: true,
@@ -259,19 +265,21 @@ function UsersList() {
     },
     {
       name: "Role",
+      width: '15%',
       selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
       sortable: true,
     },
     {
       name: "Action",
+      width: '15%',
       selector: (row) => (
         <div>
           <img
             src={view_icon}
             title="View User Details"
             alt="view"
-            width="25"
-            height="25"
+            width="20"
+            height="20"
             onClick={() =>
               handleViewClick({
                 name: `${row.first_name} ${row.last_name}`,
@@ -286,23 +294,23 @@ function UsersList() {
             style={{ cursor: "pointer" }}
           />
           <img
-            className="ml-3"
+            className="ml-2"
             src={edit_icon}
             title="Edit User Details"
             onClick={() => handleEditUserClick(row.id)}
             alt="edit"
-            width="25"
-            height="25"
+            width="20"
+            height="20"
             style={{ cursor: "pointer" }}
           />
           {loggedInUser && row.id !== loggedInUser.id && (
             <img
-              className="ml-3"
+              className="ml-2"
               src={delete_icon}
               title="Delete User"
               alt="delete"
-              width="25"
-              height="25"
+              width="20"
+              height="20"
               onClick={() => handleDeleteUserClick(row.id)}
               style={{ cursor: "pointer" }}
             />
@@ -317,11 +325,11 @@ function UsersList() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Users List</h3>
+          <h3 className="title-page">Account Management</h3>
           <div className="top-filter">
             <select
               name="filter"
-              className="mr-4"
+              className=""
               id="filter"
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
@@ -357,7 +365,7 @@ function UsersList() {
               onClick={() => navigate("/add-new-user")}
               className="btn btn-primary float-end add-user-btn"
             >
-              <i className="fa fa-plus"></i> Add New User
+             Add User
             </button>
           </div>
        
@@ -379,35 +387,38 @@ function UsersList() {
       {selectedUser && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>User Details</Modal.Title>
+            <Modal.Title>Acccount Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="profile-container">
-              <img
-                src={selectedUser.profileImage}
-                alt={selectedUser.name}
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <h2>{selectedUser.name}</h2>
-              <div className="user-details">
-                <h5>
-                  Username:<p>{selectedUser.username}</p>
-                </h5>
-                <h5>
-                  Role: <p>{selectedUser.role}</p>
-                </h5>
-                <h5>
-                  Branch: <p>{selectedUser.branch}</p>
-                </h5>
-                <h5>
-                  Email:<p>{selectedUser.email}</p>
-                </h5>
+              <div className="profile-image">
+                  <img
+                    src={selectedUser.profileImage}
+                    alt={selectedUser.name}
+                    
+                  />
+
               </div>
+              <div className="profile-details">
+                  <h2>{selectedUser.name}</h2>
+                  <div className="user-details">
+                    <div>
+                      Username:<p>{selectedUser.username}</p>
+                    </div>
+                    <div>
+                      Role: <p>{selectedUser.role}</p>
+                    </div>
+                    <div>
+                      Branch: <p>{selectedUser.branch}</p>
+                    </div>
+                    <div>
+                      Email:<p>{selectedUser.email}</p>
+                    </div>
+                  </div>
+                
+              </div>
+             
+             
             </div>
           </Modal.Body>
         </Modal>

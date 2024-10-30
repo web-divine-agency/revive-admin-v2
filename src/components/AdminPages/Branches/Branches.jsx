@@ -291,7 +291,8 @@ function Branches() {
               onClick={() => navigate("/add-branch")}
               className="btn btn-primary float-end add-user-btn"
             >
-              <i className="fa fa-plus"></i> Add New Branch
+              {/* <i className="fa fa-plus"></i>  */}
+              Add New Branch
             </button>
           </div>
           <div className="container-content">

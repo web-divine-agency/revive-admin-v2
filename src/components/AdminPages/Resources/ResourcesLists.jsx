@@ -14,10 +14,11 @@ function ResourcesLists() {
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [resources, setResources] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Start with 5 items per page
+  const [itemsPerPage, setItemsPerPage] = useState(3); // Start with 5 items per page
   const { setLoading } = useLoader();
   const navigate = useNavigate();
   const [role, setRole] = useState("");
+  const [troubleshootingResources, setTroubleshootingResources] = useState([]);
 
   useEffect(() => {
     // Fetch current user details
@@ -41,6 +42,7 @@ function ResourcesLists() {
       try {
         const response = await axiosInstance.get("/all-resources");
         setResources(response.data.resource_data);
+        setTroubleshootingResources(response.data.resource_data);
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.error("Error fetching resources:", error);
@@ -100,7 +102,7 @@ function ResourcesLists() {
 
   const filteredResources = resources.filter((resource) => {
     const authorName = resource.user
-      ? `${resource.user.first_name} ${resource.user.last_name}`
+      ? `${resource.user?.first_name} ${resource.user?.last_name}`
       : "Unknown";
     const matchesAuthor = authorFilter ? authorName === authorFilter : true;
     const matchesSearch = search
@@ -141,7 +143,7 @@ function ResourcesLists() {
           <div className="top-filter">
             <select
               name="filter"
-              className="mr-4"
+              // className="mr-4"
               id="filter"
               value={authorFilter}
               onChange={handleAuthorFilterChange}
@@ -150,8 +152,8 @@ function ResourcesLists() {
               {[
                 ...new Set(
                   resources.map((resource) =>
-                    resource.user
-                      ? `${resource.user.first_name} ${resource.user.last_name}`
+                    resource?.user
+                      ? `${resource?.user?.first_name} ${resource?.user?.last_name}`
                       : "Unknown"
                   )
                 ),
@@ -209,37 +211,39 @@ function ResourcesLists() {
                             ? `${resource.user.first_name} ${resource.user.last_name}`
                             : "Unknown"}
                         </p>
-                        {resource.resource_media ? (
-                          resource.resource_media.endsWith(".pdf") ? (
-                            <embed
-                              src={`/uploads/${resource.resource_media}`}
-                              type="application/pdf"
-                              width="100%"
-                              height="200px"
-                              title="PDF Document"
-                            />
-                          ) : resource.resource_media.endsWith(".mp4") ? (
-                            <video width="100%" height="200" controls>
-                              <source
-                                src={`/uploads/${resource.resource_media}`}
-                                type="video/mp4"
+                        {resource?.resource_media ? (
+                          JSON.parse(resource?.resource_media).map((media, index) => (
+                            media.endsWith(".pdf") ? (
+                              <embed
+                                key={index}
+                                src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                                type="application/pdf"
+                                width="100%"
+                                height="200px"
+                                title="PDF Document"
                               />
-                            </video>
-                          ) : resource.resource_media.endsWith(".jpg") ? (
-                            <img
-                              src={`/uploads/${resource.resource_media}`}
-                              alt="Resource"
-                              width="100%"
-                              height="200"
-                            />
-                          ) : (
-                            <img
-                              src={revive_logo}
-                              alt="No Media"
-                              width="100%"
-                              height="200"
-                            />
-                          )
+                            ) : media.endsWith(".mp4") ? (
+                              <video key={index} width="100%" height="200" controls>
+                                <source src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`} type="video/mp4" />
+                              </video>
+                            ) : media.endsWith(".jpg") || media.endsWith(".jpeg") || media.endsWith(".png") ? (
+                              <img
+                                key={index}
+                                src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                                alt="Resource Image"
+                                width="100%"
+                                height="200"
+                              />
+                            ) : (
+                              <img
+                                key={index}
+                                src={revive_logo}
+                                alt="No Media"
+                                width="100%"
+                                height="200"
+                              />
+                            )
+                          ))
                         ) : (
                           <img
                             src={revive_logo}
@@ -295,17 +299,18 @@ function ResourcesLists() {
                 onClick={() => setShowTroubleshooting(!showTroubleshooting)} // Toggle visibility
                 style={{ cursor: "pointer", color: "#007bff" }}
               >
-                <h3 className="mt-3">
+                <h3 className="mt-3" style={{color:"black"}}>
                   Troubleshooting Resources {showTroubleshooting ? "▲" : "▼"}
                 </h3>
               </h4>
-              {/* {showTroubleshooting && (
+              {/*{showTroubleshooting && (
                 <div className="resources-content">
-                  {troubleshootingResources.map((resource) =>
-                    renderResourceCard(resource)
-                  )}
+                  {troubleshootingResources
+                    .filter((resource) => resource.category === "Troubleshooting Resource")
+                    .map((resource) => renderResourceCard(resource))
+                  }
                 </div>
-              )} */}
+                )}*/}
             </div>
           </div>
         </div>

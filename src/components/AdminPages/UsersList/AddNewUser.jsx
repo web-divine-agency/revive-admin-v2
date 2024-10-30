@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { FiArrowLeft } from "react-icons/fi";
+
 
 const animatedComponents = makeAnimated();
 
@@ -138,7 +140,12 @@ function AddNewUser() {
 
   return (
     <div className="container">
-      <h3>Add New User</h3>
+      <h3>
+        <a href="/userlist" className="back-btn">
+          <FiArrowLeft /> Back <br />
+        </a>
+        Add New User
+      </h3>
       <div className="container-content">
         <form onSubmit={addUser} className="add-user-form">
           <div
