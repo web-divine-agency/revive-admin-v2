@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
+import '../../../Custom.css';
 import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 //import check from "../../../assets/images/check.png";
 
@@ -145,21 +146,34 @@ function TicketCategory() {
       name: "Action",
       selector: (row) => (
         <div>
-          {categories.map((category) => (
-            <div key={category.id}>
-              <label className="mr-2">{category.category_name}</label>
-              <input
-                className="mr-3"
-                type="checkbox"
-                checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
-                onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
-              />
-            </div>
-          ))}
+          {categories.map((category) => {
+            const checkboxId = `cbx-${row.id}-${category.id}`; // Unique ID for each checkbox
+            return (
+              <div key={category.id}>
+                <div className="checkbox-wrapper-46">
+                  <input
+                    id={checkboxId} // Assign unique ID here
+                    className="inp-cbx"
+                    type="checkbox"
+                    checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
+                    onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
+                  />
+                  <label htmlFor={checkboxId} className="cbx"> {/* Label points to unique ID */}
+                    <span>
+                      <svg viewBox="0 0 12 10" height="10px" width="12px">
+                        <polyline points="1.5 6 4.5 9 10.5 1" />
+                      </svg>
+                    </span>
+                    <span>{category.category_name}</span>
+                  </label>
+                </div>
+              </div>
+            );
+          })}
         </div>
       ),
       sortable: false,
-    },
+    }   
   ];
   
 
@@ -167,11 +181,11 @@ function TicketCategory() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>
-          <a href="/generate-tickets" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-            Tickets Category</h3>
+        <a href="/generate-tickets" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" />Tickets Category
+        </h3>
+      </a>
           <div className="top-filter">
             <input
               id="search-bar"

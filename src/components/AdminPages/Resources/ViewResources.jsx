@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 import { useLocation, useNavigate } from "react-router-dom";
 import resources_placeholder from "../../../assets/images/resources_placeholder.png";
 import axiosInstance from "../../../../axiosInstance";
@@ -26,7 +26,7 @@ const ViewResources = () => {
         try {
           await axiosInstance.delete(`/delete-resource/${id}`);
           Swal.fire("Deleted!", "Your resource has been deleted.", "success");
-          navigate("/resources-list");  // Redirect to Resources List after deletion
+          navigate("/resources-list"); // Redirect to Resources List after deletion
         } catch (error) {
           Swal.fire(
             "Error!",
@@ -55,86 +55,88 @@ const ViewResources = () => {
 
   return (
     <div className="container">
-      {role === "Admin" && (
-        <button
-          onClick={() => navigate(`/edit-resource/${resource.id}`)}
-          className="btn btn-primary float-end add-resource-btn"
-        >
-          Edit Resource
-        </button>
-      )}
-      <h3>
-        <a href="/resources-list" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-        Created Resources
-      </h3>
-
-      <div className="container-content">
-        <div className="created-resource">
-          <div>
-            <div>
-              <h2 className="title">{resource.resource_title}</h2>
-            </div>
-            <br />
-            <div>
-              <h2 className="description">{resource.resource_body}</h2>
-            </div>
-            <div>
-              <h2 className="title font-weight-bold mb-3">Instruction</h2>{" "}
-              <br />
-              <h2 className="description">{resource.additional_fields}</h2>
-            </div>
-            {resource?.resource_media ? (
-              JSON.parse(resource?.resource_media).map((media, index) =>
-                media.endsWith(".pdf") ? (
-                  <embed
-                    key={index}
-                    src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                    type="application/pdf"
-                    width="50%"
-                    height="600px"
-                    title="PDF Document"
-                  />
-                ) : media.endsWith(".mp4") ? (
-                  <video key={index} width="100%" height="100%" controls>
-                    <source
-                      src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                      type="video/mp4"
-                    />
-                  </video>
-                ) : media.endsWith(".jpg") ||
-                  media.endsWith(".jpeg") ||
-                  media.endsWith(".png") ? (
-                  <img
-                    key={index}
-                    src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                    alt="Resource Image"
-                    width="auto"
-                    height="300px"
-                  />
-                ) : (
-                  <img
-                    key={index}
-                    src={resources_placeholder}
-                    alt="No Media"
-                    width="100%"
-                    height="200"
-                  />
-                )
-              )
-            ) : (
-              <h3>No Media or Materials</h3>
-            )}
-          </div>
+      <div className="row">
+        <div className="col-lg-12 col-md-6">
           {role === "Admin" && (
             <button
-              className="btn btn-primary float-end delete-resource-btn"
-              onClick={() => handleDeleteResource(resource.id)}
+              onClick={() => navigate(`/edit-resource/${resource.id}`)}
+              className="btn btn-primary float-end add-resource-btn"
             >
-              Delete
+              Edit Resource
             </button>
           )}
+          <a href="/resources-list" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Created Resource
+        </h3>
+      </a>
+          <div className="container-content">
+            <div className="created-resource">
+              <div>
+                <div>
+                  <h2 className="title">{resource.resource_title}</h2>
+                </div>
+                <br />
+                <div>
+                  <h2 className="description">{resource.resource_body}</h2>
+                </div>
+                <div>
+                  <h2 className="title font-weight-bold mb-3">Instruction</h2>{" "}
+                  <br />
+                  <h2 className="description">{resource.additional_fields}</h2>
+                </div>
+                {resource?.resource_media ? (
+                  JSON.parse(resource?.resource_media).map((media, index) =>
+                    media.endsWith(".pdf") ? (
+                      <embed
+                        key={index}
+                        src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                        type="application/pdf"
+                        width="50%"
+                        height="600px"
+                        title="PDF Document"
+                      />
+                    ) : media.endsWith(".mp4") ? (
+                      <video key={index} width="100%" height="100%" controls>
+                        <source
+                          src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    ) : media.endsWith(".jpg") ||
+                      media.endsWith(".jpeg") ||
+                      media.endsWith(".png") ? (
+                      <img
+                        key={index}
+                        src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                        alt="Resource Image"
+                        width="auto"
+                        height="300px"
+                      />
+                    ) : (
+                      <img
+                        key={index}
+                        src={resources_placeholder}
+                        alt="No Media"
+                        width="100%"
+                        height="200"
+                      />
+                    )
+                  )
+                ) : (
+                  <h3>No Media or Materials</h3>
+                )}
+              </div>
+              {role === "Admin" && (
+                <button
+                  className="btn btn-primary float-end delete-resource-btn"
+                  onClick={() => handleDeleteResource(resource.id)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

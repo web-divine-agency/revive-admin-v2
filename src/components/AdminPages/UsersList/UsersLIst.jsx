@@ -325,7 +325,8 @@ function UsersList() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3 className="title-page">Account Management</h3>
+        <h3 className="title-page">Account Management</h3>
+
           <div className="top-filter">
             <select
               name="filter"

@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 
 function TemplateManagement() {
@@ -257,11 +258,11 @@ function TemplateManagement() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>
-          <a href="/generate-tickets" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-            Manage Staff Template Access</h3>
+        <a href="/generate-tickets" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" />  Manage Staff Template Access
+        </h3>
+      </a>
           <div className="top-filter">
             <select
               name="filter"

@@ -265,7 +265,7 @@ function Branches() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Branches</h3>
+          <h3 className="title-page">Branches</h3>
           <div className="top-filter">
             <select
               name="filter"

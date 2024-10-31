@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance";
 import { useParams, useNavigate } from 'react-router-dom';
 import "../../../App.css";
+import '../../../Custom.css';
 import check from "../../../assets/images/check.png";
 import Swal from "sweetalert2";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 
 function EditUserTemplateAccess() {
@@ -87,32 +88,42 @@ function EditUserTemplateAccess() {
 
     return (
         <div className="container">
-            <h3>
             <a href="/template-management" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-                
-                Edit User's Template Access</h3>
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Edit User's Template Access
+        </h3>
+      </a>
             <div className="container-content">
                 <form onSubmit={assignTickets}>
                     <div className="form-group ml-5 mt-5">
                         <label>Uncheck Templates to hide</label> <br />
                         <div className="checkbox-container">
-                            {ticketTypes.map(ticket => (
+                            {ticketTypes.map((ticket) => {
+                                const checkboxId = `cbx-ticket-${ticket.id}`; // Unique ID for each ticket checkbox
+                                return (
                                 <div className="d-flex flex-column align-items-start" key={ticket.id}>
-                                    <label className="mb-3">
-                                        <input
-                                            className="mr-2"
-                                            type="checkbox"
-                                            value={ticket.id}  // Use ticket ID as value
-                                            checked={selectedTicketIds.includes(ticket.id)}  // Check if selected
-                                            onChange={handleTicketChange}
-                                        />
-                                        {ticket.ticket_type} {/* Display the ticket type name */}
+                                    <div className="checkbox-wrapper-46">
+                                    <input
+                                        id={checkboxId} // Assign unique ID here
+                                        className="inp-cbx"
+                                        type="checkbox"
+                                        value={ticket.id}  // Use ticket ID as value
+                                        checked={selectedTicketIds.includes(ticket.id)}  // Check if selected
+                                        onChange={handleTicketChange}
+                                    />
+                                    <label htmlFor={checkboxId} className="cbx"> {/* Label points to unique ID */}
+                                        <span>
+                                        <svg viewBox="0 0 12 10" height="10px" width="12px">
+                                            <polyline points="1.5 6 4.5 9 10.5 1" />
+                                        </svg>
+                                        </span>
+                                        <span>{ticket.ticket_type}</span> {/* Display the ticket type name */}
                                     </label>
+                                    </div>
                                 </div>
-                            ))}
-                        </div>
+                                );
+                            })}
+                            </div>
                     </div>
 
                     <button className="submit-btn mb-4 mt-4" type="submit">

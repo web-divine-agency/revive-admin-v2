@@ -3,7 +3,7 @@ import { /*useLocation*/ useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import check from "../../../assets/images/check.png";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 
 
@@ -80,11 +80,11 @@ function EditUserRole() {
 
    return (
     <div className="container">
-      <h3>
-      <a href="/user-management" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-        Edit User Role</h3>
+       <a href="/user-management" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Update Role
+        </h3>
+      </a>
       <div className="container-content">
         <form onSubmit={updateUserRole}>
           <div className="form-group ml-5 mt-3">

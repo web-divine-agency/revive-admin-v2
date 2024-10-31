@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import '../../../App.css';
+import '../../../Custom.css';
 import 'font-awesome/css/font-awesome.min.css';
 import man from '../../../assets/images/man.png';
 import check from "../../../assets/images/check.png";
@@ -37,6 +38,7 @@ function StaffLogs() {
         const formattedData = response.data.map(staff_logs => ({
           id: staff_logs?.id,
           name: `${staff_logs?.user?.first_name || 'N/A'} ${staff_logs?.user?.last_name || ''}`,
+          sex: staff_logs?.user?.sex || 'N/A',
           date: staff_logs?.createdAt ? new Date(staff_logs.createdAt).toLocaleString() : 'N/A',
           role: staff_logs?.user?.roles?.[0]?.role_name || 'N/A',
           branch: staff_logs?.user?.branches?.map(r => r.branch_name).join(", ") || 'N/A',
@@ -150,6 +152,7 @@ function StaffLogs() {
     {
       name: "Select",
       cell: (row) => (
+        <label className="del-checkbox">
         <input
           type="checkbox"
           onChange={(e) => {
@@ -160,6 +163,8 @@ function StaffLogs() {
           }}
           checked={selectedLogs.includes(row.id)}
         />
+        <div className="del-checkmark" />
+        </label>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -291,7 +296,7 @@ function StaffLogs() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Staff Logs </h3>
+          <h3 className="title-page">Staff Logs </h3>
           <div className='top-filter'>
             <select
               name="filter"
@@ -330,7 +335,8 @@ function StaffLogs() {
           </div>
           <div className="container-content">
             <button
-              className="btn btn-danger m-3"
+              className="btn btn-danger mb-3"
+              id="massDelete-btn"
               onClick={handleMassDelete}
               disabled={selectedLogs.length === 0}
             >

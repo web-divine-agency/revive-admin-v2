@@ -12,6 +12,7 @@ import "./SideBar.css";
 import { FiChevronDown } from 'react-icons/fi'; // Importing the Chevron Down icon
 
 
+
 export const AdminSidebarData = [
   {
     title: "Accounts",
@@ -57,8 +58,9 @@ export const AdminSidebarData = [
     icon: (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img className='navIcon' src={generate_ticket} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />
-        <span style={{ marginLeft: '16px' }}>Ticket Generation</span>
-        <FiChevronDown style={{ marginLeft: '20px' }} />
+        <span>Ticket Generation ▼</span>
+
+        
       </div>
     ),
     cName: 'nav-text',

@@ -21,6 +21,7 @@ button:hover {
   .manage-ticket-btn-2, .manage-ticket-btn{
     margin-right: 0px !important;
   }
+
   .resources-content {
     display: flex;
     flex-wrap: wrap;
@@ -74,6 +75,8 @@ button:hover {
     color: #626262;
     cursor: pointer;
     border: 1px solid #dfdfdf;
+    background-color: #fffaeb;
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
   }
 
   .add-to-queue-btn {
@@ -182,20 +185,23 @@ button:hover {
 }
 
 body {
+  background-color: #fffaeb;
   width: 100%;
   display: flex;
-  place-items: center;
+  align-items: start;
   justify-content: center;
   min-height: 100vh;
+  /* padding-top: 50px; */
 }
 
 /* Components Style */
 .container {
+  background-color: #fffaeb;
   border-radius: 13px;
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
   margin-left: 7.8rem;
-  margin-top: 6rem;
+  margin-top: 50px !important;
   margin-bottom: 20px !important;
 }
 
@@ -203,10 +209,10 @@ body {
   padding: 8.2px 20px;
   border: none;
   border-radius: 3px;
-  background-color: #ffffff;
   color: #626262;
   cursor: text;
   border: 1px solid #dfdfdf;
+  background-color: #fffaeb;
 }
 
 .container-content {
@@ -214,27 +220,44 @@ body {
   min-width: 1015px;
 }
 .title-page {
-  margin-bottom: 40px;
+  position: fixed;
+  z-index: 1;
+  top: 20px;
+  display: flex;
+  align-items: center;
+
 }
 h3 {
-  font-size: 25px;
+  font-size: 19px;
   font-weight: 500;
 }
 
+
 /* Start of table style */
+
+.dataTables_wrapper{
+  box-shadow: 1px 2px 5px 3px rgba(16, 86, 82, 0.2);
+}
+
 .dataTables_wrapper .rdt_TableCell {
+  background-color: #fffaeb;
   font-size: 14px;
   color: #525252;
   padding: 9px 14px;
 }
 
 .dataTables_wrapper .rdt_TableHead {
+  background-color: #fffaeb;
   font-size: 15px;
   color: #626262;
 }
 
 .eVrcSZ option {
   color: black !important;
+}
+.eVrcSZ{
+  background-color: #fffaeb !important;
+  color: #101720b9 !important;
 }
 
 .eHmiVN option {
@@ -244,6 +267,7 @@ h3 {
 .kqWIVd {
   border-bottom: 1px solid #ffffff !important;
   border-radius: 0 0 20px 20px !important;
+  background-color: #fffaeb !important;
 }
 
 .fceIjj {
@@ -260,6 +284,8 @@ h3 {
   cursor: pointer;
   border: 1px solid #dfdfdf;
   margin-right: 6px;
+  background-color: #fffaeb !important;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
 }
 
 .add-user-btn {
@@ -293,18 +319,18 @@ h3 {
   margin-right: 20px;
 }
 .manage-ticket-btn:hover {
-  background-color: #aebe44;
-  border-color: #aebe44;
+  background-color: #87a79e;
+  border-color: #87a79e;
   font-weight: 400;
 }
 .manage-ticket-btn-2:hover {
-  background-color: #aebe44;
-  border-color: #aebe44;
+  background-color: #87a79e;
+  border-color: #87a79e;
   font-weight: 400;
 }
 .add-user-btn:hover {
-  background-color: #aebe44;
-  border-color: #aebe44;
+  background-color: #87a79e;
+  border-color: #87a79e;
   font-weight: 400;
 }
 i {
@@ -326,20 +352,21 @@ i {
 }
 
 .submit-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
   font-weight: 700 !important;
 }
 
 select {
   height: 38px;
   width: 208px;
-  background-color: #efefef !important;
+  background-color: #fffaeb !important;
   padding: 5px;
   border: 1px solid #dfdfdf;
   border-radius: 5px;
   margin-bottom: 5px;
   color: #626262;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
 }
 
 label {
@@ -551,7 +578,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .ticket-view {
-  margin-top: -5rem;
+  margin-top: -3rem;
   border-radius: 3px;
   border: 1px solid #000000;
 }
@@ -993,8 +1020,8 @@ input[type="date"] {
   justify-content: center !important;
 }
 .upload-resource-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
   font-weight: 600 !important;
 }
 .publish-btn {
@@ -1002,11 +1029,11 @@ input[type="date"] {
   border-color: #105652 !important;
   justify-content: center !important;
   margin-right: 20px;
-  margin-top: -40px;
+  margin-top: 35px;
 }
 .publish-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
   font-weight: 600 !important;
 }
 .resources-container {
@@ -1034,6 +1061,10 @@ input[type="date"] {
   margin-left: 8rem;
 }
 
+#massDelete-btn{
+  background-color: #c74a44;
+  border-color: #efc7c2 !important;
+}
 .add-resource-btn {
   background-color: #105652;
   border-color: #105652;
@@ -1041,16 +1072,16 @@ input[type="date"] {
   display: flex;
 }
 .delete-resource-btn{
-  background-color: rgb(254, 36, 36);
-  border-color: #ff5151 !important;
+  background-color: #c74a44;
+  border-color: #efc7c2 !important;
 }
 .delete-resource-btn:hover{
-  background-color: rgb(255, 0, 0);
-  border-color: #ff5151 !important;
+  background-color: #c74a44;
+  border-color: #efc7c2 !important;
 }
 .add-resource-btn:hover {
-  background-color: #aebe44 !important;
-  border-color: #aebe44 !important;
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
   font-weight: 600 !important;
 }
 /* .delete-resource-btn {
@@ -1067,8 +1098,8 @@ input[type="date"] {
 .resources-card .card {
   padding: 10px;
   border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fffaeb;
+  box-shadow: 2px 2px 4px 4px rgba(16, 86, 82, 0.2);
 }
 
 .resources-card {
@@ -1085,6 +1116,10 @@ input[type="date"] {
   align-items: center;
   margin-top: -20px;
   margin-bottom: 20px;
+  color: rgb(2, 2, 2);
+}
+.back-btn:hover {
+  color:#105652;
 }
 
 .pagination-controls {
@@ -1108,7 +1143,7 @@ input[type="date"] {
 .pagination-controls button {
   padding: 5px 10px;
   border: 1px solid #ddd;
-  background-color: #f9f9f9;
+  background-color: #fffaeb;
   cursor: pointer;
   color: #000000;
   font-weight: bold;
@@ -1125,6 +1160,11 @@ input[type="date"] {
 
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 768px) {
+  .title-page {
+    position: relative;
+    z-index: 0;
+    top: 20px;
+  }
   .resources-content {
     display: flex;
     flex-wrap: wrap;
@@ -1189,7 +1229,7 @@ input[type="date"] {
     padding: 6px 12px !important;
     border: none;
     border-radius: 30px;
-    background-color: #ffffff;
+    background-color: #fffaeb;
     color: #626262;
     cursor: text;
     width: 100%;

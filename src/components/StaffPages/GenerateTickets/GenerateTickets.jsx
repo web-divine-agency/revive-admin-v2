@@ -5774,7 +5774,7 @@ function GenerateTickets() {
     <div className="container generate-ticket-container">
       <div className="col-md-12">
         <div className="row pl-4 template-selection">
-          <h3>Revive Pharmacy Price Ticket Generator</h3>
+          <h3 className="title-page">Revive Pharmacy Price Ticket Generator</h3>
           {role === "Admin" && (
             <button
               onClick={() => navigate("/ticket-category")}

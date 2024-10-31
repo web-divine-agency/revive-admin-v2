@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
 import { IconContext } from "react-icons";
-import profile_avatar from "../../assets/images/profile_avatar.png";
+import man from "../../assets/images/man.png";
+import woman from "../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Authentication/authContext";
 import axiosInstance from "../../../axiosInstance";
@@ -17,6 +18,9 @@ function Navbar({ role }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
+  const [sex, setSex] = useState("");
+  const [email, setEmail] = useState("")
+
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [position, setPosition] = useState({ left: "5px" });
@@ -47,9 +51,11 @@ function Navbar({ role }) {
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
-        const { first_name, last_name } = response.data;
+        const { first_name, last_name, email, sex } = response.data;
         setFirstName(first_name);
         setLastName(last_name);
+        setEmail(email);
+        setSex(sex);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -58,10 +64,10 @@ function Navbar({ role }) {
     fetchUserDetails();
     const updateTime = () => {
       const date = new Date();
-
-      const optionsDate = { year: "numeric", month: "long", day: "numeric" };
+    
+      const optionsDate = { year: "numeric", month: "short", day: "numeric" };
       const formattedDate = date.toLocaleDateString("en-US", optionsDate);
-
+    
       const optionsTime = {
         hour: "numeric",
         minute: "numeric",
@@ -70,11 +76,10 @@ function Navbar({ role }) {
         timeZone: "Australia/Sydney",
       };
       const formattedTime = date.toLocaleTimeString("en-US", optionsTime);
-
-      // Add <br /> between date and time
+  
       setCurrentTime(
         <>
-          {formattedDate} <br /> {formattedTime}
+          {formattedDate} {formattedTime}
         </>
       );
     };
@@ -83,7 +88,6 @@ function Navbar({ role }) {
     updateTime();
     return () => clearInterval(timerId);
   }, []);
-
   const handleLogout = async () => {
     // e.preventDefault();
     Swal.fire({
@@ -159,17 +163,27 @@ function Navbar({ role }) {
           <div className="sticky-header">
             <div className="profile" onClick={() => navigate("/my-profile")}>
               <img
-                src={profile_avatar}
+                src={sex === "Male" ? man : woman}
                 className="profile_avatar"
                 alt="Profile Avatar"
               />
-              <h5>
-                Hello, {first_name} {last_name}
-              </h5>
+              <div>
+                <span>
+                  {" "}
+                  <h5>
+                    {" "}
+                    {first_name} {last_name}{" "}
+                  </h5>
+                </span>
+                <span>
+                  {" "}
+                  <p> {email} </p>
+                </span>
+              </div>
             </div>
           </div>
 
-          <hr className="profile-divider" />
+          {/* <hr className="profile-divider" /> */}
 
           {openMenu ? (
             <div>
@@ -279,14 +293,13 @@ function Navbar({ role }) {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <div className="time-display text-center">
-                    <h6>Welcome, {first_name}!</h6>
+                  <div className="time-display text-center p-2">
                     <p>{currentTime}</p>
                   </div>
                 </div>
 
-                <div className="curve"></div>
-                <ul className="nav-menu-items">
+                {/* <div className="curve"></div> */}
+                <ul className="nav-menu-items p-4">
                   {sidebarData.map((item, index) => (
                     <React.Fragment key={index}>
                       <li
@@ -308,9 +321,9 @@ function Navbar({ role }) {
                         <ul className="nav-menu-items submenu">
                           {item.submenu.map((subItem, subIndex) => (
                             <React.Fragment key={subIndex}>
-                               {subIndex < item.submenu.length - 1 && ( // Add divider only if it's not the last item
+                              {/* {subIndex < item.submenu.length - 1 && ( // Add divider only if it's not the last item
                                 <hr className="nav-divider" />
-                              )}
+                              )} */}
                               <li
                                 className="nav-text sidebar-nav-list"
                                 onClick={() => handleItemClick(index, subItem)}
@@ -318,20 +331,20 @@ function Navbar({ role }) {
                                 <Link
                                   className="sidebar-nav-link"
                                   to={subItem.path}
-                                > {subItem.icon}
+                                >
+                                  {" "}
+                                  {subItem.icon}
                                   <span>{subItem.title}</span>
-                                 
                                 </Link>
                               </li>
-                             
                             </React.Fragment>
                           ))}
                         </ul>
                       )}
 
-                      {index < sidebarData.length - 1 && (
+                      {/* {index < sidebarData.length - 1 && (
                         <hr className="nav-divider" />
-                      )}
+                      )} */}
                     </React.Fragment>
                   ))}
                 </ul>

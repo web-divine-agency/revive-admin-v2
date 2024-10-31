@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 
 const animatedComponents = makeAnimated();
@@ -168,11 +168,11 @@ function EditUser() {
 
   return (
     <div className="container">
-      <h3>
       <a href="/userlist" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-        Edit User</h3>
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" />Update User
+        </h3>
+      </a>
       <div className="container-content">
         <form onSubmit={editUser} className="add-user-form">
           <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>

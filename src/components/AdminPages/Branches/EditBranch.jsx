@@ -3,7 +3,7 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 function EditBranch() {
   const { branchId } = useParams();
@@ -119,12 +119,11 @@ function EditBranch() {
 
   return (
     <div className="container">
-      <h3>
-        <a href="/branches" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-        Update Branch
-      </h3>
+     <a href="/branches" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Update Branch
+        </h3>
+      </a>
       <div className="container-content">
         <form onSubmit={updateBranch} className="add-branch-form">
           <div

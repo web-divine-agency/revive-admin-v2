@@ -3,7 +3,7 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 
 function AddNewRole() {
   const navigate = useNavigate();
@@ -68,12 +68,11 @@ function AddNewRole() {
 
   return (
     <div className="container">
-      <h3>
-        <a href="/user-management" className="back-btn">
-          <FiArrowLeft /> Back <br />
-        </a>
-        Add New User Role
-      </h3>
+      <a href="/user-management" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Add New Role
+        </h3>
+      </a>
       <div className="container-content">
         <form onSubmit={addUserRole}>
           <div className="form-group ml-5 mt-3">

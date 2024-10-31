@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
+import '../../../Custom.css';
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
@@ -88,6 +89,7 @@ function TicketsHistory() {
             ticketType: tickets.ticketType?.ticket_type,
             data: tickets.data,
             user: `${tickets.user?.first_name} ${tickets.user?.last_name}`,
+            sex: tickets?.user?.sex,
             branch_id: tickets.branch?.branch_name,
             role: tickets.user?.roles?.map((r) => r.role_name).join(", "),
             date: new Date(tickets.createdAt),
@@ -2070,6 +2072,7 @@ function TicketsHistory() {
     {
       name: "Select",
       cell: (row) => (
+        <label className="del-checkbox">
         <input
           type="checkbox"
           onChange={(e) => {
@@ -2080,6 +2083,8 @@ function TicketsHistory() {
           }}
           checked={selectedTickets.includes(row.id)}
         />
+        <div className="del-checkmark" />
+        </label>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -2228,7 +2233,7 @@ function TicketsHistory() {
     <div className="container">
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          <h3>Tickets History List</h3>
+          <h3 className="title-page">Tickets History List</h3>
           <div className="top-filter">
             <select
               // className="mr-4"
@@ -2269,7 +2274,7 @@ function TicketsHistory() {
           </div>
           <div className="container-content">
             <button
-              className="btn btn-danger m-3"
+              className="btn btn-danger mb-3"
               onClick={handleMassDelete}
               disabled={selectedTickets.length === 0}
             >

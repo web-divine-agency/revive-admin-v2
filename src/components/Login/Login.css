@@ -17,7 +17,7 @@
     left: 0;
     width: 49%;
     height: 98%;
-    background: #105652;
+    background: #0b3a07;
     border-radius: 0 0 100% 0;
     z-index: -1;
 }
@@ -134,7 +134,7 @@ form label{
 
 
 .custom-btn {
-    background-color: #105652;
+    background-color: #0b3a07;
     color: #FFFFFF;
     border-radius: 5px;
     padding: 10px 64px;

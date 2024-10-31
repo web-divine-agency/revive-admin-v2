@@ -9,7 +9,7 @@ import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiChevronLeft } from 'react-icons/fi';
 import Swal from "sweetalert2";
 
 const ResourcePage = () => {
@@ -130,12 +130,11 @@ const ResourcePage = () => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <h3 className="create-resources-text">
-          <a href="/resources-list" className="back-btn">
-            <FiArrowLeft /> Back <br />
-          </a>
-          Create Resources
+      <a href="/resources-list" className="back-btn">
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Add New Resource
         </h3>
+      </a>
         <button
           onClick={() => navigate("/resources")}
           type="submit"
