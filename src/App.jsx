@@ -31,13 +31,7 @@ import ViewResources from './components/AdminPages/Resources/ViewResources';
 import ForgotPassword from './components/PasswordReset/ForgotPassword';
 import ResetPassword from './components/PasswordReset/ResetPassword';
 import CheckEmail from './components/PasswordReset/CheckEmail';
-
-
-
-
-
-
-
+import EditResources from './components/AdminPages/Resources/EditResources';
 
 function Layout() {
   const location = useLocation();
@@ -69,6 +63,7 @@ const  isSegmentCorrect = (url , pathNameURL) => {
         <Route path="/view-resource" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
+        <Route path="/edit-resource/:resourceID" element={<ProtectedRoute element={<EditResources />} allowedRoles={['Admin']} />} />
         <Route path="/ticket-category" element={<ProtectedRoute element={<TicketCategory />} allowedRoles={['Admin']} />} />
         <Route path="/template-management" element={<ProtectedRoute element={<TemplateManagement />} allowedRoles={['Admin']} />} />
         <Route path="/assign-tickets/:userId" element={<ProtectedRoute element={<EditUserTemplateAccess />} allowedRoles={['Admin']} />} />

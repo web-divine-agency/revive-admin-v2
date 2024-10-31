@@ -1,29 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../App.css";
-import sample_vid from "../../../assets/images/sample_vid.mp4";
 import { FiArrowLeft } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
-import revive_logo from "../../../assets/images/revive-logo.png";
+import { useLocation, useNavigate } from "react-router-dom";
+import resources_placeholder from "../../../assets/images/resources_placeholder.png";
+import axiosInstance from "../../../../axiosInstance";
+import Swal from "sweetalert2";
 
 const ViewResources = () => {
   const location = useLocation();
   const resource = location.state;
+  const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
-  const [copiedLink, setCopiedLink] = useState(null);
-
-  const handleCopyLink = (link) => {
-    const fullLink = `${window.location.origin}${link}`; // Create the full URL
-    navigator.clipboard
-      .writeText(fullLink)
-      .then(() => {
-        setCopiedLink(link); // Set the copied link in the state
-        setTimeout(() => setCopiedLink(null), 2000); // Hide "Link copied!" after 2 seconds
-      })
-      .catch((error) => console.error("Failed to copy link: ", error));
+  const handleDeleteResource = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won’t be able to revert this!",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonColor: "#EC221F",
+      cancelButtonColor: "#000000",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosInstance.delete(`/delete-resource/${id}`);
+          Swal.fire("Deleted!", "Your resource has been deleted.", "success");
+          navigate("/resources-list");  // Redirect to Resources List after deletion
+        } catch (error) {
+          Swal.fire(
+            "Error!",
+            "There was an error deleting the resource.",
+            "error"
+          );
+        }
+      }
+    });
   };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axiosInstance.get("/user");
+        const { roles } = response.data;
+        const role = roles.length > 0 ? roles[0].role_name : "No Role";
+        setRole(role);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
 
   return (
     <div className="container">
+      {role === "Admin" && (
+        <button
+          onClick={() => navigate(`/edit-resource/${resource.id}`)}
+          className="btn btn-primary float-end add-resource-btn"
+        >
+          Edit Resource
+        </button>
+      )}
       <h3>
         <a href="/resources-list" className="back-btn">
           <FiArrowLeft /> Back <br />
@@ -77,7 +116,7 @@ const ViewResources = () => {
                 ) : (
                   <img
                     key={index}
-                    src={revive_logo}
+                    src={resources_placeholder}
                     alt="No Media"
                     width="100%"
                     height="200"
@@ -85,9 +124,17 @@ const ViewResources = () => {
                 )
               )
             ) : (
-              <img src={revive_logo} alt="No Media" width="100%" height="200" />
+              <h3>No Media or Materials</h3>
             )}
           </div>
+          {role === "Admin" && (
+            <button
+              className="btn btn-primary float-end delete-resource-btn"
+              onClick={() => handleDeleteResource(resource.id)}
+            >
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </div>

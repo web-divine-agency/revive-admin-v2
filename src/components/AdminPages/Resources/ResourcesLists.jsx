@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import delete_icon from "../../../assets/images/delete_icon.png";
 import check from "../../../assets/images/check.png";
 import resources_placeholder from "../../../assets/images/resources_placeholder.png";
 import axiosInstance from "../../../../axiosInstance";
@@ -43,6 +42,7 @@ function ResourcesLists() {
       try {
         const response = await axiosInstance.get("/all-resources");
         setResources(response.data.resource_data);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.error("Error fetching resources:", error);
       } finally {
@@ -51,34 +51,6 @@ function ResourcesLists() {
     };
     fetchResources();
   }, [setLoading]);
-
-  const handleDeleteResource = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won’t be able to revert this!",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/delete-resource/${id}`);
-          setResources((prevResources) =>
-            prevResources.filter((resource) => resource.id !== id)
-          );
-          Swal.fire("Deleted!", "Your resource has been deleted.", "success");
-        } catch (error) {
-          Swal.fire(
-            "Error!",
-            "There was an error deleting the resource.",
-            "error"
-          );
-        }
-      }
-    });
-  };
 
   const handleAuthorFilterChange = (e) => {
     setAuthorFilter(e.target.value);
@@ -157,14 +129,14 @@ function ResourcesLists() {
       <div key={resource.id} className="resources-card">
         <div className="card">
           <div className="card-body">
-            {role === "Admin" && (
+            {/* {role === "Admin" && (
               <button
                 className="delete-resource-btn"
                 onClick={() => handleDeleteResource(resource.id)}
               >
                 <img src={delete_icon} height={24} alt="Delete" />
               </button>
-            )}
+            )} */}
             <div
               onClick={() => navigate("/view-resource", { state: resource })}
               style={{ cursor: "pointer" }}
@@ -227,7 +199,8 @@ function ResourcesLists() {
                 onClick={() => navigate("/resources")}
                 className="btn btn-primary float-end add-resource-btn"
               >
-                <i className="fa fa-plus"></i> Add New Resource
+                {/* <i className="fa fa-plus"></i>  */}
+                Add New Resource
               </button>
             )}
       </div>

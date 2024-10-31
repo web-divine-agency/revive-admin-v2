@@ -18,6 +18,19 @@ button:hover {
 }
 
 @media (max-width: 1366px) and (min-width: 1024px) {
+  .manage-ticket-btn-2, .manage-ticket-btn{
+    margin-right: 0px !important;
+  }
+  .resources-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px;
+    width: 950px;
+    /* border: 1px solid red; */
+    margin-left: .7rem !important;
+  }
   .container {
     transform: scale(1);
     transform-origin: top center;
@@ -250,7 +263,7 @@ h3 {
 }
 
 .add-user-btn {
-  background-color: #0b3a07;
+  background-color: #105652;
   color: #ffffff;
   border-radius: 5px;
   border: none !important;
@@ -258,24 +271,26 @@ h3 {
   font-size: 14px;
 }
 .manage-ticket-btn {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
+  background-color: #105652 !important;
+  border-color: #105652 !important;
   justify-content: center !important;
   display: flex !important;
   width: auto;
   position: absolute;
   right: 50px;
   top: 15px;
+  margin-right: 20px;
 }
 .manage-ticket-btn-2 {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
+  background-color: #105652 !important;
+  border-color: #105652 !important;
   justify-content: center !important;
   display: flex !important;
   width: auto;
   position: absolute;
   right: 300px;
   top: 15px;
+  margin-right: 20px;
 }
 .manage-ticket-btn:hover {
   background-color: #aebe44;
@@ -299,7 +314,7 @@ i {
 }
 
 .submit-btn {
-  background-color: #0b3a07;
+  background-color: #105652;
   color: #ffffff;
   font-size: 14px;
   border: none;
@@ -492,7 +507,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .custom-profile-container .submit-btn {
-  background-color: #0b3a07;
+  background-color: #105652;
   color: #ffffff;
   font-size: 14px;
   border: none;
@@ -525,8 +540,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 /* End of My Profile Style */
 
 /* Generate Ticket Style */
+.template-selection{
+  padding-left: 0px !important;
+}
 .ticket-form {
-  background-color: #0b3a07;
+  background-color: #105652;
   margin-top: 1rem;
   border-radius: 3px;
   height: 690px;
@@ -970,8 +988,8 @@ input[type="date"] {
   background-color: #e0e0e0;
 }
 .upload-resource-btn {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
+  background-color: #105652 !important;
+  border-color: #105652 !important;
   justify-content: center !important;
 }
 .upload-resource-btn:hover {
@@ -980,8 +998,8 @@ input[type="date"] {
   font-weight: 600 !important;
 }
 .publish-btn {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
+  background-color: #105652 !important;
+  border-color: #105652 !important;
   justify-content: center !important;
   margin-right: 20px;
   margin-top: -40px;
@@ -1017,23 +1035,31 @@ input[type="date"] {
 }
 
 .add-resource-btn {
-  background-color: #0b3a07 !important;
-  border-color: #0b3a07 !important;
-  justify-content: center !important;
-  display: flex !important;
+  background-color: #105652;
+  border-color: #105652;
+  justify-content: center ;
+  display: flex;
+}
+.delete-resource-btn{
+  background-color: rgb(254, 36, 36);
+  border-color: #ff5151 !important;
+}
+.delete-resource-btn:hover{
+  background-color: rgb(255, 0, 0);
+  border-color: #ff5151 !important;
 }
 .add-resource-btn:hover {
   background-color: #aebe44 !important;
   border-color: #aebe44 !important;
   font-weight: 600 !important;
 }
-.delete-resource-btn {
+/* .delete-resource-btn {
   position: fixed;
   top: 1px;
   right: 2px;
   background-color: #00000000;
   border: #00000000;
-}
+} */
 .resources-card:hover {
   transform: scale(1.05);
 }

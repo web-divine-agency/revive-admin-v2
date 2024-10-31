@@ -279,7 +279,7 @@ function Navbar({ role }) {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <div className="time-display mt-5 text-center">
+                  <div className="time-display text-center">
                     <h6>Welcome, {first_name}!</h6>
                     <p>{currentTime}</p>
                   </div>
