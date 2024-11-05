@@ -60,7 +60,7 @@ const ViewResources = () => {
           {role === "Admin" && (
             <button
               onClick={() => navigate(`/edit-resource/${resource.id}`)}
-              className="btn btn-primary float-end add-resource-btn"
+              className="btn btn-primary float-end edit-resource-btn"
             >
               Edit Resource
             </button>

@@ -8,7 +8,7 @@ import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import view_icon from "../../../assets/images/view_icon.png";
 //import printer from '../../../assets/images/printer.png';
-import delete_icon from "../../../assets/images/delete_icon.png";
+import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
 import axiosInstance from "../../../../axiosInstance";
 import { format } from "date-fns";

@@ -21,6 +21,7 @@ const ResourcePage = () => {
     resource_title: "",
     resource_body: "",
     status: "draft",
+    category: "General Resource",
   });
   const [resourceMedia, setResourceMedia] = useState(null);
   const navigate = useNavigate();

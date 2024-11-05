@@ -86,7 +86,7 @@
   .toggle-btn {
     display: flex;
     position: fixed;
-    top: 8px;
+    top: 0px;
     left: 200px;
     z-index: 2;
     color: #fff;
@@ -105,14 +105,18 @@
     display: flex;
     justify-content: center;
     position: fixed;
-    top: 1rem;
+    top: 2px !important;
     right: 30px !important;
+  padding: 3px 20px 3px 15px !important;
     cursor: pointer;
+  }
+  .profile span h5, .profile p {
+    font-size: 11px;
   }
   .sticky-header {
     position: fixed;
     width: 2800px;
-    height: 4rem;
+    height: 3rem !important;
     top: 0rem;
     left: -10rem;
     right: 10rem;
@@ -290,7 +294,7 @@ ul {
   right: 50px;
   cursor: pointer;
   background-color: #105652;
-  padding: 5px 25px 5px 20px;
+  padding: 10px 25px 10px 20px;
   border-radius: 5px;
   border: 1px solid #457a74;
   margin-bottom: 20px;

@@ -222,7 +222,7 @@ body {
 .title-page {
   position: fixed;
   z-index: 1;
-  top: 20px;
+  top: 17px;
   display: flex;
   align-items: center;
 
@@ -1070,6 +1070,13 @@ input[type="date"] {
   border-color: #105652;
   justify-content: center ;
   display: flex;
+  margin-right: 40px;
+}
+.edit-resource-btn {
+  background-color: #105652;
+  border-color: #105652;
+  justify-content: center ;
+  display: flex;
 }
 .delete-resource-btn{
   background-color: #c74a44;
@@ -1251,6 +1258,9 @@ input[type="date"] {
   }
   .add-resource-btn {
     margin-right: -375px;
+  }
+  .edit-resource-btn {
+    margin-right: -364px;
   }
 
   .custom-profile-container {
@@ -1438,6 +1448,10 @@ input[type="date"] {
   .add-user-btn {
     margin-right: 0;
   }
+  .edit-resource-btn{
+    margin-right: 0;
+    margin-top: 35px;
+  }
   .add-resource-btn {
     margin-right: 0;
   }
@@ -1468,6 +1482,10 @@ input[type="date"] {
   .add-user-btn {
     margin-right: 0;
   }
+  .edit-resource-btn{
+    margin-right: 0px;
+    margin-top: 35px;
+  }
   .add-resource-btn {
     margin-right: 0;
   }
@@ -1493,6 +1511,10 @@ input[type="date"] {
   }
   .add-user-btn {
     margin-right: 0;
+  }
+  .edit-resource-btn{
+    margin-right: 0px;
+    margin-top: 35px;
   }
   .add-resource-btn {
     margin-right: 0;

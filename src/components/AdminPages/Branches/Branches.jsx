@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "../../../assets/images/view_icon.png";
-import edit_icon from "../../../assets/images/edit_icon.png";
-import delete_icon from "../../../assets/images/delete_icon.png";
+import view_icon from "../../../assets/images/list-view.png";
+import edit_icon from "../../../assets/images/edit-details.png";
+import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
 
 import { useNavigate } from "react-router-dom";

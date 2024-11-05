@@ -10,7 +10,7 @@ import woman from '../../../assets/images/woman.png';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../../../../axiosInstance';
 import Swal from 'sweetalert2'; 
-import delete_icon from "../../../assets/images/delete_icon.png";
+import delete_icon from "../../../assets/images/delete-log.png";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { formatInTimeZone } from 'date-fns-tz';
 
@@ -44,7 +44,7 @@ function StaffLogs() {
           branch: staff_logs?.user?.branches?.map(r => r.branch_name).join(", ") || 'N/A',
           action: staff_logs?.action === 'logout' ? 'Logged Out' :
                   staff_logs?.action === 'login' ? 'Logged In' : staff_logs?.action || 'Unknown Action',
-          sex: staff_logs?.user?.sex || 'N/A'
+          // sex: staff_logs?.user?.sex || 'N/A'
         }));
         
         setData(formattedData);

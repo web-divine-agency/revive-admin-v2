@@ -30,7 +30,9 @@ const EditResources = () => {
         setResourceStatus(resourceData?.status || "");
         setResourceCategory(resourceData?.category || "");
         setAdditionalFields(
-          JSON.parse(resourceData?.additional_fields || "[]")
+          Array.isArray(JSON.parse(resourceData?.additional_fields)) 
+            ? JSON.parse(resourceData?.additional_fields) 
+            : []
         );
         setSelectedResourceMedia(
           JSON.parse(resourceData?.resource_media || "[]")
@@ -114,14 +116,16 @@ const EditResources = () => {
           <form onSubmit={handleSubmit}>
           <a href="/view-resource" className="back-btn">
         <h3 className="title-page">
-          <FiChevronLeft className="icon-left" /> Update Resource
+          {/* <FiChevronLeft className="icon-left" />  */}
+          Update Resource
         </h3>
       </a>
             <button
               type="submit"
               className="btn btn-primary float-end publish-btn"
             >
-              <i className="fa fa-paper-plane"></i> Publish Edit
+              {/* <i className="fa fa-paper-plane"></i>  */}
+              Publish Edit
             </button>
             <div className="container-content">
               <div className="resource-page">
