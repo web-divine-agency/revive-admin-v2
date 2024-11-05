@@ -5566,63 +5566,63 @@ function GenerateTickets() {
               />
             </div>
             <div className="d-flex justify-content-between">
-            <div className="form-group" style={{width: 120}}>
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
-                value={
-                  ticketData.price ? ticketData.price.replace("$", "") : ""
-                }
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, "");
-                  handleTicketData({
-                    target: {
-                      name: "price",
-                      value: "$" + formatPrice(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className="form-group" style={{width: 120}}>
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
-                value={ticketData.rrp || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, "");
-                  handleTicketData({
-                    target: {
-                      name: "rrp",
-                      value: formatRrp(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className="form-group" style={{width: 120}}>
-              <label>Save</label>
-              <input
-                disabled
-                type="text"
-                name="save" // Added name
-                className="form-control"
-                value={ticketData.save || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, "");
-                  handleTicketData({
-                    target: {
-                      name: "save",
-                      value: formatSave(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
+              <div className="form-group" style={{ width: 120 }}>
+                <label>Price</label>
+                <input
+                  type="text"
+                  name="price" // Added name
+                  className="form-control"
+                  value={
+                    ticketData.price ? ticketData.price.replace("$", "") : ""
+                  }
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, "");
+                    handleTicketData({
+                      target: {
+                        name: "price",
+                        value: "$" + formatPrice(filteredValue),
+                      },
+                    });
+                  }}
+                />
+              </div>
+              <div className="form-group" style={{ width: 120 }}>
+                <label>RRP</label>
+                <input
+                  type="text"
+                  name="rrp" // Added name
+                  className="form-control"
+                  value={ticketData.rrp || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, "");
+                    handleTicketData({
+                      target: {
+                        name: "rrp",
+                        value: formatRrp(filteredValue),
+                      },
+                    });
+                  }}
+                />
+              </div>
+              <div className="form-group" style={{ width: 120 }}>
+                <label>Save</label>
+                <input
+                  disabled
+                  type="text"
+                  name="save" // Added name
+                  className="form-control"
+                  value={ticketData.save || ""}
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, "");
+                    handleTicketData({
+                      target: {
+                        name: "save",
+                        value: formatSave(filteredValue),
+                      },
+                    });
+                  }}
+                />
+              </div>
             </div>
             <div className="form-group">
               <label>RRP Option</label>
@@ -5776,21 +5776,20 @@ function GenerateTickets() {
         <div className="row pl-4 template-selection">
           <h3 className="title-page">Revive Pharmacy Price Ticket Generator</h3>
           {role === "Admin" && (
-            <button
-              onClick={() => navigate("/ticket-category")}
-              className="btn btn-primary float-end manage-ticket-btn-2"
-            >
-              <i className="fa fa-list-alt"></i>
-              Ticket Category
-            </button>
-          )}
-          {role === "Admin" && (
-            <button
-              onClick={() => navigate("/template-management")}
-              className="btn btn-primary float-end manage-ticket-btn"
-            >
-              <i className="fa fa-cog"></i> Manage Template Access
-            </button>
+            <div className="ticket-category">
+              <button
+                onClick={() => navigate("/ticket-category")}
+                className="btn btn-primary float-end manage-ticket-btn-2"
+              >
+                Ticket Category
+              </button>
+              <button
+                onClick={() => navigate("/template-management")}
+                className="btn btn-primary float-end manage-ticket-btn"
+              >
+                Manage Template Access
+              </button>
+            </div>
           )}
 
           <div className="ticket-filter">

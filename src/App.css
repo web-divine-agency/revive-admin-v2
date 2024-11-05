@@ -8,17 +8,15 @@
 
 button {
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-
-
 }
 /* Override the active and focus states */
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
 .btn-primary:focus-visible {
-    background-color: #105652 !important; /* Replace #desiredColor with your preferred color */
-    border-color: #105652 !important;
-    box-shadow: none !important; /* Removes the default blue shadow */
+  background-color: #105652 !important; /* Replace #desiredColor with your preferred color */
+  border-color: #105652 !important;
+  box-shadow: none !important; /* Removes the default blue shadow */
 }
 
 button:hover {
@@ -29,7 +27,8 @@ button:hover {
 }
 
 @media (max-width: 1366px) and (min-width: 1024px) {
-  .manage-ticket-btn-2, .manage-ticket-btn{
+  .manage-ticket-btn-2,
+  .manage-ticket-btn {
     margin-right: 0px !important;
   }
 
@@ -41,7 +40,7 @@ button:hover {
     padding: 20px;
     width: 950px;
     /* border: 1px solid red; */
-    margin-left: .7rem !important;
+    margin-left: 0.7rem !important;
   }
   .container {
     transform: scale(1);
@@ -86,8 +85,8 @@ button:hover {
     color: #626262;
     cursor: pointer;
     border: 1px solid #dfdfdf;
-    background-color: #fffaeb;
-    box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
+    background-color: #fdffff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
   }
 
   .add-to-queue-btn {
@@ -196,7 +195,7 @@ button:hover {
 }
 
 body {
-  background-color: #fffaeb;
+  background-color: #fdffff;
   width: 100%;
   display: flex;
   align-items: start;
@@ -207,7 +206,7 @@ body {
 
 /* Components Style */
 .container {
-  background-color: #fffaeb;
+  background-color: #fdffff;
   border-radius: 13px;
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
@@ -223,7 +222,7 @@ body {
   color: #626262;
   cursor: text;
   border: 1px solid #dfdfdf;
-  background-color: #fffaeb;
+  background-color: #fdffff;
 }
 
 .container-content {
@@ -236,29 +235,27 @@ body {
   top: 17px;
   display: flex;
   align-items: center;
-
 }
 h3 {
   font-size: 19px;
   font-weight: 500;
 }
 
-
 /* Start of table style */
 
-.dataTables_wrapper{
+.dataTables_wrapper {
   box-shadow: 1px 2px 5px 3px rgba(16, 86, 82, 0.2);
 }
 
 .dataTables_wrapper .rdt_TableCell {
-  background-color: #fffaeb;
+  background-color: #fdffff;
   font-size: 14px;
   color: #525252;
   padding: 9px 14px;
 }
 
 .dataTables_wrapper .rdt_TableHead {
-  background-color: #fffaeb;
+  background-color: #fdffff;
   font-size: 15px;
   color: #626262;
 }
@@ -266,8 +263,8 @@ h3 {
 .eVrcSZ option {
   color: black !important;
 }
-.eVrcSZ{
-  background-color: #fffaeb !important;
+.eVrcSZ {
+  background-color: #fdffff !important;
   color: #101720b9 !important;
 }
 
@@ -278,7 +275,7 @@ h3 {
 .kqWIVd {
   border-bottom: 1px solid #ffffff !important;
   border-radius: 0 0 20px 20px !important;
-  background-color: #fffaeb !important;
+  background-color: #fdffff !important;
 }
 
 .fceIjj {
@@ -295,8 +292,8 @@ h3 {
   cursor: pointer;
   border: 1px solid #dfdfdf;
   margin-right: 6px;
-  background-color: #fffaeb !important;
-  box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
+  background-color: #fdffff !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
 }
 
 .add-user-btn {
@@ -313,9 +310,6 @@ h3 {
   justify-content: center !important;
   display: flex !important;
   width: auto;
-  position: absolute;
-  right: 50px;
-  top: 15px;
   margin-right: 20px;
 }
 .manage-ticket-btn-2 {
@@ -324,10 +318,6 @@ h3 {
   justify-content: center !important;
   display: flex !important;
   width: auto;
-  position: absolute;
-  right: 300px;
-  top: 15px;
-  margin-right: 20px;
 }
 .manage-ticket-btn:hover {
   background-color: #87a79e;
@@ -371,13 +361,13 @@ i {
 select {
   height: 38px;
   width: 208px;
-  background-color: #fffaeb !important;
+  background-color: #fdffff !important;
   padding: 5px;
   border: 1px solid #dfdfdf;
   border-radius: 5px;
   margin-bottom: 5px;
   color: #626262;
-  box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
 }
 
 label {
@@ -535,7 +525,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   flex-direction: column;
 }
 
-.profile-user svg {
+.profile-user img {
   border-radius: 50%;
   object-fit: cover;
   height: 150px;
@@ -578,7 +568,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 /* End of My Profile Style */
 
 /* Generate Ticket Style */
-.template-selection{
+.template-selection {
   padding-left: 0px !important;
 }
 .ticket-form {
@@ -1071,29 +1061,90 @@ input[type="date"] {
   /* border: 1px solid red; */
   margin-left: 8rem;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-#massDelete-btn{
+.modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.video-item {
+  width: calc(50% - 8px);
+  height: auto;
+  max-height: 300px;
+}
+
+.image-item {
+  width: calc(33.33% - 20px);
+  height: 200px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+#massDelete-btn {
   background-color: #c74a44;
   border-color: #efc7c2 !important;
 }
 .add-resource-btn {
   background-color: #105652;
   border-color: #105652;
-  justify-content: center ;
+  justify-content: center;
   display: flex;
   margin-right: 40px;
 }
 .edit-resource-btn {
   background-color: #105652;
   border-color: #105652;
-  justify-content: center ;
+  justify-content: center;
   display: flex;
 }
-.delete-resource-btn{
+.edit-resource-btn:hover {
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
+  font-weight: 600 !important;
+}
+.delete-resource-btn {
   background-color: #c74a44;
   border-color: #efc7c2 !important;
 }
-.delete-resource-btn:hover{
+.delete-resource-btn:hover {
   background-color: #c74a44;
   border-color: #efc7c2 !important;
 }
@@ -1116,7 +1167,7 @@ input[type="date"] {
 .resources-card .card {
   padding: 10px;
   border-radius: 8px;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   box-shadow: 2px 2px 4px 4px rgba(16, 86, 82, 0.2);
 }
 
@@ -1134,7 +1185,7 @@ input[type="date"] {
   align-items: center;
   margin-top: -20px;
   margin-bottom: 20px;
-  color:#105652;
+  color: #105652;
 }
 .back-btn:hover {
   color: rgb(22, 148, 142);
@@ -1161,7 +1212,7 @@ input[type="date"] {
 .pagination-controls button {
   padding: 5px 10px;
   border: 1px solid #ddd;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   cursor: pointer;
   color: #000000;
   font-weight: bold;
@@ -1222,7 +1273,7 @@ input[type="date"] {
     width: 100% !important;
   }
   .container-content {
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc00;
     border-radius: 20px;
     margin: 20px;
     min-width: 705px;
@@ -1247,7 +1298,7 @@ input[type="date"] {
     padding: 6px 12px !important;
     border: none;
     border-radius: 30px;
-    background-color: #fffaeb;
+    background-color: #fdffff;
     color: #626262;
     cursor: text;
     width: 100%;
@@ -1268,12 +1319,16 @@ input[type="date"] {
     margin-right: -375px;
   }
   .add-resource-btn {
-    margin-right: -375px;
+    margin-right: 0;
   }
   .edit-resource-btn {
-    margin-right: -364px;
+    margin-right: 0;
+    margin-top: 25px;
   }
-
+  .delete-resource-btn {
+    margin-top: 35px;
+    margin-right: -27px;
+  }
   .custom-profile-container {
     border: 2px solid #dfdfdf;
     border-radius: 20px;
@@ -1403,6 +1458,34 @@ input[type="date"] {
     margin-top: -50px;
     margin-right: 0px;
   }
+  .generate-ticket-container .container-content {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container-content .col-md-5 {
+    min-width: 80%;
+    margin-right: 0 !important;
+    margin-bottom: 20px;
+  }
+  .container-content .col-md-6 {
+    min-width: 80%;
+  }
+  .pdf-preview {
+    /* border: 1px solid #000000; */
+    height: auto;
+    padding-top: 10px;
+    width: auto;
+    overflow: hidden;
+  }
+  .manage-ticket-btn, .manage-ticket-btn-2 {
+    margin-top: 135px;
+    margin-right: 35px;
+    margin-bottom: 0;
+  }
+ 
 }
 
 @media (max-width: 767px) and (min-width: 425px) {
@@ -1463,7 +1546,7 @@ input[type="date"] {
   .add-user-btn {
     margin-right: 0;
   }
-  .edit-resource-btn{
+  .edit-resource-btn {
     margin-right: 0;
     margin-top: 35px;
   }
@@ -1475,10 +1558,37 @@ input[type="date"] {
     width: 100% !important;
     margin-bottom: 0;
   }
+  #ticketTemplate {
+    width: 200px;
+}
+.date-input{
+  width: 135px;
+}
+.manage-ticket-btn-2 {
+ 
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+  margin: 0 0 10px 0;
+}
+.manage-ticket-btn {
+  
+  position: relative !important;
+  right: 0 !important;
+  margin: 0 0 10px 0;
+
+  top: 0 !important;
+}
+.template-selection .ticket-category{
+  display: flex;
+  flex-direction: column ;
+
+  margin-top: 0;
+}
 }
 @media (max-width: 424px) and (min-width: 361px) {
   .container-content {
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc00 !important;
     border-radius: 20px;
     margin: 20px;
     min-width: 352px !important;
@@ -1497,7 +1607,7 @@ input[type="date"] {
   .add-user-btn {
     margin-right: 0;
   }
-  .edit-resource-btn{
+  .edit-resource-btn {
     margin-right: 0px;
     margin-top: 35px;
   }
@@ -1509,6 +1619,33 @@ input[type="date"] {
     width: 100% !important;
     margin-bottom: 0;
   }
+  #ticketTemplate {
+    width: 200px;
+}
+.date-input{
+  width: 120px;
+}
+.manage-ticket-btn-2 {
+ 
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+  margin: 0 0 10px 0;
+}
+.manage-ticket-btn {
+  
+  position: relative !important;
+  right: 0 !important;
+  margin: 0 0 10px 0;
+
+  top: 0 !important;
+}
+.template-selection .ticket-category{
+  display: flex;
+  flex-direction: column ;
+
+  margin-top: 0;
+}
 }
 @media (max-width: 360px) and (min-width: 320px) {
   .container-content {
@@ -1527,7 +1664,7 @@ input[type="date"] {
   .add-user-btn {
     margin-right: 0;
   }
-  .edit-resource-btn{
+  .edit-resource-btn {
     margin-right: 0px;
     margin-top: 35px;
   }
@@ -1545,6 +1682,33 @@ input[type="date"] {
     height: 35px;
     padding: 0 10px;
   }
+  #ticketTemplate {
+    width: 200px;
+}
+.date-input{
+  width: 85px;
+}
+.manage-ticket-btn-2 {
+ 
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+  margin: 0 0 10px 0;
+}
+.manage-ticket-btn {
+  
+  position: relative !important;
+  right: 0 !important;
+  margin: 0 0 10px 0;
+
+  top: 0 !important;
+}
+.template-selection .ticket-category{
+  display: flex;
+  flex-direction: column ;
+
+  margin-top: 0;
+}
 }
 
 /* end of resource page css */

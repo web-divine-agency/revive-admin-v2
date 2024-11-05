@@ -48,7 +48,7 @@
   color: #626262;
   cursor: text;
   border: 1px solid #dfdfdf;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   box-shadow: rgba(0, 0, 0, 0.20) 0px 1px 2px;
 }
 .title-page{
@@ -61,10 +61,11 @@
   margin-left: 7.8rem;
   margin-top: 6rem ;
   margin-bottom: 20px !important;
+  
 }
 .dataTables_wrapper .rdt_TableHead .rdt_TableHeadRow {
-  background-color: #fff8e2; /* changed */
-  border-radius: 10px;
+  background-color: #f3f2f2; /* changed */
+  /* border-radius: 10px; */
   margin-bottom: 6px;
   border: none;
   font-size: 14px;

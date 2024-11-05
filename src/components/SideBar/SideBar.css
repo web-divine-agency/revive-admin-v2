@@ -120,7 +120,7 @@
     top: 0rem;
     left: -10rem;
     right: 10rem;
-    background-color: #fffaeb;
+    background-color: #fdffff;
     /* Background color starting from hr */
     padding-top: 2px;
     /* Adjust as needed */
@@ -197,7 +197,7 @@ h1 {
   width: 80px;
   left: 185px;
   position: fixed;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   top: 0;
 }
 
@@ -208,7 +208,7 @@ h1 {
   right: 0;
   width: 15px;
   height: 15px;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   border-radius: 100% 0 0 0;
 }
 
@@ -340,7 +340,7 @@ ul {
   top: 0rem;
   left: -10rem;
   right: 10rem;
-  background-color: #fffaeb;
+  background-color: #fdffff;
   /* Background color starting from hr */
   padding-top: 2px;
   /* Adjust as needed */
