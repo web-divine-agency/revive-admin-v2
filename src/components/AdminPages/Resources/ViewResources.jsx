@@ -96,7 +96,9 @@ const ViewResources = () => {
                         height="600px"
                         title="PDF Document"
                       />
-                    ) : media.endsWith(".mp4") ? (
+                    ) : media.endsWith(".mp4") ||
+                    media.endsWith(".mkv")  || 
+                    media.endsWith(".avi") ? (
                       <video key={index} width="100%" height="100%" controls>
                         <source
                           src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}

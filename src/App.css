@@ -8,6 +8,17 @@
 
 button {
   transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+
+
+}
+/* Override the active and focus states */
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:focus-visible {
+    background-color: #105652 !important; /* Replace #desiredColor with your preferred color */
+    border-color: #105652 !important;
+    box-shadow: none !important; /* Removes the default blue shadow */
 }
 
 button:hover {
@@ -1123,10 +1134,10 @@ input[type="date"] {
   align-items: center;
   margin-top: -20px;
   margin-bottom: 20px;
-  color: rgb(2, 2, 2);
+  color:#105652;
 }
 .back-btn:hover {
-  color:#105652;
+  color: rgb(22, 148, 142);
 }
 
 .pagination-controls {
@@ -1388,6 +1399,10 @@ input[type="date"] {
   .user-info-fields .username-field {
     margin-right: 0 !important;
   }
+  .publish-btn {
+    margin-top: -50px;
+    margin-right: 0px;
+  }
 }
 
 @media (max-width: 767px) and (min-width: 425px) {
@@ -1471,7 +1486,7 @@ input[type="date"] {
     margin-top: 28px !important;
   }
   .publish-btn {
-    margin-top: -25px;
+    margin-top: -40px;
     margin-right: 0px;
   }
   .container {
@@ -1525,7 +1540,7 @@ input[type="date"] {
     margin-bottom: 0;
   }
   .publish-btn {
-    margin-top: -20px;
+    margin-top: -35px;
     margin-right: 0px;
     height: 35px;
     padding: 0 10px;

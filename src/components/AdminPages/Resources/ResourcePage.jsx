@@ -85,7 +85,7 @@ const ResourcePage = () => {
     formDataToSend.append("resource_title", formData.resource_title);
     formDataToSend.append("resource_body", formData.resource_body);
     formDataToSend.append("status", formData.status);
-    formDataToSend.append("category", formData.category);
+    formDataToSend.append("category", formData.category) || "General Resource";    
     formDataToSend.append(
       "additional_fields",
       JSON.stringify(additionalFields)

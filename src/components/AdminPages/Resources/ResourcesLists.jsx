@@ -72,11 +72,11 @@ function ResourcesLists() {
   const indexOfLastItemGeneral = currentPageGeneral * itemsPerPageGeneral;
   const indexOfFirstItemGeneral = indexOfLastItemGeneral - itemsPerPageGeneral;
   const generalResources = filteredResources
-    .filter((resource) => resource.category === "General Resource")
+    .filter((resource) => resource.category === "General Resource" || resource.category !== "Troubleshooting Resource")
     .slice(indexOfFirstItemGeneral, indexOfLastItemGeneral);
   const totalPagesGeneral = Math.ceil(
     filteredResources.filter(
-      (resource) => resource.category === "General Resource"
+      (resource) => resource.category === "General Resource" || resource.category !== "Troubleshooting Resource"
     ).length / itemsPerPageGeneral
   );
 

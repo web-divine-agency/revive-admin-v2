@@ -1,16 +1,15 @@
 import React from "react";
-import users_list from "../../assets/images/users_list.png";
-import users_management from "../../assets/images/users_management.png";
+import users_list from "../../assets/images/accounts.png";
+import users_management from "../../assets/images/role-management.png";
 import staff_logs from "../../assets/images/staff_logs.png";
-import tickets_history from "../../assets/images/tickets_history.png";
-import branches from "../../assets/images/branches.png";
-import log_out from "../../assets/images/log_out.png";
-import generate_ticket from "../../assets/images/generate_ticket.png";
-import upload_resources from "../../assets/images/upload_resources.png";
-import queue_list from "../../assets/images/queue_list.png";
+import tickets_history from "../../assets/images/ticket-history.png";
+import branches from "../../assets/images/location.png";
+import log_out from "../../assets/images/log-out.png";
+import generate_ticket from "../../assets/images/print-ticket.png";
+import upload_resources from "../../assets/images/content.png";
+import ticketing from "../../assets/images/ticketing.png";
 import "./SideBar.css";
 import { FiChevronDown } from 'react-icons/fi'; // Importing the Chevron Down icon
-
 
 
 export const AdminSidebarData = [
@@ -57,10 +56,9 @@ export const AdminSidebarData = [
     title: '',
     icon: (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <img className='navIcon' src={generate_ticket} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />
-        <span>Ticket Generation ▼</span>
-
-        
+        <img className='navIcon' src={ticketing} alt="Custom Icon" style={{ width: '24px', height: '24px' }} />
+        <span style={{ marginLeft: '16px' }}>Ticketing</span>
+        <FiChevronDown style={{ marginLeft: '20px' }} />
       </div>
     ),
     cName: 'nav-text',
