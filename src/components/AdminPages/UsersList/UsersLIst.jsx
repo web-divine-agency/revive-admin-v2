@@ -12,8 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
-import {useLoader} from "../../Loaders/LoaderContext";
-import './UserList.css' 
+import { useLoader } from "../../Loaders/LoaderContext";
+import "./UserList.css";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 function UsersList() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function UsersList() {
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState("");
 
-  const {setLoading} = useLoader();
+  const { setLoading } = useLoader();
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
@@ -49,7 +50,6 @@ function UsersList() {
   }, []);
 
   useEffect(() => {
-    
     const fetchUsers = async () => {
       setLoading(true);
       try {
@@ -60,7 +60,7 @@ function UsersList() {
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -224,7 +224,7 @@ function UsersList() {
   const columns = [
     {
       name: "Name",
-      width: '40%',
+      width: "40%",
       selector: (row) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
@@ -238,11 +238,14 @@ function UsersList() {
               marginRight: "10px",
             }}
           />
-          
-         <div className="user-details">
-            <span> {row.first_name} {row.last_name}</span>
+
+          <div className="user-details">
+            <span>
+              {" "}
+              {row.first_name} {row.last_name}
+            </span>
             <span className="user-email-row">{row.email}</span>
-         </div>
+          </div>
         </div>
       ),
       sortable: true,
@@ -263,22 +266,22 @@ function UsersList() {
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
       style: {
-        width: "200px",  // Adjust this value to set the desired fixed width
-        whiteSpace: "nowrap",  // Prevents text from wrapping to new lines
+        width: "200px", // Adjust this value to set the desired fixed width
+        whiteSpace: "nowrap", // Prevents text from wrapping to new lines
         overflow: "hidden",
-        textOverflow: "ellipsis"  // Adds "..." for overflowed text
+        textOverflow: "ellipsis", // Adds "..." for overflowed text
       },
     },
-    
+
     {
       name: "Role",
-      width: '15%',
+      width: "15%",
       selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
       sortable: true,
     },
     {
       name: "Action",
-      width: '15%',
+      width: "15%",
       selector: (row) => (
         <div>
           <img
@@ -330,9 +333,10 @@ function UsersList() {
 
   return (
     <div className="container">
+      <StickyHeader />
       <div className="row">
         <div className="col-lg-12 col-md-6">
-        <h3 className="title-page">Account Management</h3>
+          <h3 className="title-page">Account Management</h3>
 
           <div className="top-filter">
             <select
@@ -373,10 +377,10 @@ function UsersList() {
               onClick={() => navigate("/add-new-user")}
               className="btn btn-primary float-end add-user-btn"
             >
-             Add User
+              Add User
             </button>
           </div>
-       
+
           <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
@@ -388,7 +392,6 @@ function UsersList() {
               responsive
             />
           </div>
-
         </div>
       </div>
 
@@ -400,37 +403,30 @@ function UsersList() {
           <Modal.Body>
             <div className="profile-container">
               <div className="profile-image">
-                  <img
-                    src={selectedUser.profileImage}
-                    alt={selectedUser.name}
-                    
-                  />
-
+                <img src={selectedUser.profileImage} alt={selectedUser.name} />
               </div>
               <div className="profile-details">
-                  <h2>{selectedUser.name}</h2>
-                  <div className="user-details">
-                    <div>
-                      Username:<p>{selectedUser.username}</p>
-                    </div>
-                    <div>
-                      Role: <p>{selectedUser.role}</p>
-                    </div>
-                    <div>
-                      Branch: <p>{selectedUser.branch}</p>
-                    </div>
-                    <div>
-                      Email:<p>{selectedUser.email}</p>
-                    </div>
+                <h2>{selectedUser.name}</h2>
+                <div className="user-details">
+                  <div>
+                    Username:<p>{selectedUser.username}</p>
                   </div>
-                
+                  <div>
+                    Role: <p>{selectedUser.role}</p>
+                  </div>
+                  <div>
+                    Branch: <p>{selectedUser.branch}</p>
+                  </div>
+                  <div>
+                    Email:
+                    <p className="email-text">{selectedUser.email}</p>
+                  </div>
+                </div>
               </div>
-             
-             
             </div>
           </Modal.Body>
         </Modal>
-      )} 
+      )}
     </div>
   );
 }

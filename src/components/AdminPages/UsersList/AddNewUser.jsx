@@ -6,6 +6,7 @@ import check from "../../../assets/images/check.png";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { FiChevronLeft } from "react-icons/fi";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 const animatedComponents = makeAnimated();
 
@@ -139,6 +140,7 @@ function AddNewUser() {
 
   return (
     <div className="container">
+      <StickyHeader />
       <a href="/userlist" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New User

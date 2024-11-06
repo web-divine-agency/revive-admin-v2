@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { AdminSidebarData, StaffSidebarData } from "./SideBarData";
 import "./SideBar.css";
 import { IconContext } from "react-icons";
-import man from "../../assets/images/man.png";
-import woman from "../../assets/images/woman.png";
+// import man from "../../assets/images/man.png";
+// import woman from "../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Authentication/authContext";
 import axiosInstance from "../../../axiosInstance";
@@ -16,10 +16,10 @@ function Navbar({ role }) {
   const sidebarData = role === "Admin" ? AdminSidebarData : StaffSidebarData;
   const { logout } = useContext(AuthContext);
   const [activeIndex, setActiveIndex] = useState(null);
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [sex, setSex] = useState("");
-  const [email, setEmail] = useState("")
+  // const [first_name, setFirstName] = useState("");
+  // const [last_name, setLastName] = useState("");
+  // const [sex, setSex] = useState("");
+  // const [email, setEmail] = useState("")
 
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
@@ -48,20 +48,20 @@ function Navbar({ role }) {
 
   useEffect(() => {
     // Fetch current user details
-    const fetchUserDetails = async () => {
-      try {
-        const response = await axiosInstance.get("/user");
-        const { first_name, last_name, email, sex } = response.data;
-        setFirstName(first_name);
-        setLastName(last_name);
-        setEmail(email);
-        setSex(sex);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    };
+    // const fetchUserDetails = async () => {
+    //   try {
+    //     const response = await axiosInstance.get("/user");
+    //     const { first_name, last_name, email, sex } = response.data;
+    //     setFirstName(first_name);
+    //     setLastName(last_name);
+    //     setEmail(email);
+    //     setSex(sex);
+    //   } catch (error) {
+    //     console.error("Error fetching user details:", error);
+    //   }
+    // };
 
-    fetchUserDetails();
+    // fetchUserDetails();
     const updateTime = () => {
       const date = new Date();
     
@@ -160,7 +160,7 @@ function Navbar({ role }) {
           <div className="bar"></div>
         </div>
         <div className="sidebar-nav">
-          <div className="sticky-header">
+          {/* <div className="sticky-header">
             <div className="profile" onClick={() => navigate("/my-profile")}>
               <img
                 src={sex === "Male" ? man : woman}
@@ -181,7 +181,7 @@ function Navbar({ role }) {
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <hr className="profile-divider" /> */}
 

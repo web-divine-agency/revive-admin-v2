@@ -11,6 +11,7 @@ import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft } from 'react-icons/fi';
 import Swal from "sweetalert2";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 const ResourcePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -130,6 +131,7 @@ const ResourcePage = () => {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <form onSubmit={handleSubmit}>
       <a href="/resources-list" className="back-btn">
         <h3 className="title-page">
@@ -239,7 +241,7 @@ const ResourcePage = () => {
                 <button
                   type="button"
                   className="btn btn-primary upload-resource-btn mt-3"
-                  onClick={() => console.log(resourceMedia)} // Optional action for upload preview
+                  onClick={() => console.log(resourceMedia)} 
                 >
                   Show Selected Files
                 </button>

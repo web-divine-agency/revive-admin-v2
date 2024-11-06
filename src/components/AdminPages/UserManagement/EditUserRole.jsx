@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from 'react-icons/fi';
+import StickyHeader from "../../SideBar/StickyHeader";
 
 
 
@@ -80,6 +81,7 @@ function EditUserRole() {
 
    return (
     <div className="container">
+      <StickyHeader/>
        <a href="/user-management" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Update Role

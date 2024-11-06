@@ -6,6 +6,15 @@ import resources_placeholder from "../../../assets/images/resources_placeholder.
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { FiChevronLeft } from "react-icons/fi";
+import StickyHeader from "../../SideBar/StickyHeader";
+import LightGallery from 'lightgallery/react';
+import 'lightgallery/css/lightgallery.css'; 
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+import 'lightgallery/css/lg-video.css';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
 
 const ViewResources = () => {
   const location = useLocation();
@@ -75,6 +84,7 @@ const ViewResources = () => {
 
   return (
     <div className="container">
+      <StickyHeader/>
       {role === "Admin" && (
         <button
           onClick={() => navigate(`/edit-resource/${resource.id}`)}

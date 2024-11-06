@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import delete_icon from "../../../assets/images/delete-log.png";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { formatInTimeZone } from 'date-fns-tz';
+import StickyHeader from '../../SideBar/StickyHeader';
 
 
 
@@ -294,6 +295,7 @@ function StaffLogs() {
 
   return (
     <div className="container">
+     <div className='ml-4'><StickyHeader/></div> 
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Staff Logs </h3>

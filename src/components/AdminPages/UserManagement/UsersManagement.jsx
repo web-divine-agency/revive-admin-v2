@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import axiosInstance from "../../../../axiosInstance";
 import check from "../../../assets/images/check.png";
 import {useLoader} from "../../Loaders/LoaderContext";
+import StickyHeader from '../../SideBar/StickyHeader';
 
 
 
@@ -170,6 +171,7 @@ function UserRoleManagement() {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">User Role Management</h3>

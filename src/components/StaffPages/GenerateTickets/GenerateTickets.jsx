@@ -26,6 +26,7 @@ import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
 import axiosInstance from "../../../../axiosInstance";
+import StickyHeader from "../../SideBar/StickyHeader";
 // import revive_logo from "../../../assets/images/revive-logo.png";
 // import revive_logo_white from "../../../assets/images/revive-logo-white.png";
 
@@ -3620,7 +3621,7 @@ function GenerateTickets() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group custom-icon-div">
               <label>Value Type</label>
               <select
                 className="form-control"
@@ -5624,7 +5625,7 @@ function GenerateTickets() {
                 />
               </div>
             </div>
-            <div className="form-group">
+            <div className="form-group custom-icon-div">
               <label>RRP Option</label>
               <select
                 className="form-control"
@@ -5636,7 +5637,7 @@ function GenerateTickets() {
               </select>
               <i className="fa fa-chevron-down custom-dropdown-icon"></i>
             </div>
-            <div className="form-group">
+            <div className="form-group custom-icon-div">
               <label>Offer Type</label>
               <select
                 className="form-control"
@@ -5772,8 +5773,12 @@ function GenerateTickets() {
 
   return (
     <div className="container generate-ticket-container">
+      <div className="generate-ticket-sticky-header">
+        {" "}
+        <StickyHeader />
+      </div>
       <div className="col-md-12">
-        <div className="row pl-4 template-selection">
+        <div className="row template-selection">
           <h3 className="title-page">Revive Pharmacy Price Ticket Generator</h3>
           {role === "Admin" && (
             <div className="ticket-category">

@@ -13,6 +13,7 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 function Branches() {
   const navigate = useNavigate();
@@ -263,6 +264,7 @@ function Branches() {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Branches</h3>

@@ -144,3 +144,12 @@ span.user-email-row {
   margin-bottom: 10px;
 
 }
+.user-details div p {
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.email-text {
+  word-break: break-all;
+}

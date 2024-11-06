@@ -9,6 +9,8 @@ import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import StickyHeader from "../../SideBar/StickyHeader";
+
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
@@ -16,7 +18,7 @@ function ResourcesLists() {
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [resources, setResources] = useState([]);
   const [currentPageGeneral, setCurrentPageGeneral] = useState(1);
-  const [itemsPerPageGeneral, setItemsPerPageGeneral] = useState(3);
+  const [itemsPerPageGeneral, setItemsPerPageGeneral] = useState(4);
   const [currentPageTroubleshooting, setCurrentPageTroubleshooting] =
     useState(1);
   const [itemsPerPageTroubleshooting, setItemsPerPageTroubleshooting] =
@@ -207,7 +209,8 @@ function ResourcesLists() {
 
   return (
     <div className="container">
-     <h3 className="title-page">Resources Lists</h3>
+   <StickyHeader/>
+      <h3 className="title-page">Resources Lists</h3>
       <div className="top-filter">
         <select
           name="filter"
@@ -288,7 +291,8 @@ function ResourcesLists() {
       </div>
 
       {/* Troubleshooting Resources */}
-      <h3 className="mt-3"
+      <h3
+        className="mt-3"
         onClick={() => setShowTroubleshooting(!showTroubleshooting)}
         style={{ cursor: "pointer" }}
       >

@@ -41,6 +41,34 @@
   .logo{
     margin-bottom: 60px !important;
   }
+  .sticky-header {
+    position: fixed;
+    width: 1200px !important;
+    height: 4rem;
+    top: 0rem;
+    background-color: #fdffff;
+    padding-top: 2px;
+    z-index: 1;
+    margin-left: 0px !important;
+  }
+  .sticky-header .profile {
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    gap: 10px; 
+    align-items: center; 
+    /* position: fixed; */
+    /* top: 5px;
+    right: 50px; */
+    margin-right: 245px;
+    cursor: pointer;
+    width: 220px;
+    background-color: #105652;
+    padding: 10px 25px 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #457a74;
+    margin-bottom: 20px;
+    float: right;
+  }
 }
 
 .toggle-btn {
@@ -83,12 +111,27 @@
   }
 }
 @media (max-width: 768px) {
+  .sticky-header .profile {
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    gap: 10px; 
+    align-items: center; 
+    margin-right: 0px;
+    cursor: pointer;
+    width: 220px;
+    background-color: #105652;
+    padding: 10px 25px 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #457a74;
+    margin-bottom: 20px;
+    float: right;
+  }
   .toggle-btn {
     display: flex;
     position: fixed;
     top: 0px;
     left: 200px;
-    z-index: 2;
+    z-index: 10;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -100,6 +143,7 @@
   .sidebar-nav {
     height: 100% !important;
     overflow: auto;
+    
   }
   .profile {
     display: flex;
@@ -190,7 +234,7 @@ h1 {
   transition: 850ms;
   align-items: center;
   flex-direction: column;
-  z-index: 1;
+  z-index: 9;
 }
 .curve {
   height: 79.3px;
@@ -265,9 +309,10 @@ h1 {
 .nav-menu-items {
   width: 100%;
 }
-.submenu{
-  margin-top: 0 !important;
+.submenu {
+  background-color: #0d4f4d; 
 }
+
 span {
   margin-left: 16px;
 }
@@ -289,15 +334,18 @@ ul {
   grid-template-columns: auto 1fr; 
   gap: 10px; 
   align-items: center; 
-  position: fixed;
-  top: 5px;
-  right: 50px;
+  /* position: fixed; */
+  /* top: 5px;
+  right: 50px; */
+  margin-right: 82px;
   cursor: pointer;
+  width: 240px;
   background-color: #105652;
   padding: 10px 25px 10px 20px;
   border-radius: 5px;
   border: 1px solid #457a74;
   margin-bottom: 20px;
+  float: right;
 }
 
 .profile h5 {
@@ -335,16 +383,13 @@ ul {
 
 .sticky-header {
   position: fixed;
-  width: 2800px;
+  width: 1269px;
   height: 4rem;
   top: 0rem;
-  left: -10rem;
-  right: 10rem;
   background-color: #fdffff;
-  /* Background color starting from hr */
   padding-top: 2px;
-  /* Adjust as needed */
   z-index: 1;
+  margin-left: -82px;
 }
 
 .time-display {
@@ -366,5 +411,17 @@ ul {
   font-size: 12.5px;
   margin-bottom: 0px !important;
  
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Set max-width as per your layout requirements */
+}
+
+.sticky-header .profile h5,
+.sticky-header .profile .email-text {
+  margin: 0;
+  padding: 0;
 }
 

@@ -35,6 +35,7 @@ import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/Barlo
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { useLoader } from "../../Loaders/LoaderContext";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 Font.register({
   family: "Arial",
@@ -2232,6 +2233,7 @@ function TicketsHistory() {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Tickets History List</h3>

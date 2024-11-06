@@ -7,6 +7,7 @@ import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance";
 import { FiChevronLeft } from 'react-icons/fi';
 import Swal from "sweetalert2";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 const EditResources = () => {
   const { resourceID } = useParams();
@@ -111,6 +112,7 @@ const EditResources = () => {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <form onSubmit={handleSubmit}>

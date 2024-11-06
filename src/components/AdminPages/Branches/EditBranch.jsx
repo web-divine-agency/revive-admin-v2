@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from 'react-icons/fi';
+import StickyHeader from "../../SideBar/StickyHeader";
 
 function EditBranch() {
   const { branchId } = useParams();
@@ -119,6 +120,7 @@ function EditBranch() {
 
   return (
     <div className="container">
+      <StickyHeader/>
      <a href="/branches" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Update Branch

@@ -5,7 +5,8 @@ import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import view_icon from "../../../assets/images/view_icon.png";
+import view_icon from "../../../assets/images/list-view.png";
+
 //import printer from '../../../assets/images/printer.png';
 import delete_icon from "../../../assets/images/delete_icon.png";
 import check from "../../../assets/images/check.png";
@@ -32,6 +33,7 @@ import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/Barlo
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { useLoader } from "../../Loaders/LoaderContext";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 Font.register({
   family: "Arial",
@@ -2107,6 +2109,7 @@ function TicketsHistory() {
 
   return (
     <div className="container">
+      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Tickets History List</h3>
