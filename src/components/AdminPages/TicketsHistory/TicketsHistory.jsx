@@ -6,7 +6,8 @@ import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import view_icon from "../../../assets/images/view_icon.png";
+import view_icon from "../../../assets/images/list-view.png";
+
 //import printer from '../../../assets/images/printer.png';
 import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";

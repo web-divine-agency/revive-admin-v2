@@ -247,14 +247,14 @@ function AddNewUser() {
                 styles={{
                   control: (provided, { isFocused }) => ({
                     ...provided,
-                    maxHeight: "385px",
+                    maxHeight: "300px",
                     overflowY: "auto",
                     width: isFocused ? "310px" : "208px", // Default width is 200px; expands to 310px on focus
                     transition: "width 0.3s ease", // Smooth transition when width changes
                   }),
                   valueContainer: (provided) => ({
                     ...provided,
-                    maxHeight: "385px",
+                    maxHeight: "300px",
                     overflowY: "auto",
                   }),
                   menu: (provided) => ({

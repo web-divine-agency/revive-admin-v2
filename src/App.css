@@ -211,7 +211,7 @@ body {
   padding: 2rem 2rem 2rem 2rem;
   height: auto;
   margin-left: 7.8rem;
-  margin-top: 50px !important;
+  margin-top: 105px !important;
   margin-bottom: 20px !important;
 }
 
@@ -1052,14 +1052,11 @@ input[type="date"] {
   flex-direction: row;
 }
 .resources-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 20px;
-  padding: 20px;
-  width: 950px;
-  /* border: 1px solid red; */
-  margin-left: 8rem;
+  padding: 45px 0px 33px;
+width: 950px;
+display: grid;
+grid-template-columns: 0.33333fr 0.33333fr 0.33333fr;
+grid-gap: 21px;
 }
 .modal-overlay {
   position: fixed;
@@ -1074,7 +1071,7 @@ input[type="date"] {
   z-index: 1000;
 }
 
-.modal-content {
+.modal-content-resource {
   position: relative;
   max-width: 90%;
   max-height: 90%;
@@ -1084,7 +1081,7 @@ input[type="date"] {
   align-items: center;
 }
 
-.modal-image {
+.modal-image-resource {
   max-width: 100%;
   max-height: 100%;
   height: auto;
@@ -1100,19 +1097,26 @@ input[type="date"] {
   cursor: pointer;
 }
 .image-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  padding: 45px 0px 33px;
+  width: 950px;
+  display: grid;
+  grid-template-columns: 0.33333fr 0.33333fr 0.33333fr;
+  grid-gap: 21px;
 }
 
 .video-item {
-  width: calc(50% - 8px);
+  width:200px;
   height: auto;
-  max-height: 300px;
+ 
+}
+.pdf-item {
+  width:100%;
+  height: 500px;
+
 }
 
 .image-item {
-  width: calc(33.33% - 20px);
+  width: 100%;
   height: 200px;
   object-fit: contain;
   cursor: pointer;
@@ -1166,14 +1170,15 @@ input[type="date"] {
 
 .resources-card .card {
   padding: 10px;
-  border-radius: 8px;
-  background-color: #fdffff;
-  box-shadow: 2px 2px 4px 4px rgba(16, 86, 82, 0.2);
+  border-radius: 6px;
+  background-color: #e4e4e454;
+  border: 1px solid #c0c0c0;
+  text-align: left;
 }
 
 .resources-card {
   /* flex: 1 1 calc(33.333% - 20px);  */
-  width: calc(33.33% - 15px);
+  width: 100%;
   margin-bottom: 20px;
   transition: transform 0.3s ease;
 }

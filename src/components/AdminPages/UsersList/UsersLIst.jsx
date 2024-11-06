@@ -262,7 +262,14 @@ function UsersList() {
       selector: (row) =>
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
+      style: {
+        width: "200px",  // Adjust this value to set the desired fixed width
+        whiteSpace: "nowrap",  // Prevents text from wrapping to new lines
+        overflow: "hidden",
+        textOverflow: "ellipsis"  // Adds "..." for overflowed text
+      },
     },
+    
     {
       name: "Role",
       width: '15%',

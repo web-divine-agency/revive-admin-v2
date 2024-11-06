@@ -5,8 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import resources_placeholder from "../../../assets/images/resources_placeholder.png";
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
-import { FiChevronLeft } from 'react-icons/fi';
-
+import { FiChevronLeft } from "react-icons/fi";
 
 const ViewResources = () => {
   const location = useLocation();
@@ -29,12 +28,19 @@ const ViewResources = () => {
   const handleDeleteResource = async (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won’t be able to revert this!",
+      text: "You won’t be able to revert this!.",
       showCancelButton: true,
       icon: "warning",
       confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#000000",
+      cancelButtonColor: "#00000000",
+      cancelTextColor: "#000000",
       confirmButtonText: "Yes, delete it!",
+      customClass: {
+        container: "custom-container",
+        confirmButton: "custom-confirm-button",
+        cancelButton: "custom-cancel-button",
+        title: "custom-swal-title",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -96,18 +102,37 @@ const ViewResources = () => {
             <div>
               <h2 className="title font-weight-bold mb-3">Instruction</h2>{" "}
               <br />
-              <h2 className="description">{resource.additional_fields}</h2>
+              <h2 className="description">
+                {(() => {
+                  try {
+                    // Parse once to get the array if it's a JSON string
+                    const fieldsArray = JSON.parse(resource.additional_fields);
+
+                    // Check if it's an array and clean up each string if needed
+                    if (Array.isArray(fieldsArray) && fieldsArray.length > 0) {
+                      return fieldsArray.map((field, index) => (
+                        <div key={index}>{field.replace(/[[\]",]+/g, "")}</div>
+                      ));
+                    } else {
+                      return "No instruction provided";
+                    }
+                  } catch (error) {
+                    return "No instruction provided";
+                  }
+                })()}
+              </h2>
             </div>
             <div className="image-grid">
               {resource?.resource_media ? (
                 (resource?.resource_media).map((media, index) =>
                   media.endsWith(".pdf") ? (
                     <embed
+                      className="pdf-item"
                       key={index}
                       src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
                       type="application/pdf"
-                      width="50%"
-                      height="600px"
+                      width="100%"
+                      height="100%"
                       title="PDF Document"
                     />
                   ) : media.endsWith(".mp4") ||
@@ -168,14 +193,17 @@ const ViewResources = () => {
       </div>
       {isModalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content-resource"
+            onClick={(e) => e.stopPropagation()}
+          >
             <span className="close-button" onClick={closeModal}>
               &times;
             </span>
             {selectedMedia.endsWith(".mp4") ||
             selectedMedia.endsWith(".mkv") ||
             selectedMedia.endsWith(".avi") ? (
-              <video controls className="modal-image">
+              <video controls className="modal-image-resource">
                 <source src={selectedMedia} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
@@ -183,7 +211,7 @@ const ViewResources = () => {
               <img
                 src={selectedMedia}
                 alt="Large View"
-                className="modal-image"
+                className="modal-image-resource"
               />
             )}
           </div>

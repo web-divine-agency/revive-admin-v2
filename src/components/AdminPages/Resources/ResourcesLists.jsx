@@ -207,7 +207,7 @@ function ResourcesLists() {
 
   return (
     <div className="container">
-      <h3>Resources Lists</h3>
+     <h3 className="title-page">Resources Lists</h3>
       <div className="top-filter">
         <select
           name="filter"
