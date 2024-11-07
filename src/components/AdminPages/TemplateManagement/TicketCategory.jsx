@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "../../../App.css";
-import '../../../Custom.css';
+import "../../../Custom.css";
 import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft } from "react-icons/fi";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 //import check from "../../../assets/images/check.png";
 
@@ -34,8 +35,6 @@ function TicketCategory() {
     }
   }, []);
 
-
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -45,7 +44,7 @@ function TicketCategory() {
         console.error("Error fetching categories:", error);
       }
     };
-  
+
     const fetchTicketTypes = async () => {
       setLoading(true);
       try {
@@ -53,19 +52,19 @@ function TicketCategory() {
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
-          categories: ticket_type.categories.map(category => ({
-            id: category.id, 
-            name: category.category_name
-          })) 
+          categories: ticket_type.categories.map((category) => ({
+            id: category.id,
+            name: category.category_name,
+          })),
         }));
         setTicketTypes(formattedData);
-  
+
         const initialCategories = formattedData.reduce((acc, ticket) => {
-          acc[ticket.id] = ticket.categories.map(c => c.id); // Store only category ids
+          acc[ticket.id] = ticket.categories.map((c) => c.id); // Store only category ids
           return acc;
         }, {});
         setSelectedCategories(initialCategories);
-  
+
         console.log(formattedData);
       } catch (error) {
         console.error("Error fetching ticket types:", error);
@@ -73,7 +72,7 @@ function TicketCategory() {
         setLoading(false);
       }
     };
-  
+
     fetchCategories(); // Fetch categories
     fetchTicketTypes(); // Fetch ticket types with their categories
   }, [setLoading]);
@@ -84,7 +83,7 @@ function TicketCategory() {
       const currentCategories = Array.isArray(prevSelectedCategories[ticketId])
         ? prevSelectedCategories[ticketId]
         : [];
-  
+
       if (currentCategories.includes(categoryId)) {
         return {
           ...prevSelectedCategories,
@@ -98,9 +97,7 @@ function TicketCategory() {
       }
     });
   };
-  
-  
-  
+
   const handleSave = async () => {
     setLoading(true);
     try {
@@ -112,9 +109,9 @@ function TicketCategory() {
           categories: currentCategories, // Send the selected categories
         });
       });
-  
+
       await Promise.all(updatePromises);
-  
+
       Swal.fire({
         title: "Success",
         text: "Ticket categories updated successfully",
@@ -133,8 +130,6 @@ function TicketCategory() {
       setLoading(false);
     }
   };
-  
-  
 
   const columns = [
     {
@@ -158,7 +153,9 @@ function TicketCategory() {
                     checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
                     onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
                   />
-                  <label htmlFor={checkboxId} className="cbx"> {/* Label points to unique ID */}
+                  <label htmlFor={checkboxId} className="cbx">
+                    {" "}
+                    {/* Label points to unique ID */}
                     <span>
                       <svg viewBox="0 0 12 10" height="10px" width="12px">
                         <polyline points="1.5 6 4.5 9 10.5 1" />
@@ -173,19 +170,21 @@ function TicketCategory() {
         </div>
       ),
       sortable: false,
-    }   
+    },
   ];
-  
 
   return (
     <div className="container">
+      <StickyHeader />
+      <a href="/generate-tickets" className="back-btn">
+            <h3 className="title-page">
+              <FiChevronLeft className="icon-left" />
+              Tickets Category
+            </h3>
+          </a>
       <div className="row">
         <div className="col-lg-12 col-md-6">
-        <a href="/generate-tickets" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" />Tickets Category
-        </h3>
-      </a>
+         
           <div className="top-filter">
             <input
               id="search-bar"

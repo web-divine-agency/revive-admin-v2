@@ -23,7 +23,7 @@
     font-size: 19px !important;
     font-weight: 600;
   }
-  
+
   .time-display p {
     font-size: 12px !important;
   }
@@ -38,28 +38,29 @@
     width: 20px !important;
     height: 20px !important;
   }
-  .logo{
+  .logo {
     margin-bottom: 60px !important;
   }
-  .sticky-header {
-    position: fixed;
-    width: 1200px !important;
-    height: 4rem;
+  .sticky-header-container {
+    position: sticky;
+    width: 100%;
+    height: 4.3rem;
     top: 0rem;
     background-color: #fdffff;
     padding-top: 2px;
     z-index: 1;
-    margin-left: 0px !important;
+    margin-left: 0;
+    margin-bottom: 30px;
   }
   .sticky-header .profile {
     display: grid;
-    grid-template-columns: auto 1fr; 
-    gap: 10px; 
-    align-items: center; 
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
     /* position: fixed; */
     /* top: 5px;
     right: 50px; */
-    margin-right: 245px;
+    margin-right: 26px;
     cursor: pointer;
     width: 220px;
     background-color: #105652;
@@ -67,7 +68,7 @@
     border-radius: 5px;
     border: 1px solid #457a74;
     margin-bottom: 20px;
-    float: right;
+    /* float: right; */
   }
 }
 
@@ -100,22 +101,36 @@
     color: white;
     font-size: 18px;
   }
-  
+
   .time-display h6 {
     font-size: 22px;
     font-weight: 600;
   }
-  
+
   .time-display p {
     font-size: 13px;
   }
 }
 @media (max-width: 768px) {
+  .nav-menu {
+    background-color: #105652;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    /* justify-content: center; */
+    position: fixed;
+    top: 0;
+    transition: 850ms;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9;
+  }
+
   .sticky-header .profile {
     display: grid;
-    grid-template-columns: auto 1fr; 
-    gap: 10px; 
-    align-items: center; 
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
     margin-right: 0px;
     cursor: pointer;
     width: 220px;
@@ -143,7 +158,6 @@
   .sidebar-nav {
     height: 100% !important;
     overflow: auto;
-    
   }
   .profile {
     display: flex;
@@ -151,24 +165,23 @@
     position: fixed;
     top: 2px !important;
     right: 10px !important;
-  padding: 3px 20px 3px 15px !important;
+    padding: 3px 20px 3px 15px !important;
     cursor: pointer;
   }
-  .profile span h5, .profile p {
+  .profile span h5,
+  .profile p {
     font-size: 11px;
   }
-  .sticky-header {
-    position: fixed;
-    width: 2800px;
-    height: 3rem !important;
+  .sticky-header-container .sticky-header {
+    position: sticky;
+    width: 100%;
+    height: 3rem;
     top: 0rem;
-    left: -10rem;
-    right: 10rem;
     background-color: #fdffff;
-    /* Background color starting from hr */
     padding-top: 2px;
-    /* Adjust as needed */
     z-index: 1;
+    margin-left: 0;
+    /* margin-bottom: 30px; */
   }
   .nav-text a {
     /* margin-top: 100px !important; */
@@ -229,7 +242,7 @@ h1 {
   height: 100vh;
   display: flex;
   /* justify-content: center; */
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   transition: 850ms;
   align-items: center;
@@ -308,9 +321,18 @@ h1 {
 
 .nav-menu-items {
   width: 100%;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari, etc.) */
+.nav-menu-items::-webkit-scrollbar {
+  display: none;
+}
+
 .submenu {
-  background-color: #0d4f4d; 
+  background-color: #0d4f4d;
 }
 
 span {
@@ -324,16 +346,15 @@ ul {
 .profile_avatar {
   height: 40px;
   width: 40px;
-  object-fit: cover; 
-  border-radius: 50%; 
+  object-fit: cover;
+  border-radius: 50%;
 }
-
 
 .profile {
   display: grid;
-  grid-template-columns: auto 1fr; 
-  gap: 10px; 
-  align-items: center; 
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
   /* position: fixed; */
   /* top: 5px;
   right: 50px; */
@@ -355,7 +376,6 @@ ul {
   color: #ffffff;
 }
 
-
 .profile div {
   display: flex;
   flex-direction: column; /* Stack name and email */
@@ -367,10 +387,10 @@ ul {
   font-size: 14px;
 }
 
-.profile p{
+.profile p {
   margin: 0;
   padding: 0;
-  color:#cfcfcf89
+  color: #cfcfcf89;
 }
 
 .profile-divider {
@@ -381,15 +401,16 @@ ul {
   background-color: #105652;
 }
 
-.sticky-header {
-  position: fixed;
-  width: 1269px;
-  height: 4rem;
+.sticky-header-container {
+  position: sticky;
+  width: 100%;
+  height: 4.3rem;
   top: 0rem;
   background-color: #fdffff;
   padding-top: 2px;
   z-index: 1;
-  margin-left: -82px;
+  margin-left: 0;
+  margin-bottom: 30px;
 }
 
 .time-display {
@@ -397,9 +418,9 @@ ul {
   font-size: 20px;
   background-color: #0d4f4d;
   border-radius: 3px;
-  padding: 15px 0 15px 0!important;
- width: 200px;
- margin-top: 50px;
+  padding: 15px 0 15px 0 !important;
+  width: 200px;
+  margin-top: 50px;
 }
 
 .time-display h6 {
@@ -410,7 +431,6 @@ ul {
 .time-display p {
   font-size: 12.5px;
   margin-bottom: 0px !important;
- 
 }
 .ellipsis {
   white-space: nowrap;
@@ -424,4 +444,3 @@ ul {
   margin: 0;
   padding: 0;
 }
-

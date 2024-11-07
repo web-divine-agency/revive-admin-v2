@@ -5,7 +5,7 @@ import upload_icon from "../../../assets/images/upload_icon.png";
 import check from "../../../assets/images/check.png";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance";
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
 import StickyHeader from "../../SideBar/StickyHeader";
 
@@ -30,11 +30,11 @@ const EditResources = () => {
         setResourceBody(resourceData?.resource_body || "");
         setResourceStatus(resourceData?.status || "");
         setResourceCategory(resourceData?.category || "");
-        setAdditionalFields(
-          Array.isArray(JSON.parse(resourceData?.additional_fields)) 
-            ? JSON.parse(resourceData?.additional_fields) 
-            : []
+        const parsedFields = JSON.parse(
+          JSON.parse(resourceData?.additional_fields)
         );
+        setAdditionalFields(parsedFields);
+        //console.log(additionalFields);
         setSelectedResourceMedia(
           JSON.parse(resourceData?.resource_media || "[]")
         );
@@ -42,6 +42,7 @@ const EditResources = () => {
         console.error("Error fetching resource details:", error);
       }
     };
+
     fetchResourceDetails();
   }, [resourceID]);
 
@@ -112,16 +113,16 @@ const EditResources = () => {
 
   return (
     <div className="container">
-      <StickyHeader/>
-      <div className="row">
-        <div className="col-lg-12 col-md-6">
-          <form onSubmit={handleSubmit}>
-          <a href="/view-resource" className="back-btn">
+      <StickyHeader />
+      <a href="/view-resource" className="back-btn">
         <h3 className="title-page">
           {/* <FiChevronLeft className="icon-left" />  */}
-          Update Resource
+          <FiChevronLeft className="icon-left" /> Update Resource
         </h3>
       </a>
+      <div className="row">
+        <div className="col-lg-12 col-md-6 resources-content-container">
+          <form onSubmit={handleSubmit}>
             <button
               type="submit"
               className="btn btn-primary float-end publish-btn"
@@ -164,7 +165,7 @@ const EditResources = () => {
                     required
                   />
                   <div>
-                    {additionalFields.map((field, index) => (
+                    {additionalFields?.map((field, index) => (
                       <div
                         key={index}
                         style={{

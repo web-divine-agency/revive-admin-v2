@@ -14,8 +14,8 @@ import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiArrowLeft } from "react-icons/fi";
-import { FiChevronLeft } from 'react-icons/fi';
-
+import { FiChevronLeft } from "react-icons/fi";
+import StickyHeader from "../../SideBar/StickyHeader";
 
 function TemplateManagement() {
   const navigate = useNavigate();
@@ -210,6 +210,12 @@ function TemplateManagement() {
       selector: (row) =>
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
+      style: {
+        width: "200px",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
     },
     {
       name: "Role",
@@ -256,13 +262,16 @@ function TemplateManagement() {
 
   return (
     <div className="container">
+      <StickyHeader />
+      <a href="/generate-tickets" className="back-btn">
+            <h3 className="title-page">
+              <FiChevronLeft className="icon-left" /> Manage Staff Template
+              Access
+            </h3>
+          </a>
       <div className="row">
         <div className="col-lg-12 col-md-6">
-        <a href="/generate-tickets" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" />  Manage Staff Template Access
-        </h3>
-      </a>
+          
           <div className="top-filter">
             <select
               name="filter"
@@ -331,9 +340,12 @@ function TemplateManagement() {
                     objectFit: "cover",
                   }}
                 />
-               <center> <h2> {selectedUser.name} </h2></center> 
+                <center>
+                  {" "}
+                  <h2> {selectedUser.name} </h2>
+                </center>
               </div>
-             
+
               <div className="ticketTypeListContainer">
                 <p> Allowed Templates: </p>
                 <h5>

@@ -295,7 +295,7 @@ function StaffLogs() {
 
   return (
     <div className="container">
-     <div className='ml-4'><StickyHeader/></div> 
+    <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Staff Logs </h3>

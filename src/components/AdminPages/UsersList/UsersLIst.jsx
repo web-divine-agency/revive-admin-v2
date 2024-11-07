@@ -266,10 +266,10 @@ function UsersList() {
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
       style: {
-        width: "200px", // Adjust this value to set the desired fixed width
-        whiteSpace: "nowrap", // Prevents text from wrapping to new lines
+        width: "200px", 
+        whiteSpace: "nowrap", 
         overflow: "hidden",
-        textOverflow: "ellipsis", // Adds "..." for overflowed text
+        textOverflow: "ellipsis", 
       },
     },
 
@@ -335,7 +335,7 @@ function UsersList() {
     <div className="container">
       <StickyHeader />
       <div className="row">
-        <div className="col-lg-12 col-md-6">
+        <div className="col-lg-12 col-md-6 custom-content-container">
           <h3 className="title-page">Account Management</h3>
 
           <div className="top-filter">

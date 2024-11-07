@@ -266,7 +266,7 @@ function Branches() {
     <div className="container">
       <StickyHeader/>
       <div className="row">
-        <div className="col-lg-12 col-md-6">
+        <div className="col-lg-12 col-md-6 custom-content-container">
           <h3 className="title-page">Branches</h3>
           <div className="top-filter">
             <select

@@ -30,26 +30,27 @@ const StickyHeader = () => {
   }, []); // Empty dependency array to run only once after the component mounts
 
   return (
-    <div className="sticky-header">
-  <div className="profile" onClick={() => navigate("/my-profile")}>
-    <img
-      src={sex === "Male" ? man : woman}
-      className="profile_avatar"
-      alt="Profile Avatar"
-    />
-    <div>
-      <span>
-        <h5 className="ellipsis">
-          {first_name} {last_name}
-        </h5>
-      </span>
-      <span>
-        <p className="email-text ellipsis">{email}</p>
-      </span>
+    <div className="sticky-header-container">
+      <div className="sticky-header">
+        <div className="profile" onClick={() => navigate("/my-profile")}>
+          <img
+            src={sex === "Male" ? man : woman}
+            className="profile_avatar"
+            alt="Profile Avatar"
+          />
+          <div>
+            <span>
+              <h5 className="ellipsis">
+                {first_name} {last_name}
+              </h5>
+            </span>
+            <span>
+              <p className="email-text ellipsis">{email}</p>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

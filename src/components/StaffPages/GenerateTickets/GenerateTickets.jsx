@@ -5772,308 +5772,315 @@ function GenerateTickets() {
   };
 
   return (
-    <div className="container generate-ticket-container">
-      <div className="generate-ticket-sticky-header">
-        {" "}
-        <StickyHeader />
-      </div>
-      <div className="col-md-12">
-        <div className="row template-selection">
-          <h3 className="title-page">Revive Pharmacy Price Ticket Generator</h3>
-          {role === "Admin" && (
-            <div className="ticket-category">
-              <button
-                onClick={() => navigate("/ticket-category")}
-                className="btn btn-primary float-end manage-ticket-btn-2"
-              >
-                Ticket Category
-              </button>
-              <button
-                onClick={() => navigate("/template-management")}
-                className="btn btn-primary float-end manage-ticket-btn"
-              >
-                Manage Template Access
-              </button>
-            </div>
-          )}
 
-          <div className="ticket-filter">
-            <h5>Select Ticket Template</h5>
-            <select
-              name="ticketTemplate"
-              id="ticketTemplate"
-              onChange={(e) => {
-                setProductName("");
-                setproductBrand("");
-                setPrice("");
-                setRrp("");
-                setSave("");
-                setOfferType("");
-                setOptionType("");
-                setCopies(1);
-                ticketsCleared();
-                setTemplate(e.target.value);
-                setTicketData({});
-              }}
-              value={template}
-            >
-              <option value="">
-                {template ? `Selected: ${template}` : "-- SELECT A TEMPLATE --"}
-              </option>
-              <option style={{ fontWeight: "bold" }} value="POPULAR TEMPLATES">
-                POPULAR TEMPLATES
-              </option>
-              <option style={{ fontWeight: "bold" }} value="OTHER FRAGRANCES">
-                OTHER FRAGRANCES
-              </option>
+     <div className="container">
+      <div className="generate-ticket-container">
+         <StickyHeader />
+        <div className="col-md-12">
+          <div className="row template-selection">
+            <h3 className="title-page">
+              Revive Pharmacy Price Ticket Generator
+            </h3>
+            {role === "Admin" && (
+              <div className="ticket-category">
+                <button
+                  onClick={() => navigate("/ticket-category")}
+                  className="btn btn-primary float-end manage-ticket-btn-2"
+                >
+                  Ticket Category
+                </button>
+                <button
+                  onClick={() => navigate("/template-management")}
+                  className="btn btn-primary float-end manage-ticket-btn"
+                >
+                  Manage Template Access
+                </button>
+              </div>
+            )}
 
-              {/* General Templates */}
-              {assignedTickets
-                .filter(
+            <div className="ticket-filter">
+              <h5>Select Ticket Template</h5>
+              <select
+                name="ticketTemplate"
+                id="ticketTemplate"
+                onChange={(e) => {
+                  setProductName("");
+                  setproductBrand("");
+                  setPrice("");
+                  setRrp("");
+                  setSave("");
+                  setOfferType("");
+                  setOptionType("");
+                  setCopies(1);
+                  ticketsCleared();
+                  setTemplate(e.target.value);
+                  setTicketData({});
+                }}
+                value={template}
+              >
+                <option value="">
+                  {template
+                    ? `Selected: ${template}`
+                    : "-- SELECT A TEMPLATE --"}
+                </option>
+                <option
+                  style={{ fontWeight: "bold" }}
+                  value="POPULAR TEMPLATES"
+                >
+                  POPULAR TEMPLATES
+                </option>
+                <option style={{ fontWeight: "bold" }} value="OTHER FRAGRANCES">
+                  OTHER FRAGRANCES
+                </option>
+
+                {/* General Templates */}
+                {assignedTickets
+                  .filter(
+                    (ticket) =>
+                      !ticket.category.includes("POPULAR TEMPLATES") &&
+                      !ticket.category.includes("OTHER FRAGRANCES")
+                  )
+                  .map((ticket, idx) => (
+                    <option key={idx} value={ticket.ticket_name}>
+                      {ticket.ticket_name}
+                    </option>
+                  ))}
+              </select>
+
+              {/* Other Fragrances Dropdown */}
+              {(template === "OTHER FRAGRANCES" ||
+                assignedTickets.some(
                   (ticket) =>
-                    !ticket.category.includes("POPULAR TEMPLATES") &&
-                    !ticket.category.includes("OTHER FRAGRANCES")
-                )
-                .map((ticket, idx) => (
-                  <option key={idx} value={ticket.ticket_name}>
-                    {ticket.ticket_name}
-                  </option>
-                ))}
-            </select>
-
-            {/* Other Fragrances Dropdown */}
-            {(template === "OTHER FRAGRANCES" ||
-              assignedTickets.some(
-                (ticket) =>
-                  ticket.category.includes("OTHER FRAGRANCES") &&
-                  template === ticket.ticket_name
-              )) && (
-              <div>
-                <h5>Other Fragrances</h5>
-                <select
-                  name="ticketTemplate"
-                  id="ticketTemplate"
-                  onChange={(e) => {
-                    setProductName("");
-                    setproductBrand("");
-                    setPrice("");
-                    setRrp("");
-                    setSave("");
-                    setOfferType("");
-                    setOptionType("");
-                    setCopies(1);
-                    ticketsCleared();
-                    setTemplate(e.target.value);
-                    setTicketData({});
-                  }}
-                  value={template}
-                >
-                  <option value="">-- Select Other Fragrances --</option>
-                  {assignedTickets
-                    .filter((ticket) =>
-                      ticket.category.includes("OTHER FRAGRANCES")
-                    )
-                    .map((ticket, idx) => (
-                      <option key={idx} value={ticket.ticket_name}>
-                        {ticket.ticket_name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            )}
-
-            {/* Popular Templates Dropdown */}
-            {(template === "POPULAR TEMPLATES" ||
-              assignedTickets.some(
-                (ticket) =>
-                  ticket.category.includes("POPULAR TEMPLATES") &&
-                  template === ticket.ticket_name
-              )) && (
-              <div>
-                <h5>Popular Templates</h5>
-                <select
-                  name="ticketTemplate"
-                  id="ticketTemplate"
-                  onChange={(e) => {
-                    setProductName("");
-                    setproductBrand("");
-                    setPrice("");
-                    setRrp("");
-                    setSave("");
-                    setOfferType("");
-                    setOptionType("");
-                    setCopies(1);
-                    ticketsCleared();
-                    setTemplate(e.target.value);
-                    setTicketData({});
-                  }}
-                  value={template}
-                >
-                  <option value="">-- Select Popular Templates --</option>
-                  {assignedTickets
-                    .filter((ticket) =>
-                      ticket.category.includes("POPULAR TEMPLATES")
-                    )
-                    .map((ticket, idx) => (
-                      <option key={idx} value={ticket.ticket_name}>
-                        {ticket.ticket_name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="col-md-12">
-        <div className="row">
-          <div className="container-content">
-            <div
-              className="col-md-5 p-3 mr-5 ticket-form"
-              style={{
-                height:
-                  template === "HOT PRICE TAGS (RRP and non-RRP)" ||
-                  template === "POPULAR TEMPLATES" ||
-                  template === "OTHER FRAGRANCES" ||
-                  template === ""
-                    ? 755
-                    : "",
-              }}
-            >
-              <h5>Enter Text below</h5>
-              <form className="p-4">
-                <div style={{ position: "relative", textAlign: "center" }}>
-                  {successMessage && (
-                    <div
-                      className="alert alert-success"
-                      style={{
-                        position: "absolute",
-                        top: "-50px",
-                        width: "100%",
-                      }}
-                    >
-                      {successMessage}
-                    </div>
-                  )}
-                  {dateError && (
-                    <div
-                      className="alert error-message"
-                      style={{
-                        position: "absolute",
-                        top: "-50px",
-                        width: "100%",
-                        color: "red",
-                        backgroundColor: "#f7d7d7",
-                      }}
-                    >
-                      {dateError}
-                    </div>
-                  )}
-                </div>
-                {renderFormFields()}
-                <label className="mb-2">Copies</label>
-                <div className="d-flex justify-content-between">
-                  <input
-                    type="number"
-                    placeholder="1"
-                    min={0}
-                    max={99} // Max value set to 99 to limit input to two digits
-                    className="form-control ticket-copies-field"
-                    value={copies}
-                    onChange={handleCopiesChange}
-                    disabled={
-                      template === "" ||
-                      template === "OTHER FRAGRANCES" ||
-                      template === "POPULAR TEMPLATES"
-                    }
-                  />
-                  <button
-                    type="button"
-                    className="add-to-queue-btn"
-                    onClick={handleAddToQueue}
-                    disabled={
-                      copies === 0 ||
-                      template === "" ||
-                      template === "OTHER FRAGRANCES" ||
-                      template === "POPULAR TEMPLATES"
-                    }
-                  >
-                    Add to Queue
-                  </button>
-
-                  <button
-                    type="button"
-                    className="clear-btn"
-                    disabled={
-                      template === "" ||
-                      template === "OTHER FRAGRANCES" ||
-                      template === "POPULAR TEMPLATES"
-                    }
-                    onClick={() => {
+                    ticket.category.includes("OTHER FRAGRANCES") &&
+                    template === ticket.ticket_name
+                )) && (
+                <div>
+                  <h5>Other Fragrances</h5>
+                  <select
+                    name="ticketTemplate"
+                    id="ticketTemplate"
+                    onChange={(e) => {
+                      setProductName("");
+                      setproductBrand("");
+                      setPrice("");
+                      setRrp("");
+                      setSave("");
+                      setOfferType("");
+                      setOptionType("");
                       setCopies(1);
-                      setTicketData({
-                        productName: "",
-                        productDesc: "",
-                        price: "",
-                        rrp: "",
-                        save: "",
-                        copies: 1,
-                      });
-                      entriesCleared();
+                      ticketsCleared();
+                      setTemplate(e.target.value);
+                      setTicketData({});
                     }}
+                    value={template}
                   >
-                    Clear Entries
-                  </button>
+                    <option value="">-- Select Other Fragrances --</option>
+                    {assignedTickets
+                      .filter((ticket) =>
+                        ticket.category.includes("OTHER FRAGRANCES")
+                      )
+                      .map((ticket, idx) => (
+                        <option key={idx} value={ticket.ticket_name}>
+                          {ticket.ticket_name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
-                <div className="d-flex justify-content-between">
-                  <button
-                    type="button"
-                    className="print-btn"
-                    onClick={handleGenerateClick}
-                    disabled={
-                      template === "" ||
-                      template === "OTHER FRAGRANCES" ||
-                      template === "POPULAR TEMPLATES"
-                    }
-                  >
-                    Generate Tickets
-                  </button>
-                  <button
-                    type="button"
-                    className="generate-tickets-btn"
-                    onClick={handlePrint}
-                    disabled={
-                      template === "" ||
-                      template === "OTHER FRAGRANCES" ||
-                      template === "POPULAR TEMPLATES"
-                    }
-                  >
-                    Print
-                  </button>
-                </div>
-              </form>
-            </div>
+              )}
 
-            <div className="col-md-6 ticket-view">
-              <h5
-                className="mt-3"
-                style={{ fontSize: "24px", fontFamily: "BarlowCondensed" }}
+              {/* Popular Templates Dropdown */}
+              {(template === "POPULAR TEMPLATES" ||
+                assignedTickets.some(
+                  (ticket) =>
+                    ticket.category.includes("POPULAR TEMPLATES") &&
+                    template === ticket.ticket_name
+                )) && (
+                <div>
+                  <h5>Popular Templates</h5>
+                  <select
+                    name="ticketTemplate"
+                    id="ticketTemplate"
+                    onChange={(e) => {
+                      setProductName("");
+                      setproductBrand("");
+                      setPrice("");
+                      setRrp("");
+                      setSave("");
+                      setOfferType("");
+                      setOptionType("");
+                      setCopies(1);
+                      ticketsCleared();
+                      setTemplate(e.target.value);
+                      setTicketData({});
+                    }}
+                    value={template}
+                  >
+                    <option value="">-- Select Popular Templates --</option>
+                    {assignedTickets
+                      .filter((ticket) =>
+                        ticket.category.includes("POPULAR TEMPLATES")
+                      )
+                      .map((ticket, idx) => (
+                        <option key={idx} value={ticket.ticket_name}>
+                          {ticket.ticket_name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="col-md-12">
+          <div className="row">
+            <div className="container-content">
+              <div
+                className="col-md-5 p-3 mr-5 ticket-form"
+                style={{
+                  height:
+                    template === "HOT PRICE TAGS (RRP and non-RRP)" ||
+                    template === "POPULAR TEMPLATES" ||
+                    template === "OTHER FRAGRANCES" ||
+                    template === ""
+                      ? 755
+                      : "",
+                }}
               >
-                PDF Live Preview
-              </h5>
-              <div className="pdf-preview">
-                <PDFViewer
-                  className="pdf-paper"
-                  showToolbar={false}
-                  style={{ width: "98%", height: "770px" }}
+                <h5>Enter Text below</h5>
+                <form className="p-4">
+                  <div style={{ position: "relative", textAlign: "center" }}>
+                    {successMessage && (
+                      <div
+                        className="alert alert-success"
+                        style={{
+                          position: "absolute",
+                          top: "-50px",
+                          width: "100%",
+                        }}
+                      >
+                        {successMessage}
+                      </div>
+                    )}
+                    {dateError && (
+                      <div
+                        className="alert error-message"
+                        style={{
+                          position: "absolute",
+                          top: "-50px",
+                          width: "100%",
+                          color: "red",
+                          backgroundColor: "#f7d7d7",
+                        }}
+                      >
+                        {dateError}
+                      </div>
+                    )}
+                  </div>
+                  {renderFormFields()}
+                  <label className="mb-2">Copies</label>
+                  <div className="d-flex justify-content-between">
+                    <input
+                      type="number"
+                      placeholder="1"
+                      min={0}
+                      max={99} // Max value set to 99 to limit input to two digits
+                      className="form-control ticket-copies-field"
+                      value={copies}
+                      onChange={handleCopiesChange}
+                      disabled={
+                        template === "" ||
+                        template === "OTHER FRAGRANCES" ||
+                        template === "POPULAR TEMPLATES"
+                      }
+                    />
+                    <button
+                      type="button"
+                      className="add-to-queue-btn"
+                      onClick={handleAddToQueue}
+                      disabled={
+                        copies === 0 ||
+                        template === "" ||
+                        template === "OTHER FRAGRANCES" ||
+                        template === "POPULAR TEMPLATES"
+                      }
+                    >
+                      Add to Queue
+                    </button>
+
+                    <button
+                      type="button"
+                      className="clear-btn"
+                      disabled={
+                        template === "" ||
+                        template === "OTHER FRAGRANCES" ||
+                        template === "POPULAR TEMPLATES"
+                      }
+                      onClick={() => {
+                        setCopies(1);
+                        setTicketData({
+                          productName: "",
+                          productDesc: "",
+                          price: "",
+                          rrp: "",
+                          save: "",
+                          copies: 1,
+                        });
+                        entriesCleared();
+                      }}
+                    >
+                      Clear Entries
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <button
+                      type="button"
+                      className="print-btn"
+                      onClick={handleGenerateClick}
+                      disabled={
+                        template === "" ||
+                        template === "OTHER FRAGRANCES" ||
+                        template === "POPULAR TEMPLATES"
+                      }
+                    >
+                      Generate Tickets
+                    </button>
+                    <button
+                      type="button"
+                      className="generate-tickets-btn"
+                      onClick={handlePrint}
+                      disabled={
+                        template === "" ||
+                        template === "OTHER FRAGRANCES" ||
+                        template === "POPULAR TEMPLATES"
+                      }
+                    >
+                      Print
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div className="col-md-6 ticket-view">
+                <h5
+                  className="mt-3"
+                  style={{ fontSize: "24px", fontFamily: "BarlowCondensed" }}
                 >
-                  <MyDocument />
-                </PDFViewer>
+                  PDF Live Preview
+                </h5>
+                <div className="pdf-preview">
+                  <PDFViewer
+                    className="pdf-paper"
+                    showToolbar={false}
+                    style={{ width: "98%", height: "770px" }}
+                  >
+                    <MyDocument />
+                  </PDFViewer>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 }

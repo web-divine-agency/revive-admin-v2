@@ -173,7 +173,7 @@ function UserRoleManagement() {
     <div className="container">
       <StickyHeader/>
       <div className="row">
-        <div className="col-lg-12 col-md-6">
+        <div className="col-lg-12 col-md-6 custom-content-container">
           <h3 className="title-page">User Role Management</h3>
           <div className='top-filter'>
             <button onClick={() => navigate("/add-new-role")} className="btn btn-primary float-start add-user-btn">

@@ -5,12 +5,16 @@ import resources_placeholder from "../../../assets/images/content-icon.png";
 import image_icon from "../../../assets/images/gallery-icon.png";
 import file_icon from "../../../assets/images/pdf-icon.png";
 import video_icon from "../../../assets/images/video-icon.png";
+import video_play_icon from "../../../assets/images/playbutton.svg";
+import images_outline from "../../../assets/images/images-outline.svg";
+import filetype_pdf from "../../../assets/images/filetype-pdf.svg";
+
 import axiosInstance from "../../../../axiosInstance";
 import Swal from "sweetalert2";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import StickyHeader from "../../SideBar/StickyHeader";
-
+import "./style.css";
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
@@ -58,7 +62,7 @@ function ResourcesLists() {
         );
 
         setResources(resourcesWithParsedMedia); // Update state with parsed media
-        console.log(resourcesWithParsedMedia);
+        //console.log(resourcesWithParsedMedia);
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.error("Error fetching resources:", error);
@@ -148,9 +152,25 @@ function ResourcesLists() {
   };
 
   const renderResourceCard = (resource) => {
+    const hasVideoContent = resource?.resource_media.some((item) =>
+      item.endsWith(".mp4")
+    );
+    const hasPDFContent = resource?.resource_media.some((item) =>
+      item.endsWith(".pdf")
+    );
+    // filetype_pdf
     return (
       <div key={resource.id} className="resources-card">
-        <div className="card">
+        {/* {`https://dev.server.revivepharmacyportal.com.au/uploads/${resource?.resource_media[0]}`} */}
+        <div
+          className="card"
+          style={{
+            backgroundImage:
+              "url('https://dev.server.revivepharmacyportal.com.au/uploads/" +
+              resource?.resource_media[0] +
+              "')",
+          }}
+        >
           <div className="card-body">
             {/* {role === "Admin" && (
               <button
@@ -165,14 +185,56 @@ function ResourcesLists() {
               style={{ cursor: "pointer" }}
             >
               <h5 className="card-title">{resource.resource_title}</h5>
-              <p className="card-text">{resource.resource_body}</p>
-              <p className="card-text">
+              <p className="card-text author-card">
                 Author:{" "}
                 {resource.user
                   ? `${resource.user.first_name} ${resource.user.last_name}`
                   : "Unknown"}
               </p>
-              {resource?.resource_media &&
+
+              <p className="card-text">{resource.resource_body}</p>
+
+              {(() => {
+                if (hasVideoContent) {
+                  return (
+                    <div className="contentBadgeCard">
+                      <img
+                        className="video_play_icon"
+                        src={video_play_icon}
+                        alt="No Media"
+                        width="100%"
+                        height="200"
+                      />
+                    </div>
+                  );
+                } else if (hasPDFContent) {
+                  return (
+                    <div className="contentBadgeCard">
+                      <img
+                        className="filetype_pdf"
+                        src={filetype_pdf}
+                        alt="No Media"
+                        width="100%"
+                        height="200"
+                      />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="contentBadgeCard">
+                      <img
+                        className="images_outline"
+                        src={images_outline}
+                        alt="No Media"
+                        width="100%"
+                        height="200"
+                      />
+                    </div>
+                  );
+                }
+              })()}
+
+              {/* {(resource?.resource_media && hasVideoContent ) &&
               resource?.resource_media.length > 0 ? (
                 <img
                   src={
@@ -192,14 +254,15 @@ function ResourcesLists() {
                   width="100%"
                   height="200"
                 />
-              ) : (
+              ) :  ( hasVideoContent &&
+                
                 <img
                   src={resources_placeholder}
                   alt="No Media"
                   width="100%"
                   height="200"
                 />
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -209,101 +272,54 @@ function ResourcesLists() {
 
   return (
     <div className="container">
-   <StickyHeader/>
-      <h3 className="title-page">Resources Lists</h3>
-      <div className="top-filter">
-        <select
-          name="filter"
-          id="filter"
-          value={authorFilter}
-          onChange={handleAuthorFilterChange}
-        >
-          <option value="">All Authors</option>
-          {[
-            ...new Set(
-              resources.map((resource) =>
-                resource?.user
-                  ? `${resource?.user?.first_name} ${resource?.user?.last_name}`
-                  : "Unknown"
-              )
-            ),
-          ].map((author, index) => (
-            <option key={index} value={author}>
-              {author}
-            </option>
-          ))}
-        </select>
-        <input
-          id="search-bar"
-          type="text"
-          placeholder="Search by title or author"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {role === "Admin" && (
-          <button
-            onClick={() => navigate("/resources")}
-            className="btn btn-primary float-end add-resource-btn"
-          >
-            {/* <i className="fa fa-plus"></i>  */}
-            Add New Resource
-          </button>
-        )}
-      </div>
-
-      {/* General Resources */}
-      <h3 className="mt-4">General Resources</h3>
-      <div className="resources-content">
-        {generalResources.map((resource) => renderResourceCard(resource))}
-      </div>
-      <div className="pagination-controls">
-        <div className="d-flex">
-          <label>
-            Show
+      <StickyHeader />
+      <div className="row">
+        <div className="col-lg-12 col-md-6 resources-content-container">
+          <h3 className="title-page">Resources Lists</h3>
+          <div className="top-filter">
             <select
-              value={itemsPerPageGeneral}
-              onChange={handleItemsPerPageChangeGeneral}
+              name="filter"
+              id="filter"
+              value={authorFilter}
+              onChange={handleAuthorFilterChange}
             >
-              <option value="3">3</option>
-              <option value="6">6</option>
-              <option value="9">9</option>
+              <option value="">All Authors</option>
+              {[
+                ...new Set(
+                  resources.map((resource) =>
+                    resource?.user
+                      ? `${resource?.user?.first_name} ${resource?.user?.last_name}`
+                      : "Unknown"
+                  )
+                ),
+              ].map((author, index) => (
+                <option key={index} value={author}>
+                  {author}
+                </option>
+              ))}
             </select>
-            entries
-          </label>
-        </div>
-        <div className="d-flex align-items-center">
-          <button
-            onClick={handlePreviousPageGeneral}
-            disabled={currentPageGeneral === 1}
-          >
-            <FiChevronLeft />
-          </button>
-          <span>
-            Page {currentPageGeneral} of {totalPagesGeneral}
-          </span>
-          <button
-            onClick={handleNextPageGeneral}
-            disabled={currentPageGeneral === totalPagesGeneral}
-          >
-            <FiChevronRight />
-          </button>
-        </div>
-      </div>
-
-      {/* Troubleshooting Resources */}
-      <h3
-        className="mt-3"
-        onClick={() => setShowTroubleshooting(!showTroubleshooting)}
-        style={{ cursor: "pointer" }}
-      >
-        Troubleshooting Resources {showTroubleshooting ? "▲" : "▼"}
-      </h3>
-      {showTroubleshooting && (
-        <>
-          <div className="resources-content">
-            {troubleshootingResources.map((resource) =>
-              renderResourceCard(resource)
+            <input
+              id="search-bar"
+              type="text"
+              placeholder="Search by title or author"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {role === "Admin" && (
+              <button
+                onClick={() => navigate("/resources")}
+                className="btn btn-primary float-end add-resource-btn"
+              >
+                {/* <i className="fa fa-plus"></i>  */}
+                Add New Resource
+              </button>
             )}
+          </div>
+
+          {/* General Resources */}
+          <h3 className="mt-4">General Resources</h3>
+          <div className="resources-content">
+            {generalResources.map((resource) => renderResourceCard(resource))}
           </div>
           <div className="pagination-controls">
             <div className="d-flex">
@@ -322,26 +338,78 @@ function ResourcesLists() {
             </div>
             <div className="d-flex align-items-center">
               <button
-                onClick={handlePreviousPageTroubleshooting}
-                disabled={currentPageTroubleshooting === 1}
+                onClick={handlePreviousPageGeneral}
+                disabled={currentPageGeneral === 1}
               >
                 <FiChevronLeft />
               </button>
               <span>
-                Page {currentPageTroubleshooting} of {totalPagesTroubleshooting}
+                Page {currentPageGeneral} of {totalPagesGeneral}
               </span>
               <button
-                onClick={handleNextPageTroubleshooting}
-                disabled={
-                  currentPageTroubleshooting === totalPagesTroubleshooting
-                }
+                onClick={handleNextPageGeneral}
+                disabled={currentPageGeneral === totalPagesGeneral}
               >
                 <FiChevronRight />
               </button>
             </div>
           </div>
-        </>
-      )}
+
+          {/* Troubleshooting Resources */}
+          <h3
+            className="mt-3"
+            onClick={() => setShowTroubleshooting(!showTroubleshooting)}
+            style={{ cursor: "pointer" }}
+          >
+            Troubleshooting Resources {showTroubleshooting ? "▲" : "▼"}
+          </h3>
+          {showTroubleshooting && (
+            <>
+              <div className="resources-content">
+                {troubleshootingResources.map((resource) =>
+                  renderResourceCard(resource)
+                )}
+              </div>
+              <div className="pagination-controls">
+                <div className="d-flex">
+                  <label>
+                    Show
+                    <select
+                      value={itemsPerPageGeneral}
+                      onChange={handleItemsPerPageChangeGeneral}
+                    >
+                      <option value="3">3</option>
+                      <option value="6">6</option>
+                      <option value="9">9</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+                <div className="d-flex align-items-center">
+                  <button
+                    onClick={handlePreviousPageTroubleshooting}
+                    disabled={currentPageTroubleshooting === 1}
+                  >
+                    <FiChevronLeft />
+                  </button>
+                  <span>
+                    Page {currentPageTroubleshooting} of{" "}
+                    {totalPagesTroubleshooting}
+                  </span>
+                  <button
+                    onClick={handleNextPageTroubleshooting}
+                    disabled={
+                      currentPageTroubleshooting === totalPagesTroubleshooting
+                    }
+                  >
+                    <FiChevronRight />
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

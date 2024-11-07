@@ -54,15 +54,6 @@
 .title-page{
   margin-bottom: 50px;
 }
-.container {
-  border-radius: 13px;
-  padding: 2rem 2rem 2rem 2rem;
-  height: auto;
-  margin-left: 7.8rem;
-  margin-top: 6rem ;
-  margin-bottom: 20px !important;
-  
-}
 .dataTables_wrapper .rdt_TableHead .rdt_TableHeadRow {
   background-color: #f3f2f2; /* changed */
   /* border-radius: 10px; */
@@ -152,4 +143,12 @@ span.user-email-row {
 
 .email-text {
   word-break: break-all;
+}
+.container .custom-content-container{
+  margin-top: 50px;
+}
+@media (max-width: 768px) {
+  .container .custom-content-container{
+    margin-top: 0px;
+  }
 }

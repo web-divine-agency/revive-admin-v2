@@ -89,7 +89,6 @@ const ResourcePage = () => {
     formDataToSend.append("category", formData.category) || "General Resource";    
     formDataToSend.append(
       "additional_fields",
-      JSON.stringify(additionalFields)
     );
 
     // Append media files
@@ -132,12 +131,13 @@ const ResourcePage = () => {
   return (
     <div className="container">
       <StickyHeader/>
-      <form onSubmit={handleSubmit}>
       <a href="/resources-list" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New Resource
         </h3>
       </a>
+      <form onSubmit={handleSubmit}>
+      
         <button
           onClick={() => navigate("/resources")}
           type="submit"
