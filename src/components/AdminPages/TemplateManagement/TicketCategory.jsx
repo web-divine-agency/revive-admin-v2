@@ -6,7 +6,7 @@ import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft } from "react-icons/fi";
 import StickyHeader from "../../SideBar/StickyHeader";

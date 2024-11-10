@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import profile_avatar from "../../../assets/images/profile_avatar.png";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import close from "../../../assets/images/close.png";
 import check from "../../../assets/images/check.png";

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
 import check from "../../../assets/images/check.png";
 import { FaTimes } from "react-icons/fa";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
 import StickyHeader from "../../SideBar/StickyHeader";
@@ -30,9 +30,7 @@ const EditResources = () => {
         setResourceBody(resourceData?.resource_body || "");
         setResourceStatus(resourceData?.status || "");
         setResourceCategory(resourceData?.category || "");
-        const parsedFields = JSON.parse(
-          JSON.parse(resourceData?.additional_fields)
-        );
+        const parsedFields = JSON.parse(resourceData?.additional_fields);
         setAdditionalFields(parsedFields);
         //console.log(additionalFields);
         setSelectedResourceMedia(
@@ -125,12 +123,12 @@ const EditResources = () => {
           <form onSubmit={handleSubmit}>
             <button
               type="submit"
-              className="btn btn-primary float-end publish-btn"
+              className="btn btn-primary float-end publish-btn mb-2"
             >
               {/* <i className="fa fa-paper-plane"></i>  */}
               Publish Edit
             </button>
-            <div className="container-content">
+            <div className="container-content" id="edit-rsrc-container">
               <div className="resource-page">
                 <div>
                   <input
@@ -167,6 +165,7 @@ const EditResources = () => {
                   <div>
                     {additionalFields?.map((field, index) => (
                       <div
+                        id="addFields"
                         key={index}
                         style={{
                           display: "flex",
@@ -223,17 +222,22 @@ const EditResources = () => {
                       />
                     </div>
                     <h5>Current Media</h5>
-                    {selectedResourceMedia.map((file, index) => (
-                      <div key={index}>
-                        <span>{file}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMedia(file)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
+                    <div id="selectedImagesContainer">
+                      {selectedResourceMedia.map((file, index) => (
+                        <div key={index} id="selectedImages">
+                          <img
+                            src={`https://dev.server.revivepharmacyportal.com.au/uploads/${file}`}
+                            alt={`Thumbnail ${index + 1}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveMedia(file)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

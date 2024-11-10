@@ -39,3 +39,60 @@ img.video_play_icon , .images_outline , .filetype_pdf{
     overflow: hidden;
     margin-bottom: 3px;
 }
+
+
+#edit-rsrc-container, #create-rsrc-container, #view-rsrc-container {
+    border: 1px solid rgba(16, 86, 82, 0.4);
+    border-radius: 5px;
+    box-shadow: rgba(16, 86, 82, 0.5) 1px 1px 3px 1px;
+}
+
+#category, #title, #name, #addFields, #addFieldbtn{
+    border: 1px solid #62626268 !important;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+#category:hover, #title:hover, #name:hover, #addFields:hover, #addFieldbtn:hover{
+    box-shadow: rgba(16, 86, 82, 0.5) 1px 1px 3px 1px;
+    transition: ease-in-out .2s;
+    transform: scale(1.01);
+}
+
+#category:focus, #title:focus, #name:focus, #addFields:focus, #addFieldbtn:focus{
+    box-shadow: rgba(16, 86, 82, 0.5) 1px 1px 3px 1px;
+}
+
+#addFieldbtn{
+    padding-bottom: 5px;
+}
+#selectedImagesContainer {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 60px;
+    max-width: 100%;
+}
+
+#selectedImages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#selectedImages > img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#selectedImages > button {
+    background-color: #c74a44;
+    color: #fffaec;
+    border: none;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+
+}

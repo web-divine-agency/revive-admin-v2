@@ -1,6 +1,6 @@
 // authContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../../axiosInstance.js';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from './getCookie'
 import Swal from 'sweetalert2'; 

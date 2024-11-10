@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { /*useLocation*/ useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from 'react-icons/fi';
 import StickyHeader from "../../SideBar/StickyHeader";

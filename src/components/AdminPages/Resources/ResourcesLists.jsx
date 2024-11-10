@@ -9,7 +9,7 @@ import video_play_icon from "../../../assets/images/playbutton.svg";
 import images_outline from "../../../assets/images/images-outline.svg";
 import filetype_pdf from "../../../assets/images/filetype-pdf.svg";
 
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";

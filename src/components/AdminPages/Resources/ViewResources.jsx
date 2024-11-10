@@ -3,8 +3,10 @@ import "../../../App.css";
 import { FiArrowLeft } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import resources_placeholder from "../../../assets/images/resources_placeholder.png";
-import axiosInstance from "../../../../axiosInstance";
+import video_thumbnail from "../../../assets/images/video-icon.png";
+import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
+import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from "react-icons/fi";
 import StickyHeader from "../../SideBar/StickyHeader";
 import LightGallery from "lightgallery/react";
@@ -54,8 +56,18 @@ const ViewResources = () => {
       if (result.isConfirmed) {
         try {
           await axiosInstance.delete(`/delete-resource/${id}`);
-          Swal.fire("Deleted!", "Your resource has been deleted.", "success");
-          navigate("/resources-list"); // Redirect to Resources List after deletion
+          Swal.fire({
+            title: "Resource Deleted",
+            text: ` ${resource.resource_title}  has been removed successfully.`,
+            imageUrl: check,
+            imageWidth: 100,
+            imageHeight: 100,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0ABAA6",
+          }).then(() => {
+            // Redirect to user list
+            navigate("/resources-list");
+          }); // Redirect to Resources List after deletion
         } catch (error) {
           Swal.fire(
             "Error!",
@@ -95,13 +107,13 @@ const ViewResources = () => {
           {role === "Admin" && (
             <button
               onClick={() => navigate(`/edit-resource/${resource.id}`)}
-              className="btn btn-primary float-end edit-resource-btn"
+              className="btn btn-primary float-end edit-resource-btn mb-2"
             >
               Edit Resource
             </button>
           )}
 
-          <div className="container-content">
+          <div className="container-content"  id="view-rsrc-container">
             <div className="created-resource">
               <div>
                 <div>
@@ -116,86 +128,97 @@ const ViewResources = () => {
                   <br />
                   <h2 className="description">
                     {(() => {
-                      try {
-                        // Parse once to get the array if it's a JSON string
-                        const parsedFields = JSON.parse(
-                          JSON.parse(resource.additional_fields)
-                        );
-                        //console.log(parsedFields)
-                        if (
-                          Array.isArray(parsedFields) &&
-                          parsedFields.length > 0
-                        ) {
-                          return parsedFields.map((field, index) => (
-                            <div key={index}>{field}</div>
-                          ));
-                        } else {
-                          return "No instruction provided";
-                        }
-                      } catch (error) {
-                        return "Catch error";
+                    try {
+                      // Parse once to get the array if it's a JSON string
+                      const parsedFields = JSON.parse(resource.additional_fields);
+                      console.log(parsedFields);
+                      if (Array.isArray(parsedFields) && parsedFields.length > 0) {
+                        return parsedFields.map((field, index) => (
+                          <div key={index}>{field}</div>
+                        ));
+                      } else {
+                        return "No instruction provided";
                       }
-                    })()}
-                  </h2>
-                </div>
-                <div className="image-grid">
-                  {resource?.resource_media ? (
-                    (resource?.resource_media).map((media, index) =>
-                      media.endsWith(".pdf") ? (
-                        <embed
-                          className="pdf-item"
-                          key={index}
-                          src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          type="application/pdf"
-                          width="100%"
-                          height="100%"
-                          title="PDF Document"
-                        />
-                      ) : media.endsWith(".mp4") ||
-                        media.endsWith(".mkv") ||
-                        media.endsWith(".avi") ? (
-                        <video
-                          className="video-item"
-                          key={index}
-                          width="100%"
-                          height="100%"
-                          controls
-                        >
-                          <source
-                            src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                            type="video/mp4"
-                          />
-                        </video>
-                      ) : media.endsWith(".jpg") ||
-                        media.endsWith(".jpeg") ||
-                        media.endsWith(".png") ? (
-                        <img
-                          key={index}
-                          src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          alt="Resource Image"
-                          width="auto"
-                          height="300px"
-                          className="image-item"
-                          onClick={() =>
-                            openModal(
-                              `https://dev.server.revivepharmacyportal.com.au/uploads/${media}`
-                            )
-                          }
-                        />
-                      ) : (
-                        <img
-                          key={index}
-                          src={resources_placeholder}
-                          alt="No Media"
-                          width="100%"
-                          height="200"
-                        />
-                      )
-                    )
-                  ) : (
-                    <h3>No Media or Materials</h3>
-                  )}
-                </div>
+                    } catch (error) {
+                      return "Catch error";
+                    }
+                  })()}
+                </h2>
+              </div>
+
+              {resource?.resource_media && resource.resource_media.some(media => media.match(/\.(jpg|jpeg|png)$/i)) && (
+              <LightGallery
+                plugins={[lgThumbnail, lgZoom]}
+                thumbnail
+                className="lightgallery"
+              >
+                <h3>Resource Gallery:</h3>
+                {resource.resource_media
+                  .filter((media) => media.match(/\.(jpg|jpeg|png)$/i))
+                  .map((media, index) => (
+                    <a
+                      key={index}
+                      href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                    >
+                      <img
+                        src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                        alt={`Resource Image ${index + 1}`}
+                        className="gallery-thumbnail"
+                        width="8%"
+                        height="8%"
+                      />
+                    </a>
+                  ))}
+              </LightGallery>
+            )}
+
+            {resource?.resource_media && resource.resource_media.some(media => media.match(/\.(mp4|mkv|avi)$/i)) && (
+              <LightGallery
+                plugins={[lgVideo, lgThumbnail]}
+                thumbnail
+                videojs={true}
+                className="lightgallery"
+              >
+                <h3>Video Gallery:</h3>
+                {resource.resource_media
+                  .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
+                  .map((media, index) => (
+                    <a
+                      key={index}
+                      data-src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                      data-lg-size="1280-720"
+                      data-poster={`https://dev.server.revivepharmacyportal.com.au/uploads/${media.replace(/\.(mp4|mkv|avi)$/i, ".jpg")}`}
+                      data-sub-html={`<h4>Resource Video ${index + 1}</h4>`}
+                    >
+                      <img
+                        src={video_thumbnail}
+                        alt={`Resource Video ${index + 1}`}
+                        className="video-thumbnail"
+                        width="8%"
+                        height="8%"
+                      />
+                    </a>
+                  ))}
+              </LightGallery>
+            )}
+
+            <div className="image-grid">
+              {resource?.resource_media &&
+                resource.resource_media.map((media, index) =>
+                  media.endsWith(".pdf") ? (
+                    <embed
+                      key={index}
+                      src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                      type="application/pdf"
+                      width="50%"
+                      height="600px"
+                      title="PDF Document"
+                    />
+                  ) : null
+                )}
+            </div>
+
+
                 {role === "Admin" && (
                   <button
                     className="btn btn-primary float-end delete-resource-btn"

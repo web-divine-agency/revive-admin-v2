@@ -11,7 +11,7 @@ import check from "../../../assets/images/check.png";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
 import StickyHeader from "../../SideBar/StickyHeader";
 

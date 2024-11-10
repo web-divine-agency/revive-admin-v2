@@ -1,8 +1,8 @@
 // src/axiosInstance.js
 import axios from 'axios';
-import React, { useContext } from 'react';
-import {AuthContext} from './src/components/Authentication/authContext';
-import {getCookie} from './src/components/Authentication/getCookie'
+//import React, { useContext } from 'react';
+//import {AuthContext} from './src/components/Authentication/authContext';
+import {getCookie, setCookie} from './src/components/Authentication/getCookie'
 
 const axiosInstance = axios.create({
     baseURL: 'https://dev.server.revivepharmacyportal.com.au/api',
@@ -12,7 +12,7 @@ let isRefreshing = false;
 let refreshUser = []
 
 const onRefresh = (accessToken) => {
-  refreshUser.forEach(callback => callback(accessToken));
+  refreshUser.forEach((callback) => callback(accessToken));
   refreshUser = [];
 }
 
@@ -33,22 +33,25 @@ axiosInstance.interceptors.request.use((config) => {
 
 
 // Response interceptor to handle token expiration
-axiosInstance.interceptors.response.use((response) => {
-    return response;
-}, async (error) => {
+axiosInstance.interceptors.response.use((response) => response, 
+     async (error) => {
     const originalRequest = error.config;
-    const { logout, showSessionExpiredPopup } = useContext(AuthContext);
-    if (error.response.status === 403 && !originalRequest._retry) {
+
+    //const { logout, showSessionExpiredPopup } = useContext(AuthContext);
+    if (error.response?.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true;
+
         const refreshToken = getCookie('refreshToken');
+
        if (!isRefreshing) {
             isRefreshing = true;
             
         try {
-            const response = await axiosInstance.post('/refresh-token', {refreshToken} );
+            const response = await axiosInstance.post('/refresh', {refreshToken} );
             const { accessToken } = response.data;
 
-            document.cookie = `accessToken=${accessToken}; Path=/; `;
+            setCookie('accessToken', accessToken);
+
             onRefresh(accessToken);
             isRefreshing = false;
             return axiosInstance(originalRequest);

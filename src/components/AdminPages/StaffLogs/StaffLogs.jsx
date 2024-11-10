@@ -8,7 +8,7 @@ import check from "../../../assets/images/check.png";
 
 import woman from '../../../assets/images/woman.png';
 import { useNavigate } from "react-router-dom";
-import axiosInstance from '../../../../axiosInstance';
+import axiosInstance from '../../../../axiosInstance.js';
 import Swal from 'sweetalert2'; 
 import delete_icon from "../../../assets/images/delete-log.png";
 import { useLoader } from "../../Loaders/LoaderContext";

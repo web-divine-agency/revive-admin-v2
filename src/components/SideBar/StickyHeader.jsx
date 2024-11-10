@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import man from "../../assets/images/man.png";
 import woman from "../../assets/images/woman.png";
-import axiosInstance from "../../../axiosInstance";
+import axiosInstance from "../../../axiosInstance.js";
 
 const StickyHeader = () => {
   const navigate = useNavigate();

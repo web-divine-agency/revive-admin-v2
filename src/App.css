@@ -335,10 +335,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-radius: 20px;
   padding: 2rem;
   height: auto;
-  /* margin-left: 20rem; */
+  /* / margin-left: 20rem; / */
   margin: 50px;
-  /* margin-right: 4rem; */
+  /* / margin-right: 4rem; / */
   display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .profile-update {
@@ -770,7 +772,7 @@ input[type="date"] {
   display: inline-block;
   position: relative;
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
 }
 
 .recently-uploaded p {
@@ -1007,9 +1009,16 @@ input[type="date"] {
   border: #00000000;
 } */
 .resources-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
+  border: rgb(1, 41, 39) 2px solid;
+  border-radius: 6px;
+  box-shadow: 1px 2px 4px 3px rgba(16, 86, 82, 0.5);
 }
-
+#editContainer, #addContainer{
+  border: rgb(8, 109, 104) 2px solid;
+  border-radius: 5px;
+  box-shadow: 1px 2px 4px 3px rgba(16, 86, 82, 0.4);
+}
 .resources-card .card {
   padding: 10px;
   border-radius: 6px;
@@ -1666,16 +1675,15 @@ input[type="date"] {
   .generate-ticket-container .generate-ticket-sticky-header {
     margin-left: 0 !important;
   }
-  .resources-content {
+  /* .resources-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
     padding: 20px;
     width: 950px;
-    /* border: 1px solid red; */
     margin-left: 0.7rem !important;
-  }
+  } */
 
   .generate-ticket-container .template-selection {
     margin-left: -45px !important;

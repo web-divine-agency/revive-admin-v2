@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./PasswordReset.css";
 import password_icon from "../../assets/images/password.png";
 import { useNavigate , useParams } from "react-router-dom";
-import axiosInstance from "../../../axiosInstance";
+import axiosInstance from "../../../axiosInstance.js";
 
 // Mock data
 const users = [

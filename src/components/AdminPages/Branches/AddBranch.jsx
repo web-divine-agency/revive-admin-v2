@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";

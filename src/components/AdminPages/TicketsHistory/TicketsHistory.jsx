@@ -11,7 +11,7 @@ import view_icon from "../../../assets/images/list-view.png";
 //import printer from '../../../assets/images/printer.png';
 import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import { format } from "date-fns";
 import { Modal, Button } from "react-bootstrap";
 import {

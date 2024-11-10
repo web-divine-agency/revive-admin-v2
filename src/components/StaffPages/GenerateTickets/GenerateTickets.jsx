@@ -25,7 +25,7 @@ import AptosBold from "./fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import StickyHeader from "../../SideBar/StickyHeader";
 // import revive_logo from "../../../assets/images/revive-logo.png";
 // import revive_logo_white from "../../../assets/images/revive-logo-white.png";

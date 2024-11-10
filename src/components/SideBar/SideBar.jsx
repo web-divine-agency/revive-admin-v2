@@ -7,7 +7,7 @@ import { IconContext } from "react-icons";
 // import woman from "../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Authentication/authContext";
-import axiosInstance from "../../../axiosInstance";
+import axiosInstance from "../../../axiosInstance.js";
 import check from "../../assets/images/check.png";
 import Swal from "sweetalert2";
 

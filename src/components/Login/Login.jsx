@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import login_image_2 from '../../assets/images/login_image_2.png';
-import axiosInstance from '../../../axiosInstance';
+import axiosInstance from '../../../axiosInstance.js';
 import Swal from 'sweetalert2'
 import close from "../../assets/images/close.png";
 

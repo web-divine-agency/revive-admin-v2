@@ -7,7 +7,7 @@ import greater_than from "../../../assets/images/greater_than.png";
 import check from "../../../assets/images/check.png";
 import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
-import axiosInstance from "../../../../axiosInstance";
+import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft } from 'react-icons/fi';
 import Swal from "sweetalert2";
@@ -25,11 +25,10 @@ const ResourcePage = () => {
     category: "General Resource",
   });
   const [resourceMedia, setResourceMedia] = useState(null);
+  const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const navigate = useNavigate();
   const { setLoading } = useLoader();
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
-  const [copiedLink, setCopiedLink] = useState(null);
+  const [showFiles, setShowFiles] = useState(false);
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -42,17 +41,6 @@ const ResourcePage = () => {
     };
     fetchResources();
   }, [setLoading]);
-
-  const handleCopyLink = (link) => {
-    const fullLink = `${window.location.origin}${link}`;
-    navigator.clipboard
-      .writeText(fullLink)
-      .then(() => {
-        setCopiedLink(link);
-        setTimeout(() => setCopiedLink(null), 2000);
-      })
-      .catch((error) => console.error("Failed to copy link: ", error));
-  };
 
   const addNewField = () => {
     setAdditionalFields([...additionalFields, ""]);
@@ -76,9 +64,34 @@ const ResourcePage = () => {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Store multiple files
+    const files = Array.from(e.target.files);
     setResourceMedia(files);
+    // Generate preview URLs for each file
+    const previewUrls = files.map((file) => URL.createObjectURL(file));
+    setSelectedResourceMedia(previewUrls);
   };
+
+  const handleRemoveMedia = (fileUrl) => {
+    // Find the index of the file to be removed based on the file URL
+    const fileIndex = selectedResourceMedia.indexOf(fileUrl);
+  
+    if (fileIndex > -1) {
+      // Remove the file from the resourceMedia array
+      const updatedResourceMedia = [...resourceMedia];
+      updatedResourceMedia.splice(fileIndex, 1);
+      setResourceMedia(updatedResourceMedia);
+  
+      // Remove the preview URL from selectedResourceMedia
+      const updatedSelectedResourceMedia = [...selectedResourceMedia];
+      updatedSelectedResourceMedia.splice(fileIndex, 1);
+      setSelectedResourceMedia(updatedSelectedResourceMedia);
+    }
+  };
+
+
+  const showSelectedFiles = (e) => {
+    setShowFiles((prevShowFiles) => !prevShowFiles);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,6 +102,7 @@ const ResourcePage = () => {
     formDataToSend.append("category", formData.category) || "General Resource";    
     formDataToSend.append(
       "additional_fields",
+      JSON.stringify(additionalFields)
     );
 
     // Append media files
@@ -141,12 +155,12 @@ const ResourcePage = () => {
         <button
           onClick={() => navigate("/resources")}
           type="submit"
-          className="btn btn-primary float-end publish-btn"
+          className="btn btn-primary float-end publish-btn mb-2"
         >
           {/* <i className="fa fa-paper-plane"></i>  */}
           Publish
         </button>
-        <div className="container-content">
+        <div className="container-content" id="create-rsrc-container">
           <div className="resource-page">
             <div>
               <select
@@ -187,6 +201,7 @@ const ResourcePage = () => {
               <div>
                 {additionalFields.map((field, index) => (
                   <div
+                    id="addFields"
                     key={index}
                     style={{
                       display: "flex",
@@ -241,10 +256,26 @@ const ResourcePage = () => {
                 <button
                   type="button"
                   className="btn btn-primary upload-resource-btn mt-3"
-                  onClick={() => console.log(resourceMedia)} 
+                  onClick={showSelectedFiles} 
                 >
                   Show Selected Files
                 </button>
+                <div id="selectedImagesContainer">
+                {selectedResourceMedia.map((fileUrl, index) => (
+                  <div key={index} id="selectedImages" style={{ display: showFiles ? "flex" : "none" }}>
+                    <img
+                      src={fileUrl}
+                      alt={`Thumbnail ${index + 1}`}
+                    />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMedia(fileUrl)}
+                  >
+                    Remove
+                  </button>
+                  </div>
+                ))}
+                </div>
               </div>
             </div>
           </div>
