@@ -44,7 +44,7 @@ button:hover {
   overflow-y: auto;
   background-color: #fdffff;
   /* border-radius: 13px; */
-  padding: 0;
+  padding-bottom: 30px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -869,14 +869,26 @@ input[type="date"] {
   border-color: #87a79e !important;
   font-weight: 600 !important;
 }
-.publish-btn {
+.container .publish-btn {
   background-color: #105652 !important;
   border-color: #105652 !important;
   justify-content: center !important;
   margin-right: 0px;
-  margin-top: 35px;
+  margin-top: -30px;
 }
 .publish-btn:hover {
+  background-color: #87a79e !important;
+  border-color: #87a79e !important;
+  font-weight: 600 !important;
+}
+.container .publish-edit-btn {
+  background-color: #105652 !important;
+  border-color: #105652 !important;
+  justify-content: center !important;
+  margin-right: 0px;
+  margin-top: -60px;
+}
+.publish-edit-btn:hover {
   background-color: #87a79e !important;
   border-color: #87a79e !important;
   font-weight: 600 !important;
@@ -973,14 +985,14 @@ input[type="date"] {
   border-color: #105652;
   justify-content: center;
   display: flex;
-  margin-right: 0;
+  margin-right: -83px;
 }
 .edit-resource-btn {
   background-color: #105652;
   border-color: #105652;
   justify-content: center;
   display: flex;
-  margin-right: 0px;
+  margin-top: -30px;
 }
 .edit-resource-btn:hover {
   background-color: #87a79e !important;
@@ -990,7 +1002,8 @@ input[type="date"] {
 .delete-resource-btn {
   background-color: #c74a44;
   border-color: #efc7c2 !important;
-  margin-right: -20px;
+  margin-right: 0px;
+  margin-top: -35px;
 }
 .delete-resource-btn:hover {
   background-color: #c74a44;
@@ -1234,7 +1247,18 @@ input[type="date"] {
     display: flex;
     overflow: auto;
   }
+  .custom-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 32rem;
+  }
+.custom-row .profile-image{
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  height: 150px !important;
+  width: 150px !important;
 
+}
   /* Adjust pagination layout for mobile */
   .rdt_Pagination select {
     /* display: block !important; */
@@ -1332,10 +1356,13 @@ input[type="date"] {
   .profile-user {
     position: relative;
     margin-top: -800px;
+    border: none;
+
   }
   .profile-update {
-    margin-top: 230px;
+    margin-top: 280px;
     margin-left: 20px;
+    border: none;
   }
   .profile-update form input {
     width: 100% !important;
@@ -1578,7 +1605,7 @@ input[type="date"] {
   }
   .edit-resource-btn {
     margin-right: 0px;
-    margin-top: 0px;
+    margin-top: -20px;
   }
   .add-resource-btn {
     margin-right: 0;
@@ -1588,9 +1615,9 @@ input[type="date"] {
     width: 100% !important;
     margin-bottom: 0;
   }
-  .publish-btn {
-    margin-top: 0px;
-    margin-right: 5px;
+  .container .publish-btn {
+    margin-top: -20px !important;
+    margin-right: 0px;
     height: 35px;
     padding: 0 10px;
   }
@@ -1624,6 +1651,33 @@ input[type="date"] {
   }
   .back-btn {
     margin: 20px 0 0;
+  }
+  .container .publish-edit-btn {
+    background-color: #105652 !important;
+    border-color: #105652 !important;
+    justify-content: center !important;
+    margin-right: 0px;
+    margin-top: -50px;
+  }
+  .delete-resource-btn {
+    margin-top: 35px;
+    margin-right: -23px;
+  }
+  .profile-user {
+    position: relative;
+    margin-top: -850px;
+    border: none;
+
+  }
+  .profile-update {
+    margin-top: 280px;
+    margin-left: 20px;
+    border: none;
+  }
+  .custom-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 38rem;
   }
 }
 @media (max-width: 1024px) and (min-width: 769px) {

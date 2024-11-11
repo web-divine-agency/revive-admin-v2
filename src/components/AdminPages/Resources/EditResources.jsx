@@ -112,7 +112,7 @@ const EditResources = () => {
   return (
     <div className="container">
       <StickyHeader />
-      <a href="/view-resource" className="back-btn">
+      <a onClick={() => navigate(-1)} className="back-btn" style={{cursor: 'pointer'}}>
         <h3 className="title-page">
           {/* <FiChevronLeft className="icon-left" />  */}
           <FiChevronLeft className="icon-left" /> Update Resource
@@ -123,7 +123,7 @@ const EditResources = () => {
           <form onSubmit={handleSubmit}>
             <button
               type="submit"
-              className="btn btn-primary float-end publish-btn mb-2"
+              className="btn btn-primary float-end publish-edit-btn mb-3"
             >
               {/* <i className="fa fa-paper-plane"></i>  */}
               Publish Edit

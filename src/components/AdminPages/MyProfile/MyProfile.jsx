@@ -215,7 +215,7 @@ function MyProfile() {
           <img className='profile-image'
             src={sex === 'Male' ? man : woman}
             style={{
-              width: '45%',
+              width: '40%',
               height: '100%',
               borderRadius: '50%',
             }}

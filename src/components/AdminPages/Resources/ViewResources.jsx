@@ -103,7 +103,7 @@ const ViewResources = () => {
         </h3>
       </a>
       <div className="row">
-        <div className="col-lg-12 col-md-6 resources-content-container">
+        <div className="col-lg-12 col-md-6 resources-content-container pl-4">
           {role === "Admin" && (
             <button
               onClick={() => navigate(`/edit-resource/${resource.id}`)}
