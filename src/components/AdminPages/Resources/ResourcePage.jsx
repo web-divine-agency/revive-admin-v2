@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "../../../App.css";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,12 @@ import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
 import StickyHeader from "../../SideBar/StickyHeader";
 
+import JoditEditor from "jodit-react";
+import { endsWith } from "lodash";
 const ResourcePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [additionalFields, setAdditionalFields] = useState([]);
@@ -24,11 +26,18 @@ const ResourcePage = () => {
     status: "draft",
     category: "General Resource",
   });
-  const [resourceMedia, setResourceMedia] = useState(null);
+  const [resourceMedia, setResourceMedia] = useState([]);
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const navigate = useNavigate();
   const { setLoading } = useLoader();
   const [showFiles, setShowFiles] = useState(false);
+
+  const editor = useRef(null);
+  const [viewAsHtml, setViewAsHtml] = useState(false);
+
+  const [role, setRole] = useState("");
+
+  const [resourceBody, setResourceBody] = useState("");
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -39,11 +48,83 @@ const ResourcePage = () => {
         console.error("Error fetching resources:", error);
       }
     };
+
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axiosInstance.get("/user");
+        const { roles } = response.data;
+        const role = roles.length > 0 ? roles[0].role_name : "No Role";
+        setRole(role);
+        console.log(role);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
     fetchResources();
   }, [setLoading]);
 
+  const buttons = [
+    "undo",
+    "redo",
+    "|",
+    "bold",
+    "strikethrough",
+    "underline",
+    "italic",
+    "|",
+    "superscript",
+    "subscript",
+    "|",
+    "align",
+    "|",
+    "ul",
+    "ol",
+    "outdent",
+    "indent",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "paragraph",
+    "|",
+    "image",
+    "link",
+    "table",
+    "|",
+    "hr",
+    "eraser",
+    "copyformat",
+    "|",
+    "fullsize",
+    "selectall",
+    "print",
+    "|",
+    "source",
+    "|",
+  ];
+
+  const config = {
+    readonly: role !== "Admin", // Make editor read-only for non-Admins
+    toolbarSticky: false,
+    toolbar: true,
+    spellcheck: true,
+    language: "en",
+    toolbarButtonSize: "medium",
+    toolbarAdaptive: false,
+    showCharsCounter: true,
+    showWordsCounter: true,
+    showXPathInStatusbar: false,
+    multiple: true,
+    buttons: buttons,
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+  };
+
   const addNewField = () => {
-    setAdditionalFields([...additionalFields, ""]);
+    setAdditionalFields([...additionalFields, { content: "" }]);
   };
 
   const removeField = (index) => {
@@ -52,9 +133,9 @@ const ResourcePage = () => {
     setAdditionalFields(fields);
   };
 
-  const handleFieldChange = (index, value) => {
+  const handleFieldChange = (index, newContent) => {
     const fields = [...additionalFields];
-    fields[index] = value;
+    fields[index].content = newContent;
     setAdditionalFields(fields);
   };
 
@@ -74,13 +155,13 @@ const ResourcePage = () => {
   const handleRemoveMedia = (fileUrl) => {
     // Find the index of the file to be removed based on the file URL
     const fileIndex = selectedResourceMedia.indexOf(fileUrl);
-  
+
     if (fileIndex > -1) {
       // Remove the file from the resourceMedia array
       const updatedResourceMedia = [...resourceMedia];
       updatedResourceMedia.splice(fileIndex, 1);
       setResourceMedia(updatedResourceMedia);
-  
+
       // Remove the preview URL from selectedResourceMedia
       const updatedSelectedResourceMedia = [...selectedResourceMedia];
       updatedSelectedResourceMedia.splice(fileIndex, 1);
@@ -88,27 +169,26 @@ const ResourcePage = () => {
     }
   };
 
-
   const showSelectedFiles = (e) => {
     setShowFiles((prevShowFiles) => !prevShowFiles);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
     formDataToSend.append("resource_title", formData.resource_title);
-    formDataToSend.append("resource_body", formData.resource_body);
+    formDataToSend.append("resource_body", resourceBody);
     formDataToSend.append("status", formData.status);
-    formDataToSend.append("category", formData.category) || "General Resource";    
+    formDataToSend.append("category", formData.category) || "General Resource";
     formDataToSend.append(
       "additional_fields",
       JSON.stringify(additionalFields)
     );
 
     // Append media files
-    if (resourceMedia.length > 0) {
+    if (resourceMedia && resourceMedia.length > 0) {
       resourceMedia.forEach((file) => {
-        formDataToSend.append("resource_media", file); // Send each file
+        formDataToSend.append("resource_media", file);
       });
     }
 
@@ -144,14 +224,13 @@ const ResourcePage = () => {
 
   return (
     <div className="container">
-      <StickyHeader/>
+      <StickyHeader />
       <a href="/resources-list" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New Resource
         </h3>
       </a>
       <form onSubmit={handleSubmit}>
-      
         <button
           onClick={() => navigate("/resources")}
           type="submit"
@@ -173,7 +252,9 @@ const ResourcePage = () => {
                   Select Category
                 </option>
                 <option value="General Resource">General Resources</option>
-                <option value="Troubleshooting Resource">Troubleshooting Resources</option>
+                <option value="Troubleshooting Resource">
+                  Troubleshooting Resources
+                </option>
               </select>
 
               <br />
@@ -188,57 +269,55 @@ const ResourcePage = () => {
                 required
               />
               <br />
-              <textarea
-                className="description w-100"
-                type="text"
-                placeholder="Add description"
-                id="name"
-                name="resource_body"
-                value={formData.resource_body}
-                onChange={handleInputChange}
-                required
-              />
-              <div>
+
+              {role === "Admin" ? (
+                <JoditEditor
+                  ref={editor}
+                  value={formData.resource_body}
+                  config={config}
+                  onBlur={(newContent) => setResourceBody(newContent)} // Update on blur
+                />
+              ) : viewAsHtml ? (
+                <pre>{resourceBody}</pre> // HTML view for Admin
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: resourceBody }} />
+              )}
+
+              <div className="mt-5">
                 {additionalFields.map((field, index) => (
                   <div
-                    id="addFields"
                     key={index}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "10px",
-                    }}
+                    style={{ marginBottom: "10px" }}
+                    className="mt-5"
                   >
-                    <textarea
-                      className="additonal-field"
-                      type="text"
-                      placeholder={`Add additional instruction ${index + 1}`}
-                      value={field}
-                      onChange={(e) => handleFieldChange(index, e.target.value)}
-                      style={{ marginRight: "10px" }}
+                    <JoditEditor
+                      value={field.content}
+                      config={config}
+                      onBlur={(newContent) =>
+                        handleFieldChange(index, newContent)
+                      }
                     />
                     <button
                       type="button"
-                      className="btn btn-danger"
+                      className="btn btn-danger float-end"
                       onClick={() => removeField(index)}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginTop: "-80px",
+                        marginTop: "-240px",
                       }}
                     >
                       <FaTimes />
                     </button>
                   </div>
                 ))}
+                <button
+                  type="button"
+                  className="mt-2 mb-4 add-field"
+                  onClick={addNewField}
+                >
+                  <i className="fa fa-plus"></i>Add field
+                </button>
               </div>
-              <button
-                type="button"
-                className="mt-2 mb-4 add-field"
-                onClick={addNewField}
-              >
-                <i className="fa fa-plus"></i>Add field
-              </button>
+
               <h5>Upload Files</h5>
               <div className="upload-box mb-4 text-center">
                 <div className="upload-content">
@@ -256,25 +335,26 @@ const ResourcePage = () => {
                 <button
                   type="button"
                   className="btn btn-primary upload-resource-btn mt-3"
-                  onClick={showSelectedFiles} 
+                  onClick={showSelectedFiles}
                 >
                   Show Selected Files
                 </button>
                 <div id="selectedImagesContainer">
-                {selectedResourceMedia.map((fileUrl, index) => (
-                  <div key={index} id="selectedImages" style={{ display: showFiles ? "flex" : "none" }}>
-                    <img
-                      src={fileUrl}
-                      alt={`Thumbnail ${index + 1}`}
-                    />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveMedia(fileUrl)}
-                  >
-                    Remove
-                  </button>
-                  </div>
-                ))}
+                  {selectedResourceMedia.map((fileUrl, index) => (
+                    <div
+                      key={index}
+                      id="selectedImages"
+                      style={{ display: showFiles ? "flex" : "none" }}
+                    >
+                      <img src={fileUrl} alt={`Thumbnail ${index + 1}`} />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(fileUrl)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

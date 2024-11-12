@@ -13,6 +13,7 @@ body {
   display: flex;
   height: 100%;
   width: 100%;
+  justify-content: center;
 }
 
 button {
@@ -602,7 +603,7 @@ input[type="date"] {
 
 .custom-date-icon {
   position: absolute;
-  right: 1px;
+  right: -2px;
   top: 25px;
   pointer-events: none;
   z-index: 2;
@@ -620,8 +621,8 @@ input[type="date"] {
 
 .custom-dropdown-icon-2 {
   position: absolute;
-  right: 80px;
-  top: 47%;
+  right: 40px;
+  top: 43.5%;
   pointer-events: none;
   z-index: 2;
   font-size: 18px !important;
@@ -646,8 +647,8 @@ input[type="date"] {
 
 .custom-date-icon-2 {
   position: absolute;
-  left: 415px;
-  top: 455px;
+  left: 385px;
+  top: 432px;
   pointer-events: none;
   z-index: 2;
   font-size: 18px !important;
@@ -655,7 +656,7 @@ input[type="date"] {
 
 .custom-date-icon-3 {
   position: absolute;
-  left: 445px;
+  left: 385px;
   top: 300px;
   pointer-events: none;
   z-index: 2;
@@ -1232,7 +1233,7 @@ input[type="date"] {
   }
   .edit-resource-btn {
     margin-right: 0;
-    margin-top: 0px;
+    margin-top: -20px;
   }
   .delete-resource-btn {
     margin-top: 35px;
@@ -1409,6 +1410,8 @@ input[type="date"] {
   .back-btn {
     margin: 20px 0 0;
   }
+  
+
 }
 
 @media (max-width: 767px) and (min-width: 425px) {
@@ -1478,7 +1481,7 @@ input[type="date"] {
   }
   .edit-resource-btn {
     margin-right: 0;
-    margin-top: 0px;
+    margin-top: -20px;
   }
   .add-resource-btn {
     margin-right: 0;
@@ -1543,7 +1546,7 @@ input[type="date"] {
   }
   .edit-resource-btn {
     margin-right: 0px;
-    margin-top: 0px;
+    margin-top: -20px;
   }
   .add-resource-btn {
     margin-right: 0;
@@ -1698,15 +1701,15 @@ input[type="date"] {
   .custom-icon-div .custom-dropdown-icon {
     position: absolute;
     right: 40px;
-    top: 56%;
+    top: 57%;
     pointer-events: none;
     z-index: 2;
     font-size: 18px;
   }
-  .custom-icon-div .custom-dropdown-icon-2 {
+  .custom-dropdown-icon-2 {
     position: absolute;
     right: 40px;
-    top: 45.5%;
+    top: 46%;
     pointer-events: none;
     z-index: 2;
     font-size: 18px;
@@ -1714,10 +1717,10 @@ input[type="date"] {
   .generate-ticket-container .col-md-12 .template-selection {
     padding-left: 25px;
   }
-  .custom-icon-div .custom-dropdown-icon-3 {
+  .custom-dropdown-icon-3 {
     position: absolute;
     right: 40px;
-    top: 45.5%;
+    top: 46%;
     pointer-events: none;
     z-index: 2;
     font-size: 18px;
@@ -1856,7 +1859,7 @@ input[type="date"] {
 
   .custom-date-icon {
     position: absolute;
-    left: 297px;
+    left: 290px;
     top: 25px;
     pointer-events: none;
     z-index: 2;
@@ -1865,8 +1868,8 @@ input[type="date"] {
 
   .custom-date-icon-2 {
     position: absolute;
-    left: 292px !important;
-    top: 322px;
+    left: 325px !important;
+    top: 300px;
     pointer-events: none;
     z-index: 2;
     font-size: 18px !important;
@@ -1874,8 +1877,8 @@ input[type="date"] {
 
   .custom-date-icon-3 {
     position: absolute;
-    left: 335px !important;
-    top: 295px !important;
+    left: 325px !important;
+    top: 300px !important;
     pointer-events: none;
     z-index: 2;
     font-size: 18px !important;

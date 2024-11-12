@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../../../App.css";
 import { useNavigate, useParams } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
@@ -9,8 +9,16 @@ import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
 import StickyHeader from "../../SideBar/StickyHeader";
 
+import JoditEditor from "jodit-react";
+
 const EditResources = () => {
   const { resourceID } = useParams();
+
+  const editor = useRef(null);
+  const [viewAsHtml, setViewAsHtml] = useState(false);
+
+  const [role, setRole] = useState("");
+
   const [additionalFields, setAdditionalFields] = useState([]);
   const [resourceTitle, setResourceTitle] = useState("");
   const [resourceBody, setResourceBody] = useState("");
@@ -41,11 +49,84 @@ const EditResources = () => {
       }
     };
 
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axiosInstance.get("/user");
+        const { roles } = response.data;
+        const role = roles.length > 0 ? roles[0].role_name : "No Role";
+        setRole(role);
+        console.log(role);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
     fetchResourceDetails();
   }, [resourceID]);
 
+  const buttons = [
+    "undo",
+    "redo",
+    "|",
+    "bold",
+    "strikethrough",
+    "underline",
+    "italic",
+    "|",
+    "superscript",
+    "subscript",
+    "|",
+    "align",
+    "|",
+    "ul",
+    "ol",
+    "outdent",
+    "indent",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "paragraph",
+    "|",
+    "image",
+    "link",
+    "table",
+    "|",
+    "hr",
+    "eraser",
+    "copyformat",
+    "|",
+    "fullsize",
+    "selectall",
+    "print",
+    "|",
+    "source",
+    "|",
+  ];
+
+  const config = {
+    readonly: role !== "Admin", // Make editor read-only for non-Admins
+    toolbarSticky: false,
+    toolbar: true,
+    spellcheck: true,
+    language: "en",
+    toolbarButtonSize: "medium",
+    toolbarAdaptive: false,
+    showCharsCounter: true,
+    showWordsCounter: true,
+    showXPathInStatusbar: false,
+    askBeforePasteHTML: true,
+    askBeforePasteFromWord: true,
+    multiple: true,
+    buttons: buttons,
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+  };
+
   const addNewField = () => {
-    setAdditionalFields([...additionalFields, ""]);
+    setAdditionalFields([...additionalFields, { content: "" }]);
   };
 
   const removeField = (index) => {
@@ -54,9 +135,9 @@ const EditResources = () => {
     setAdditionalFields(fields);
   };
 
-  const handleFieldChange = (index, value) => {
+  const handleFieldChange = (index, newContent) => {
     const fields = [...additionalFields];
-    fields[index] = value;
+    fields[index].content = newContent;
     setAdditionalFields(fields);
   };
 
@@ -112,7 +193,11 @@ const EditResources = () => {
   return (
     <div className="container">
       <StickyHeader />
-      <a onClick={() => navigate(-1)} className="back-btn" style={{cursor: 'pointer'}}>
+      <a
+        onClick={() => navigate(-1)}
+        className="back-btn"
+        style={{ cursor: "pointer" }}
+      >
         <h3 className="title-page">
           {/* <FiChevronLeft className="icon-left" />  */}
           <FiChevronLeft className="icon-left" /> Update Resource
@@ -152,61 +237,64 @@ const EditResources = () => {
                     required
                   />
                   <br />
-                  <textarea
-                    className="description w-100"
-                    type="text"
-                    placeholder="Add description"
-                    id="name"
-                    name="resource_body"
-                    value={resourceBody}
-                    onChange={(e) => setResourceBody(e.target.value)}
-                    required
-                  />
-                  <div>
-                    {additionalFields?.map((field, index) => (
+
+                  {role === "Admin" ? (
+                    <JoditEditor
+                      ref={editor}
+                      value={resourceBody}
+                      config={config}
+                      onBlur={(newContent) => setResourceBody(newContent)} // Update on blur
+                    />
+                  ) : viewAsHtml ? (
+                    <pre>{resourceBody}</pre> // HTML view for Admin
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: resourceBody }} />
+                  )}
+
+                  {role === "Admin" && (
+                    <button
+                      type="button"
+                      onClick={() => setViewAsHtml(!viewAsHtml)}
+                    >
+                      {viewAsHtml ? "Back to Editor" : "View HTML"}
+                    </button>
+                  )}
+
+                  <div className="mt-5">
+                    {additionalFields.map((field, index) => (
                       <div
-                        id="addFields"
                         key={index}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: "10px",
-                        }}
+                        style={{ marginBottom: "10px" }}
+                        className="mt-5"
                       >
-                        <textarea
-                          className="additonal-field"
-                          type="text"
-                          placeholder={`Add additional instruction ${
-                            index + 1
-                          }`}
-                          value={field}
-                          onChange={(e) =>
-                            handleFieldChange(index, e.target.value)
+                        <JoditEditor
+                          value={field.content}
+                          config={config}
+                          onBlur={(newContent) =>
+                            handleFieldChange(index, newContent)
                           }
-                          style={{ marginRight: "10px" }}
                         />
                         <button
                           type="button"
-                          className="btn btn-danger"
+                          className="btn btn-danger float-end"
                           onClick={() => removeField(index)}
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            marginTop: "-80px",
+                            marginTop: "-240px",
                           }}
                         >
                           <FaTimes />
                         </button>
                       </div>
                     ))}
+                    <button
+                      type="button"
+                      className="mt-2 mb-4 add-field"
+                      onClick={addNewField}
+                    >
+                      <i className="fa fa-plus"></i>Add field
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="mt-2 mb-4 add-field"
-                    onClick={addNewField}
-                  >
-                    <i className="fa fa-plus"></i>Add field
-                  </button>
+
                   <h5>Upload Files</h5>
                   <div className="upload-box mb-4">
                     <div className="upload-content">

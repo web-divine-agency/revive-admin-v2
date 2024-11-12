@@ -192,7 +192,7 @@ function ResourcesLists() {
                   : "Unknown"}
               </p>
 
-              <p className="card-text">{resource.resource_body}</p>
+              {/* <p className="card-text">{resource.resource_body}</p> */}
 
               {(() => {
                 if (hasVideoContent) {
@@ -318,9 +318,6 @@ function ResourcesLists() {
 
           {/* General Resources */}
           <h3 className="mt-4">General Resources</h3>
-          <div className="resources-content">
-            {generalResources.map((resource) => renderResourceCard(resource))}
-          </div>
           <div className="pagination-controls">
             <div className="d-flex">
               <label>
@@ -328,10 +325,12 @@ function ResourcesLists() {
                 <select
                   value={itemsPerPageGeneral}
                   onChange={handleItemsPerPageChangeGeneral}
+                  style={{ width: '60px', padding: '5px' }}
+
                 >
-                  <option value="3">3</option>
-                  <option value="6">6</option>
-                  <option value="9">9</option>
+                  <option value="4">4</option>
+                  <option value="8">8</option>
+                  <option value="12">12</option>
                 </select>
                 entries
               </label>
@@ -354,6 +353,10 @@ function ResourcesLists() {
               </button>
             </div>
           </div>
+          <div className="resources-content">
+            {generalResources.map((resource) => renderResourceCard(resource))}
+          </div>
+          
 
           {/* Troubleshooting Resources */}
           <h3
@@ -365,22 +368,18 @@ function ResourcesLists() {
           </h3>
           {showTroubleshooting && (
             <>
-              <div className="resources-content">
-                {troubleshootingResources.map((resource) =>
-                  renderResourceCard(resource)
-                )}
-              </div>
-              <div className="pagination-controls">
+            <div className="pagination-controls">
                 <div className="d-flex">
                   <label>
                     Show
                     <select
                       value={itemsPerPageGeneral}
                       onChange={handleItemsPerPageChangeGeneral}
+                      style={{ width: '60px', padding: '5px' }}
                     >
-                      <option value="3">3</option>
-                      <option value="6">6</option>
-                      <option value="9">9</option>
+                      <option value="4">4</option>
+                      <option value="8">8</option>
+                      <option value="12">12</option>
                     </select>
                     entries
                   </label>
@@ -406,6 +405,12 @@ function ResourcesLists() {
                   </button>
                 </div>
               </div>
+              <div className="resources-content">
+                {troubleshootingResources.map((resource) =>
+                  renderResourceCard(resource)
+                )}
+              </div>
+              
             </>
           )}
         </div>
