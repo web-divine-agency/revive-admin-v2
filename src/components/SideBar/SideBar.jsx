@@ -24,7 +24,7 @@ function Navbar({ role }) {
   const [currentTime, setCurrentTime] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [position, setPosition] = useState({ left: "5px" });
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 1024;
   const [dropdownOpenIndex, setDropdownOpenIndex] = useState(null);
 
   const handleDropdownToggle = (index) => {

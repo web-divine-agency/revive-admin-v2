@@ -120,9 +120,11 @@ img.video_play_icon,
   width: 250px;
   height: auto;
 }
-
+.pdf-download-link {
+  display: none;
+}
 @media (max-width: 768px) {
-  .created-resource .gallery-thumbnail {
+  .created-resource .image-thumbnail {
     width: 30%;
     height: 30%;
     margin-left: 8px;
@@ -131,13 +133,24 @@ img.video_play_icon,
     width: 30%;
     height: 30%;
   }
-  .created-resource .lightgallery {
-    background-color: #c74a44;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .resources-category-text{
+
+  .resources-category-text {
     margin-left: 20px;
+  }
+  .upload-box #selectedImagesContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 100%;
+  }
+  .pdf-download-link.mobile-only {
+    display: inline-block;
+  }
+  .image-grid .embedded-pdf {
+    display: none;
+  }
+  .resoruce-iamge-content img {
+margin-left: -15px;
+    
   }
 }

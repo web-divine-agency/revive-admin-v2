@@ -214,6 +214,109 @@
     height: 20px !important;
   }
 }
+@media (min-width: 768px) and (max-width: 1024px) {
+  .nav-menu {
+    background-color: #105652;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    /* justify-content: center; */
+    position: fixed;
+    top: 0;
+    transition: 850ms;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9;
+  }
+
+  .sticky-header .profile {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-right: 0px;
+    cursor: pointer;
+    width: 220px;
+    background-color: #105652;
+    padding: 10px 25px 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #457a74;
+    margin-bottom: 20px;
+    float: right;
+  }
+  .toggle-btn {
+    display: flex;
+    position: fixed;
+    top: 0px;
+    left: 200px;
+    z-index: 10;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex-direction: column;
+  }
+  .sidebar-nav {
+    height: 100% !important;
+    overflow: auto;
+  }
+  .profile {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 2px !important;
+    right: 10px !important;
+    padding: 3px 20px 3px 15px !important;
+    cursor: pointer;
+  }
+  .profile span h5,
+  .profile p {
+    font-size: 11px;
+  }
+  .sticky-header-container .sticky-header {
+    position: sticky;
+    width: 100%;
+    height: 3rem;
+    top: 0rem;
+    background-color: #fdffff;
+    padding-top: 2px;
+    z-index: 1;
+    margin-left: 0;
+    /* margin-bottom: 30px; */
+  }
+  .nav-text a {
+    /* margin-top: 100px !important; */
+    text-decoration: none;
+    color: #f5f5f5;
+    font-size: 13px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    padding-left: 2rem;
+  }
+  .nav-menu-items {
+    overflow: scroll;
+  }
+  .time-display {
+    color: white;
+    font-size: 18px;
+  }
+  .nav-text {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    list-style: none;
+    height: 45pxt;
+  }
+  .navIcon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
 .bar {
   height: 4px; /* Height of the hamburger bars */
   width: 30px; /* Width of the hamburger bars */

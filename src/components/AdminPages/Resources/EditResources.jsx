@@ -251,14 +251,14 @@ const EditResources = () => {
                     <div dangerouslySetInnerHTML={{ __html: resourceBody }} />
                   )}
 
-                  {role === "Admin" && (
+                  {/* {role === "Admin" && (
                     <button
                       type="button"
                       onClick={() => setViewAsHtml(!viewAsHtml)}
                     >
                       {viewAsHtml ? "Back to Editor" : "View HTML"}
                     </button>
-                  )}
+                  )} */}
 
                   <div className="mt-5">
                     {additionalFields.map((field, index) => (

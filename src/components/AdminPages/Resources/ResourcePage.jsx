@@ -91,6 +91,7 @@ const ResourcePage = () => {
     "|",
     "image",
     "link",
+    "video", // Add video button here
     "table",
     "|",
     "hr",
@@ -104,7 +105,7 @@ const ResourcePage = () => {
     "source",
     "|",
   ];
-
+  
   const config = {
     readonly: role !== "Admin", // Make editor read-only for non-Admins
     toolbarSticky: false,
@@ -116,12 +117,20 @@ const ResourcePage = () => {
     showCharsCounter: true,
     showWordsCounter: true,
     showXPathInStatusbar: false,
+    placeholder: "Start writing your description...",
     multiple: true,
     buttons: buttons,
     uploader: {
       insertImageAsBase64URI: true,
     },
+    video: {
+      url: (videoUrl) => {
+        // A custom function to validate and embed the video
+        return `<iframe width="560" height="315" src="${videoUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      },
+    },
   };
+  
 
   const addNewField = () => {
     setAdditionalFields([...additionalFields, { content: "" }]);

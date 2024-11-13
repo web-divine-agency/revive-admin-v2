@@ -1028,7 +1028,8 @@ input[type="date"] {
   border-radius: 6px;
   box-shadow: 1px 2px 4px 3px rgba(16, 86, 82, 0.5);
 }
-#editContainer, #addContainer{
+#editContainer,
+#addContainer {
   border: rgb(8, 109, 104) 2px solid;
   border-radius: 5px;
   box-shadow: 1px 2px 4px 3px rgba(16, 86, 82, 0.4);
@@ -1253,13 +1254,12 @@ input[type="date"] {
     justify-content: center;
     margin-top: 32rem;
   }
-.custom-row .profile-image{
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  height: 150px !important;
-  width: 150px !important;
-
-}
+  .custom-row .profile-image {
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    height: 150px !important;
+    width: 150px !important;
+  }
   /* Adjust pagination layout for mobile */
   .rdt_Pagination select {
     /* display: block !important; */
@@ -1358,7 +1358,6 @@ input[type="date"] {
     position: relative;
     margin-top: -800px;
     border: none;
-
   }
   .profile-update {
     margin-top: 280px;
@@ -1410,8 +1409,6 @@ input[type="date"] {
   .back-btn {
     margin: 20px 0 0;
   }
-  
-
 }
 
 @media (max-width: 767px) and (min-width: 425px) {
@@ -1670,7 +1667,6 @@ input[type="date"] {
     position: relative;
     margin-top: -850px;
     border: none;
-
   }
   .profile-update {
     margin-top: 280px;
@@ -1688,7 +1684,6 @@ input[type="date"] {
     width: 750px;
     overflow-x: auto;
   }
-  
 }
 @media (max-width: 1366px) and (min-width: 1025px) {
   .container .top-filter .add-resource-btn {
@@ -1788,7 +1783,7 @@ input[type="date"] {
     width: 960px;
     overflow-x: auto;
   }
-/* .container .row{
+  /* .container .row{
   width: 700px;
     overflow-x: auto;
 } */
@@ -1913,4 +1908,145 @@ input[type="date"] {
     border: 1px solid #000000;
   }
 }
+/* Styles for iPad Pro, iPad Air, and Surface Pro 7 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Container styling */
+  .container-content {
+    width: 700px;
+  }
+
+  .image-grid {
+    padding: 45px 0 33px;
+    width: 200px;
+    display: grid;
+    grid-gap: 21px;
+  }
+
+  .video-item,
+  .pdf-item {
+    width: 100%;
+    height: auto;
+  }
+
+  .image-item {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+
+  .title-page {
+    position: relative;
+    top: 20px;
+  }
+
+  .resources-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+  }
+
+  .pagination-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .pagination-controls label select {
+    width: 90px;
+  }
+
+  .back-btn {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  .resources-card {
+    flex: 1 1 calc(100% - 10px);
+  }
+
+  .upload-section h2 {
+    font-size: 20px;
+  }
+
+  .dataTables_wrapper table,
+  .dataTables_wrapper .rdt_TableCell,
+  .dataTables_wrapper .rdt_TableHead {
+    font-size: 12px !important;
+    color: #000;
+  }
+
+  #search-bar {
+    padding: 6px 12px !important;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 30px;
+  }
+
+  .top-filter {
+    padding: 0 10px 20px;
+    width: 100%;
+    margin-bottom: -50px;
+  }
+
+  .top-filter select,
+  .upload-box,
+  .file-input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .recently-uploaded h3,
+  .troubleshooting-folder h3 {
+    font-size: 20px;
+  }
+
+  .add-user-form .add-user-fields,
+  .add-branch-form .add-branch-fields {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+
+  .profile-user {
+    position: relative;
+    margin-top: -800px;
+    border: none;
+  }
+
+  .profile-update {
+    margin-top: 280px;
+    margin-left: 20px;
+  }
+
+  .publish-btn {
+    margin-top: -50px;
+  }
+
+  .generate-ticket-container .container-content,
+  .container .container-content .col-md-5,
+  .container .container-content .col-md-6 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pdf-preview {
+    height: auto;
+    padding-top: 10px;
+  }
+
+  .manage-ticket-btn,
+  .manage-ticket-btn-2,
+  .back-btn {
+    margin-top: 135px;
+  }
+}
+
 /* end of resource page css */

@@ -23,6 +23,7 @@ const ViewResources = () => {
   //const resource = location.state;
 
   const { resourceID } = useParams();
+  const { slug } = useParams();
   const [role, setRole] = useState("");
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -36,6 +37,9 @@ const ViewResources = () => {
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const [resourceMedia, setResourceMedia] = useState(null);
 
+  const [userFetched, setUserFetched] = useState(false);
+  //console.log(slug)
+
   const openModal = (mediaSrc) => {
     setSelectedMedia(mediaSrc);
     setModalOpen(true);
@@ -46,7 +50,7 @@ const ViewResources = () => {
     setSelectedMedia(null);
   };
 
-  const handleDeleteResource = async (resourceID) => {
+  const handleDeleteResource = async (resourceID, slug) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won’t be able to revert this!.",
@@ -65,7 +69,10 @@ const ViewResources = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/delete-resource/${resourceID}`);
+          const url = role === "Admin" 
+            ? `/delete-resource/${resourceID}` 
+            : `/delete-resource/${slug}`;
+          await axiosInstance.delete(url);
           Swal.fire({
             title: "Resource Deleted",
             text: ` ${resourceTitle}  has been removed successfully.`,
@@ -90,44 +97,46 @@ const ViewResources = () => {
   };
 
   useEffect(() => {
-    const fetchResourceDetails = async () => {
-      try {
-        const response = await axiosInstance.get(`/resource/${resourceID}`);
-        const resourceData = response.data.resource_data;
-        setResourceTitle(resourceData?.resource_title || "");
-        setResourceBody(resourceData?.resource_body || "");
-        //setResourceStatus(resourceData?.status || "");
-        const parsedFields = JSON.parse(
-          resourceData?.additional_fields || "[]"
-        );
-        setAdditionalFields(parsedFields);
-        console.log(additionalFields);
-        setResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
-        setSelectedResourceMedia(
-          JSON.parse(resourceData?.resource_media || "[]")
-        );
-      } catch (error) {
-        console.error("Error fetching resource details:", error);
-      }
-    };
-
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
         const { roles } = response.data;
-        const role = roles.length > 0 ? roles[0].role_name : "No Role";
-        setRole(role);
+        const roleName = roles.length > 0 ? roles[0].role_name : "No Role";
+        setRole(roleName);
+        setUserFetched(true);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
     };
-
-    fetchResourceDetails();
     fetchUserDetails();
-  }, []);
-
-  //const formattedFields = JSON.parse(additionalFields);
-  //console.log(formattedFields)
+  });
+  
+  useEffect(() => {
+    // Only fetch resource details if user details are fetched and delay by 2 seconds
+    if (userFetched) {
+      const timer = setTimeout(async () => {
+        try {
+          const url = role === "Admin" 
+            ? `/resource/${resourceID}` 
+            : `/resource/${slug}`;
+          const response = await axiosInstance.get(url);
+          const resourceData = response.data.resource_data;
+          setResourceTitle(resourceData?.resource_title || "");
+          setResourceBody(resourceData?.resource_body || "");
+          setResourceCategory(resourceData?.category || "");
+          const parsedFields = JSON.parse(resourceData?.additional_fields || "[]");
+          setAdditionalFields(parsedFields);
+          setResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
+          setSelectedResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
+          console.log(selectedResourceMedia);
+        } catch (error) {
+          console.error("Error fetching resource details:", error);
+        }
+      }, 1000); // Delay fetch by 2 seconds
+  
+      return () => clearTimeout(timer); // Cleanup timer if component unmounts or effect re-runs
+    }
+  }, [userFetched, role]);
 
   return (
     <div className="container">
@@ -150,132 +159,125 @@ const ViewResources = () => {
 
           <div className="container-content" id="view-rsrc-container">
             <div className="created-resource">
-              <div>
+              <h2 className="title">{resourceTitle}</h2>
+              <div className="resoruce-iamge-content" dangerouslySetInnerHTML={{ __html: resourceBody }}></div>
+              {additionalFields.map((field, index) => (
+                <div
+                  key={index}
+                  dangerouslySetInnerHTML={{ __html: field.content }}
+                ></div>
+              ))}
+
+              {/* Image Gallery using LightGallery */}
+              {resourceMedia &&
+                resourceMedia.some((media) =>
+                  media.match(/\.(jpg|jpeg|png|gif)$/i)
+                ) && <h3>Image Gallery:</h3>}
+              {resourceMedia && (
                 <div>
-                  <h2 className="title">{resourceTitle}</h2>
+                  <LightGallery>
+                    {resourceMedia
+                      .filter((media) => media.match(/\.(jpg|jpeg|png|gif)$/i))
+                      .map((media, index) => (
+                        <a
+                          key={index}
+                          href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                        >
+                          <img
+                            src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                            alt={`Resource Image ${index + 1}`}
+                            className="image-thumbnail"
+                            width="8%"
+                            height="8%"
+                          />
+                        </a>
+                      ))}
+                  </LightGallery>
                 </div>
-                <br />
+              )}
 
-                <div dangerouslySetInnerHTML={{ __html: resourceBody }}></div>
-                {additionalFields.map((field, index) => (
-                  <div
-                    key={index}
-                    dangerouslySetInnerHTML={{ __html: field.content }}
-                  ></div>
-                ))}
-
-                {resourceMedia &&
-                  resourceMedia.some((media) =>
-                    media.match(/\.(jpg|jpeg|png)$/i)
-                  ) && (
-                    <LightGallery
-                      plugins={[lgThumbnail, lgZoom]}
-                      thumbnail
-                      className="lightgallery"
-                    >
-                      <h3>Resource Gallery:</h3>
-                      {resourceMedia
-                        .filter((media) => media.match(/\.(jpg|jpeg|png)$/i))
-                        .map((media, index) => (
-                          <a
-                            key={index}
-                            href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          >
-                            <img
-                              src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                              alt={`Resource Image ${index + 1}`}
-                              className="gallery-thumbnail"
-                              width="8%"
-                              height="8%"
-                            />
-                          </a>
-                        ))}
-                    </LightGallery>
-                  )}
-
-                {resourceMedia &&
-                  resourceMedia.some((media) =>
-                    media.match(/\.(mp4|mkv|avi)$/i)
-                  ) && (
-                    <LightGallery
-                      plugins={[lgVideo, lgThumbnail]}
-                      thumbnail
-                      videojs={true}
-                      className="lightgallery"
-                      dynamic={true}
-                    >
-                      <h3>Video Gallery:</h3>
+              {/* Video Gallery using ReactPlayer */}
+              {resourceMedia &&
+                resourceMedia.some((media) =>
+                  media.match(/\.(mp4|mkv|avi)$/i)
+                ) && (
+                  <div>
+                    <h3>Video Gallery:</h3>
+                    <div className="video-gallery">
                       {resourceMedia
                         .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
                         .map((media, index) => (
-                          <a
-                            key={index}
-                            data-src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                            data-video={`{"source": [{"src": "https://dev.server.revivepharmacyportal.com.au/uploads/${media}", "type": "video/mp4"}]}`}
-                            data-lg-size="1280-720"
-                          >
-                            <img
-                              src={video_thumbnail}
-                              alt={`Resource Video ${index + 1}`}
-                              className="video-thumbnail"
-                              width="8%"
-                              height="8%"
+                          <div key={index} className="video-item">
+                            <ReactPlayer
+                              url={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                              width="100%"
+                              height="auto"
+                              controls
+                              onClick={() => handleViewResource(resource.id, resource.resource_link)}
                             />
-                          </a>
+                          </div>
                         ))}
-                    </LightGallery>
-                  )}
-
-                <div className="image-grid">
-                  {resourceMedia &&
-                    resourceMedia.map((media, index) =>
-                      media.endsWith(".pdf") ? (
+                    </div>
+                  </div>
+                )}
+              {/* PDF Viewer */}
+              {resourceMedia &&
+                resourceMedia.some((media) => media.endsWith(".pdf")) && (
+                  <h3>Other Documents:</h3>
+                )}
+              <div className="image-grid">
+                {resourceMedia &&
+                  resourceMedia.map((media, index) =>
+                    media.endsWith(".pdf") ? (
+                      <>
                         <embed
                           key={index}
                           src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
                           type="application/pdf"
-                          width="50%"
+                          width="150%"
                           height="600px"
                           title="PDF Document"
+                          className="embedded-pdf"
                         />
-                      ) : null
-                    )}
-                </div>
-
-                {role === "Admin" && (
-                  <button
-                    className="btn btn-primary float-end delete-resource-btn"
-                    onClick={() => handleDeleteResource(resourceID)}
-                  >
-                    Delete
-                  </button>
-                )}
+                        <a
+                          href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                          download
+                          className="pdf-download-link mobile-only"
+                        >
+                          Download PDF
+                        </a>
+                      </>
+                    ) : null
+                  )}
               </div>
+
+              {role === "Admin" && (
+                <button
+                  className="btn btn-primary float-end delete-resource-btn"
+                  onClick={() => handleDeleteResource(resourceID)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </div>
+
+          {/* Modal for Video */}
           {isModalOpen && (
             <div className="modal-overlay" onClick={closeModal}>
+              <span className="close-button" onClick={closeModal}>
+                &times;
+              </span>
               <div
                 className="modal-content-resource"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span className="close-button" onClick={closeModal}>
-                  &times;
-                </span>
-                {selectedMedia.endsWith(".mp4") ||
-                selectedMedia.endsWith(".mkv") ||
-                selectedMedia.endsWith(".avi") ? (
-                  <video controls className="modal-image-resource">
-                    <source src={selectedMedia} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <img
-                    src={selectedMedia}
-                    alt="Large View"
-                    className="modal-image-resource"
-                  />
-                )}
+                <ReactPlayer
+                  url={selectedMedia}
+                  width="100%"
+                  height="auto"
+                  controls
+                />
               </div>
             </div>
           )}

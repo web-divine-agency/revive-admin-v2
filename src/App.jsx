@@ -60,7 +60,8 @@ const  isSegmentCorrect = (url , pathNameURL) => {
         <Route path="/forgot-password"  element={<ForgotPassword />}/>
         <Route path="/reset-password/:passwordToken" name="reset-password"  element={<ResetPassword />}/>
         <Route path="/open-email"  element={<CheckEmail />}/>
-        <Route path="/view-resource/:resourceID" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin', 'Staff']} />} />
+        <Route path="/view-resource/:resourceID" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Admin']} />} />
+        <Route path="/staff-view-resource/:slug" element={<ProtectedRoute element={<ViewResources />} allowedRoles={['Staff']} />} />
         <Route path="/resources-list" element={<ProtectedRoute element={<ResourcesLists />} allowedRoles={['Admin', 'Staff']} />} />
         <Route path="/resources" element={<ProtectedRoute element={<ResourcePage />} allowedRoles={['Admin']} />} />
         <Route path="/edit-resource/:resourceID" element={<ProtectedRoute element={<EditResources />} allowedRoles={['Admin']} />} />

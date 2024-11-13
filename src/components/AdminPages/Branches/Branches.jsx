@@ -303,8 +303,8 @@ function Branches() {
               columns={columns}
               data={filteredData}
               pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
+              paginationPerPage={20}
+              paginationRowsPerPageOptions={[20, 30]}
             />
           </div>
         </div>

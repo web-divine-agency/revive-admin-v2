@@ -21,12 +21,14 @@ function ResourcesLists() {
   const [authorFilter, setAuthorFilter] = useState("");
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [resources, setResources] = useState([]);
+  const [resourceID, setResourceID] = useState([]);
+  const [slug, setSlug] = useState([]);
   const [currentPageGeneral, setCurrentPageGeneral] = useState(1);
-  const [itemsPerPageGeneral, setItemsPerPageGeneral] = useState(4);
+  const [itemsPerPageGeneral, setItemsPerPageGeneral] = useState(12);
   const [currentPageTroubleshooting, setCurrentPageTroubleshooting] =
     useState(1);
   const [itemsPerPageTroubleshooting, setItemsPerPageTroubleshooting] =
-    useState(3);
+    useState(12);
   const [role, setRole] = useState("");
   const { setLoading } = useLoader();
   const navigate = useNavigate();
@@ -62,7 +64,24 @@ function ResourcesLists() {
         );
 
         setResources(resourcesWithParsedMedia); // Update state with parsed media
+
+        const resourceIDs = resourcesWithParsedMedia.map((resource) => {
+          return {
+            id: resource.id ? JSON.parse(resource.id) : [],
+          };
+        });
+        setResourceID(resourceIDs);
+
+        const resourceSlug = resourcesWithParsedMedia.map((resource) => {
+          return {
+            resource_link: resource.resource_link ? resource.resource_link : "",
+          };
+        });
+
+        setSlug(resourceSlug);
         //console.log(resourcesWithParsedMedia);
+        //console.log(resourceID)
+        console.log(slug);
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.error("Error fetching resources:", error);
@@ -151,6 +170,14 @@ function ResourcesLists() {
     setCurrentPageTroubleshooting(1);
   };
 
+  const handleViewResource = (resourceID, slug) => {
+    if (role === "Admin") {
+      navigate(`/view-resource/${resourceID}`);
+    } else if (role === "Staff") {
+      navigate(`/staff-view-resource/${slug}`);
+    }
+  };
+
   const renderResourceCard = (resource) => {
     const hasVideoContent = resource?.resource_media.some((item) =>
       item.endsWith(".mp4")
@@ -163,7 +190,7 @@ function ResourcesLists() {
       <div
         key={resource.id}
         className="resources-card"
-        onClick={() => navigate("/view-resource/" + resource.id)}
+        onClick={() => handleViewResource(resource.id, resource.resource_link)}
         style={{ cursor: "pointer" }}
       >
         {/* {`https://dev.server.revivepharmacyportal.com.au/uploads/${resource?.resource_media[0]}`} */}
@@ -177,6 +204,14 @@ function ResourcesLists() {
           }}
         >
           <div className="card-body">
+            {/* {role === "Admin" && (
+              <button
+                className="delete-resource-btn"
+                onClick={() => handleDeleteResource(resource.id)}
+              >
+                <img src={delete_icon} height={24} alt="Delete" />
+              </button>
+            )} */}
             <div>
               <h5 className="card-title">{resource.resource_title}</h5>
               <p className="card-text author-card">
@@ -185,8 +220,6 @@ function ResourcesLists() {
                   ? `${resource.user.first_name} ${resource.user.last_name}`
                   : "Unknown"}
               </p>
-
-              {/* <p className="card-text">{resource.resource_body}</p> */}
 
               {(() => {
                 if (hasVideoContent) {
@@ -227,6 +260,36 @@ function ResourcesLists() {
                   );
                 }
               })()}
+
+              {/* {(resource?.resource_media && hasVideoContent ) &&
+              resource?.resource_media.length > 0 ? (
+                <img
+                  src={
+                    resource?.resource_media[0].endsWith(".pdf")
+                      ? file_icon
+                      : resource?.resource_media[0].endsWith(".jpg") ||
+                        resource?.resource_media[0].endsWith(".png") ||
+                        resource?.resource_media[0].endsWith(".jpeg")
+                      ? image_icon
+                      : resource?.resource_media[0].endsWith(".mp4") ||
+                        resource?.resource_media[0].endsWith(".mkv") ||
+                        resource?.resource_media[0].endsWith(".avi")
+                      ? video_icon
+                      : resources_placeholder // Fallback icon if file type is unknown
+                  }
+                  alt="Resource Media"
+                  width="100%"
+                  height="200"
+                />
+              ) :  ( hasVideoContent &&
+                
+                <img
+                  src={resources_placeholder}
+                  alt="No Media"
+                  width="100%"
+                  height="200"
+                />
+              )} */}
             </div>
           </div>
         </div>
@@ -291,9 +354,9 @@ function ResourcesLists() {
                   onChange={handleItemsPerPageChangeGeneral}
                   style={{ width: "60px", padding: "5px" }}
                 >
-                  <option value="4">4</option>
-                  <option value="8">8</option>
                   <option value="12">12</option>
+                  <option value="16">16</option>
+                  <option value="20">20</option>
                 </select>
                 entries
               </label>
@@ -340,9 +403,9 @@ function ResourcesLists() {
                       onChange={handleItemsPerPageChangeGeneral}
                       style={{ width: "60px", padding: "5px" }}
                     >
-                      <option value="4">4</option>
-                      <option value="8">8</option>
                       <option value="12">12</option>
+                      <option value="16">16</option>
+                      <option value="20">20</option>
                     </select>
                     entries
                   </label>
