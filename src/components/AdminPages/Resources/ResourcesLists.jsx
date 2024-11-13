@@ -160,7 +160,12 @@ function ResourcesLists() {
     );
     // filetype_pdf
     return (
-      <div key={resource.id} className="resources-card">
+      <div
+        key={resource.id}
+        className="resources-card"
+        onClick={() => navigate("/view-resource/" + resource.id)}
+        style={{ cursor: "pointer" }}
+      >
         {/* {`https://dev.server.revivepharmacyportal.com.au/uploads/${resource?.resource_media[0]}`} */}
         <div
           className="card"
@@ -172,18 +177,7 @@ function ResourcesLists() {
           }}
         >
           <div className="card-body">
-            {/* {role === "Admin" && (
-              <button
-                className="delete-resource-btn"
-                onClick={() => handleDeleteResource(resource.id)}
-              >
-                <img src={delete_icon} height={24} alt="Delete" />
-              </button>
-            )} */}
-            <div
-              onClick={() => navigate("/view-resource", { state: resource })}
-              style={{ cursor: "pointer" }}
-            >
+            <div>
               <h5 className="card-title">{resource.resource_title}</h5>
               <p className="card-text author-card">
                 Author:{" "}
@@ -233,36 +227,6 @@ function ResourcesLists() {
                   );
                 }
               })()}
-
-              {/* {(resource?.resource_media && hasVideoContent ) &&
-              resource?.resource_media.length > 0 ? (
-                <img
-                  src={
-                    resource?.resource_media[0].endsWith(".pdf")
-                      ? file_icon
-                      : resource?.resource_media[0].endsWith(".jpg") ||
-                        resource?.resource_media[0].endsWith(".png") ||
-                        resource?.resource_media[0].endsWith(".jpeg")
-                      ? image_icon
-                      : resource?.resource_media[0].endsWith(".mp4") ||
-                        resource?.resource_media[0].endsWith(".mkv") ||
-                        resource?.resource_media[0].endsWith(".avi")
-                      ? video_icon
-                      : resources_placeholder // Fallback icon if file type is unknown
-                  }
-                  alt="Resource Media"
-                  width="100%"
-                  height="200"
-                />
-              ) :  ( hasVideoContent &&
-                
-                <img
-                  src={resources_placeholder}
-                  alt="No Media"
-                  width="100%"
-                  height="200"
-                />
-              )} */}
             </div>
           </div>
         </div>
@@ -317,7 +281,7 @@ function ResourcesLists() {
           </div>
 
           {/* General Resources */}
-          <h3 className="mt-4">General Resources</h3>
+          <h3 className="resources-category-text mt-4">General Resources</h3>
           <div className="pagination-controls">
             <div className="d-flex">
               <label>
@@ -325,8 +289,7 @@ function ResourcesLists() {
                 <select
                   value={itemsPerPageGeneral}
                   onChange={handleItemsPerPageChangeGeneral}
-                  style={{ width: '60px', padding: '5px' }}
-
+                  style={{ width: "60px", padding: "5px" }}
                 >
                   <option value="4">4</option>
                   <option value="8">8</option>
@@ -335,6 +298,11 @@ function ResourcesLists() {
                 entries
               </label>
             </div>
+          </div>
+          <div className="resources-content">
+            {generalResources.map((resource) => renderResourceCard(resource))}
+          </div>
+          <div className="pagination-controls d-flex justify-content-center">
             <div className="d-flex align-items-center">
               <button
                 onClick={handlePreviousPageGeneral}
@@ -353,14 +321,9 @@ function ResourcesLists() {
               </button>
             </div>
           </div>
-          <div className="resources-content">
-            {generalResources.map((resource) => renderResourceCard(resource))}
-          </div>
-          
-
           {/* Troubleshooting Resources */}
           <h3
-            className="mt-3"
+            className="resources-category-text mt-3"
             onClick={() => setShowTroubleshooting(!showTroubleshooting)}
             style={{ cursor: "pointer" }}
           >
@@ -368,14 +331,14 @@ function ResourcesLists() {
           </h3>
           {showTroubleshooting && (
             <>
-            <div className="pagination-controls">
+              <div className="pagination-controls">
                 <div className="d-flex">
                   <label>
                     Show
                     <select
                       value={itemsPerPageGeneral}
                       onChange={handleItemsPerPageChangeGeneral}
-                      style={{ width: '60px', padding: '5px' }}
+                      style={{ width: "60px", padding: "5px" }}
                     >
                       <option value="4">4</option>
                       <option value="8">8</option>
@@ -384,6 +347,13 @@ function ResourcesLists() {
                     entries
                   </label>
                 </div>
+              </div>
+              <div className="resources-content">
+                {troubleshootingResources.map((resource) =>
+                  renderResourceCard(resource)
+                )}
+              </div>
+              <div className="pagination-controls d-flex justify-content-center">
                 <div className="d-flex align-items-center">
                   <button
                     onClick={handlePreviousPageTroubleshooting}
@@ -405,12 +375,6 @@ function ResourcesLists() {
                   </button>
                 </div>
               </div>
-              <div className="resources-content">
-                {troubleshootingResources.map((resource) =>
-                  renderResourceCard(resource)
-                )}
-              </div>
-              
             </>
           )}
         </div>

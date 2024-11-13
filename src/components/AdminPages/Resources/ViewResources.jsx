@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../App.css";
 import { FiArrowLeft } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import resources_placeholder from "../../../assets/images/resources_placeholder.png";
 import video_thumbnail from "../../../assets/images/video-icon.png";
 import axiosInstance from "../../../../axiosInstance.js";
@@ -19,13 +19,22 @@ import lgZoom from "lightgallery/plugins/zoom";
 import lgVideo from "lightgallery/plugins/video";
 
 const ViewResources = () => {
-  const location = useLocation();
-  const resource = location.state || {};  // Fallback to an empty object if location.state is null or undefined
+  //const location = useLocation();
+  //const resource = location.state;
 
+  const { resourceID } = useParams();
   const [role, setRole] = useState("");
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState("");
+
+  const [additionalFields, setAdditionalFields] = useState([]);
+  const [resourceTitle, setResourceTitle] = useState("");
+  const [resourceBody, setResourceBody] = useState("");
+  //const [resourceStatus, setResourceStatus] = useState("");
+  const [resourceCategory, setResourceCategory] = useState("");
+  const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
+  const [resourceMedia, setResourceMedia] = useState(null);
 
   const openModal = (mediaSrc) => {
     setSelectedMedia(mediaSrc);
@@ -37,10 +46,10 @@ const ViewResources = () => {
     setSelectedMedia(null);
   };
 
-  const handleDeleteResource = async (id) => {
+  const handleDeleteResource = async (resourceID) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won’t be able to revert this!",
+      text: "You won’t be able to revert this!.",
       showCancelButton: true,
       icon: "warning",
       confirmButtonColor: "#EC221F",
@@ -56,26 +65,52 @@ const ViewResources = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/delete-resource/${id}`);
+          await axiosInstance.delete(`/delete-resource/${resourceID}`);
           Swal.fire({
             title: "Resource Deleted",
-            text: `${resource.resource_title} has been removed successfully.`,
+            text: ` ${resourceTitle}  has been removed successfully.`,
             imageUrl: check,
             imageWidth: 100,
             imageHeight: 100,
             confirmButtonText: "OK",
             confirmButtonColor: "#0ABAA6",
           }).then(() => {
+            // Redirect to user list
             navigate("/resources-list");
-          });
+          }); // Redirect to Resources List after deletion
         } catch (error) {
-          Swal.fire("Error!", "There was an error deleting the resource.", "error");
+          Swal.fire(
+            "Error!",
+            "There was an error deleting the resource.",
+            "error"
+          );
         }
       }
     });
   };
 
   useEffect(() => {
+    const fetchResourceDetails = async () => {
+      try {
+        const response = await axiosInstance.get(`/resource/${resourceID}`);
+        const resourceData = response.data.resource_data;
+        setResourceTitle(resourceData?.resource_title || "");
+        setResourceBody(resourceData?.resource_body || "");
+        //setResourceStatus(resourceData?.status || "");
+        const parsedFields = JSON.parse(
+          resourceData?.additional_fields || "[]"
+        );
+        setAdditionalFields(parsedFields);
+        console.log(additionalFields);
+        setResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
+        setSelectedResourceMedia(
+          JSON.parse(resourceData?.resource_media || "[]")
+        );
+      } catch (error) {
+        console.error("Error fetching resource details:", error);
+      }
+    };
+
     const fetchUserDetails = async () => {
       try {
         const response = await axiosInstance.get("/user");
@@ -87,13 +122,12 @@ const ViewResources = () => {
       }
     };
 
+    fetchResourceDetails();
     fetchUserDetails();
   }, []);
 
-  // Safely parse additional_fields if available
-  const formattedFields = resource.additional_fields
-    ? JSON.parse(resource.additional_fields).map((field) => field.content)
-    : [];
+  //const formattedFields = JSON.parse(additionalFields);
+  //console.log(formattedFields)
 
   return (
     <div className="container">
@@ -104,10 +138,10 @@ const ViewResources = () => {
         </h3>
       </a>
       <div className="row">
-        <div className="col-lg-12 col-md-6 resources-content-container pl-4">
+        <div className="col-lg-12 col-md-6 resources-content-container">
           {role === "Admin" && (
             <button
-              onClick={() => navigate(`/edit-resource/${resource.id}`)}
+              onClick={() => navigate(`/edit-resource/${resourceID}`)}
               className="btn btn-primary float-end edit-resource-btn mb-2"
             >
               Edit Resource
@@ -118,61 +152,83 @@ const ViewResources = () => {
             <div className="created-resource">
               <div>
                 <div>
-                  <h2 className="title">{resource.resource_title}</h2>
+                  <h2 className="title">{resourceTitle}</h2>
                 </div>
                 <br />
 
-                <div dangerouslySetInnerHTML={{ __html: resource.resource_body }}></div>
+                <div dangerouslySetInnerHTML={{ __html: resourceBody }}></div>
+                {additionalFields.map((field, index) => (
+                  <div
+                    key={index}
+                    dangerouslySetInnerHTML={{ __html: field.content }}
+                  ></div>
+                ))}
 
-                <div dangerouslySetInnerHTML={{ __html: formattedFields }}></div>
+                {resourceMedia &&
+                  resourceMedia.some((media) =>
+                    media.match(/\.(jpg|jpeg|png)$/i)
+                  ) && (
+                    <LightGallery
+                      plugins={[lgThumbnail, lgZoom]}
+                      thumbnail
+                      className="lightgallery"
+                    >
+                      <h3>Resource Gallery:</h3>
+                      {resourceMedia
+                        .filter((media) => media.match(/\.(jpg|jpeg|png)$/i))
+                        .map((media, index) => (
+                          <a
+                            key={index}
+                            href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                          >
+                            <img
+                              src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                              alt={`Resource Image ${index + 1}`}
+                              className="gallery-thumbnail"
+                              width="8%"
+                              height="8%"
+                            />
+                          </a>
+                        ))}
+                    </LightGallery>
+                  )}
 
-                {resource?.resource_media && resource.resource_media.some((media) => media.match(/\.(jpg|jpeg|png)$/i)) && (
-                  <LightGallery plugins={[lgThumbnail, lgZoom]} thumbnail className="lightgallery">
-                    <h3>Resource Gallery:</h3>
-                    {resource.resource_media
-                      .filter((media) => media.match(/\.(jpg|jpeg|png)$/i))
-                      .map((media, index) => (
-                        <a key={index} href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}>
-                          <img
-                            src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                            alt={`Resource Image ${index + 1}`}
-                            className="gallery-thumbnail"
-                            width="8%"
-                            height="8%"
-                          />
-                        </a>
-                      ))}
-                  </LightGallery>
-                )}
-
-                {resource?.resource_media && resource.resource_media.some((media) => media.match(/\.(mp4|mkv|avi)$/i)) && (
-                  <LightGallery plugins={[lgVideo, lgThumbnail]} thumbnail videojs={true} className="lightgallery">
-                    <h3>Video Gallery:</h3>
-                    {resource.resource_media
-                      .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
-                      .map((media, index) => (
-                        <a
-                          key={index}
-                          data-src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          data-lg-size="1280-720"
-                          data-poster={`https://dev.server.revivepharmacyportal.com.au/uploads/${media.replace(/\.(mp4|mkv|avi)$/i, ".jpg")}`}
-                          data-sub-html={`<h4>Resource Video ${index + 1}</h4>`}
-                        >
-                          <img
-                            src={video_thumbnail}
-                            alt={`Resource Video ${index + 1}`}
-                            className="video-thumbnail"
-                            width="8%"
-                            height="8%"
-                          />
-                        </a>
-                      ))}
-                  </LightGallery>
-                )}
+                {resourceMedia &&
+                  resourceMedia.some((media) =>
+                    media.match(/\.(mp4|mkv|avi)$/i)
+                  ) && (
+                    <LightGallery
+                      plugins={[lgVideo, lgThumbnail]}
+                      thumbnail
+                      videojs={true}
+                      className="lightgallery"
+                      dynamic={true}
+                    >
+                      <h3>Video Gallery:</h3>
+                      {resourceMedia
+                        .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
+                        .map((media, index) => (
+                          <a
+                            key={index}
+                            data-src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                            data-video={`{"source": [{"src": "https://dev.server.revivepharmacyportal.com.au/uploads/${media}", "type": "video/mp4"}]}`}
+                            data-lg-size="1280-720"
+                          >
+                            <img
+                              src={video_thumbnail}
+                              alt={`Resource Video ${index + 1}`}
+                              className="video-thumbnail"
+                              width="8%"
+                              height="8%"
+                            />
+                          </a>
+                        ))}
+                    </LightGallery>
+                  )}
 
                 <div className="image-grid">
-                  {resource?.resource_media &&
-                    resource.resource_media.map((media, index) =>
+                  {resourceMedia &&
+                    resourceMedia.map((media, index) =>
                       media.endsWith(".pdf") ? (
                         <embed
                           key={index}
@@ -189,7 +245,7 @@ const ViewResources = () => {
                 {role === "Admin" && (
                   <button
                     className="btn btn-primary float-end delete-resource-btn"
-                    onClick={() => handleDeleteResource(resource.id)}
+                    onClick={() => handleDeleteResource(resourceID)}
                   >
                     Delete
                   </button>
@@ -197,10 +253,12 @@ const ViewResources = () => {
               </div>
             </div>
           </div>
-
           {isModalOpen && (
             <div className="modal-overlay" onClick={closeModal}>
-              <div className="modal-content-resource" onClick={(e) => e.stopPropagation()}>
+              <div
+                className="modal-content-resource"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span className="close-button" onClick={closeModal}>
                   &times;
                 </span>
@@ -212,7 +270,11 @@ const ViewResources = () => {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <img src={selectedMedia} alt="Large View" className="modal-image-resource" />
+                  <img
+                    src={selectedMedia}
+                    alt="Large View"
+                    className="modal-image-resource"
+                  />
                 )}
               </div>
             </div>
