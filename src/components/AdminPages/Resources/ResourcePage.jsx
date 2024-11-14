@@ -239,7 +239,7 @@ const ResourcePage = () => {
           <FiChevronLeft className="icon-left" /> Add New Resource
         </h3>
       </a>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="add-resource-form">
         <button
           onClick={() => navigate("/resources")}
           type="submit"

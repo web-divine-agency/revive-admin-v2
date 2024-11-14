@@ -204,14 +204,6 @@ function ResourcesLists() {
           }}
         >
           <div className="card-body">
-            {/* {role === "Admin" && (
-              <button
-                className="delete-resource-btn"
-                onClick={() => handleDeleteResource(resource.id)}
-              >
-                <img src={delete_icon} height={24} alt="Delete" />
-              </button>
-            )} */}
             <div>
               <h5 className="card-title">{resource.resource_title}</h5>
               <p className="card-text author-card">
@@ -260,36 +252,6 @@ function ResourcesLists() {
                   );
                 }
               })()}
-
-              {/* {(resource?.resource_media && hasVideoContent ) &&
-              resource?.resource_media.length > 0 ? (
-                <img
-                  src={
-                    resource?.resource_media[0].endsWith(".pdf")
-                      ? file_icon
-                      : resource?.resource_media[0].endsWith(".jpg") ||
-                        resource?.resource_media[0].endsWith(".png") ||
-                        resource?.resource_media[0].endsWith(".jpeg")
-                      ? image_icon
-                      : resource?.resource_media[0].endsWith(".mp4") ||
-                        resource?.resource_media[0].endsWith(".mkv") ||
-                        resource?.resource_media[0].endsWith(".avi")
-                      ? video_icon
-                      : resources_placeholder // Fallback icon if file type is unknown
-                  }
-                  alt="Resource Media"
-                  width="100%"
-                  height="200"
-                />
-              ) :  ( hasVideoContent &&
-                
-                <img
-                  src={resources_placeholder}
-                  alt="No Media"
-                  width="100%"
-                  height="200"
-                />
-              )} */}
             </div>
           </div>
         </div>

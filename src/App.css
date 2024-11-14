@@ -1400,10 +1400,10 @@ input[type="date"] {
     width: auto;
     overflow: hidden;
   }
-  .manage-ticket-btn,
-  .manage-ticket-btn-2 {
+ .generate-ticket-container .manage-ticket-btn,
+ .generate-ticket-container .manage-ticket-btn-2 {
     margin-top: 135px;
-    margin-right: 35px;
+    margin-right: -35px;
     margin-bottom: 0;
   }
   .back-btn {
@@ -1950,10 +1950,11 @@ input[type="date"] {
 
   .pagination-controls {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* flex-direction: column;
+    justify-content: center; */
     align-items: center;
     margin-top: 0;
+    margin-left: 20px;
   }
 
   .pagination-controls label select {
@@ -2029,12 +2030,20 @@ input[type="date"] {
     margin-top: -50px;
   }
 
-  .generate-ticket-container .container-content,
-  .container .container-content .col-md-5,
-  .container .container-content .col-md-6 {
+  .generate-ticket-container .container-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+  .container .container-content .col-md-5 {
+    min-width: 100%;
+    margin-right: 0 !important;
+    margin-bottom: 20px;
+  }
+  .container .container-content .col-md-6 {
+    min-width: 100%;
   }
 
   .pdf-preview {
@@ -2042,11 +2051,34 @@ input[type="date"] {
     padding-top: 10px;
   }
 
-  .manage-ticket-btn,
-  .manage-ticket-btn-2,
-  .back-btn {
-    margin-top: 135px;
+  .generate-ticket-container .manage-ticket-btn,
+  .generate-ticket-container .manage-ticket-btn-2 {
+     margin-top: 135px;
+     margin-right: -35px;
+     margin-bottom: 0;
+   }
+  .resources-category-text{
+    margin-left: 20px;
+    margin-top: 20px;
   }
+ .container .add-resource-form{
+  width: 750px;
+ }
+ .container .resources-content-container{
+  width: 775px;
+ }
+}
+@media (min-width: 768px) {
+  .container, .container-md, .container-sm {
+      max-width: 100%;
+  }
+  .add-resource-btn {
+    background-color: #105652;
+    border-color: #105652;
+    justify-content: center;
+    display: flex;
+    margin-right: 0px;
+}
 }
 
 /* end of resource page css */
