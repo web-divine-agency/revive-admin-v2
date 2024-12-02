@@ -57,6 +57,7 @@ axiosInstance.interceptors.response.use((response) => response,
             return axiosInstance(originalRequest);
         } catch (refreshError) {
             isRefreshing = false;
+            // eslint-disable-next-line no-undef
             showSessionExpiredPopup();// Log out on refresh token failure
             return Promise.reject(refreshError);
         }

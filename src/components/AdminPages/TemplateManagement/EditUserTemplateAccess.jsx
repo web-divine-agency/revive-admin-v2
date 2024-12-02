@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useParams, useNavigate } from "react-router-dom";
-import "../../../App.css";
 import "../../../Custom.css";
 import check from "../../../assets/images/check.png";
 import Swal from "sweetalert2";
 import { FiChevronLeft } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 function EditUserTemplateAccess() {
   const { userId } = useParams();
   const [ticketTypes, setTicketTypes] = useState([]);
-  const [selectedTickets, setSelectedTickets] = useState({});
   const [selectedTicketIds, setSelectedTicketIds] = useState([]); // Store selected ticket type IDs
   const navigate = useNavigate(); // Store selected ticket types
 
@@ -61,6 +58,7 @@ function EditUserTemplateAccess() {
   const assignTickets = async (e) => {
     e.preventDefault(); // Prevent default form submission
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axiosInstance.post(`/assign-tickets/${userId}`, {
         ticket_type_ids: selectedTicketIds, // Send selected ticket IDs to the backend
       });
@@ -91,10 +89,10 @@ function EditUserTemplateAccess() {
 
   return (
     <div className="container">
-        <StickyHeader />
       <a href="/template-management" className="back-btn">
         <h3 className="title-page">
-          <FiChevronLeft className="icon-left" /> Edit User's Template Access
+          <FiChevronLeft className="icon-left" /> Edit User&apos;s Template
+          Access
         </h3>
       </a>
       <div className="container-content">

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
-import '../../../Custom.css';
+import "../../../Custom.css";
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
@@ -12,7 +11,6 @@ import view_icon from "../../../assets/images/list-view.png";
 import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
 import axiosInstance from "../../../../axiosInstance.js";
-import { format } from "date-fns";
 import { Modal, Button } from "react-bootstrap";
 import {
   Document,
@@ -24,18 +22,18 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import Swal from "sweetalert2";
 import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
-import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/arialn.ttf";
+import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/ARIALN.TTF";
 import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
 import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { useLoader } from "../../Loaders/LoaderContext";
-import StickyHeader from "../../SideBar/StickyHeader";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
 
 Font.register({
   family: "Arial",
@@ -70,7 +68,6 @@ function TicketsHistory() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [pdfBlob, setPdfBlob] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
@@ -403,7 +400,10 @@ function TicketsHistory() {
                                 fontSize: "9px",
                                 textAlign: "center",
                                 fontFamily: "Aptos",
-                                marginBottom: item.optionType === "With RRP" ? "92px" : "107px",
+                                marginBottom:
+                                  item.optionType === "With RRP"
+                                    ? "92px"
+                                    : "107px",
                               }}
                             >
                               REVIVE OFFER &nbsp;
@@ -415,7 +415,10 @@ function TicketsHistory() {
                                 fontSize: "9px",
                                 textAlign: "center",
                                 fontFamily: "Aptos",
-                                marginBottom: item.optionType === "With RRP" ? "92px" : "106px",
+                                marginBottom:
+                                  item.optionType === "With RRP"
+                                    ? "92px"
+                                    : "106px",
                               }}
                             >
                               {item.offerType}
@@ -1590,7 +1593,7 @@ function TicketsHistory() {
                                 fontFamily: "Aptos",
                               }}
                             >
-                              I'M CHEAPER THAN {"\n"}
+                              I&apos;M CHEAPER THAN {"\n"}
                               <Text
                                 style={{
                                   fontSize: "15px",
@@ -1779,7 +1782,7 @@ function TicketsHistory() {
                                 marginBottom: "73px",
                               }}
                             >
-                              I'M CHEAPER THAN {"\n"}
+                              I&apos;M CHEAPER THAN {"\n"}
                               <Text
                                 style={{
                                   fontSize: "15px",
@@ -2053,7 +2056,7 @@ function TicketsHistory() {
               title: "custom-swal-title",
             },
           });
-        } catch (error) {
+        } catch {
           Swal.fire({
             title: "Error!",
             text: "There was an error deleting the ticket.",
@@ -2075,17 +2078,17 @@ function TicketsHistory() {
       name: "Select",
       cell: (row) => (
         <label className="del-checkbox">
-        <input
-          type="checkbox"
-          onChange={(e) => {
-            const checked = e.target.checked;
-            setSelectedTickets((prev) =>
-              checked ? [...prev, row.id] : prev.filter((id) => id !== row.id)
-            );
-          }}
-          checked={selectedTickets.includes(row.id)}
-        />
-        <div className="del-checkmark" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setSelectedTickets((prev) =>
+                checked ? [...prev, row.id] : prev.filter((id) => id !== row.id)
+              );
+            }}
+            checked={selectedTickets.includes(row.id)}
+          />
+          <div className="del-checkmark" />
         </label>
       ),
       ignoreRowClick: true,
@@ -2233,15 +2236,16 @@ function TicketsHistory() {
 
   return (
     <div className="container">
-      <StickyHeader/>
-      <div className="row">
+      <NavTopbar />
+      <NavSidebar />
+      <section className="row panel">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Tickets History List</h3>
           <div className="top-filter">
             <select
               // className="mr-4"
               name="filter"
-              id="filter"
+              className="filter"
               value={selectedBranchId}
               onChange={handleBranchSelect}
             >
@@ -2255,7 +2259,7 @@ function TicketsHistory() {
 
             <select
               name="filter"
-              id="filter"
+              className="filter"
               value={selectedTicketTypeId}
               onChange={handleTicketTypeSelect}
             >
@@ -2268,7 +2272,7 @@ function TicketsHistory() {
             </select>
 
             <input
-              id="search-bar"
+              className="search-bar"
               type="text"
               placeholder="Search"
               value={search}
@@ -2293,7 +2297,7 @@ function TicketsHistory() {
             />
           </div>
         </div>
-      </div>
+      </section>
 
       {selectedTicket && (
         <Modal show={showModal} onHide={closeModal} size="lg">

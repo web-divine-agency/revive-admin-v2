@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,6 @@ import check from "../../../assets/images/check.png";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { FiChevronLeft } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 const animatedComponents = makeAnimated();
 
@@ -98,6 +97,7 @@ function AddNewUser() {
     }
 
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axiosInstance.post("/addUser", {
         last_name,
         first_name,
@@ -132,7 +132,7 @@ function AddNewUser() {
         // Redirect to user list
         navigate("/userlist");
       });
-    } catch (error) {
+    } catch {
       setError("Failed to add user. Please try again.");
       // setSuccessMessage("");
     }
@@ -140,7 +140,6 @@ function AddNewUser() {
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/userlist" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New User

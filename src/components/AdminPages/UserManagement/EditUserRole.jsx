@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { /*useLocation*/ useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from 'react-icons/fi';
-import StickyHeader from "../../SideBar/StickyHeader";
-
-
+import { FiChevronLeft } from "react-icons/fi";
 
 function EditUserRole() {
   //const location = useLocation();
@@ -23,11 +20,10 @@ function EditUserRole() {
       if (roleId) {
         try {
           const response = await axiosInstance.get(`/role/${roleId}`);
-          const roleInfo = response.data; 
-      
+          const roleInfo = response.data;
+
           setRole(roleInfo.role_name);
           setDescription(roleInfo.role_description);
-        
         } catch (error) {
           console.error(
             "Error fetching role data:",
@@ -44,7 +40,7 @@ function EditUserRole() {
 
     const updatedRoleData = {
       role_name: role,
-     role_description: description,
+      role_description: description,
     };
 
     try {
@@ -57,8 +53,8 @@ function EditUserRole() {
           title: "Role Updated Successfully",
           text: `The role has been updated!`,
           imageUrl: check,
-        imageWidth: 100,  
-        imageHeight: 100, 
+          imageWidth: 100,
+          imageHeight: 100,
           confirmButtonText: "OK",
           confirmButtonColor: "#0ABAA6",
         }).then(() => {
@@ -79,10 +75,9 @@ function EditUserRole() {
     }
   };
 
-   return (
+  return (
     <div className="container">
-      <StickyHeader/>
-       <a href="/user-management" className="back-btn">
+      <a href="/user-management" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Update Role
         </h3>
@@ -117,6 +112,5 @@ function EditUserRole() {
     </div>
   );
 }
-
 
 export default EditUserRole;

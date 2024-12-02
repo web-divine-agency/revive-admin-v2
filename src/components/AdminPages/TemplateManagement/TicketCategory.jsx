@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
 import "../../../Custom.css";
 import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 //import check from "../../../assets/images/check.png";
 
@@ -175,16 +172,14 @@ function TicketCategory() {
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/generate-tickets" className="back-btn">
-            <h3 className="title-page">
-              <FiChevronLeft className="icon-left" />
-              Tickets Category
-            </h3>
-          </a>
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" />
+          Tickets Category
+        </h3>
+      </a>
       <div className="row">
         <div className="col-lg-12 col-md-6">
-         
           <div className="top-filter">
             <input
               id="search-bar"

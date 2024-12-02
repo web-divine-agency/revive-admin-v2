@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from 'react-icons/fi';
-import StickyHeader from "../../SideBar/StickyHeader";
+import { FiChevronLeft } from "react-icons/fi";
 
 function AddNewRole() {
   const navigate = useNavigate();
@@ -69,7 +68,6 @@ function AddNewRole() {
 
   return (
     <div className="container">
-      <StickyHeader/>
       <a href="/user-management" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New Role

@@ -1,0 +1,44 @@
+:root {
+  --primary: #b6cc4a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-family: "Outfit Variable", sans-serif;
+}
+
+section.panel {
+  padding-top: 92px;
+}
+
+a.MuiButton-root,
+button.MuiButton-root {
+  text-transform: capitalize;
+}
+
+h1.MuiTypography-root.section-title,
+p.MuiTypography-root.section-title {
+  font-size: 1.4rem;
+}
+
+select.filter {
+  margin-right: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+input.search-bar {
+  padding: 8px;
+  border-radius: 8px;
+}
+
+@media (min-width: 992px) {
+  section.panel {
+    padding-left: 256px;
+  }
+}

@@ -3,11 +3,9 @@ import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import { FiChevronLeft } from 'react-icons/fi';
-import StickyHeader from "../../SideBar/StickyHeader";
-
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { FiChevronLeft } from "react-icons/fi";
 
 const animatedComponents = makeAnimated();
 
@@ -34,7 +32,7 @@ function EditUser() {
     const fetchBranches = async () => {
       try {
         const response = await axiosInstance.get("/branches");
-        const options = response.data.map(branch => ({
+        const options = response.data.map((branch) => ({
           value: branch.id,
           label: branch.branch_name,
         }));
@@ -63,10 +61,12 @@ function EditUser() {
           const userData = response.data;
           setLastname(userData.last_name);
           setFirstname(userData.first_name);
-          setSelectedBranches(userData.branches.map(branch => ({
-            value: branch.id,
-            label: branch.branch_name,
-          })));
+          setSelectedBranches(
+            userData.branches.map((branch) => ({
+              value: branch.id,
+              label: branch.branch_name,
+            }))
+          );
           setConfirmPassword(userData.password);
           setEmail(userData.email);
           setPassword(userData.password);
@@ -102,7 +102,7 @@ function EditUser() {
     if (password.length < 8) {
       return "Password must be at least 8 characters long.";
     }
-  
+
     if (password !== confirmPassword) {
       return "Passwords do not match.";
     }
@@ -128,10 +128,11 @@ function EditUser() {
     }
 
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axiosInstance.put(`/update-user/${userId}`, {
         last_name,
         first_name,
-        branch_ids: selectedBranches.map(branch => branch.value),
+        branch_ids: selectedBranches.map((branch) => branch.value),
         password,
         email,
         sex,
@@ -162,23 +163,43 @@ function EditUser() {
         // Redirect to user list
         navigate("/userlist");
       });
-    } catch (error) {
+    } catch {
       setError("Failed to add user. Please try again.");
     }
   };
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/userlist" className="back-btn">
         <h3 className="title-page">
-          <FiChevronLeft className="icon-left" />Update User
+          <FiChevronLeft className="icon-left" />
+          Update User
         </h3>
       </a>
       <div className="container-content">
         <form onSubmit={editUser} className="add-user-form">
-          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {error && (
+              <div
+                className="alert alert-danger"
+                style={{
+                  position: "absolute",
+                  left: "25%",
+                  top: "-10px",
+                  width: "50%",
+                  padding: "4px",
+                }}
+              >
+                {error}
+              </div>
+            )}
           </div>
 
           <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3 add-user-fields">
@@ -240,7 +261,10 @@ function EditUser() {
             </div>
           </div>
           <div className="d-flex justify-content-between ml-5 add-user-fields">
-          <div className="form-group add-branch-select" style={{ width: "205px", height: "0" }}>
+            <div
+              className="form-group add-branch-select"
+              style={{ width: "205px", height: "0" }}
+            >
               <label>Branches:</label>
               <Select
                 closeMenuOnSelect={false}
@@ -299,13 +323,10 @@ function EditUser() {
               />
             </div>
           </div>
-         
-           
-        
+
           <button className="submit-btn mb-4 mt-5" type="submit">
             Update
           </button>
-
         </form>
       </div>
     </div>

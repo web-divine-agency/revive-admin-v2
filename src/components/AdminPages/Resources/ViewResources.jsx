@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "../../../App.css";
-import { FiArrowLeft } from "react-icons/fi";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import resources_placeholder from "../../../assets/images/resources_placeholder.png";
-import video_thumbnail from "../../../assets/images/video-icon.png";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 import LightGallery from "lightgallery/react";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-video.css";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
-import lgVideo from "lightgallery/plugins/video";
+import ReactPlayer from "react-player";
 
 const ViewResources = () => {
   //const location = useLocation();
@@ -33,6 +26,7 @@ const ViewResources = () => {
   const [resourceTitle, setResourceTitle] = useState("");
   const [resourceBody, setResourceBody] = useState("");
   //const [resourceStatus, setResourceStatus] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [resourceCategory, setResourceCategory] = useState("");
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const [resourceMedia, setResourceMedia] = useState(null);
@@ -40,6 +34,7 @@ const ViewResources = () => {
   const [userFetched, setUserFetched] = useState(false);
   //console.log(slug)
 
+  // eslint-disable-next-line no-unused-vars
   const openModal = (mediaSrc) => {
     setSelectedMedia(mediaSrc);
     setModalOpen(true);
@@ -69,9 +64,10 @@ const ViewResources = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const url = role === "Admin" 
-            ? `/delete-resource/${resourceID}` 
-            : `/delete-resource/${slug}`;
+          const url =
+            role === "Admin"
+              ? `/delete-resource/${resourceID}`
+              : `/delete-resource/${slug}`;
           await axiosInstance.delete(url);
           Swal.fire({
             title: "Resource Deleted",
@@ -85,7 +81,7 @@ const ViewResources = () => {
             // Redirect to user list
             navigate("/resources-list");
           }); // Redirect to Resources List after deletion
-        } catch (error) {
+        } catch {
           Swal.fire(
             "Error!",
             "There was an error deleting the resource.",
@@ -110,37 +106,39 @@ const ViewResources = () => {
     };
     fetchUserDetails();
   });
-  
+
   useEffect(() => {
     // Only fetch resource details if user details are fetched and delay by 2 seconds
     if (userFetched) {
       const timer = setTimeout(async () => {
         try {
-          const url = role === "Admin" 
-            ? `/resource/${resourceID}` 
-            : `/resource/${slug}`;
+          const url =
+            role === "Admin" ? `/resource/${resourceID}` : `/resource/${slug}`;
           const response = await axiosInstance.get(url);
           const resourceData = response.data.resource_data;
           setResourceTitle(resourceData?.resource_title || "");
           setResourceBody(resourceData?.resource_body || "");
           setResourceCategory(resourceData?.category || "");
-          const parsedFields = JSON.parse(resourceData?.additional_fields || "[]");
+          const parsedFields = JSON.parse(
+            resourceData?.additional_fields || "[]"
+          );
           setAdditionalFields(parsedFields);
           setResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
-          setSelectedResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
+          setSelectedResourceMedia(
+            JSON.parse(resourceData?.resource_media || "[]")
+          );
           console.log(selectedResourceMedia);
         } catch (error) {
           console.error("Error fetching resource details:", error);
         }
       }, 1000); // Delay fetch by 2 seconds
-  
+
       return () => clearTimeout(timer); // Cleanup timer if component unmounts or effect re-runs
     }
   }, [userFetched, role]);
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/resources-list" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Resource View
@@ -160,7 +158,10 @@ const ViewResources = () => {
           <div className="container-content" id="view-rsrc-container">
             <div className="created-resource">
               <h2 className="title">{resourceTitle}</h2>
-              <div className="resoruce-iamge-content" dangerouslySetInnerHTML={{ __html: resourceBody }}></div>
+              <div
+                className="resoruce-iamge-content"
+                dangerouslySetInnerHTML={{ __html: resourceBody }}
+              ></div>
               {additionalFields.map((field, index) => (
                 <div
                   key={index}
@@ -208,13 +209,13 @@ const ViewResources = () => {
                         .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
                         .map((media, index) => (
                           <div key={index} className="video-item">
-                            <ReactPlayer
+                            {/* <ReactPlayer
                               url={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
                               width="100%"
                               height="auto"
                               controls
                               onClick={() => handleViewResource(resource.id, resource.resource_link)}
-                            />
+                            /> */}
                           </div>
                         ))}
                     </div>

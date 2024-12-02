@@ -1,11 +1,11 @@
-// ProtectedRoute.js
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import {getCookie} from '../Authentication/getCookie';
+import { Navigate, useLocation } from "react-router-dom";
+import { getCookie } from "../Authentication/getCookie";
 
 const ProtectedRoute = ({ element, allowedRoles }) => {
-  const userRole = getCookie('role_name');
+  const userRole = getCookie("role_name");
   const location = useLocation();
+
+  console.log(userRole, location);
 
   if (!userRole) {
     // Redirect to login page if not authenticated
@@ -16,6 +16,8 @@ const ProtectedRoute = ({ element, allowedRoles }) => {
     // Redirect to a "not authorized" page or home if the role is not allowed
     return <Navigate to="/" />;
   }
+
+  console.log(element);
 
   return element;
 };

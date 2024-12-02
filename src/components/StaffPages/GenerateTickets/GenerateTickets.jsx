@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "../../../App.css";
 import {
   Document,
   Page,
   Text,
   View,
-  PDFDownloadLink,
   PDFViewer,
   Font,
   pdf,
@@ -15,7 +14,7 @@ import {
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import ArialBold from "./fonts/arialbd.ttf";
-import ArialNarrow from "./fonts/arialn.ttf";
+import ArialNarrow from "./fonts/ARIALN.TTF";
 import ArialNormal from "./fonts/arial.ttf";
 import ArialItalic from "./fonts/ariali.ttf";
 // import BarlowCondensedSemiBoldCondensed from "./fonts/banchschrift/BarlowCondensed-SemiBold-Condensed.ttf";
@@ -26,7 +25,6 @@ import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
 import axiosInstance from "../../../../axiosInstance.js";
-import StickyHeader from "../../SideBar/StickyHeader";
 // import revive_logo from "../../../assets/images/revive-logo.png";
 // import revive_logo_white from "../../../assets/images/revive-logo-white.png";
 
@@ -1046,7 +1044,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
-                  I'M GREATER VALUE! {"\n"}
+                  I&apos;M GREATER VALUE! {"\n"}
                   <Text
                     style={{
                       fontSize: "10px",
@@ -1071,7 +1069,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
-                  I'M CHEAPER THAN {"\n"}
+                  I&apos;M CHEAPER THAN {"\n"}
                   <Text
                     style={{
                       fontSize: "14px",
@@ -1196,7 +1194,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 10 : 0,
                   }}
                 >
-                  I'M GREATER VALUE {"\n"}
+                  I&apos;M GREATER VALUE {"\n"}
                   <Text
                     style={{
                       fontSize: "10px",
@@ -1221,7 +1219,7 @@ function GenerateTickets() {
                     paddingBottom: isPDFView ? 5 : 0,
                   }}
                 >
-                  I'M CHEAPER THAN {"\n"}
+                  I&apos;M CHEAPER THAN {"\n"}
                   <Text
                     style={{
                       fontSize: "15px",
@@ -3533,8 +3531,10 @@ function GenerateTickets() {
                 value={valueType}
                 onChange={handleValueTypeChange}
               >
-                <option value="I'M GREATER VALUE!">I'M GREATER VALUE!</option>
-                <option value="I'M CHEAPER THAN">I'M CHEAPER THAN</option>
+                <option value="I'M GREATER VALUE!">
+                  I&apos;M GREATER VALUE!
+                </option>
+                <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
               </select>
               <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
             </div>
@@ -3628,8 +3628,10 @@ function GenerateTickets() {
                 value={valueType}
                 onChange={handleValueTypeChange}
               >
-                <option value="I'M GREATER VALUE!">I'M GREATER VALUE!</option>
-                <option value="I'M CHEAPER THAN">I'M CHEAPER THAN</option>
+                <option value="I'M GREATER VALUE!">
+                  I&apos;M GREATER VALUE!
+                </option>
+                <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
               </select>
               <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
             </div>
@@ -5772,10 +5774,8 @@ function GenerateTickets() {
   };
 
   return (
-
-     <div className="container">
+    <div className="container">
       <div className="generate-ticket-container">
-         <StickyHeader />
         <div className="col-md-12">
           <div className="row template-selection">
             <h3 className="title-page">
@@ -6080,7 +6080,7 @@ function GenerateTickets() {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 }

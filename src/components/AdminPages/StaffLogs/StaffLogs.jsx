@@ -1,68 +1,71 @@
-import { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import '../../../App.css';
-import '../../../Custom.css';
-import 'font-awesome/css/font-awesome.min.css';
-import man from '../../../assets/images/man.png';
+import { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import "../../../Custom.css";
+import "font-awesome/css/font-awesome.min.css";
+import man from "../../../assets/images/man.png";
 import check from "../../../assets/images/check.png";
 
-import woman from '../../../assets/images/woman.png';
+import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from '../../../../axiosInstance.js';
-import Swal from 'sweetalert2'; 
+import axiosInstance from "../../../../axiosInstance.js";
+import Swal from "sweetalert2";
 import delete_icon from "../../../assets/images/delete-log.png";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { formatInTimeZone } from 'date-fns-tz';
-import StickyHeader from '../../SideBar/StickyHeader';
-
-
 
 function StaffLogs() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedLogs, setSelectedLogs] = useState([]); // To handle mass delete
+  // eslint-disable-next-line no-unused-vars
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [branchFilter, setBranchFilter] = useState(''); // New state for branch filter
+  const [branchFilter, setBranchFilter] = useState(""); // New state for branch filter
   const [branches, setBranches] = useState([]);
   const [roles, setRoles] = useState([]);
-  const [roleFilter, setRoleFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState("");
   const { setLoading } = useLoader();
-
 
   useEffect(() => {
     const fetchLogs = async () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get('/staffLogs');
-        const formattedData = response.data.map(staff_logs => ({
+        const response = await axiosInstance.get("/staffLogs");
+        const formattedData = response.data.map((staff_logs) => ({
           id: staff_logs?.id,
-          name: `${staff_logs?.user?.first_name || 'N/A'} ${staff_logs?.user?.last_name || ''}`,
-          sex: staff_logs?.user?.sex || 'N/A',
-          date: staff_logs?.createdAt ? new Date(staff_logs.createdAt).toLocaleString() : 'N/A',
-          role: staff_logs?.user?.roles?.[0]?.role_name || 'N/A',
-          branch: staff_logs?.user?.branches?.map(r => r.branch_name).join(", ") || 'N/A',
-          action: staff_logs?.action === 'logout' ? 'Logged Out' :
-                  staff_logs?.action === 'login' ? 'Logged In' : staff_logs?.action || 'Unknown Action',
+          name: `${staff_logs?.user?.first_name || "N/A"} ${
+            staff_logs?.user?.last_name || ""
+          }`,
+          sex: staff_logs?.user?.sex || "N/A",
+          date: staff_logs?.createdAt
+            ? new Date(staff_logs.createdAt).toLocaleString()
+            : "N/A",
+          role: staff_logs?.user?.roles?.[0]?.role_name || "N/A",
+          branch:
+            staff_logs?.user?.branches?.map((r) => r.branch_name).join(", ") ||
+            "N/A",
+          action:
+            staff_logs?.action === "logout"
+              ? "Logged Out"
+              : staff_logs?.action === "login"
+              ? "Logged In"
+              : staff_logs?.action || "Unknown Action",
           // sex: staff_logs?.user?.sex || 'N/A'
         }));
-        
+
         setData(formattedData);
       } catch (error) {
-        console.error('Error fetching staff logs:', error);
-      }
-      finally {
+        console.error("Error fetching staff logs:", error);
+      } finally {
         setLoading(false);
       }
     };
 
     const fetchBranches = async () => {
       try {
-        const response = await axiosInstance.get('/branches');
+        const response = await axiosInstance.get("/branches");
         setBranches(response.data); // Assuming backend returns a list of branches
       } catch (error) {
-        console.error('Error fetching branches:', error);
+        console.error("Error fetching branches:", error);
       }
     };
 
@@ -76,7 +79,7 @@ function StaffLogs() {
         title: "Are you sure?",
         text: "You won’t be able to revert this!",
         showCancelButton: true,
-        icon: 'warning',
+        icon: "warning",
         confirmButtonColor: "#EC221F",
         cancelButtonColor: "#00000000",
         cancelTextColor: "#000000",
@@ -91,21 +94,20 @@ function StaffLogs() {
 
       if (result.isConfirmed) {
         await axiosInstance.delete(`/delete-log/${id}`);
-        setData(data.filter(log => log.id !== id));
+        setData(data.filter((log) => log.id !== id));
         Swal.fire({
-          title: 'Deleted!',
-          text: 'The staff log has been deleted.',
+          title: "Deleted!",
+          text: "The staff log has been deleted.",
           imageUrl: check,
           imageWidth: 100,
           imageHeight: 100,
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#105652',
+          confirmButtonText: "OK",
+          confirmButtonColor: "#105652",
         });
       }
-
     } catch (error) {
-      console.error('Error deleting staff log:', error);
-      Swal.fire('Error!', 'Failed to delete the staff log.', 'error');
+      console.error("Error deleting staff log:", error);
+      Swal.fire("Error!", "Failed to delete the staff log.", "error");
     }
   };
 
@@ -116,7 +118,7 @@ function StaffLogs() {
         title: "Are you sure?",
         text: "You won’t be able to revert this!.",
         showCancelButton: true,
-        icon: 'warning',
+        icon: "warning",
         confirmButtonColor: "#EC221F",
         cancelButtonColor: "#00000000",
         cancelTextColor: "#000000",
@@ -130,22 +132,22 @@ function StaffLogs() {
       });
 
       if (result.isConfirmed) {
-        await axiosInstance.post('/mass-delete-logs', { ids: selectedLogs });
-        setData(data.filter(log => !selectedLogs.includes(log.id)));
+        await axiosInstance.post("/mass-delete-logs", { ids: selectedLogs });
+        setData(data.filter((log) => !selectedLogs.includes(log.id)));
         setSelectedLogs([]); // Clear selection
         Swal.fire({
-          title: 'Deleted!',
-          text: 'Selected staff logs have been deleted.',
+          title: "Deleted!",
+          text: "Selected staff logs have been deleted.",
           imageUrl: check,
           imageWidth: 100,
           imageHeight: 100,
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#0ABAA6',
+          confirmButtonText: "OK",
+          confirmButtonColor: "#0ABAA6",
         });
       }
     } catch (error) {
-      console.error('Error deleting staff logs:', error);
-      Swal.fire('Error!', 'Failed to delete the selected staff logs.', 'error');
+      console.error("Error deleting staff logs:", error);
+      Swal.fire("Error!", "Failed to delete the selected staff logs.", "error");
     }
   };
 
@@ -154,80 +156,88 @@ function StaffLogs() {
       name: "Select",
       cell: (row) => (
         <label className="del-checkbox">
-        <input
-          type="checkbox"
-          onChange={(e) => {
-            const checked = e.target.checked;
-            setSelectedLogs(prev =>
-              checked ? [...prev, row.id] : prev.filter(id => id !== row.id)
-            );
-          }}
-          checked={selectedLogs.includes(row.id)}
-        />
-        <div className="del-checkmark" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              const checked = e.target.checked;
+              setSelectedLogs((prev) =>
+                checked ? [...prev, row.id] : prev.filter((id) => id !== row.id)
+              );
+            }}
+            checked={selectedLogs.includes(row.id)}
+          />
+          <div className="del-checkmark" />
         </label>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
-      button: true
+      button: true,
     },
     {
       name: "Name",
-      selector: row => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img className='profile-image'
-            src={row.sex === 'Male' ? man : woman}
+      selector: (row) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            className="profile-image"
+            src={row.sex === "Male" ? man : woman}
             alt={row.name}
             style={{
-              width: '30px',
-              height: '30px',
-              borderRadius: '50%',
-              marginRight: '10px'
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%",
+              marginRight: "10px",
             }}
           />
           {row.name}
         </div>
       ),
-      sortable: true
+      sortable: true,
     },
     {
       name: "Date",
       selector: (row) => {
         const date = new Date(row.date);
         const options = { timeZone: "Australia/Sydney" };
-        
+
         // Extract parts of the date separately
-        const month = date.toLocaleString("en-AU", { month: "short", ...options }); // 'Oct'
-        const day = date.toLocaleString("en-AU", { day: "numeric", ...options });   // '10'
-        const year = date.toLocaleString("en-AU", { year: "numeric", ...options }); // '2024'
-        const time = date.toLocaleString("en-AU", { 
-          hour: "numeric", 
-          minute: "2-digit", 
-          hour12: true, 
-          ...options 
-        });  // '12:27 PM'
-    
+        const month = date.toLocaleString("en-AU", {
+          month: "short",
+          ...options,
+        }); // 'Oct'
+        const day = date.toLocaleString("en-AU", {
+          day: "numeric",
+          ...options,
+        }); // '10'
+        const year = date.toLocaleString("en-AU", {
+          year: "numeric",
+          ...options,
+        }); // '2024'
+        const time = date.toLocaleString("en-AU", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+          ...options,
+        }); // '12:27 PM'
+
         // Return the formatted string
         return `${month} ${day}, ${year} ${time}`;
       },
     },
-    
-
 
     {
       name: "Role",
       selector: (row) => row.role,
-      sortable: true
+      sortable: true,
     },
     {
       name: "Branch",
       selector: (row) => row.branch,
-      sortable: true
+      sortable: true,
     },
     {
       name: "Action",
       selector: (row) => row.action,
-      sortable: true
+      sortable: true,
     },
     {
       name: "Delete",
@@ -243,9 +253,8 @@ function StaffLogs() {
           width="25"
           height="25"
         />
-      )
-    }
-
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -262,53 +271,50 @@ function StaffLogs() {
       try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-      } catch (error) {
-        console.error(response.status.error);
+      } catch (e) {
+        console.error(e);
       }
-    }
+    };
 
     fetchLoggedInUser();
     fetchRoles();
   }, []);
 
-
-
   const filteredData = data
-    .filter(item => {
+    .filter((item) => {
       // Apply branch-based filtering
       if (roleFilter) {
         return item.role.includes(roleFilter); // Match branch name to selected branch
       }
       return true;
     })
-    .filter(item => {
+    .filter((item) => {
       // Apply branch-based filtering
       if (branchFilter) {
         return item.branch.includes(branchFilter); // Match branch name to selected branch
       }
       return true;
     })
-    .filter(item => {
+    .filter((item) => {
       // Apply search-based filtering
       return item.name.toLowerCase().includes(search.toLowerCase());
     });
 
   return (
     <div className="container">
-    <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3 className="title-page">Staff Logs </h3>
-          <div className='top-filter'>
+          <div className="top-filter">
             <select
               name="filter"
               className="mr-4"
               id="filter"
               value={roleFilter}
-              onChange={e => setRoleFilter(e.target.value)}
+              onChange={(e) => setRoleFilter(e.target.value)}
             >
               <option value="">All Roles</option>
-              {roles.map(role => (
+              {roles.map((role) => (
                 <option key={role.id} value={role.role_name}>
                   {role.role_name}
                 </option>
@@ -318,21 +324,21 @@ function StaffLogs() {
               name="filter"
               id="filter"
               value={branchFilter}
-              onChange={e => setBranchFilter(e.target.value)}
+              onChange={(e) => setBranchFilter(e.target.value)}
             >
               <option value="">All Branches</option>
-              {branches.map(branch => (
+              {branches.map((branch) => (
                 <option key={branch.id} value={branch.branch_name}>
                   {branch.branch_name}
                 </option>
               ))}
             </select>
             <input
-              id='search-bar'
+              id="search-bar"
               type="text"
-              placeholder='Search'
+              placeholder="Search"
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="container-content">

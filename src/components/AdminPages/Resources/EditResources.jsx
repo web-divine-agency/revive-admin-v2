@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../../../App.css";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
 import check from "../../../assets/images/check.png";
@@ -7,7 +6,6 @@ import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance.js";
 import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 import JoditEditor from "jodit-react";
 
@@ -15,6 +13,7 @@ const EditResources = () => {
   const { resourceID } = useParams();
 
   const editor = useRef(null);
+  // eslint-disable-next-line no-unused-vars
   const [viewAsHtml, setViewAsHtml] = useState(false);
 
   const [role, setRole] = useState("");
@@ -192,7 +191,6 @@ const EditResources = () => {
 
   return (
     <div className="container">
-      <StickyHeader />
       <a
         onClick={() => navigate(-1)}
         className="back-btn"

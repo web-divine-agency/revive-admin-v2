@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/list-view.png";
 import edit_icon from "../../../assets/images/edit-details.png";
@@ -13,7 +12,6 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 function Branches() {
   const navigate = useNavigate();
@@ -168,7 +166,7 @@ function Branches() {
               title: "custom-swal-title",
             },
           });
-        } catch (error) {
+        } catch {
           Swal.fire({
             title: "Error!",
             text: "There was an error deleting the branch.",
@@ -185,7 +183,7 @@ function Branches() {
     });
   };
 
-  //table columns
+  // table columns
   const columns = [
     {
       name: "Branch",
@@ -264,7 +262,6 @@ function Branches() {
 
   return (
     <div className="container">
-      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6 custom-content-container">
           <h3 className="title-page">Branches</h3>
@@ -311,7 +308,7 @@ function Branches() {
       </div>
 
       {selectedBranches && (
-        <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal show={showModal} onHide={handleCloseModal} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Branch Details</Modal.Title>
           </Modal.Header>
@@ -327,6 +324,34 @@ function Branches() {
               </p>
               <h5>Status</h5>
               <p>{selectedBranches.status}</p>
+            </div>
+            <div className="branch-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Owner</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John Doe</td>
+                    <td>john.doe@example.com</td>
+                    <td>Admin</td>
+                  </tr>
+                  <tr>
+                    <td>Jane Smith</td>
+                    <td>jane.smith@example.com</td>
+                    <td>Admin</td>
+                  </tr>
+                  <tr>
+                    <td>Michael Johnson</td>
+                    <td>michael.johnson@example.com</td>
+                    <td>Staff</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </Modal.Body>
           {/* <Modal.Footer>

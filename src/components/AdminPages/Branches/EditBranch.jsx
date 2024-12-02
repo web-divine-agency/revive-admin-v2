@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from 'react-icons/fi';
-import StickyHeader from "../../SideBar/StickyHeader";
+import { FiChevronLeft } from "react-icons/fi";
 
 function EditBranch() {
   const { branchId } = useParams();
@@ -120,8 +119,7 @@ function EditBranch() {
 
   return (
     <div className="container">
-      <StickyHeader/>
-     <a href="/branches" className="back-btn">
+      <a href="/branches" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Update Branch
         </h3>

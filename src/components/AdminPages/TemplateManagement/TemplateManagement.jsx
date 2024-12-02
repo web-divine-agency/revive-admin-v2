@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/list-view.png";
 import edit_icon from "../../../assets/images/edit-details.png";
-import delete_icon from "../../../assets/images/delete_icon.png";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import check from "../../../assets/images/check.png";
@@ -13,9 +11,7 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiArrowLeft } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 function TemplateManagement() {
   const navigate = useNavigate();
@@ -23,6 +19,7 @@ function TemplateManagement() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
@@ -32,6 +29,7 @@ function TemplateManagement() {
   const [roles, setRoles] = useState([]);
   const [roleFilter, setRoleFilter] = useState("");
 
+  // eslint-disable-next-line no-unused-vars
   const [ticketTypes, setTicketTypes] = useState([]);
 
   const { setLoading } = useLoader();
@@ -72,8 +70,8 @@ function TemplateManagement() {
       try {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
-      } catch (error) {
-        console.error(response.status.error);
+      } catch (e) {
+        console.error(e);
       }
     };
 
@@ -262,16 +260,13 @@ function TemplateManagement() {
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/generate-tickets" className="back-btn">
-            <h3 className="title-page">
-              <FiChevronLeft className="icon-left" /> Manage Staff Template
-              Access
-            </h3>
-          </a>
+        <h3 className="title-page">
+          <FiChevronLeft className="icon-left" /> Manage Staff Template Access
+        </h3>
+      </a>
       <div className="row">
         <div className="col-lg-12 col-md-6">
-          
           <div className="top-filter">
             <select
               name="filter"

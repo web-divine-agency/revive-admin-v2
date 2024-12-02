@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
-import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/view-details.png";
 import edit_icon from "../../../assets/images/edit-details.png";
 import delete_icon from "../../../assets/images/delete-log.png";
@@ -13,8 +11,20 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import "./UserList.css";
-import StickyHeader from "../../SideBar/StickyHeader";
+import "./UsersList.scss";
+
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { Helmet } from "react-helmet";
 
 function UsersList() {
   const navigate = useNavigate();
@@ -22,6 +32,7 @@ function UsersList() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
@@ -33,18 +44,7 @@ function UsersList() {
 
   const { setLoading } = useLoader();
   useEffect(() => {
-    // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
-      // Swal.fire({
-      //   title: "Login Successful",
-      //   text: `Welcome`,
-      //   imageUrl: check,
-      //   imageWidth: 100,
-      //   imageHeight: 100,
-      //   confirmButtonText: "OK",
-      //   confirmButtonColor: "#0ABAA6",
-      // });
-
       localStorage.removeItem("loginSuccess");
     }
   }, []);
@@ -70,7 +70,7 @@ function UsersList() {
         const response = await axiosInstance.get("/roles");
         setRoles(response.data);
       } catch (error) {
-        console.error(response.status.error);
+        console.error(error);
       }
     };
 
@@ -172,7 +172,7 @@ function UsersList() {
 
     Swal.fire({
       title: "Are you sure?",
-      text: "You won’t be able to revert this!",
+      text: "You won't be able to revert this!",
       showCancelButton: true,
       icon: "warning",
       confirmButtonColor: "#EC221F",
@@ -204,7 +204,7 @@ function UsersList() {
               title: "custom-swal-title",
             },
           });
-        } catch (error) {
+        } catch {
           Swal.fire({
             title: "Error!",
             text: "There was an error deleting the user.",
@@ -266,10 +266,10 @@ function UsersList() {
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
       sortable: true,
       style: {
-        width: "200px", 
-        whiteSpace: "nowrap", 
+        width: "200px",
+        whiteSpace: "nowrap",
         overflow: "hidden",
-        textOverflow: "ellipsis", 
+        textOverflow: "ellipsis",
       },
     },
 
@@ -332,102 +332,177 @@ function UsersList() {
   ];
 
   return (
-    <div className="container">
-      <StickyHeader />
-      <div className="row">
-        <div className="col-lg-12 col-md-6 custom-content-container">
-          <h3 className="title-page">Account Management</h3>
-
-          <div className="top-filter">
-            <select
-              name="filter"
-              className=""
-              id="filter"
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="">All Roles</option>
-              {roles.map((role) => (
-                <option key={role.id} value={role.role_name}>
-                  {role.role_name}
-                </option>
-              ))}
-            </select>
-            <select
-              name="filter"
-              id="filter"
-              value={selectedBranchId}
-              onChange={handleBranchSelect}
-            >
-              <option value="">All Branches</option>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.branch_name}
-                </option>
-              ))}
-            </select>
-            <input
-              id="search-bar"
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button
-              onClick={() => navigate("/add-new-user")}
-              className="btn btn-primary float-end add-user-btn"
-            >
-              Add User
-            </button>
-          </div>
-
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredUsers}
-              pagination
-              paginationPerPage={20}
-              paginationRowsPerPageOptions={[20, 30]}
-              responsive
-            />
-          </div>
-        </div>
-      </div>
-
+    <React.Fragment>
+      <Helmet>
+        <title>Resources | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="users-list" className="panel">
+        <Container maxWidth="false">
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <Typography component={"h1"} className="section-title">
+                Account Management
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <div className="top-filter">
+                <select
+                  name="filter"
+                  className="filter"
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                >
+                  <option value="">All Roles</option>
+                  {roles.map((role) => (
+                    <option key={role.id} value={role.role_name}>
+                      {role.role_name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="filter"
+                  className="filter"
+                  value={selectedBranchId}
+                  onChange={handleBranchSelect}
+                >
+                  <option value="">All Branches</option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.branch_name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="search-bar"
+                  type="search"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <Button
+                variant="contained"
+                onClick={() => navigate("/add-new-user")}
+              >
+                Add User
+              </Button>
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <div className="container-content">
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={filteredUsers}
+                  pagination
+                  paginationPerPage={20}
+                  paginationRowsPerPageOptions={[20, 30]}
+                  responsive
+                />
+              </div>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
       {selectedUser && (
-        <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal show={showModal} onHide={handleCloseModal} size="md">
           <Modal.Header closeButton>
             <Modal.Title>Acccount Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="profile-container">
-              <div className="profile-image">
-                <img src={selectedUser.profileImage} alt={selectedUser.name} />
-              </div>
-              <div className="profile-details">
-                <h2>{selectedUser.name}</h2>
-                <div className="user-details">
-                  <div>
-                    Username:<p>{selectedUser.username}</p>
-                  </div>
-                  <div>
-                    Role: <p>{selectedUser.role}</p>
-                  </div>
-                  <div>
-                    Branch: <p>{selectedUser.branch}</p>
-                  </div>
-                  <div>
-                    Email:
-                    <p className="email-text">{selectedUser.email}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, lg: 4 }}>
+                <Box
+                  component={"img"}
+                  src={selectedUser.profileImage}
+                  alt={selectedUser.name}
+                  className="profile-image"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, lg: 8 }}>
+                <Paper variant="outlined" sx={{ p: 2 }}>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        label="Name"
+                        value={selectedUser.name}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        label="Username"
+                        value={selectedUser.username}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        label="Role"
+                        value={selectedUser.role}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        label="Branch"
+                        value={selectedUser.branch}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="text"
+                        label="Email"
+                        value={selectedUser.email}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
+            </Grid>
           </Modal.Body>
         </Modal>
       )}
-    </div>
+    </React.Fragment>
   );
 }
 

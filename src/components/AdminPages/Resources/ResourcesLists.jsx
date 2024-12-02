@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import check from "../../../assets/images/check.png";
-import resources_placeholder from "../../../assets/images/content-icon.png";
-import image_icon from "../../../assets/images/gallery-icon.png";
-import file_icon from "../../../assets/images/pdf-icon.png";
-import video_icon from "../../../assets/images/video-icon.png";
 import video_play_icon from "../../../assets/images/playbutton.svg";
 import images_outline from "../../../assets/images/images-outline.svg";
 import filetype_pdf from "../../../assets/images/filetype-pdf.svg";
 
 import axiosInstance from "../../../../axiosInstance.js";
-import Swal from "sweetalert2";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import StickyHeader from "../../SideBar/StickyHeader";
 import "./style.css";
+import "./ResourcesList.scss";
 
 function ResourcesLists() {
   const [search, setSearch] = useState("");
   const [authorFilter, setAuthorFilter] = useState("");
   const [showTroubleshooting, setShowTroubleshooting] = useState(false);
   const [resources, setResources] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [resourceID, setResourceID] = useState([]);
   const [slug, setSlug] = useState([]);
   const [currentPageGeneral, setCurrentPageGeneral] = useState(1);
@@ -165,6 +160,7 @@ function ResourcesLists() {
     );
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleItemsPerPageChangeTroubleshooting = (e) => {
     setItemsPerPageTroubleshooting(parseInt(e.target.value, 10));
     setCurrentPageTroubleshooting(1);
@@ -261,7 +257,6 @@ function ResourcesLists() {
 
   return (
     <div className="container">
-      <StickyHeader />
       <div className="row">
         <div className="col-lg-12 col-md-6 resources-content-container">
           <h3 className="title-page">Resources Lists</h3>

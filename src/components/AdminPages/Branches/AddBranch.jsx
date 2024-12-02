@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
 import { FiChevronLeft } from 'react-icons/fi';
-import StickyHeader from "../../SideBar/StickyHeader";
 
 
 
@@ -95,7 +94,6 @@ function AddNewBranch() {
 
   return (
     <div className="container">
-      <StickyHeader/>
       <a href="/branches" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New Branch

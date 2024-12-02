@@ -1,34 +1,28 @@
-import React from 'react';
-import DataTable from 'react-data-table-component';
-import '../../../App.css';
-import 'font-awesome/css/font-awesome.min.css';
-import printer from '../../../assets/images/printer.png';
+import DataTable from "react-data-table-component";
+import "font-awesome/css/font-awesome.min.css";
+import printer from "../../../assets/images/printer.png";
 import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/view_icon.png";
 import edit_icon from "../../../assets/images/edit_icon.png";
 
-
 function QueueList() {
-  
-
   //table columns
   const columns = [
-    
     {
-      name: 'Date',
-      selector: row => row.date,
-      sortable: true
+      name: "Date",
+      selector: (row) => row.date,
+      sortable: true,
     },
-   
+
     {
-      name: 'Ticket Type',
-      selector: row => row.ticketType,
-      sortable: true
+      name: "Ticket Type",
+      selector: (row) => row.ticketType,
+      sortable: true,
     },
     {
-      name: 'Product Name',
-      selector: row => row.productName,
-      sortable: true
+      name: "Product Name",
+      selector: (row) => row.productName,
+      sortable: true,
     },
     {
       name: "Action",
@@ -56,6 +50,7 @@ function QueueList() {
             className="ml-3"
             src={edit_icon}
             title="Edit User Details"
+            // eslint-disable-next-line no-undef
             onClick={() => handleEditUserClick(row.id)}
             alt="edit"
             width="25"
@@ -81,20 +76,16 @@ function QueueList() {
   const data = [
     {
       id: 1,
-      date: '28/08/2024 2:09 pm',
-      ticketType: 'Small Ticket ($)',
-      productName: 'Catalogue Special',
-
-      
+      date: "28/08/2024 2:09 pm",
+      ticketType: "Small Ticket ($)",
+      productName: "Catalogue Special",
     },
     {
       id: 2,
-      date: '28/08/2024 10:30 am',
-      ticketType: 'Small Ticket (%)',
-      productName: 'Catalogue Special',
-      
-     
-    }
+      date: "28/08/2024 10:30 am",
+      ticketType: "Small Ticket (%)",
+      productName: "Catalogue Special",
+    },
   ];
 
   return (
@@ -102,14 +93,13 @@ function QueueList() {
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Tickets History List</h3>
-          <div className='top-filter'>
+          <div className="top-filter">
             <select name="" id="filter">
               <option value="">All tickets</option>
               <option value="">Small Ticket</option>
               <option value="">Big Ticket</option>
             </select>
-            <input id='search-bar' type="text" placeholder='Search' />
-           
+            <input id="search-bar" type="text" placeholder="Search" />
           </div>
           <div className="container-content">
             <DataTable
@@ -117,14 +107,12 @@ function QueueList() {
               columns={columns}
               data={data}
               pagination
-              paginationPerPage={10} 
-              paginationRowsPerPageOptions={[10, 20]} 
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[10, 20]}
             />
           </div>
         </div>
       </div>
-
-      
     </div>
   );
 }

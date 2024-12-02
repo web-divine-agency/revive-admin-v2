@@ -1,25 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Modal, Button } from "react-bootstrap";
-import "../../../App.css";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import upload_icon from "../../../assets/images/upload_icon.png";
-import greater_than from "../../../assets/images/greater_than.png";
 import check from "../../../assets/images/check.png";
-import { FiCopy } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
 import { FiChevronLeft } from "react-icons/fi";
 import Swal from "sweetalert2";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 import JoditEditor from "jodit-react";
-import { endsWith } from "lodash";
+
 const ResourcePage = () => {
-  const [showModal, setShowModal] = useState(false);
   const [additionalFields, setAdditionalFields] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [resources, setResources] = useState([]);
-  const [category, setCategory] = useState([]);
   const [formData, setFormData] = useState({
     resource_title: "",
     resource_body: "",
@@ -33,6 +27,7 @@ const ResourcePage = () => {
   const [showFiles, setShowFiles] = useState(false);
 
   const editor = useRef(null);
+  // eslint-disable-next-line no-unused-vars
   const [viewAsHtml, setViewAsHtml] = useState(false);
 
   const [role, setRole] = useState("");
@@ -105,7 +100,7 @@ const ResourcePage = () => {
     "source",
     "|",
   ];
-  
+
   const config = {
     readonly: role !== "Admin", // Make editor read-only for non-Admins
     toolbarSticky: false,
@@ -130,7 +125,6 @@ const ResourcePage = () => {
       },
     },
   };
-  
 
   const addNewField = () => {
     setAdditionalFields([...additionalFields, { content: "" }]);
@@ -178,7 +172,7 @@ const ResourcePage = () => {
     }
   };
 
-  const showSelectedFiles = (e) => {
+  const showSelectedFiles = () => {
     setShowFiles((prevShowFiles) => !prevShowFiles);
   };
 
@@ -233,7 +227,6 @@ const ResourcePage = () => {
 
   return (
     <div className="container">
-      <StickyHeader />
       <a href="/resources-list" className="back-btn">
         <h3 className="title-page">
           <FiChevronLeft className="icon-left" /> Add New Resource

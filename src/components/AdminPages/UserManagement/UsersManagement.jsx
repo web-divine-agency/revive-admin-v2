@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
-import '../../../App.css';
-import 'font-awesome/css/font-awesome.min.css';
+import { useState, useEffect } from "react";
+import DataTable from "react-data-table-component";
+import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/list-view.png";
 import edit_icon from "../../../assets/images/edit-details.png";
 import delete_icon from "../../../assets/images/delete-log.png";
-import { useNavigate, } from 'react-router-dom';
-import { Modal, } from 'react-bootstrap';
-import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import check from "../../../assets/images/check.png";
-import {useLoader} from "../../Loaders/LoaderContext";
-import StickyHeader from '../../SideBar/StickyHeader';
-
-
+import { useLoader } from "../../Loaders/LoaderContext";
 
 function UserRoleManagement() {
   const navigate = useNavigate();
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [roles, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const {setLoading} = useLoader();
-
+  const { setLoading } = useLoader();
 
   // Get all roles
   useEffect(() => {
@@ -38,22 +33,19 @@ function UserRoleManagement() {
       }
     };
     fetchRoles();
-  }, []); 
-  
-
+  }, []);
 
   const fetchRoleDetails = async (roleId) => {
-    
     try {
       const response = await axiosInstance.get(`/role/${roleId}`);
       const roleData = response.data;
       setSelectedUserRole({
         role_name: roleData.role_name,
-        permissions: roleData.permissions
+        permissions: roleData.permissions,
       });
       setShowModal(true);
     } catch (error) {
-      console.error('Error fetching role details:', error);
+      console.error("Error fetching role details:", error);
     }
   };
 
@@ -62,7 +54,7 @@ function UserRoleManagement() {
       title: "Are you sure?",
       text: "You won’t be able to revert this!.",
       showCancelButton: true,
-      icon: 'warning',
+      icon: "warning",
       confirmButtonColor: "#EC221F",
       cancelButtonColor: "#00000000",
       cancelTextColor: "#000000",
@@ -91,7 +83,7 @@ function UserRoleManagement() {
               title: "custom-swal-title",
             },
           });
-        } catch (error) {
+        } catch {
           Swal.fire({
             title: "Error!",
             text: "There was an error deleting the role.",
@@ -119,14 +111,14 @@ function UserRoleManagement() {
   // Table columns
   const columns = [
     {
-      name: 'Role',
-      selector: row => row.role_name,
-      sortable: true
+      name: "Role",
+      selector: (row) => row.role_name,
+      sortable: true,
     },
     {
-      name: 'Role Description',
-      selector: row => row.role_description,
-      sortable: true
+      name: "Role Description",
+      selector: (row) => row.role_description,
+      sortable: true,
     },
     {
       name: "Action",
@@ -151,7 +143,7 @@ function UserRoleManagement() {
             height="25"
             style={{ cursor: "pointer" }}
           />
-         {row.role_name !== "Admin" && row.role_name !== "Staff" && (
+          {row.role_name !== "Admin" && row.role_name !== "Staff" && (
             <img
               className="ml-3"
               src={delete_icon}
@@ -171,17 +163,19 @@ function UserRoleManagement() {
 
   return (
     <div className="container">
-      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6 custom-content-container">
           <h3 className="title-page">User Role Management</h3>
-          <div className='top-filter'>
-            <button onClick={() => navigate("/add-new-role")} className="btn btn-primary float-start add-user-btn">
+          <div className="top-filter">
+            <button
+              onClick={() => navigate("/add-new-role")}
+              className="btn btn-primary float-start add-user-btn"
+            >
               Add New Role
             </button>
             <br></br>
           </div>
-         <div style={{height: "20px"}}></div>
+          <div style={{ height: "20px" }}></div>
           <div className="container-content">
             <DataTable
               className="dataTables_wrapper"
@@ -196,23 +190,25 @@ function UserRoleManagement() {
       </div>
 
       {selectedUserRole && (
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Role Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h2>{selectedUserRole.role_name} Permissions</h2>
-          {selectedUserRole.permissions
-            .filter((permission) => {
-              return selectedUserRole.role_name !== 'Admin' || permission.permission_name !== 'Generate Ticket';
-            })
-            .map((permission, index) => (
-              <p key={index}>{permission.permission_name}</p>
-            ))}
-        </Modal.Body>
-      </Modal>
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Role Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h2>{selectedUserRole.role_name} Permissions</h2>
+            {selectedUserRole.permissions
+              .filter((permission) => {
+                return (
+                  selectedUserRole.role_name !== "Admin" ||
+                  permission.permission_name !== "Generate Ticket"
+                );
+              })
+              .map((permission, index) => (
+                <p key={index}>{permission.permission_name}</p>
+              ))}
+          </Modal.Body>
+        </Modal>
       )}
-
     </div>
   );
 }

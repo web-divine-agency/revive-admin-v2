@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import "../../../App.css";
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import view_icon from "../../../assets/images/list-view.png";
 
-//import printer from '../../../assets/images/printer.png';
-import delete_icon from "../../../assets/images/delete_icon.png";
-import check from "../../../assets/images/check.png";
 import axiosInstance from "../../../../axiosInstance.js";
-import { format } from "date-fns";
 import { Modal, Button } from "react-bootstrap";
 import {
   Document,
@@ -24,16 +19,14 @@ import {
 } from "@react-pdf/renderer";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import Swal from "sweetalert2";
 import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
-import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/arialn.ttf";
+import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/ARIALN.TTF";
 import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
 import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
 import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
 import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
 import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { useLoader } from "../../Loaders/LoaderContext";
-import StickyHeader from "../../SideBar/StickyHeader";
 
 Font.register({
   family: "Arial",
@@ -74,7 +67,6 @@ function TicketsHistory() {
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
-  const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const { setLoading } = useLoader();
 
@@ -1591,7 +1583,7 @@ function TicketsHistory() {
                                 fontFamily: "Aptos",
                               }}
                             >
-                              I'M CHEAPER THAN {"\n"}
+                              I&apos;M CHEAPER THAN {"\n"}
                               <Text
                                 style={{
                                   fontSize: "15px",
@@ -1780,7 +1772,7 @@ function TicketsHistory() {
                                 marginBottom: "73px",
                               }}
                             >
-                              I'M CHEAPER THAN {"\n"}
+                              I&apos;M CHEAPER THAN {"\n"}
                               <Text
                                 style={{
                                   fontSize: "15px",
@@ -1997,7 +1989,6 @@ function TicketsHistory() {
   };
 
   const handleViewTicketClick = async (id) => {
-    
     try {
       const response = await axiosInstance.get(`/ticket/${id}`);
       const ticket = response.data;
@@ -2005,9 +1996,9 @@ function TicketsHistory() {
         id: ticket.id,
         ticketType: ticket.ticket_type_id,
         data:
-        typeof ticket.data === "string"
-          ? JSON.parse(ticket.data)
-          : ticket.data,  
+          typeof ticket.data === "string"
+            ? JSON.parse(ticket.data)
+            : ticket.data,
         date: new Date(ticket.createdAt),
       };
       setSelectedTicket(formattedTicketData);
@@ -2109,7 +2100,6 @@ function TicketsHistory() {
 
   return (
     <div className="container">
-      <StickyHeader/>
       <div className="row">
         <div className="col-lg-12 col-md-6">
           <h3>Tickets History List</h3>
