@@ -10,8 +10,8 @@ import ForgotPassword from "./components/PasswordReset/ForgotPassword";
 import ResetPassword from "./components/PasswordReset/ResetPassword";
 import CheckEmail from "./components/PasswordReset/CheckEmail";
 
-import UsersList from "./components/AdminPages/UsersList/UsersLIst";
-import AddNewUser from "./components/AdminPages/UsersList/AddNewUser";
+import UsersList from "./components/AdminPages/UsersList/UsersList";
+import UsersCreate from "./components/AdminPages/UsersList/UsersCreate";
 import EditUser from "./components/AdminPages/UsersList/EditUser";
 import UserRoleManagement from "./components/AdminPages/UserManagement/UsersManagement";
 import AddNewRole from "./components/AdminPages/UserManagement/AddNewRole";
@@ -181,7 +181,7 @@ export default function AppRouter() {
             path="/add-new-user"
             element={
               <ProtectedRoute
-                element={<AddNewUser />}
+                element={<UsersCreate />}
                 allowedRoles={["Admin"]}
               />
             }

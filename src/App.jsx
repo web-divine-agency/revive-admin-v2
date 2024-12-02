@@ -13,6 +13,7 @@ import AppRouter from "./AppRouter";
 import Global from "./util/global";
 
 import { LoaderProvider } from "./components/Loaders/LoaderContext";
+import { SnackbarProvider } from "notistack";
 
 export default function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
@@ -22,12 +23,20 @@ export default function App() {
     setSidebarActive,
   };
 
+  const snackbar = {
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "left",
+    },
+  };
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={customTheme()}>
         <Global.Provider value={globals}>
           <LoaderProvider>
             <AppRouter />
+            <SnackbarProvider anchorOrigin={snackbar.anchorOrigin} />
           </LoaderProvider>
         </Global.Provider>
       </ThemeProvider>

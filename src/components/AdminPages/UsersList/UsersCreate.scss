@@ -1,0 +1,19 @@
+#users-create {
+  .MuiPaper-root {
+    padding: 24px;
+
+    .btn {
+      &-cancel {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  #users-create {
+    .MuiPaper-root {
+      width: 50%;
+    }
+  }
+}

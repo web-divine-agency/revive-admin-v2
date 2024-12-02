@@ -26,7 +26,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import { Helmet } from "react-helmet";
 
-function UsersList() {
+export default function UsersList() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -340,71 +340,71 @@ function UsersList() {
       <NavSidebar />
       <Box component={"section"} id="users-list" className="panel">
         <Container maxWidth="false">
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12 }}>
-              <Typography component={"h1"} className="section-title">
-                Account Management
-              </Typography>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <div className="top-filter">
-                <select
-                  name="filter"
-                  className="filter"
-                  value={roleFilter}
-                  onChange={(e) => setRoleFilter(e.target.value)}
+          <Typography component={"h1"} className="section-title">
+            Account Management
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/add-new-user")}
                 >
-                  <option value="">All Roles</option>
-                  {roles.map((role) => (
-                    <option key={role.id} value={role.role_name}>
-                      {role.role_name}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="filter"
-                  className="filter"
-                  value={selectedBranchId}
-                  onChange={handleBranchSelect}
-                >
-                  <option value="">All Branches</option>
-                  {branches.map((branch) => (
-                    <option key={branch.id} value={branch.id}>
-                      {branch.branch_name}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  className="search-bar"
-                  type="search"
-                  placeholder="Search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
+                  Create User
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <div className="top-filter">
+                  <select
+                    name="filter"
+                    className="filter"
+                    value={roleFilter}
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                  >
+                    <option value="">All Roles</option>
+                    {roles.map((role) => (
+                      <option key={role.id} value={role.role_name}>
+                        {role.role_name}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="filter"
+                    className="filter"
+                    value={selectedBranchId}
+                    onChange={handleBranchSelect}
+                  >
+                    <option value="">All Branches</option>
+                    {branches.map((branch) => (
+                      <option key={branch.id} value={branch.id}>
+                        {branch.branch_name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    className="search-bar"
+                    type="search"
+                    placeholder="Search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <div className="container-content">
+                  <DataTable
+                    className="dataTables_wrapper"
+                    columns={columns}
+                    data={filteredUsers}
+                    pagination
+                    paginationPerPage={20}
+                    paginationRowsPerPageOptions={[20, 30]}
+                    responsive
+                  />
+                </div>
+              </Grid>
             </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Button
-                variant="contained"
-                onClick={() => navigate("/add-new-user")}
-              >
-                Add User
-              </Button>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <div className="container-content">
-                <DataTable
-                  className="dataTables_wrapper"
-                  columns={columns}
-                  data={filteredUsers}
-                  pagination
-                  paginationPerPage={20}
-                  paginationRowsPerPageOptions={[20, 30]}
-                  responsive
-                />
-              </div>
-            </Grid>
-          </Grid>
+          </Paper>
         </Container>
       </Box>
       {selectedUser && (
@@ -505,5 +505,3 @@ function UsersList() {
     </React.Fragment>
   );
 }
-
-export default UsersList;

@@ -9,7 +9,7 @@ export function paginate(list = [], show) {
   );
 }
 
-export function snackbar(msg, variant, duration) {
+export function snackbar(msg, variant, duration = 3000) {
   enqueueSnackbar(msg, {
     variant: variant,
     autoHideDuration: duration,
