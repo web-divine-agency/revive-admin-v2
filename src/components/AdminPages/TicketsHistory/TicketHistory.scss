@@ -1,5 +1,11 @@
 #tickets-list {
   .MuiPaper-root {
     padding: 24px;
+
+    .btn {
+      &-create {
+        margin-right: 8px;
+      }
+    }
   }
 }

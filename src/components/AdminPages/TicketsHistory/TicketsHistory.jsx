@@ -12,7 +12,7 @@ import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-norm
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import view_icon from "../../../assets/images/list-view.png";
 
 import delete_icon from "../../../assets/images/delete-log.png";
@@ -2227,6 +2227,9 @@ function TicketsHistory() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
+                <Button component={Link} to="/generate-tickets" variant="contained" className="btn btn-create">
+                  Generate Tickets
+                </Button>
                 <Button
                   variant="contained"
                   onClick={handleMassDelete}
