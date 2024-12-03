@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import "../../../Custom.css";
 import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
 import Swal from "sweetalert2";

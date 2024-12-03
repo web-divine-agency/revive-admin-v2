@@ -79,7 +79,7 @@ export default function NavSidebar() {
             {role === "Admin" && (
               <ListItem>
                 <Link
-                  to="/tickets-history"
+                  to="/tickets"
                   onClick={() => setSidebarActive(false)}
                 >
                   <ConfirmationNumberIcon />

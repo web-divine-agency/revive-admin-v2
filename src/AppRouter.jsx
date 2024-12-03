@@ -163,7 +163,7 @@ export default function AppRouter() {
             }
           />
           <Route
-            path="/tickets-history"
+            path="/tickets"
             element={
               <ProtectedRoute
                 element={<TicketsHistory />}

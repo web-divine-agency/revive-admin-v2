@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import {
@@ -17,11 +18,16 @@ import Grid from "@mui/material/Grid2";
 
 import "./UsersCreate.scss";
 
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
 import { snackbar } from "../../../util/helper";
 
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+
+import axiosInstance from "../../../../axiosInstance";
+
 export default function UsersCreate() {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -44,7 +50,7 @@ export default function UsersCreate() {
       !user.email ||
       !user.gender ||
       !user.username ||
-      !user.role_name
+      !user.role
     ) {
       return "All fields are required.";
     }
@@ -74,6 +80,24 @@ export default function UsersCreate() {
     if (valid) {
       snackbar(valid, "error");
     }
+
+    axiosInstance
+      .post("/addUser", {
+        last_name: user.lastName,
+        first_name: user.firstName,
+        branch_ids: [1, 2, 3],
+        password: user.password,
+        email: user.email,
+        sex: user.gender,
+        username: user.username,
+        role_name: user.role,
+      })
+      .then(() => {
+        navigate("/userlist");
+      })
+      .catch(() => {
+        snackbar("Oops! something went wrong", "error");
+      });
   };
 
   return (
@@ -166,8 +190,8 @@ export default function UsersCreate() {
                     value={user.role}
                     onChange={(event) => handleOnChange(event)}
                   >
-                    <MenuItem value={"r1"}>Role 1</MenuItem>
-                    <MenuItem value={"r2"}>Role 2</MenuItem>
+                    <MenuItem value={"Admin"}>Admin</MenuItem>
+                    <MenuItem value={"Staff"}>Staff</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

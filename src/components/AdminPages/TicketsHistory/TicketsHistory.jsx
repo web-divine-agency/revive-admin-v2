@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import "../../../Custom.css";
+import { Helmet } from "react-helmet";
+
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+
+import "./TicketHistory.scss";
+
+import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
+
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import view_icon from "../../../assets/images/list-view.png";
 
-//import printer from '../../../assets/images/printer.png';
 import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
 import axiosInstance from "../../../../axiosInstance.js";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {
   Document,
   Page,
@@ -24,45 +31,16 @@ import {
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import Swal from "sweetalert2";
-import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
-import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/ARIALN.TTF";
-import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
-import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
-import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
-import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
-import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
+
 import { useLoader } from "../../Loaders/LoaderContext";
 import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
 import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
 
 Font.register({
-  family: "Arial",
-  src: ArialBold,
+  family: "Outfit",
+  src: Outfit,
 });
-Font.register({
-  family: "ArialNormal",
-  src: ArialNormal,
-});
-Font.register({
-  family: "ArialItalic",
-  src: ArialItalic,
-});
-Font.register({
-  family: "ArialNarrow",
-  src: ArialNarrow,
-});
-Font.register({
-  family: "Aptos",
-  src: Aptos,
-});
-Font.register({
-  family: "AptosBold",
-  src: AptosBold,
-});
-Font.register({
-  family: "Barlow",
-  src: BarlowCondensed,
-});
+
 function TicketsHistory() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -277,7 +255,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "24px",
                               textTransform: "uppercase",
-                              fontFamily: "BarlowCondensed",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                             }}
                           >
@@ -287,7 +265,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "16px",
                               textTransform: "uppercase",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                               marginTop: "3px",
                             }}
@@ -299,7 +277,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "16px",
                               textTransform: "uppercase",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                             }}
                           >
@@ -311,7 +289,7 @@ function TicketsHistory() {
                               fontSize: "50px",
                               paddingBottom: 2,
                               // paddingTop: 2,
-                              fontFamily: "Arial",
+                              fontFamily: "Outfit",
                             }}
                           >
                             {item.price || "Price"}
@@ -321,7 +299,7 @@ function TicketsHistory() {
                               fontSize: "9px",
                               textAlign: "center",
                               marginBottom: "116px",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                             }}
                           >
                             REVIVE OFFER AVAILABLE {"\n"}
@@ -342,9 +320,9 @@ function TicketsHistory() {
                         >
                           <Text
                             style={{
-                              fontSize: "48px",
+                              fontSize: "28px",
                               textTransform: "uppercase",
-                              fontFamily: "BarlowCondensed",
+                              fontFamily: "Outfit",
                               // fontStretch: "condensed", // Condensed style
                               textAlign: "center",
                             }}
@@ -353,10 +331,10 @@ function TicketsHistory() {
                           </Text>
                           <Text
                             style={{
-                              fontSize: "48px",
+                              fontSize: "22px",
                               paddingBottom: 2,
                               // paddingTop: 2,
-                              fontFamily: "Arial",
+                              fontFamily: "Outfit",
                             }}
                           >
                             {item.price || "Price"}
@@ -365,7 +343,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "15px",
                               textTransform: "uppercase",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                             }}
                           >
@@ -376,7 +354,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "15px",
                               textTransform: "uppercase",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                             }}
                           >
@@ -387,7 +365,7 @@ function TicketsHistory() {
                             <Text
                               style={{
                                 fontSize: "10px",
-                                fontFamily: "AptosBold",
+                                fontFamily: "Outfit",
                                 marginTop: "2px",
                               }}
                             >
@@ -399,7 +377,7 @@ function TicketsHistory() {
                               style={{
                                 fontSize: "9px",
                                 textAlign: "center",
-                                fontFamily: "Aptos",
+                                fontFamily: "Outfit",
                                 marginBottom:
                                   item.optionType === "With RRP"
                                     ? "92px"
@@ -414,7 +392,7 @@ function TicketsHistory() {
                               style={{
                                 fontSize: "9px",
                                 textAlign: "center",
-                                fontFamily: "Aptos",
+                                fontFamily: "Outfit",
                                 marginBottom:
                                   item.optionType === "With RRP"
                                     ? "92px"
@@ -440,7 +418,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "24px",
                               textTransform: "uppercase",
-                              fontFamily: "BarlowCondensed",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                               marginTop: 10,
                               lineHeight: "1px",
@@ -452,7 +430,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "26px",
                               textTransform: "uppercase",
-                              fontFamily: "BarlowCondensed",
+                              fontFamily: "Outfit",
                               textAlign: "center",
                               // marginTop: isPDFView ? 10 : 0,
                               lineHeight: "1px",
@@ -464,7 +442,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "50px",
-                              fontFamily: "Arial",
+                              fontFamily: "Outfit",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -478,7 +456,7 @@ function TicketsHistory() {
                             style={{
                               marginTop: "5px",
                               fontSize: "15px",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -491,7 +469,7 @@ function TicketsHistory() {
                             style={{
                               marginTop: "5px",
                               fontSize: "15px",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -506,7 +484,7 @@ function TicketsHistory() {
                               // paddingTop: "5px",
                               fontSize: "9px",
                               textAlign: "center",
-                              fontFamily: "Aptos",
+                              fontFamily: "Outfit",
                               lineHeight: "1px",
                               marginBottom: "85px",
                               paddingBottom: 8,
@@ -529,7 +507,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "72px",
-                              fontFamily: "BarlowCondensed",
+                              fontFamily: "Outfit",
                               textTransform: "uppercase",
                               marginTop: 10,
                             }}
@@ -551,7 +529,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "200px",
-                              fontFamily: "Arial",
+                              fontFamily: "Outfit",
                               marginTop: "-20px",
                             }}
                           >
@@ -2235,117 +2213,132 @@ function TicketsHistory() {
   };
 
   return (
-    <div className="container">
+    <React.Fragment>
+      <Helmet>
+        <title>Resources | Revive Pharmacy </title>
+      </Helmet>
       <NavTopbar />
       <NavSidebar />
-      <section className="row panel">
-        <div className="col-lg-12 col-md-6">
-          <h3 className="title-page">Tickets History List</h3>
-          <div className="top-filter">
-            <select
-              // className="mr-4"
-              name="filter"
-              className="filter"
-              value={selectedBranchId}
-              onChange={handleBranchSelect}
-            >
-              <option value="">All Branches</option>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.branch_name}
-                </option>
-              ))}
-            </select>
+      <Box component={"section"} id="tickets-list" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Tickets
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  variant="contained"
+                  onClick={handleMassDelete}
+                  disabled={selectedTickets.length === 0}
+                  color="red"
+                >
+                  Delete Selected
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <div className="top-filter">
+                  <select
+                    // className="mr-4"
+                    name="filter"
+                    className="filter"
+                    value={selectedBranchId}
+                    onChange={handleBranchSelect}
+                  >
+                    <option value="">All Branches</option>
+                    {branches.map((branch) => (
+                      <option key={branch.id} value={branch.id}>
+                        {branch.branch_name}
+                      </option>
+                    ))}
+                  </select>
 
-            <select
-              name="filter"
-              className="filter"
-              value={selectedTicketTypeId}
-              onChange={handleTicketTypeSelect}
-            >
-              <option value="">Filter by Ticket Type</option>
-              {ticketTypes.map((ticketType) => (
-                <option key={ticketType.id} value={ticketType.id}>
-                  {ticketType.ticket_type}
-                </option>
-              ))}
-            </select>
+                  <select
+                    name="filter"
+                    className="filter"
+                    value={selectedTicketTypeId}
+                    onChange={handleTicketTypeSelect}
+                  >
+                    <option value="">Filter by Ticket Type</option>
+                    {ticketTypes.map((ticketType) => (
+                      <option key={ticketType.id} value={ticketType.id}>
+                        {ticketType.ticket_type}
+                      </option>
+                    ))}
+                  </select>
 
-            <input
-              className="search-bar"
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="container-content">
-            <button
-              className="btn btn-danger mb-3"
-              onClick={handleMassDelete}
-              disabled={selectedTickets.length === 0}
-            >
-              Delete Selected
-            </button>
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredTickets}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
-          </div>
-        </div>
-      </section>
+                  <input
+                    className="search-bar"
+                    type="text"
+                    placeholder="Search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={filteredTickets}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20]}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {selectedTicket && (
+                  <Modal show={showModal} onHide={closeModal} size="lg">
+                    <Modal.Header closeButton>
+                      <Modal.Title>View Tickets</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Text>
+                        Date Created:{" "}
+                        {(() => {
+                          const date = new Date(selectedTicket.date);
+                          const options = { timeZone: "Australia/Sydney" };
 
-      {selectedTicket && (
-        <Modal show={showModal} onHide={closeModal} size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>Ticket History View</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Text>
-              Date Created:{" "}
-              {(() => {
-                const date = new Date(selectedTicket.date);
-                const options = { timeZone: "Australia/Sydney" };
+                          const month = date.toLocaleString("en-AU", {
+                            month: "short",
+                            ...options,
+                          }); // 'Oct'
+                          const day = date.toLocaleString("en-AU", {
+                            day: "numeric",
+                            ...options,
+                          }); // '10'
+                          const year = date.toLocaleString("en-AU", {
+                            year: "numeric",
+                            ...options,
+                          }); // '2024'
+                          const time = date.toLocaleString("en-AU", {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            hour12: true,
+                            ...options,
+                          }); // '12:27 PM'
 
-                const month = date.toLocaleString("en-AU", {
-                  month: "short",
-                  ...options,
-                }); // 'Oct'
-                const day = date.toLocaleString("en-AU", {
-                  day: "numeric",
-                  ...options,
-                }); // '10'
-                const year = date.toLocaleString("en-AU", {
-                  year: "numeric",
-                  ...options,
-                }); // '2024'
-                const time = date.toLocaleString("en-AU", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                  ...options,
-                }); // '12:27 PM'
+                          return `${month} ${day}, ${year} ${time}`;
+                        })()}
+                      </Text>
 
-                return `${month} ${day}, ${year} ${time}`;
-              })()}
-            </Text>
-
-            <PDFViewer showToolbar={true} width="100%" height="600">
-              <TicketPDF selectedTicket={selectedTicket} />
-            </PDFViewer>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </div>
+                      <PDFViewer showToolbar={true} width="100%" height="600">
+                        <TicketPDF selectedTicket={selectedTicket} />
+                      </PDFViewer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={closeModal}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                )}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 

@@ -224,7 +224,7 @@ export default function UsersList() {
   const columns = [
     {
       name: "Name",
-      width: "40%",
+      width: "30%",
       selector: (row) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
@@ -244,17 +244,16 @@ export default function UsersList() {
               {" "}
               {row.first_name} {row.last_name}
             </span>
-            <span className="user-email-row">{row.email}</span>
           </div>
         </div>
       ),
       sortable: true,
     },
-    // {
-    //   name: "Email",
-    //   selector: (row) => row.email || "N/A",
-    //   sortable: true,
-    // },
+    {
+      name: "Email",
+      selector: (row) => row.email || "N/A",
+      sortable: true,
+    },
     // {
     //   name: "Username",
     //   selector: (row) => row.username || "N/A",
@@ -280,7 +279,7 @@ export default function UsersList() {
       sortable: true,
     },
     {
-      name: "Action",
+      name: "Actions",
       width: "15%",
       selector: (row) => (
         <div>
