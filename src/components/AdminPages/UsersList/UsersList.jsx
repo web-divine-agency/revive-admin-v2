@@ -6,7 +6,7 @@ import delete_icon from "../../../assets/images/delete-log.png";
 import man from "../../../assets/images/man.png";
 import woman from "../../../assets/images/woman.png";
 import check from "../../../assets/images/check.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
@@ -345,10 +345,7 @@ export default function UsersList() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button
-                  variant="contained"
-                  onClick={() => navigate("/add-new-user")}
-                >
+                <Button component={Link} to="/add-new-user" variant="contained">
                   Create User
                 </Button>
               </Grid>

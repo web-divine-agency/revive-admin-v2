@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/list-view.png";
@@ -11,7 +11,12 @@ import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiChevronLeft } from "react-icons/fi";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 function TemplateManagement() {
   const navigate = useNavigate();
@@ -259,103 +264,119 @@ function TemplateManagement() {
   ];
 
   return (
-    <div className="container">
-      <a href="/generate-tickets" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" /> Manage Staff Template Access
-        </h3>
-      </a>
-      <div className="row">
-        <div className="col-lg-12 col-md-6">
-          <div className="top-filter">
-            <select
-              name="filter"
-              className="mr-4"
-              id="filter"
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="">All Roles</option>
-              {roles.map((role) => (
-                <option key={role.id} value={role.role_name}>
-                  {role.role_name}
-                </option>
-              ))}
-            </select>
-            <select
-              name="filter"
-              id="filter"
-              value={selectedBranchId}
-              onChange={handleBranchSelect}
-            >
-              <option value="">All Branches</option>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.branch_name}
-                </option>
-              ))}
-            </select>
-            <input
-              id="search-bar"
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredUsers}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
-          </div>
-        </div>
-      </div>
-
-      {selectedUser && (
-        <Modal show={showModal} size="lg" onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>User Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="profile-container">
-              <div className="profile-image">
-                <img
-                  src={selectedUser.profileImage}
-                  alt={selectedUser.name}
-                  style={{
-                    width: "170px",
-                    height: "auto",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-                <center>
-                  {" "}
-                  <h2> {selectedUser.name} </h2>
-                </center>
-              </div>
-
-              <div className="ticketTypeListContainer">
-                <p> Allowed Templates: </p>
-                <h5>
-                  {selectedUser.ticket_type.split(",").map((type, index) => (
-                    <p className="allowedTickets" key={index}>
-                      {type.trim()}
-                    </p>
+    <React.Fragment>
+      <Helmet>
+        <title>Template Access | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="tickets-list" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Manage Staff Template Access
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Generate Tickets
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <select
+                  name="filter"
+                  className="filter"
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                >
+                  <option value="">All Roles</option>
+                  {roles.map((role) => (
+                    <option key={role.id} value={role.role_name}>
+                      {role.role_name}
+                    </option>
                   ))}
-                </h5>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-      )}
-    </div>
+                </select>
+                <select
+                  name="filter"
+                  className="filter"
+                  value={selectedBranchId}
+                  onChange={handleBranchSelect}
+                >
+                  <option value="">All Branches</option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.branch_name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="search-bar"
+                  type="text"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={filteredUsers}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20]}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {selectedUser && (
+                  <Modal show={showModal} size="lg" onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>User Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div className="profile-container">
+                        <div className="profile-image">
+                          <img
+                            src={selectedUser.profileImage}
+                            alt={selectedUser.name}
+                            style={{
+                              width: "170px",
+                              height: "auto",
+                              borderRadius: "50%",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <center>
+                            {" "}
+                            <h2> {selectedUser.name} </h2>
+                          </center>
+                        </div>
+
+                        <div className="ticketTypeListContainer">
+                          <p> Allowed Templates: </p>
+                          <h5>
+                            {selectedUser.ticket_type
+                              .split(",")
+                              .map((type, index) => (
+                                <p className="allowedTickets" key={index}>
+                                  {type.trim()}
+                                </p>
+                              ))}
+                          </h5>
+                        </div>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                )}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 

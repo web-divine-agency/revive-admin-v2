@@ -61,9 +61,9 @@ function customTheme() {
     },
     palette: {
       primary: {
-        light: lime[700],
-        main: lime[900],
-        dark: lime[800],
+        light: lime[500],
+        main: lime[600],
+        dark: lime[700],
         contrastText: "#fff",
       },
       white: {

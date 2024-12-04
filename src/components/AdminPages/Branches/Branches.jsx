@@ -1,17 +1,26 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import DataTable from "react-data-table-component";
+
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+
 import "font-awesome/css/font-awesome.min.css";
+import "./BranchesList.scss";
+
 import view_icon from "../../../assets/images/list-view.png";
 import edit_icon from "../../../assets/images/edit-details.png";
 import delete_icon from "../../../assets/images/delete-log.png";
 import check from "../../../assets/images/check.png";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
+
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
 
 function Branches() {
   const navigate = useNavigate();
@@ -261,107 +270,117 @@ function Branches() {
   ];
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12 col-md-6 custom-content-container">
-          <h3 className="title-page">Branches</h3>
-          <div className="top-filter">
-            <select
-              name="filter"
-              id="filter"
-              onChange={handleBranchSelect}
-              value={selectedBranchId}
-            >
-              <option value="">All Branches</option>
-              {data.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.branch_name}
-                </option>
-              ))}
-            </select>
-            <input
-              id="search-bar"
-              type="text"
-              placeholder="Search Branch or Address"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button
-              onClick={() => navigate("/add-branch")}
-              className="btn btn-primary float-end add-user-btn"
-            >
-              {/* <i className="fa fa-plus"></i>  */}
-              Add New Branch
-            </button>
-          </div>
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredData}
-              pagination
-              paginationPerPage={20}
-              paginationRowsPerPageOptions={[20, 30]}
-            />
-          </div>
-        </div>
-      </div>
-
-      {selectedBranches && (
-        <Modal show={showModal} onHide={handleCloseModal} size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>Branch Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="branch-container">
-              <h2>{selectedBranches.branch_name}</h2>
-              <h5>Full Address:</h5>
-              <p>{selectedBranches.address}</p>
-              <h5>Operating Hours</h5>
-              <p>
-                Open: {selectedBranches.operating_hours?.open} - Close:{" "}
-                {selectedBranches.operating_hours?.close}
-              </p>
-              <h5>Status</h5>
-              <p>{selectedBranches.status}</p>
-            </div>
-            <div className="branch-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Owner</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>John Doe</td>
-                    <td>john.doe@example.com</td>
-                    <td>Admin</td>
-                  </tr>
-                  <tr>
-                    <td>Jane Smith</td>
-                    <td>jane.smith@example.com</td>
-                    <td>Admin</td>
-                  </tr>
-                  <tr>
-                    <td>Michael Johnson</td>
-                    <td>michael.johnson@example.com</td>
-                    <td>Staff</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Modal.Body>
-          {/* <Modal.Footer>
+    <React.Fragment>
+      <Helmet>
+        <title>Branches | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="branches-list" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Branches
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button variant="contained" component={Link} to="/add-branch">
+                  Add New Branch
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <select
+                  name="filter"
+                  className="filter"
+                  onChange={handleBranchSelect}
+                  value={selectedBranchId}
+                >
+                  <option value="">All Branches</option>
+                  {data.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.branch_name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="search-bar"
+                  type="text"
+                  placeholder="Search Branch or Address"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={filteredData}
+                  pagination
+                  paginationPerPage={20}
+                  paginationRowsPerPageOptions={[20, 30]}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {selectedBranches && (
+                  <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                    <Modal.Header closeButton>
+                      <Modal.Title>Branch Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div className="branch-container">
+                        <h2>{selectedBranches.branch_name}</h2>
+                        <h5>Full Address:</h5>
+                        <p>{selectedBranches.address}</p>
+                        <h5>Operating Hours</h5>
+                        <p>
+                          Open: {selectedBranches.operating_hours?.open} -
+                          Close: {selectedBranches.operating_hours?.close}
+                        </p>
+                        <h5>Status</h5>
+                        <p>{selectedBranches.status}</p>
+                      </div>
+                      <div className="branch-container">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Owner</th>
+                              <th>Email</th>
+                              <th>Role</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>John Doe</td>
+                              <td>john.doe@example.com</td>
+                              <td>Admin</td>
+                            </tr>
+                            <tr>
+                              <td>Jane Smith</td>
+                              <td>jane.smith@example.com</td>
+                              <td>Admin</td>
+                            </tr>
+                            <tr>
+                              <td>Michael Johnson</td>
+                              <td>michael.johnson@example.com</td>
+                              <td>Staff</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </Modal.Body>
+                    {/* <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>
               Close
             </Button>
           </Modal.Footer> */}
-        </Modal>
-      )}
-    </div>
+                  </Modal>
+                )}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 

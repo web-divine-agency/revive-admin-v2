@@ -232,7 +232,7 @@ export default function UsersCreate() {
                 <Button
                   variant="contained"
                   color="black"
-                  className="btn btn-cancel"
+                  className="mui-btn mui-btn-cancel"
                 >
                   Cancel
                 </Button>

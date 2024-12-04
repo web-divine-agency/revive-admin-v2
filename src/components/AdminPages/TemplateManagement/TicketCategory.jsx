@@ -1,15 +1,23 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
 import check from "../../../assets/images/check.png";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import { useLoader } from "../../Loaders/LoaderContext";
-import { FiChevronLeft } from "react-icons/fi";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import { useNavigate } from "react-router-dom";
 
-//import check from "../../../assets/images/check.png";
+import "./TicketCategory.scss";
 
 function TicketCategory() {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -136,79 +144,83 @@ function TicketCategory() {
     {
       name: "Action",
       selector: (row) => (
-        <div>
+        <Box sx={{ display: "flex" }}>
           {categories.map((category) => {
             const checkboxId = `cbx-${row.id}-${category.id}`; // Unique ID for each checkbox
             return (
-              <div key={category.id}>
-                <div className="checkbox-wrapper-46">
-                  <input
-                    id={checkboxId} // Assign unique ID here
-                    className="inp-cbx"
-                    type="checkbox"
-                    checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
-                    onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
-                  />
-                  <label htmlFor={checkboxId} className="cbx">
-                    {" "}
-                    {/* Label points to unique ID */}
-                    <span>
-                      <svg viewBox="0 0 12 10" height="10px" width="12px">
-                        <polyline points="1.5 6 4.5 9 10.5 1" />
-                      </svg>
-                    </span>
-                    <span>{category.category_name}</span>
-                  </label>
-                </div>
-              </div>
+              <Box key={category.id}>
+                <Box
+                  component={"input"}
+                  id={checkboxId} // Assign unique ID here
+                  className="inp-cbx"
+                  type="checkbox"
+                  checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
+                  onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
+                  sx={{ mr: 1 }}
+                />
+                <Box component={"label"} htmlFor={checkboxId} sx={{ mr: 2 }}>
+                  <span>{category.category_name}</span>
+                </Box>
+              </Box>
             );
           })}
-        </div>
+        </Box>
       ),
       sortable: false,
     },
   ];
 
   return (
-    <div className="container">
-      <a href="/generate-tickets" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" />
-          Tickets Category
-        </h3>
-      </a>
-      <div className="row">
-        <div className="col-lg-12 col-md-6">
-          <div className="top-filter">
-            <input
-              id="search-bar"
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={ticketTypes}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 25]}
-            />
-            <button
-              className="submit-btn mb-4 mt-4"
-              type="submit"
-              onClick={handleSave}
-            >
-              SAVE
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <React.Fragment>
+      <Helmet>
+        <title>Tickets | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="tickets-category" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Tickets
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Generate Tickets
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <input
+                  className="search-bar"
+                  type="text"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={ticketTypes}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 25]}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Button type="submit" variant="contained" onClick={handleSave}>
+                  Save Changes
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 

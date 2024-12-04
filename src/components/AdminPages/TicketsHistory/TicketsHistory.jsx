@@ -2215,7 +2215,7 @@ function TicketsHistory() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Resources | Revive Pharmacy </title>
+        <title>Tickets | Revive Pharmacy </title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
@@ -2227,7 +2227,12 @@ function TicketsHistory() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button component={Link} to="/generate-tickets" variant="contained" className="btn btn-create">
+                <Button
+                  component={Link}
+                  to="/generate-tickets"
+                  variant="contained"
+                  className="mui-btn mui-btn-create"
+                >
                   Generate Tickets
                 </Button>
                 <Button
