@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
 import man from "../../../assets/images/man.png";
@@ -10,6 +10,13 @@ import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import delete_icon from "../../../assets/images/delete-log.png";
 import { useLoader } from "../../Loaders/LoaderContext";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+
+import "./StaffLogs.scss";
 
 function StaffLogs() {
   const navigate = useNavigate();
@@ -300,67 +307,78 @@ function StaffLogs() {
     });
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12 col-md-6">
-          <h3 className="title-page">Staff Logs </h3>
-          <div className="top-filter">
-            <select
-              name="filter"
-              className="mr-4"
-              id="filter"
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-            >
-              <option value="">All Roles</option>
-              {roles.map((role) => (
-                <option key={role.id} value={role.role_name}>
-                  {role.role_name}
-                </option>
-              ))}
-            </select>
-            <select
-              name="filter"
-              id="filter"
-              value={branchFilter}
-              onChange={(e) => setBranchFilter(e.target.value)}
-            >
-              <option value="">All Branches</option>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.branch_name}>
-                  {branch.branch_name}
-                </option>
-              ))}
-            </select>
-            <input
-              id="search-bar"
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          <div className="container-content">
-            <button
-              className="btn btn-danger mb-3"
-              id="massDelete-btn"
-              onClick={handleMassDelete}
-              disabled={selectedLogs.length === 0}
-            >
-              Delete Selected
-            </button>
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredData}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <React.Fragment>
+      <Helmet>
+        <title>Staff Logs | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="staff-logs" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Staff Logs
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  variant="contained"
+                  onClick={handleMassDelete}
+                  disabled={selectedLogs.length === 0}
+                >
+                  Delete Selected
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <select
+                  name="filter"
+                  className="filter"
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                >
+                  <option value="">All Roles</option>
+                  {roles.map((role) => (
+                    <option key={role.id} value={role.role_name}>
+                      {role.role_name}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="filter"
+                  className="filter"
+                  value={branchFilter}
+                  onChange={(e) => setBranchFilter(e.target.value)}
+                >
+                  <option value="">All Branches</option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.branch_name}>
+                      {branch.branch_name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="search-bar"
+                  type="text"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={filteredData}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20]}
+                />
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 
