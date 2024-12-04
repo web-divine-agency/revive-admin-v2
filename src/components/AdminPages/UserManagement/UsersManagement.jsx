@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
 import view_icon from "../../../assets/images/list-view.png";
 import edit_icon from "../../../assets/images/edit-details.png";
 import delete_icon from "../../../assets/images/delete-log.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axiosInstance from "../../../../axiosInstance.js";
 import check from "../../../assets/images/check.png";
 import { useLoader } from "../../Loaders/LoaderContext";
+
+import "./UsersManagement.scss";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 function UserRoleManagement() {
   const navigate = useNavigate();
@@ -162,54 +169,61 @@ function UserRoleManagement() {
   ];
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12 col-md-6 custom-content-container">
-          <h3 className="title-page">User Role Management</h3>
-          <div className="top-filter">
-            <button
-              onClick={() => navigate("/add-new-role")}
-              className="btn btn-primary float-start add-user-btn"
-            >
-              Add New Role
-            </button>
-            <br></br>
-          </div>
-          <div style={{ height: "20px" }}></div>
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={roles}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
-          </div>
-        </div>
-      </div>
-
-      {selectedUserRole && (
-        <Modal show={showModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Role Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h2>{selectedUserRole.role_name} Permissions</h2>
-            {selectedUserRole.permissions
-              .filter((permission) => {
-                return (
-                  selectedUserRole.role_name !== "Admin" ||
-                  permission.permission_name !== "Generate Ticket"
-                );
-              })
-              .map((permission, index) => (
-                <p key={index}>{permission.permission_name}</p>
-              ))}
-          </Modal.Body>
-        </Modal>
-      )}
-    </div>
+    <React.Fragment>
+      <Helmet>
+        <title>Tickets | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="users-management" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            User Role Management
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button component={Link} to="/add-new-role" variant="contained">
+                  Add New Role
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <DataTable
+                  className="dataTables_wrapper"
+                  columns={columns}
+                  data={roles}
+                  pagination
+                  paginationPerPage={10}
+                  paginationRowsPerPageOptions={[10, 20]}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {selectedUserRole && (
+                  <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Role Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <h2>{selectedUserRole.role_name} Permissions</h2>
+                      {selectedUserRole.permissions
+                        .filter((permission) => {
+                          return (
+                            selectedUserRole.role_name !== "Admin" ||
+                            permission.permission_name !== "Generate Ticket"
+                          );
+                        })
+                        .map((permission, index) => (
+                          <p key={index}>{permission.permission_name}</p>
+                        ))}
+                    </Modal.Body>
+                  </Modal>
+                )}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+    </React.Fragment>
   );
 }
 
