@@ -57,7 +57,7 @@ function customTheme() {
       },
     },
     typography: {
-      fontFamily: `"Outfit Variable", sans-serif`,
+      fontFamily: `"Outfit Variable", sans-serif, Arial`,
     },
     palette: {
       primary: {
@@ -83,7 +83,7 @@ function customTheme() {
         main: red[900],
         dark: red[800],
         contrastText: "#fff",
-      }
+      },
     },
   });
 }
