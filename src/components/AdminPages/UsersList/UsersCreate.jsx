@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import {
   Box,
   Button,
+  Chip,
   Container,
   FormControl,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Paper,
   Select,
   TextField,
@@ -33,11 +35,16 @@ export default function UsersCreate() {
     lastName: "",
     gender: "",
     username: "",
-    branch: "",
+    branchIds: [],
     role: "",
     email: "",
     password: "",
     confirmPassword: "",
+  });
+
+  const [branches, setBranches] = useState({
+    names: [],
+    list: [],
   });
 
   const validation = () => {
@@ -85,7 +92,7 @@ export default function UsersCreate() {
       .post("/addUser", {
         last_name: user.lastName,
         first_name: user.firstName,
-        branch_ids: [1, 2, 3],
+        branch_ids: user.branchIds,
         password: user.password,
         email: user.email,
         sex: user.gender,
@@ -99,6 +106,24 @@ export default function UsersCreate() {
         snackbar("Oops! something went wrong", "error");
       });
   };
+
+  const handleGetBranches = () => {
+    axiosInstance
+      .get("/branches")
+      .then((response) => {
+        setBranches({
+          names: response.data.flatMap((branch) => branch.branch_name),
+          list: response.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    handleGetBranches();
+  }, []);
 
   return (
     <React.Fragment>
@@ -114,6 +139,58 @@ export default function UsersCreate() {
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <FormControl size="small" fullWidth>
+                  <InputLabel id="branches-multiple-chip-label">
+                    Branches
+                  </InputLabel>
+                  <Select
+                    labelId="branches-multiple-chip-label"
+                    id="branches-multiple-chip"
+                    multiple
+                    value={user.branchIds}
+                    onChange={({ target }) => {
+                      setUser((user) => ({
+                        ...user,
+                        branchIds: target.value,
+                      }));
+                    }}
+                    input={
+                      <OutlinedInput
+                        id="branches-multiple-chip"
+                        label="Branches"
+                      />
+                    }
+                    renderValue={(selected) => {
+                      let names = selected.map((i) =>
+                        branches.list.find((j) => j.id === i)
+                      );
+
+                      return (
+                        <Box
+                          sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+                        >
+                          {names.map((item, i) => (
+                            <Chip key={i} label={item.branch_name} />
+                          ))}
+                        </Box>
+                      );
+                    }}
+                    MenuProps={{
+                      style: {
+                        maxHeight: 72 * 4.5 + 8,
+                        width: 250,
+                      },
+                    }}
+                  >
+                    {branches.list.map((item, i) => (
+                      <MenuItem key={i} value={item.id}>
+                        {item.branch_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
                 <TextField
                   fullWidth
@@ -163,22 +240,7 @@ export default function UsersCreate() {
                   onChange={(event) => handleOnChange(event)}
                 />
               </Grid>
-              <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="branch-select-label">Branch</InputLabel>
-                  <Select
-                    labelId="branch-select-label"
-                    id="branch-select"
-                    label="Branch"
-                    name="branch"
-                    value={user.branch}
-                    onChange={(event) => handleOnChange(event)}
-                  >
-                    <MenuItem value={"b1"}>Branch 1</MenuItem>
-                    <MenuItem value={"b2"}>Branch 2</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+
               <Grid size={{ xs: 12, lg: 4 }}>
                 <FormControl fullWidth size="small">
                   <InputLabel id="role-select-label">Role</InputLabel>

@@ -17,7 +17,7 @@
     left: 0;
     width: 49%;
     height: 98%;
-    background: #105652;
+    background: var(--lime600);
     border-radius: 0 0 100% 0;
     z-index: -1;
 }

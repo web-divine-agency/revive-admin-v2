@@ -10,6 +10,15 @@
   }
 }
 
+.MuiButtonBase-root.MuiMenuItem-root.Mui-selected {
+  background-color: var(--lime600);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: var(--lime600);
+  }
+}
+
 @media (min-width: 1200px) {
   #users-create {
     .MuiPaper-root {
