@@ -80,6 +80,7 @@ export default function AppRouter() {
           }
         />
 
+        {/* Resources */}
         <Route
           path="/view-resource/:resourceID"
           element={
@@ -99,7 +100,7 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/resources-list"
+          path="/resources"
           element={
             <ProtectedRoute
               element={<ResourcesLists />}
@@ -117,7 +118,7 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/resources"
+          path="/resources-page"
           element={
             <ProtectedRoute
               element={<ResourcePage />}

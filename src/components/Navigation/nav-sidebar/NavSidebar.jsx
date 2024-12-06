@@ -156,9 +156,10 @@ export default function NavSidebar() {
       </Container>
       <Container maxWidth="false">
         <Box className="timer">
-          <Typography className="day">{datetime.day}</Typography>
           <Typography className="date">{datetime.date}</Typography>
-          <Typography className="time">{datetime.time}</Typography>
+          <Typography className="time">
+          {datetime.day}, {datetime.time}
+          </Typography>
         </Box>
       </Container>
     </Paper>

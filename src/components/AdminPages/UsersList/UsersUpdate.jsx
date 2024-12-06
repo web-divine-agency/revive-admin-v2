@@ -68,7 +68,7 @@ export default function UsersUpdate() {
           gender: response.data.sex,
           username: response.data.username,
           branchIds: response.data.branches.flatMap((i) => i.id),
-          role: response.data.roles[0].role_name,
+          role: response.data.roles[0]?.role_name,
           email: response.data.email,
           password: "",
           confirmPassword: "",
