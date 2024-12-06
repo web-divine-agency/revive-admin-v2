@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../../../axiosInstance.js";
+import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar.jsx";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar.jsx";
 import {
   Box,
   Button,
@@ -17,18 +19,18 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import { snackbar } from "../../../util/helper.jsx";
 
-import "./UsersCreate.scss";
+import "./UsersUpdate.scss";
 
-import { snackbar } from "../../../util/helper";
+export default function UsersUpdate() {
+  const { userId } = useParams();
 
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
-
-import axiosInstance from "../../../../axiosInstance";
-
-export default function UsersCreate() {
   const navigate = useNavigate();
+
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState("");
 
   const [user, setUser] = useState({
     firstName: "",
@@ -36,7 +38,7 @@ export default function UsersCreate() {
     gender: "",
     username: "",
     branchIds: [],
-    role: "",
+    role: " ",
     email: "",
     password: "",
     confirmPassword: "",
@@ -47,13 +49,72 @@ export default function UsersCreate() {
     list: [],
   });
 
+  const [roles, setRoles] = useState([]);
+
+  // const [successMessage, setSuccessMessage] = useState("");
+
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setUser((user) => ({ ...user, [name]: value }));
+  };
+
+  const handleReadUser = () => {
+    axiosInstance
+      .get(`/user/${userId}`)
+      .then((response) => {
+        setUser({
+          firstName: response.data.first_name,
+          lastName: response.data.last_name,
+          gender: response.data.sex,
+          username: response.data.username,
+          branchIds: response.data.branches.flatMap((i) => i.id),
+          role: response.data.roles[0].role_name,
+          email: response.data.email,
+          password: "",
+          confirmPassword: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleListBranches = () => {
+    axiosInstance
+      .get("/branches")
+      .then((response) => {
+        setBranches({
+          names: response.data.flatMap((branch) => branch.branch_name),
+          list: response.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleListRoles = () => {
+    axiosInstance
+      .get("/roles")
+      .then((response) => {
+        setRoles(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    handleReadUser();
+    handleListBranches();
+    handleListRoles();
+  }, []);
+
   const validation = () => {
     if (
       !user.lastName ||
       !user.firstName ||
-      !user.branch ||
-      !user.password ||
-      !user.confirmPassword ||
+      !user.branchIds.length ||
       !user.email ||
       !user.gender ||
       !user.username ||
@@ -61,7 +122,8 @@ export default function UsersCreate() {
     ) {
       return "All fields are required.";
     }
-    if (user.password.length < 8) {
+
+    if (user.password && user.password.length < 8) {
       return "Password must be at least 8 characters long.";
     }
 
@@ -76,12 +138,7 @@ export default function UsersCreate() {
     return "";
   };
 
-  const handleOnChange = (event) => {
-    const { name, value } = event.target;
-    setUser((user) => ({ ...user, [name]: value }));
-  };
-
-  const handleCreateUser = () => {
+  const handleUpdateUser = async () => {
     let valid = validation();
 
     if (valid) {
@@ -90,9 +147,9 @@ export default function UsersCreate() {
     }
 
     axiosInstance
-      .post("/addUser", {
-        last_name: user.lastName,
+      .put(`/update-user/${userId}`, {
         first_name: user.firstName,
+        last_name: user.lastName,
         branch_ids: user.branchIds,
         password: user.password,
         email: user.email,
@@ -101,45 +158,35 @@ export default function UsersCreate() {
         role_name: user.role,
       })
       .then(() => {
-        navigate("/userlist");
+        navigate("/users");
       })
-      .catch(() => {
-        snackbar("Oops! something went wrong", "error");
+      .catch((error) => {
+        console.log(error);
       });
   };
-
-  const handleGetBranches = () => {
-    axiosInstance
-      .get("/branches")
-      .then((response) => {
-        setBranches({
-          names: response.data.flatMap((branch) => branch.branch_name),
-          list: response.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    handleGetBranches();
-  }, []);
 
   return (
     <React.Fragment>
       <Helmet>
-        <title>Users Create | Revive Pharmacy </title>
+        <title>Users Update | Revive Pharmacy </title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
-      <Box component={"section"} id="users-create" className="panel">
+      <Box component={"section"} id="users-update" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            Create User
+            Update User
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Users
+                </Button>
+              </Grid>
               <Grid size={{ xs: 12 }}>
                 <FormControl size="small" fullWidth>
                   <InputLabel id="branches-multiple-chip-label">
@@ -172,7 +219,7 @@ export default function UsersCreate() {
                           sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
                         >
                           {names.map((item, i) => (
-                            <Chip key={i} label={item.branch_name} />
+                            <Chip key={i} label={item?.branch_name} />
                           ))}
                         </Box>
                       );
@@ -184,6 +231,7 @@ export default function UsersCreate() {
                       },
                     }}
                   >
+                    <MenuItem value=""></MenuItem>
                     {branches.list.map((item, i) => (
                       <MenuItem key={i} value={item.id}>
                         {item.branch_name}
@@ -252,8 +300,12 @@ export default function UsersCreate() {
                     value={user.role}
                     onChange={(event) => handleOnChange(event)}
                   >
-                    <MenuItem value={"Admin"}>Admin</MenuItem>
-                    <MenuItem value={"Staff"}>Staff</MenuItem>
+                    <MenuItem value=" ">&nbsp;</MenuItem>
+                    {roles?.map((item, i) => (
+                      <MenuItem value={item.role_name} key={i}>
+                        {item.role_name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -292,15 +344,15 @@ export default function UsersCreate() {
               </Grid>
               <Grid size={{ xs: 12 }} textAlign={"right"}>
                 <Button
-                  onClick={() => navigate(-1)}
                   variant="contained"
                   color="black"
                   className="mui-btn mui-btn-cancel"
+                  onClick={() => navigate(-1)}
                 >
                   Cancel
                 </Button>
-                <Button variant="contained" onClick={handleCreateUser}>
-                  Create
+                <Button variant="contained" onClick={handleUpdateUser}>
+                  Update
                 </Button>
               </Grid>
             </Grid>

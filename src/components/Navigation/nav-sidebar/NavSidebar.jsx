@@ -25,11 +25,18 @@ import Global from "../../../util/global";
 
 import "./NavSidebar.scss";
 import { getCookie } from "../../Authentication/getCookie";
+import moment from "moment/moment";
 
 export default function NavSidebar() {
   const navigate = useNavigate();
 
   const { sidebarActive, setSidebarActive, setAuthUser } = useContext(Global);
+
+  const [datetime, setDatetime] = useState({
+    day: "",
+    date: "",
+    time: "",
+  });
 
   const [role, setRole] = useState("");
 
@@ -40,8 +47,20 @@ export default function NavSidebar() {
     navigate("/login");
   };
 
+  const insertClock = () => {
+    setInterval(() => {
+      setDatetime((datetime) => ({
+        ...datetime,
+        day: moment().format("dddd"),
+        date: moment().format("D MMM YYYY"),
+        time: moment().format("hh:mm:ss a"),
+      }));
+    }, 1000);
+  };
+
   useEffect(() => {
     setRole(getCookie("role_name"));
+    insertClock();
   }, []);
 
   return (
@@ -71,17 +90,14 @@ export default function NavSidebar() {
         <Box className="menu-links">
           <List>
             <ListItem>
-              <Link to="/userlist" onClick={() => setSidebarActive(false)}>
+              <Link to="/users" onClick={() => setSidebarActive(false)}>
                 <PeopleAltIcon />
                 Accounts
               </Link>
             </ListItem>
             {role === "Admin" && (
               <ListItem>
-                <Link
-                  to="/tickets"
-                  onClick={() => setSidebarActive(false)}
-                >
+                <Link to="/tickets" onClick={() => setSidebarActive(false)}>
                   <ConfirmationNumberIcon />
                   Ticketing
                 </Link>
@@ -136,6 +152,13 @@ export default function NavSidebar() {
               </Link>
             </ListItem>
           </List>
+        </Box>
+      </Container>
+      <Container maxWidth="false">
+        <Box className="timer">
+          <Typography className="day">{datetime.day}</Typography>
+          <Typography className="date">{datetime.date}</Typography>
+          <Typography className="time">{datetime.time}</Typography>
         </Box>
       </Container>
     </Paper>

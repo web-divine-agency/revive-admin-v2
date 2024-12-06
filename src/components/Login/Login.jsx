@@ -43,46 +43,17 @@ function Login() {
           value: "Invalid login, Please check your credentials",
           isShow: true,
         });
-        // Swal.fire({
-        //     title: 'Role Mismatch',
-        //     text: 'Please select your assigned role.',
-        //     imageUrl: close,
-        //     imageWidth: 100,
-        //     imageHeight: 100,
-        //     confirmButtonText: "OK",
-        //     confirmButtonColor: "#EC221F",
-        //     customClass: {
-        //         confirmButton: "custom-error-confirm-button",
-        //         title: "custom-swal-title",
-        //     },
-        // })
+
         return;
       }
-      // if (selectedBranch !== branch) {
-      //     // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
-      //     Swal.fire({
-      //         title: 'Wrong Branch',
-      //         text: 'Please select your designated branch.',
-      //         imageUrl: close,
-      //         imageWidth: 100,
-      //         imageHeight: 100,
-      //         confirmButtonText: "OK",
-      //         confirmButtonColor: "#EC221F",
-      //         customClass: {
-      //             confirmButton: "custom-error-confirm-button",
-      //             title: "custom-swal-title",
-      //         },
-      //     })
-      //     return;
-      // }
+
       document.cookie = `role_name=${roleName}; Path=/;`;
       document.cookie = `accessToken=${accessToken}; Path=/;`;
       document.cookie = `refreshToken=${refreshToken}; Path=/; `;
 
       localStorage.setItem("loginSuccess", "true");
       if (roleName === "Admin") {
-        // console.log(user, accessToken, refreshToken, roleName);
-        navigate("/userlist");
+        navigate("/users");
       } else {
         navigate("/generate-tickets");
       }
@@ -93,35 +64,10 @@ function Login() {
         value: "Invalid login ,Please check your credentials ",
         isShow: true,
       });
-      // Swal.fire({
-      //     title: 'Invalid username or password!',
-      //     text: 'Please check your credentials',
-      //     imageUrl: close,
-      //     imageWidth: 100,
-      //     imageHeight: 100,
-      //     confirmButtonText: "OK",
-      //     confirmButtonColor: "#EC221F",
-      //     customClass: {
-      //         confirmButton: "custom-error-confirm-button",
-      //         title: "custom-swal-title",
-      //     },
-      // })
+
       return;
     }
   };
-
-  // useEffect(() => {
-  //     const fetchBranches = async () => {
-  //         try {
-  //             const response = await axiosInstance.get('/branchLogin');
-  //             setBranches(response.data);
-  //         } catch (error) {
-  //             console.error('Error fetching branches:', error);
-  //         }
-  //     };
-
-  //     fetchBranches();
-  // }, []);
 
   return (
     <div className="d-flex align-items-center justify-content-center custom-login">

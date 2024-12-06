@@ -156,10 +156,6 @@ export default function UsersList() {
     setShowModal(false);
   };
 
-  const handleEditUserClick = (userId) => {
-    navigate(`/edit-user/${userId}`);
-  };
-
   const handleDeleteUserClick = async (userId) => {
     if (loggedInUser && userId === loggedInUser.id) {
       Swal.fire({
@@ -306,7 +302,7 @@ export default function UsersList() {
             className="ml-2"
             src={edit_icon}
             title="Edit User Details"
-            onClick={() => handleEditUserClick(row.id)}
+            onClick={() => navigate(`/users/${row.id}`)}
             alt="edit"
             width="20"
             height="20"
@@ -345,7 +341,7 @@ export default function UsersList() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button component={Link} to="/add-new-user" variant="contained">
+                <Button component={Link} to="/users/create" variant="contained">
                   Create User
                 </Button>
               </Grid>
