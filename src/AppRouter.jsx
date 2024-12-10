@@ -11,6 +11,7 @@ import CheckEmail from "./components/PasswordReset/CheckEmail";
 
 import UsersList from "./components/AdminPages/UsersList/UsersList";
 import UsersCreate from "./components/AdminPages/UsersList/UsersCreate";
+import UsersUpdate from "./components/AdminPages/UsersList/UsersUpdate";
 import UserRoleManagement from "./components/AdminPages/UserManagement/UsersManagement";
 import AddNewRole from "./components/AdminPages/UserManagement/AddNewRole";
 import EditUserRole from "./components/AdminPages/UserManagement/EditUserRole";
@@ -36,9 +37,8 @@ import EditUserTemplateAccess from "./components/AdminPages/TemplateManagement/E
 import ResourcesIndex from "./components/AdminPages/Resources/ResourcesIndex";
 import ResourcePage from "./components/AdminPages/Resources/ResourcePage";
 import ResourcesLists from "./components/AdminPages/Resources/ResourcesLists";
+import ResourcesUpdate from "./components/AdminPages/Resources/ResourcesUpdate";
 import ViewResources from "./components/AdminPages/Resources/ViewResources";
-import EditResources from "./components/AdminPages/Resources/EditResources";
-import UsersUpdate from "./components/AdminPages/UsersList/UsersUpdate";
 
 export default function AppRouter() {
   return (
@@ -82,7 +82,7 @@ export default function AppRouter() {
 
         {/* Resources */}
         <Route
-          path="/view-resource/:resourceID"
+          path="/resources/:resourceID"
           element={
             <ProtectedRoute
               element={<ViewResources />}
@@ -127,10 +127,10 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/edit-resource/:resourceID"
+          path="/resources/:resourceID/update"
           element={
             <ProtectedRoute
-              element={<EditResources />}
+              element={<ResourcesUpdate />}
               allowedRoles={["Admin"]}
             />
           }

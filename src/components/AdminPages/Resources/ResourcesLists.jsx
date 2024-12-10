@@ -208,7 +208,7 @@ function ResourcesLists() {
               </Grid>
               <Grid size={{ xs: 12 }}>
                 <Typography className="section-heading">
-                  General Resources
+                  {decodeURI(searchParams.get("category"))}
                 </Typography>
               </Grid>
               <Grid size={{ xs: 12 }}>
@@ -228,7 +228,7 @@ function ResourcesLists() {
                     .map((item, i) => (
                       <TableRow key={i}>
                         <TableCell>
-                          <Link to={`/resources/${item.id}`}>
+                          <Link to={`/resources/${item.id}/update`}>
                             {item.resource_title}
                           </Link>
                         </TableCell>
