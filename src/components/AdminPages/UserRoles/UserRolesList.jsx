@@ -11,14 +11,14 @@ import axiosInstance from "../../../../axiosInstance.js";
 import check from "../../../assets/images/check.png";
 import { useLoader } from "../../Loaders/LoaderContext";
 
-import "./UsersManagement.scss";
+import "./UserRolesList.scss";
 import { Helmet } from "react-helmet";
 import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
 import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
-function UserRoleManagement() {
+export default function UserRolesList() {
   const navigate = useNavigate();
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [roles, setRoles] = useState([]);
@@ -144,7 +144,7 @@ function UserRoleManagement() {
             className="ml-3"
             src={edit_icon}
             title="Edit Role"
-            onClick={() => navigate(`/edit-user-role/${row.id}`)}
+            onClick={() => navigate(`/user-roles/${row.id}`)}
             alt="edit"
             width="25"
             height="25"
@@ -171,19 +171,23 @@ function UserRoleManagement() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Tickets | Revive Pharmacy </title>
+        <title>User Roles | Revive Pharmacy </title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
-      <Box component={"section"} id="users-management" className="panel">
+      <Box component={"section"} id="user-roles-list" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            User Role Management
+            User Roles
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button component={Link} to="/add-new-role" variant="contained">
+                <Button
+                  component={Link}
+                  to="/user-roles/create"
+                  variant="contained"
+                >
                   Add New Role
                 </Button>
               </Grid>
@@ -226,5 +230,3 @@ function UserRoleManagement() {
     </React.Fragment>
   );
 }
-
-export default UserRoleManagement;

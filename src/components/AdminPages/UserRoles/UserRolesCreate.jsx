@@ -1,11 +1,25 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from "react-icons/fi";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar.jsx";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar.jsx";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-function AddNewRole() {
+import "./UserRolesCreate.scss";
+
+export default function UserRolesCreate() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const [roleDescription, setRoleDescription] = useState("");
@@ -67,33 +81,60 @@ function AddNewRole() {
   };
 
   return (
-    <div className="container">
-      <a href="/user-management" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" /> Add New Role
-        </h3>
-      </a>
-      <div className="container-content">
-        <form onSubmit={addUserRole}>
-          <div className="form-group ml-5 mt-3">
-            <label>New Role Name:</label>
-            <input
-              type="text"
-              className="form-control col-lg-3"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group ml-5 mt-3">
-            <label>Role Description:</label>
-            <textarea
-              className="form-control col-lg-3"
-              value={roleDescription}
-              onChange={(e) => setRoleDescription(e.target.value)}
-              required
-            />
-          </div>
+    <React.Fragment>
+      <Helmet>
+        <title>User Roles | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="user-roles-create" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Create User Role
+          </Typography>
+          <Paper variant="outlined">
+            <form onSubmit={addUserRole}>
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12 }}>
+                  <Button
+                    onClick={() => navigate(-1)}
+                    startIcon={<NavigateBeforeIcon />}
+                  >
+                    User Roles
+                  </Button>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    name="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    required
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    size="small"
+                    type="text"
+                    name="roleDescription"
+                    value={roleDescription}
+                    onChange={(e) => setRoleDescription(e.target.value)}
+                    required
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <Button type="submit" variant="contained">
+                    Create
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Container>
+      </Box>
+      <div className="container">
+        <div className="container-content">
           {/*}
           <div className="form-group ml-5 mt-5">
             <label>Permissions</label> <br />
@@ -177,13 +218,8 @@ function AddNewRole() {
             </div>
           </div>
           */}
-          <button className="submit-btn mb-4 mt-4" type="submit">
-            SAVE
-          </button>
-        </form>
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
-
-export default AddNewRole;

@@ -12,9 +12,10 @@ import CheckEmail from "./components/PasswordReset/CheckEmail";
 import UsersList from "./components/AdminPages/UsersList/UsersList";
 import UsersCreate from "./components/AdminPages/UsersList/UsersCreate";
 import UsersUpdate from "./components/AdminPages/UsersList/UsersUpdate";
-import UserRoleManagement from "./components/AdminPages/UserManagement/UsersManagement";
-import AddNewRole from "./components/AdminPages/UserManagement/AddNewRole";
-import EditUserRole from "./components/AdminPages/UserManagement/EditUserRole";
+
+import UserRolesList from "./components/AdminPages/UserRoles/UserRolesList";
+import UserRolesCreate from "./components/AdminPages/UserRoles/UserRolesCreate";
+import UserRolesUpdate from "./components/AdminPages/UserRoles/UserRolesUpdate";
 
 import Branches from "./components/AdminPages/Branches/Branches";
 import AddBranch from "./components/AdminPages/Branches/AddBranch";
@@ -162,15 +163,7 @@ export default function AppRouter() {
             />
           }
         />
-        <Route
-          path="/user-management"
-          element={
-            <ProtectedRoute
-              element={<UserRoleManagement />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+
         <Route
           path="/staff-logs"
           element={
@@ -192,19 +185,33 @@ export default function AppRouter() {
             <ProtectedRoute element={<Branches />} allowedRoles={["Admin"]} />
           }
         />
+
+        {/* User Roles */}
         <Route
-          path="/edit-user-role/:roleId"
+          path="/user-roles/create"
           element={
             <ProtectedRoute
-              element={<EditUserRole />}
+              element={<UserRolesCreate />}
               allowedRoles={["Admin"]}
             />
           }
         />
         <Route
-          path="/add-new-role"
+          path="/user-roles/:roleId"
           element={
-            <ProtectedRoute element={<AddNewRole />} allowedRoles={["Admin"]} />
+            <ProtectedRoute
+              element={<UserRolesUpdate />}
+              allowedRoles={["Admin"]}
+            />
+          }
+        />
+        <Route
+          path="/user-roles"
+          element={
+            <ProtectedRoute
+              element={<UserRolesList />}
+              allowedRoles={["Admin"]}
+            />
           }
         />
         <Route

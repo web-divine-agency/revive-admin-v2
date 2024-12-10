@@ -129,11 +129,11 @@ export default function NavSidebar() {
             {role === "Admin" && (
               <ListItem>
                 <Link
-                  to="/user-management"
+                  to="/user-roles"
                   onClick={() => setSidebarActive(false)}
                 >
                   <ManageAccountsIcon />
-                  Roles Management
+                  User Roles
                 </Link>
               </ListItem>
             )}
