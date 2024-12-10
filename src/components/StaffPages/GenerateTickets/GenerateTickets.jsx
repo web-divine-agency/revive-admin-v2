@@ -1344,7 +1344,7 @@ export default function GenerateTickets() {
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
               >
-                REVIVE OFFER AVAILABLE {"\n"}
+                EXCLUSIONS APPLY {"\n"}
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
               </Text>
@@ -1439,7 +1439,7 @@ export default function GenerateTickets() {
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
               >
-                REVIVE OFFER AVAILABLE {"\n"}
+                EXCLUSIONS APPLY {"\n"}
                 {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
@@ -3114,7 +3114,7 @@ export default function GenerateTickets() {
                   marginTop: "10px",
                 }}
               >
-                REVIVE OFFER AVAILABLE &nbsp;
+                EXCLUSIONS APPLY &nbsp;
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
               </Text>
@@ -3146,8 +3146,8 @@ export default function GenerateTickets() {
                     textAlign: "center",
                     height: "auto",
                     width: "auto",
-                    padding: "3px",
-                    borderRadius: "5px",
+                    padding: "4px",
+                    borderRadius: "2px",
                     backgroundColor: ticketData.addedToQueue
                       ? "#e3fae9"
                       : "#f7d7d7",
@@ -3164,7 +3164,7 @@ export default function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "28px",
+                  fontSize: "22px",
                   textTransform: "uppercase",
                   fontFamily: "Outfit",
                   // fontStretch: "condensed", // Condensed style
@@ -3176,7 +3176,7 @@ export default function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "22px",
+                  fontSize: "18px",
                   paddingBottom: 2,
                   // paddingTop: 2,
                   fontFamily: "Outfit",
@@ -3186,7 +3186,7 @@ export default function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   textTransform: "uppercase",
                   fontFamily: "Outfit",
                   textAlign: "center",
@@ -3197,7 +3197,7 @@ export default function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   textTransform: "uppercase",
                   fontFamily: "Outfit",
                   textAlign: "center",
@@ -5805,7 +5805,9 @@ export default function GenerateTickets() {
                 )}
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <Typography className="section-header">Ticket Templates</Typography>
+                <Typography className="section-header">
+                  Ticket Templates
+                </Typography>
                 <select
                   name="ticketTemplate"
                   id="ticketTemplate"
@@ -5978,7 +5980,7 @@ export default function GenerateTickets() {
                         </div>
                         {renderFormFields()}
                         <label className="mb-2">Copies</label>
-                        <div className="d-flex justify-content-between">
+                        <div className="">
                           <input
                             type="number"
                             placeholder="1"
@@ -5993,9 +5995,10 @@ export default function GenerateTickets() {
                               template === "POPULAR TEMPLATES"
                             }
                           />
-                          <button
+                          <Button
+                            fullWidth
                             type="button"
-                            className="add-to-queue-btn"
+                            variant="contained"
                             onClick={handleAddToQueue}
                             disabled={
                               copies === 0 ||
@@ -6003,13 +6006,16 @@ export default function GenerateTickets() {
                               template === "OTHER FRAGRANCES" ||
                               template === "POPULAR TEMPLATES"
                             }
+                            sx={{ my: 2 }}
                           >
                             Add to Queue
-                          </button>
+                          </Button>
 
-                          <button
+                          <Button
+                            fullWidth
+                            variant="contained"
+                            color="red"
                             type="button"
-                            className="clear-btn"
                             disabled={
                               template === "" ||
                               template === "OTHER FRAGRANCES" ||
@@ -6027,14 +6033,15 @@ export default function GenerateTickets() {
                               });
                               entriesCleared();
                             }}
+                            sx={{ mb: 2 }}
                           >
                             Clear Entries
-                          </button>
+                          </Button>
                         </div>
                         <div className="d-flex justify-content-between">
-                          <button
+                          <Button
+                            variant="contained"
                             type="button"
-                            className="print-btn"
                             onClick={handleGenerateClick}
                             disabled={
                               template === "" ||
@@ -6043,10 +6050,10 @@ export default function GenerateTickets() {
                             }
                           >
                             Generate Tickets
-                          </button>
-                          <button
+                          </Button>
+                          <Button
+                            variant="contained"
                             type="button"
-                            className="generate-tickets-btn"
                             onClick={handlePrint}
                             disabled={
                               template === "" ||
@@ -6055,7 +6062,7 @@ export default function GenerateTickets() {
                             }
                           >
                             Print
-                          </button>
+                          </Button>
                         </div>
                       </form>
                     </Grid>
