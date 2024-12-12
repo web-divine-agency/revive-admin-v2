@@ -228,7 +228,7 @@ export default function ResourcesUpdate() {
               <Grid size={{ xs: 12 }}>
                 <form onSubmit={handleSubmit}>
                   <Grid container spacing={2}>
-                    <Grid size={{ xs: 12 }} textAlign={"right"}>
+                    <Grid size={{ xs: 12 }}>
                       <Button type="submit" variant="contained">
                         Publish Edit
                       </Button>

@@ -36,8 +36,8 @@ import TemplateManagement from "./components/AdminPages/TemplateManagement/Templ
 import EditUserTemplateAccess from "./components/AdminPages/TemplateManagement/EditUserTemplateAccess";
 
 import ResourcesIndex from "./components/AdminPages/Resources/ResourcesIndex";
-import ResourcePage from "./components/AdminPages/Resources/ResourcePage";
 import ResourcesLists from "./components/AdminPages/Resources/ResourcesLists";
+import ResourcesCreate from "./components/AdminPages/Resources/ResourcesCreate";
 import ResourcesUpdate from "./components/AdminPages/Resources/ResourcesUpdate";
 import ViewResources from "./components/AdminPages/Resources/ViewResources";
 
@@ -119,10 +119,10 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/resources-page"
+          path="/resources/create"
           element={
             <ProtectedRoute
-              element={<ResourcePage />}
+              element={<ResourcesCreate />}
               allowedRoles={["Admin"]}
             />
           }

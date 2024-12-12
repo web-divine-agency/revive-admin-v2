@@ -19,13 +19,15 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+
 import TableDefault from "../../Tables/table-default/TableDefault";
 import moment from "moment";
 
 function ResourcesLists() {
-  const [searchParams] = useSearchParams();
-
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
 
   const [search, setSearch] = useState("");
 
@@ -161,7 +163,7 @@ function ResourcesLists() {
       </Helmet>
       <NavTopbar />
       <NavSidebar />
-      <Box component={"section"} id="resources-index" className="panel">
+      <Box component={"section"} id="resources-list" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
             Resources
@@ -170,10 +172,10 @@ function ResourcesLists() {
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
                 <Button
-                  variant="contained"
-                  onClick={() => navigate("/resources")}
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
                 >
-                  Add New Resource
+                  Resources
                 </Button>
               </Grid>
               <Grid size={{ xs: 12 }}>
