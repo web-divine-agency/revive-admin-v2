@@ -67,6 +67,10 @@ function ResourcesLists() {
     handleReadUser();
   }, []);
 
+  useEffect(() => {
+    handleListResources();
+  }, [searchParams]);
+
   // const handleViewResource = (resourceID, slug) => {
   //   if (role === "Admin") {
   //     navigate(`/view-resource/${resourceID}`);
@@ -230,7 +234,7 @@ function ResourcesLists() {
                     .map((item, i) => (
                       <TableRow key={i}>
                         <TableCell>
-                          <Link to={`/resources/${item.id}/update`}>
+                          <Link to={`/resources/${item.id}`}>
                             {item.resource_title}
                           </Link>
                         </TableCell>

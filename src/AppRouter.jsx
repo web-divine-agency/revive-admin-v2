@@ -39,7 +39,7 @@ import ResourcesIndex from "./components/AdminPages/Resources/ResourcesIndex";
 import ResourcesLists from "./components/AdminPages/Resources/ResourcesLists";
 import ResourcesCreate from "./components/AdminPages/Resources/ResourcesCreate";
 import ResourcesUpdate from "./components/AdminPages/Resources/ResourcesUpdate";
-import ViewResources from "./components/AdminPages/Resources/ViewResources";
+import ResourcesRead from "./components/AdminPages/Resources/ResourcesRead";
 
 export default function AppRouter() {
   return (
@@ -57,9 +57,12 @@ export default function AppRouter() {
 
         {/* Users */}
         <Route
-          path="/users"
+          path="/users/:userId"
           element={
-            <ProtectedRoute element={<UsersList />} allowedRoles={["Admin"]} />
+            <ProtectedRoute
+              element={<UsersUpdate />}
+              allowedRoles={["Admin"]}
+            />
           }
         />
         <Route
@@ -72,12 +75,9 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/users/:userId"
+          path="/users"
           element={
-            <ProtectedRoute
-              element={<UsersUpdate />}
-              allowedRoles={["Admin"]}
-            />
+            <ProtectedRoute element={<UsersList />} allowedRoles={["Admin"]} />
           }
         />
 
@@ -86,17 +86,26 @@ export default function AppRouter() {
           path="/resources/:resourceID"
           element={
             <ProtectedRoute
-              element={<ViewResources />}
+              element={<ResourcesRead />}
               allowedRoles={["Admin"]}
             />
           }
         />
         <Route
-          path="/staff-view-resource/:slug"
+          path="/resources/:resourceID/update"
           element={
             <ProtectedRoute
-              element={<ViewResources />}
-              allowedRoles={["Staff"]}
+              element={<ResourcesUpdate />}
+              allowedRoles={["Admin"]}
+            />
+          }
+        />
+        <Route
+          path="/resources/create"
+          element={
+            <ProtectedRoute
+              element={<ResourcesCreate />}
+              allowedRoles={["Admin"]}
             />
           }
         />
@@ -119,23 +128,16 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/resources/create"
+          path="/staff-view-resource/:slug"
           element={
             <ProtectedRoute
-              element={<ResourcesCreate />}
-              allowedRoles={["Admin"]}
+              element={<ResourcesRead />}
+              allowedRoles={["Staff"]}
             />
           }
         />
-        <Route
-          path="/resources/:resourceID/update"
-          element={
-            <ProtectedRoute
-              element={<ResourcesUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+
+        {/* Tickets */}
         <Route
           path="/ticket-category"
           element={

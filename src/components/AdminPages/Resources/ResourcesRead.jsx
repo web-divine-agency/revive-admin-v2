@@ -1,17 +1,24 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../../axiosInstance.js";
 import Swal from "sweetalert2";
 import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from "react-icons/fi";
 import LightGallery from "lightgallery/react";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-video.css";
 import ReactPlayer from "react-player";
+import { Helmet } from "react-helmet";
+import NavTopbar from "../../Navigation/nav-topbar/NavTopbar.jsx";
+import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar.jsx";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-const ViewResources = () => {
+import "./ResourcesRead.scss";
+
+export default function ResourcesRead() {
   //const location = useLocation();
   //const resource = location.state;
 
@@ -138,63 +145,92 @@ const ViewResources = () => {
   }, [userFetched, role]);
 
   return (
-    <div className="container">
-      <a href="/resources-list" className="back-btn">
-        <h3 className="title-page">
-          <FiChevronLeft className="icon-left" /> Resource View
-        </h3>
-      </a>
-      <div className="row">
-        <div className="col-lg-12 col-md-6 resources-content-container">
-          {role === "Admin" && (
-            <button
-              onClick={() => navigate(`/edit-resource/${resourceID}`)}
-              className="btn btn-primary float-end edit-resource-btn mb-2"
-            >
-              Edit Resource
-            </button>
-          )}
-
-          <div className="container-content" id="view-rsrc-container">
-            <div className="created-resource">
-              <h2 className="title">{resourceTitle}</h2>
-              <div
-                className="resoruce-iamge-content"
-                dangerouslySetInnerHTML={{ __html: resourceBody }}
-              ></div>
-              {additionalFields.map((field, index) => (
+    <React.Fragment>
+      <Helmet>
+        <title>Resources | Revive Pharmacy </title>
+      </Helmet>
+      <NavTopbar />
+      <NavSidebar />
+      <Box component={"section"} id="resources-read" className="panel">
+        <Container maxWidth="false">
+          <Typography component={"h1"} className="section-title">
+            Resource Details
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Resources
+                </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                {role === "Admin" && (
+                  <Button
+                    size="small"
+                    variant="contained"
+                    component={Link}
+                    to={`/resources/${resourceID}/update`}
+                  >
+                    Edit Resource
+                  </Button>
+                )}
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Typography className="section-heading">
+                  {resourceTitle}
+                </Typography>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
                 <div
+                  className="resoruce-iamge-content"
+                  dangerouslySetInnerHTML={{ __html: resourceBody }}
+                ></div>
+              </Grid>
+              {additionalFields.map((field, index) => (
+                <Grid
+                  size={{ xs: 12 }}
                   key={index}
                   dangerouslySetInnerHTML={{ __html: field.content }}
-                ></div>
+                ></Grid>
               ))}
-
-              {/* Image Gallery using LightGallery */}
               {resourceMedia &&
                 resourceMedia.some((media) =>
                   media.match(/\.(jpg|jpeg|png|gif)$/i)
-                ) && <h3>Image Gallery:</h3>}
+                ) && (
+                  <Grid size={{ xs: 12 }}>
+                    <Typography className="section-heading">
+                      Image Gallery:
+                    </Typography>
+                  </Grid>
+                )}
               {resourceMedia && (
-                <div>
-                  <LightGallery>
-                    {resourceMedia
-                      .filter((media) => media.match(/\.(jpg|jpeg|png|gif)$/i))
-                      .map((media, index) => (
-                        <a
-                          key={index}
+                <LightGallery thumbnail={true}>
+                  {resourceMedia
+                    .filter((media) => media.match(/\.(jpg|jpeg|png|gif)$/i))
+                    .map((media, i) => (
+                      <React.Fragment key={i}>
+                        <Box
+                          component={"a"}
                           href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
                         >
-                          <img
+                          <Box
+                            component={"img"}
                             src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                            alt={`Resource Image ${index + 1}`}
-                            className="image-thumbnail"
-                            width="8%"
-                            height="8%"
+                            alt={`Resource Image ${i + 1}`}
+                            sx={{
+                              m: "auto",
+                              p: 2,
+                              display: "inline-block",
+                              width: "50%",
+                            }}
                           />
-                        </a>
-                      ))}
-                  </LightGallery>
-                </div>
+                        </Box>
+                      </React.Fragment>
+                    ))}
+                </LightGallery>
               )}
 
               {/* Video Gallery using ReactPlayer */}
@@ -221,6 +257,7 @@ const ViewResources = () => {
                     </div>
                   </div>
                 )}
+
               {/* PDF Viewer */}
               {resourceMedia &&
                 resourceMedia.some((media) => media.endsWith(".pdf")) && (
@@ -253,39 +290,51 @@ const ViewResources = () => {
               </div>
 
               {role === "Admin" && (
-                <button
-                  className="btn btn-primary float-end delete-resource-btn"
+                <Button
                   onClick={() => handleDeleteResource(resourceID)}
+                  variant="contained"
+                  color="red"
                 >
                   Delete
-                </button>
+                </Button>
               )}
-            </div>
-          </div>
 
-          {/* Modal for Video */}
-          {isModalOpen && (
-            <div className="modal-overlay" onClick={closeModal}>
-              <span className="close-button" onClick={closeModal}>
-                &times;
-              </span>
-              <div
-                className="modal-content-resource"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <ReactPlayer
-                  url={selectedMedia}
-                  width="100%"
-                  height="auto"
-                  controls
-                />
+              {/* Modal for Video */}
+              {isModalOpen && (
+                <div className="modal-overlay" onClick={closeModal}>
+                  <span className="close-button" onClick={closeModal}>
+                    &times;
+                  </span>
+                  <div
+                    className="modal-content-resource"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <ReactPlayer
+                      url={selectedMedia}
+                      width="100%"
+                      height="auto"
+                      controls
+                    />
+                  </div>
+                </div>
+              )}
+            </Grid>
+          </Paper>
+        </Container>
+      </Box>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12 col-md-6 resources-content-container">
+            <div className="container-content" id="view-rsrc-container">
+              <div className="created-resource">
+                <h2 className="title"></h2>
+
+                {/* Image Gallery using LightGallery */}
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
-};
-
-export default ViewResources;
+}

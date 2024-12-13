@@ -324,18 +324,32 @@ export default function ResourcesUpdate() {
                           <h5>Current Media</h5>
                           <div id="selectedImagesContainer">
                             {selectedResourceMedia.map((file, index) => (
-                              <div key={index} id="selectedImages">
+                              <Box
+                                key={index}
+                                id="selectedImages"
+                                sx={{
+                                  border: "1px solid black",
+                                  mb: 2,
+                                  p: 2,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                }}
+                              >
                                 <img
                                   src={`https://dev.server.revivepharmacyportal.com.au/uploads/${file}`}
                                   alt={`Thumbnail ${index + 1}`}
+                                  width={512}
                                 />
-                                <button
+                                <Button
+                                  variant="contained"
                                   type="button"
+                                  color="red"
                                   onClick={() => handleRemoveMedia(file)}
                                 >
                                   Remove
-                                </button>
-                              </div>
+                                </Button>
+                              </Box>
                             ))}
                           </div>
                         </div>

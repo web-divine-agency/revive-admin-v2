@@ -465,7 +465,7 @@ export default function ResourcesCreate() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <img src={fileUrl} alt={`Thumbnail ${index + 1}`} />
+                      <img src={fileUrl} alt={`Thumbnail ${index + 1}`} width={512}/>
                       <Button
                         variant="contained"
                         type="button"
