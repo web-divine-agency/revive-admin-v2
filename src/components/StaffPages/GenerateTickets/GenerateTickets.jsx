@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
+import { Link } from "react-router-dom";
 
 import {
   Document,
@@ -13,44 +10,98 @@ import {
   Font,
   pdf,
 } from "@react-pdf/renderer";
-
-import "./GenerateTickets.scss";
-
 import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 import check from "../../../assets/images/check.png";
 import close from "../../../assets/images/close.png";
 import axiosInstance from "../../../../axiosInstance.js";
+// import revive_logo from "../../../assets/images/revive-logo.png";
+// import revive_logo_white from "../../../assets/images/revive-logo-white.png";
+
+import "./GenerateTickets.scss";
 import { Helmet } from "react-helmet";
 import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
 import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 Font.register({
-  family: "Outfit",
-  src: Outfit,
+  family: "Arial",
+  src: "/fonts/arial/arialbd.ttf",
 });
 
-export default function GenerateTickets() {
+Font.register({
+  family: "ArialNormal",
+  src: "/fonts/arial/arial.ttf",
+});
+
+Font.register({
+  family: "ArialItalic",
+  src: "/fonts/arial/ariali.ttf",
+});
+
+Font.register({
+  family: "ArialNarrow",
+  src: "/fonts/arial/arialn.ttf",
+});
+
+Font.register({
+  family: "Aptos",
+  src: "/fonts/aptos/Aptos.ttf",
+});
+
+Font.register({
+  family: "AptosBold",
+  src: "/fonts/aptos/Aptos-Bold.ttf",
+});
+
+Font.register({
+  family: "BarlowCondensed",
+  src: "/fonts/barlow/BarlowCondensed-Medium.ttf",
+});
+
+function GenerateTickets() {
+  // eslint-disable-next-line no-unused-vars
   const [productName, setProductName] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [productNameValue, setProductNameValue] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [price, setPrice] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [rrp, setRrp] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [save, setSave] = useState("");
   const [expiry, setExpiry] = useState("Expiry");
+  // eslint-disable-next-line no-unused-vars
   const [reviveOffer, setReviveOffer] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [tryMe, setTryMe] = useState("");
   const [startDate, setStartDate] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [percentOff, setpercentOff] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [productBrand, setproductBrand] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [productDesc, setproductDesc] = useState("");
   const [copies, setCopies] = useState(1);
   const [template, setTemplate] = useState("");
   const [assignedTickets, setAssignedTickets] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [category, setCategory] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [ticketQueue, setTicketQueue] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [pdfBlob, setPdfBlob] = useState(null);
   const [triggerDownload, setTriggerDownload] = useState(false);
   const [triggerPrint, setTriggerPrint] = useState(false);
@@ -60,7 +111,6 @@ export default function GenerateTickets() {
   const [dateError, setDateError] = useState("");
   const [role, setRole] = useState("");
   // const [otherFragances, setOtherFragances] = useState(false);
-  const navigate = useNavigate();
 
   const [ticketData, setTicketData] = useState({
     productName: "",
@@ -71,6 +121,7 @@ export default function GenerateTickets() {
     save: "",
   });
 
+  // eslint-disable-next-line no-unused-vars
   const handleOtherFragrance = () => {
     setTemplate("COSMAX FRAGRANCE TAGS");
   };
@@ -175,6 +226,7 @@ export default function GenerateTickets() {
         try {
           await new Promise((resolve) => setTimeout(resolve, 500));
           const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
+          // eslint-disable-next-line no-unused-vars
           const response = await axiosInstance.post("/create-ticket", {
             ticket_type: template,
             data: ticketQueue,
@@ -249,7 +301,7 @@ export default function GenerateTickets() {
               save: "",
               copies: 1,
             });
-          } catch (error) {
+          } catch {
             Swal.fire({
               title: "Error!",
               text: "There was an error generating this ticket.",
@@ -538,33 +590,6 @@ export default function GenerateTickets() {
   //ticket styles
   const getTicketStyle = () => {
     switch (template) {
-      case "A4 Tickets Percentage Off":
-        return {
-          height: "auto",
-          width: "185px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "25px",
-        };
-      case "Green Friday Percentage Off":
-        return {
-          height: "auto",
-          width: "185px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "25px",
-        };
-      case "Percentage Off Tags":
-        return {
-          height: "auto",
-          width: "185px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: "25px",
-        };
       case "CATALOGUE SPECIALS PRICE TAGS":
         return {
           height: "auto",
@@ -752,7 +777,7 @@ export default function GenerateTickets() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: "18px",
         };
     }
   };
@@ -844,7 +869,7 @@ export default function GenerateTickets() {
         //         <Text
         //           style={{
         //             position: "fixed",
-        //             fontFamily: "Outfit",
+        //             fontFamily: "BarlowCondensed",
         //             fontSize: 10,
         //             textAlign: "center",
         //             height: "auto",
@@ -869,7 +894,7 @@ export default function GenerateTickets() {
         //         style={{
         //           fontSize: "48px",
         //           textTransform: "uppercase",
-        //           fontFamily: "Outfit",
+        //           fontFamily: "BarlowCondensed",
         //           // fontWeight: "600", // Semibold weight
         //           // fontStretch: "condensed", // Condensed style
         //           textAlign: "center",
@@ -884,7 +909,7 @@ export default function GenerateTickets() {
         //           fontSize: "50px",
         //           paddingBottom: 2,
         //           // paddingTop: 2,
-        //           fontFamily: "Outfit",
+        //           fontFamily: "Arial",
         //         }}
         //       >
         //         {values.price}
@@ -893,7 +918,7 @@ export default function GenerateTickets() {
         //         style={{
         //           fontSize: "14px",
         //           textTransform: "uppercase",
-        //           fontFamily: "Outfit",
+        //           fontFamily: "Aptos",
         //           textAlign: "center",
         //         }}
         //       >
@@ -904,7 +929,7 @@ export default function GenerateTickets() {
         //         style={{
         //           fontSize: "14px",
         //           textTransform: "uppercase",
-        //           fontFamily: "Outfit",
+        //           fontFamily: "Aptos",
         //           textAlign: "center",
         //         }}
         //       >
@@ -917,7 +942,7 @@ export default function GenerateTickets() {
         //           style={{
         //             fontSize: "9px",
         //             textAlign: "center",
-        //             fontFamily: "Outfit",
+        //             fontFamily: "Aptos",
         //             marginBottom: values.productName.includes("\n")
         //               ? "70px"
         //               : "60px",
@@ -936,7 +961,7 @@ export default function GenerateTickets() {
         //             marginBottom: values.productName.includes("\n")
         //               ? "70px"
         //               : "60px",
-        //             fontFamily: "Outfit",
+        //             fontFamily: "Aptos",
         //             paddingBottom: isPDFView ? 10 : 0,
         //           }}
         //         >
@@ -964,7 +989,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -989,7 +1014,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "32px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1004,7 +1029,7 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
@@ -1013,7 +1038,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textAlign: "center",
                 }}
               >
@@ -1024,14 +1049,14 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textAlign: "center",
                 }}
               >
                 {values.productDesc}
                 {"\n"}
               </Text>
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
               {ticketData.valueType !== "I'M CHEAPER THAN" && (
@@ -1039,7 +1064,7 @@ export default function GenerateTickets() {
                   style={{
                     fontSize: "14px",
                     textAlign: "center",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "60px",
@@ -1051,7 +1076,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "10px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "Aptos",
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1067,7 +1092,7 @@ export default function GenerateTickets() {
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "45px",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
@@ -1076,7 +1101,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "14px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "AptosBold",
                       textTransform: "uppercase",
                     }}
                   >
@@ -1088,7 +1113,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "10px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "Aptos",
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1114,7 +1139,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1139,7 +1164,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "32px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1151,10 +1176,11 @@ export default function GenerateTickets() {
 
               <Text
                 style={{
-                  fontSize: "50px",
-                  paddingBottom: 2,
-                  // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontSize: "42px",
+                  marigin: 0,
+                  padding: 0,
+                  lineHeight: 1,
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
@@ -1163,7 +1189,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textAlign: "center",
                 }}
               >
@@ -1174,14 +1200,14 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textAlign: "center",
                 }}
               >
                 {values.productDesc}
                 {"\n"}
               </Text>
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
               {ticketData.valueType !== "I'M CHEAPER THAN" && (
@@ -1189,7 +1215,7 @@ export default function GenerateTickets() {
                   style={{
                     fontSize: "15px",
                     textAlign: "center",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "55px",
@@ -1201,7 +1227,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "10px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "Aptos",
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1217,7 +1243,7 @@ export default function GenerateTickets() {
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "40px",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     paddingBottom: isPDFView ? 5 : 0,
                   }}
                 >
@@ -1226,7 +1252,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "15px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "AptosBold",
                       textTransform: "uppercase",
                     }}
                   >
@@ -1238,7 +1264,7 @@ export default function GenerateTickets() {
                     style={{
                       fontSize: "10px",
                       textAlign: "center",
-                      fontFamily: "Outfit",
+                      fontFamily: "Aptos",
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1261,7 +1287,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1286,7 +1312,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "24px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1299,7 +1325,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1311,7 +1337,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -1323,13 +1349,13 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
 
@@ -1340,11 +1366,11 @@ export default function GenerateTickets() {
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "75px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
               >
-                EXCLUSIONS APPLY {"\n"}
+                REVIVE OFFER AVAILABLE {"\n"}
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
               </Text>
@@ -1364,7 +1390,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1389,7 +1415,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "24px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1398,9 +1424,9 @@ export default function GenerateTickets() {
               >
                 GREEN FRIDAY SALE
               </Text>
-              <Text style={{ fontSize: "45px", fontFamily: "Outfit" }}>
+              <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "45px", fontFamily: "Outfit" }}>
+                <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
                   OFF
                 </Text>
               </Text>
@@ -1408,7 +1434,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1420,7 +1446,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -1435,11 +1461,11 @@ export default function GenerateTickets() {
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "75px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
               >
-                EXCLUSIONS APPLY {"\n"}
+                REVIVE OFFER AVAILABLE {"\n"}
                 {formatDateForDisplay(values.expiry)}
               </Text>
             </div>
@@ -1458,7 +1484,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1483,7 +1509,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "27px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1498,7 +1524,7 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
@@ -1507,7 +1533,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "12px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   lineHeight: "1px",
                   textAlign: "center",
                   marginTop: "3px",
@@ -1520,7 +1546,7 @@ export default function GenerateTickets() {
                   fontSize: "9px",
                   textAlign: "center",
                   marginBottom: "55px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
                   marginTop: "5px",
                 }}
@@ -1543,7 +1569,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1568,7 +1594,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "43px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1581,7 +1607,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1593,7 +1619,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -1605,13 +1631,13 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
 
@@ -1622,7 +1648,7 @@ export default function GenerateTickets() {
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "60px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
               >
@@ -1644,7 +1670,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1669,7 +1695,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1682,7 +1708,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1694,7 +1720,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "16px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -1706,13 +1732,13 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                   RRP ${values.rrp}  Save ${values.save}
                 </Text> */}
 
@@ -1723,7 +1749,7 @@ export default function GenerateTickets() {
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "55px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
               >
@@ -1745,7 +1771,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1770,7 +1796,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "33px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1783,7 +1809,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   marginTop: "3px",
                 }}
@@ -1795,7 +1821,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "14px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -1807,13 +1833,13 @@ export default function GenerateTickets() {
                   fontSize: "50px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
 
@@ -1825,7 +1851,7 @@ export default function GenerateTickets() {
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "65px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
               >
@@ -1847,7 +1873,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1872,7 +1898,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "100px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1885,7 +1911,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                 }}
@@ -1897,7 +1923,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                 }}
@@ -1910,17 +1936,17 @@ export default function GenerateTickets() {
                   fontSize: "170px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
 
-              <Text style={{ fontSize: "20px", fontFamily: "Outfit" }}>
+              <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
                 REVIVE OFFER AVAILABLE &nbsp;
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
@@ -1941,7 +1967,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     textAlign: "center",
                     height: "auto",
@@ -1966,7 +1992,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "120px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
@@ -1979,7 +2005,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                 }}
@@ -1991,7 +2017,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                 }}
@@ -2004,17 +2030,17 @@ export default function GenerateTickets() {
                   fontSize: "170px",
                   // paddingBottom: 2,
                   // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
 
-              {/* <Text style={{ fontSize: "10px", fontFamily: "Outfit", marginTop: "2px" }}>
+              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
                 RRP ${values.rrp}  Save ${values.save}
               </Text> */}
 
-              <Text style={{ fontSize: "20px", fontFamily: "Outfit" }}>
+              <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
                 REVIVE OFFER AVAILABLE &nbsp;
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
@@ -2036,7 +2062,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2060,7 +2086,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "24px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
                   lineHeight: "1px",
@@ -2072,7 +2098,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "26px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   // marginTop: isPDFView ? 10 : 0,
                   lineHeight: "1px",
@@ -2080,16 +2106,16 @@ export default function GenerateTickets() {
               >
                 SPECIAL PRICE
               </Text>
-              {/* <Text style={{ fontSize: "65px", fontFamily: "Outfit", fontWeight: '600', lineHeight: "1px" }}>
+              {/* <Text style={{ fontSize: "65px", fontFamily: "BarlowCondensed", fontWeight: '600', lineHeight: "1px" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "32px", fontFamily: "Outfit", fontWeight: '600' }}>
+                <Text style={{ fontSize: "32px", fontFamily: "BarlowCondensed", fontWeight: '600' }}>
                   OFF
                 </Text>
               </Text> */}
               <Text
                 style={{
                   fontSize: "50px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2103,7 +2129,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "15px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2116,7 +2142,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "15px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2131,7 +2157,7 @@ export default function GenerateTickets() {
                   // paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
@@ -2160,7 +2186,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2185,7 +2211,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "10px",
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2197,7 +2223,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2210,7 +2236,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "50px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2225,7 +2251,7 @@ export default function GenerateTickets() {
                   paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   // lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "30px"
@@ -2242,7 +2268,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "11px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginBottom: "3px",
                   }}
                 >
@@ -2269,7 +2295,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2294,7 +2320,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "17px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2306,7 +2332,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "17px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2319,7 +2345,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "50px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2335,7 +2361,7 @@ export default function GenerateTickets() {
                   paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "25px"
@@ -2352,7 +2378,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "11px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     lineHeight: 1.2,
                     marginTop: "3px",
                   }}
@@ -2380,7 +2406,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2405,7 +2431,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2417,7 +2443,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2430,7 +2456,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "50px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2445,7 +2471,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "10px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   marginTop: "10px",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2456,7 +2482,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "15px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginTop: "2px",
                     lineHeight: "1px",
                   }}
@@ -2468,7 +2494,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "11px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   paddingTop: "2px",
                 }}
@@ -2481,7 +2507,7 @@ export default function GenerateTickets() {
                   paddingTop: "2px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "50px"
@@ -2509,7 +2535,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2534,7 +2560,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2546,7 +2572,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2559,7 +2585,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "45px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2575,7 +2601,7 @@ export default function GenerateTickets() {
                   paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "20px"
@@ -2592,7 +2618,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "11px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginTop: "3px",
                     lineHeight: "1.2px",
                   }}
@@ -2620,7 +2646,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2645,7 +2671,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2657,7 +2683,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2670,7 +2696,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "45px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2686,7 +2712,7 @@ export default function GenerateTickets() {
                   paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "20px"
@@ -2703,7 +2729,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "11px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginTop: "3px",
                     lineHeight: "1.2px",
                   }}
@@ -2731,7 +2757,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2756,7 +2782,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2768,7 +2794,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "18px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2781,7 +2807,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "50px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2795,7 +2821,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "10px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   marginTop: "10px",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2806,7 +2832,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "15px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginTop: "2px",
                     lineHeight: "1px",
                   }}
@@ -2817,7 +2843,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "11px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   lineHeight: "1px",
                 }}
               >
@@ -2829,7 +2855,7 @@ export default function GenerateTickets() {
                   paddingTop: "3px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "50px"
@@ -2856,7 +2882,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
                     width: "auto",
@@ -2880,12 +2906,14 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "68px",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
                 {values.percentOff}
-                <Text style={{ fontSize: "36px", fontFamily: "Outfit" }}>
+                <Text
+                  style={{ fontSize: "36px", fontFamily: "BarlowCondensed" }}
+                >
                   OFF
                 </Text>
               </Text>
@@ -2893,7 +2921,7 @@ export default function GenerateTickets() {
                 style={{
                   marginTop: "5px",
                   fontSize: "19px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2905,7 +2933,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "19px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
                   lineHeight: "1px",
@@ -2920,7 +2948,7 @@ export default function GenerateTickets() {
                   paddingTop: "5px",
                   fontSize: "9px",
                   textAlign: "center",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   lineHeight: "1px",
                   marginTop: "3px",
                   marginBottom: values.productDesc.includes("\n")
@@ -2951,7 +2979,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 20,
                     height: "auto",
                     width: "auto",
@@ -2976,7 +3004,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "72px",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   textTransform: "uppercase",
                   marginTop: isPDFView ? 10 : 0,
                 }}
@@ -2986,7 +3014,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "45px",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   textTransform: "uppercase",
                   lineHeight: "1px",
@@ -2998,7 +3026,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "200px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Arial",
                   marginTop: "-20px",
                 }}
               >
@@ -3007,7 +3035,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "20px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   marginTop: "-10px",
                 }}
               >
@@ -3042,7 +3070,7 @@ export default function GenerateTickets() {
                   style={{
                     position: "fixed",
                     top: -5,
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 20,
                     height: "auto",
                     width: "auto",
@@ -3066,7 +3094,7 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "200px",
-                  fontFamily: "Outfit",
+                  fontFamily: "AptosBold",
                   lineHeight: "1px",
                 }}
               >
@@ -3074,7 +3102,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "200px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     lineHeight: "1px",
                   }}
                 >
@@ -3085,7 +3113,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                   marginTop: "10px",
@@ -3098,7 +3126,7 @@ export default function GenerateTickets() {
                 style={{
                   fontSize: "40px",
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                   lineHeight: "1px",
                 }}
@@ -3110,11 +3138,11 @@ export default function GenerateTickets() {
               <Text
                 style={{
                   fontSize: "20px",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   marginTop: "10px",
                 }}
               >
-                EXCLUSIONS APPLY &nbsp;
+                REVIVE OFFER AVAILABLE &nbsp;
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
               </Text>
@@ -3141,13 +3169,14 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     position: "fixed",
-                    fontFamily: "Outfit",
+                    fontFamily: "BarlowCondensed",
                     fontSize: 10,
+                    lineHeight: 1,
                     textAlign: "center",
                     height: "auto",
                     width: "auto",
-                    padding: "4px",
-                    borderRadius: "2px",
+                    padding: "3px",
+                    borderRadius: "5px",
                     backgroundColor: ticketData.addedToQueue
                       ? "#e3fae9"
                       : "#f7d7d7",
@@ -3164,9 +3193,12 @@ export default function GenerateTickets() {
               )}
               <Text
                 style={{
-                  fontSize: "22px",
+                  fontSize: "32px",
+                  lineHeight: 1,
+                  margin: 0,
+                  padding: 0,
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "BarlowCondensed",
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
@@ -3176,19 +3208,21 @@ export default function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
-                  paddingBottom: 2,
-                  // paddingTop: 2,
-                  fontFamily: "Outfit",
+                  fontSize: "42px",
+                  margin: 0,
+                  padding: 0,
+                  lineHeight: 1,
+                  fontFamily: "Arial",
                 }}
               >
                 {values.price}
               </Text>
               <Text
                 style={{
-                  fontSize: "12px",
+                  fontSize: "14px",
+                  lineHeight: 1,
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -3197,9 +3231,10 @@ export default function GenerateTickets() {
               </Text>
               <Text
                 style={{
-                  fontSize: "12px",
+                  fontSize: "14px",
+                  lineHeight: 1,
                   textTransform: "uppercase",
-                  fontFamily: "Outfit",
+                  fontFamily: "Aptos",
                   textAlign: "center",
                 }}
               >
@@ -3211,7 +3246,7 @@ export default function GenerateTickets() {
                 <Text
                   style={{
                     fontSize: "10px",
-                    fontFamily: "Outfit",
+                    fontFamily: "AptosBold",
                     marginTop: "2px",
                   }}
                 >
@@ -3223,7 +3258,7 @@ export default function GenerateTickets() {
                   style={{
                     fontSize: "9px",
                     textAlign: "center",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     marginBottom:
                       ticketData.offerType === "With RRP" ? "70px" : "50px",
                     paddingBottom: isPDFView ? 8 : 0,
@@ -3240,7 +3275,7 @@ export default function GenerateTickets() {
                     textAlign: "center",
                     marginBottom:
                       ticketData.offerType === "With RRP" ? "70px" : "50px",
-                    fontFamily: "Outfit",
+                    fontFamily: "Aptos",
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
@@ -3536,6 +3571,7 @@ export default function GenerateTickets() {
                 </option>
                 <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
               </select>
+              <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
             </div>
 
             <div
@@ -3632,6 +3668,7 @@ export default function GenerateTickets() {
                 </option>
                 <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
               </select>
+              <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
             </div>
 
             <div
@@ -4005,13 +4042,11 @@ export default function GenerateTickets() {
         );
       case "CLEARANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
                 type="text"
-                name="productName" // Added name
-                className="form-control"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4021,14 +4056,14 @@ export default function GenerateTickets() {
                     },
                   })
                 }
+                variant="outlined"
+                label="Product Name"
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
                 type="text"
-                name="productDesc" // Added name
-                className="form-control"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4038,46 +4073,42 @@ export default function GenerateTickets() {
                     },
                   })
                 }
+                variant="outlined"
+                label="Description"
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
-                value={
-                  ticketData.price ? ticketData.price.replace("$", "") : ""
-                }
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, "");
-                  handleTicketData({
-                    target: {
-                      name: "price",
-                      value: "$" + formatPrice(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Offer</label>
-              <input
-                type="text"
-                name="reviveOffer" // Added name
-                className="form-control"
-                value={ticketData.reviveOffer || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "reviveOffer",
-                      value: formatTextGreen(e.target.value),
-                    },
-                  })
-                }
-              />
-            </div>
-          </>
+            </Grid>
+            <TextField
+              type="text"
+              name="price"
+              value={ticketData.price ? ticketData.price.replace("$", "") : ""}
+              onChange={(e) => {
+                const filteredValue = e.target.value.replace(/e/gi, "");
+                handleTicketData({
+                  target: {
+                    name: "price",
+                    value: "$" + formatPrice(filteredValue),
+                  },
+                });
+              }}
+              variant="outlined"
+              label="Price"
+            />
+            <TextField
+              type="text"
+              name="reviveOffer"
+              value={ticketData.reviveOffer || ""}
+              onChange={(e) =>
+                handleTicketData({
+                  target: {
+                    name: "reviveOffer",
+                    value: formatTextGreen(e.target.value),
+                  },
+                })
+              }
+              variant="outlined"
+              label="Offer"
+            />
+          </Grid>
         );
       case "NEW IN STORE TAGS":
         return (
@@ -5531,13 +5562,13 @@ export default function GenerateTickets() {
         );
       default:
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Product name"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5548,13 +5579,14 @@ export default function GenerateTickets() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Description"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5565,135 +5597,123 @@ export default function GenerateTickets() {
                   })
                 }
               />
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="form-group" style={{ width: 120 }}>
-                <label>Price</label>
-                <input
-                  type="text"
-                  name="price" // Added name
-                  className="form-control"
-                  value={
-                    ticketData.price ? ticketData.price.replace("$", "") : ""
-                  }
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, "");
-                    handleTicketData({
-                      target: {
-                        name: "price",
-                        value: "$" + formatPrice(filteredValue),
-                      },
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group" style={{ width: 120 }}>
-                <label>RRP</label>
-                <input
-                  type="text"
-                  name="rrp" // Added name
-                  className="form-control"
-                  value={ticketData.rrp || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, "");
-                    handleTicketData({
-                      target: {
-                        name: "rrp",
-                        value: formatRrp(filteredValue),
-                      },
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group" style={{ width: 120 }}>
-                <label>Save</label>
-                <input
-                  disabled
-                  type="text"
-                  name="save" // Added name
-                  className="form-control"
-                  value={ticketData.save || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, "");
-                    handleTicketData({
-                      target: {
-                        name: "save",
-                        value: formatSave(filteredValue),
-                      },
-                    });
-                  }}
-                />
-              </div>
-            </div>
-            <div className="form-group custom-icon-div">
-              <label>RRP Option</label>
-              <select
-                className="form-control"
-                value={optionType}
-                onChange={handleOptionTypeChange}
-              >
-                <option value="With RRP">With RRP + Save</option>
-                <option value="Without RRP">Without RRP + Save</option>
-              </select>
-            </div>
-            <div className="form-group custom-icon-div">
-              <label>Offer Type</label>
-              <select
-                className="form-control"
-                value={offerType}
-                onChange={handleOfferTypeChange}
-              >
-                <option value="TEMPORARY REVIVE OFFER">
-                  Temporary Revive Offer
-                </option>
-                <option value="ONGOING REVIVE OFFER">
-                  Ongoing Revive Offer
-                </option>
-              </select>
-            </div>
+            </Grid>
 
-            <div
-              hidden={offerType === "ONGOING REVIVE OFFER"}
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            <Grid size={{ xs: 4 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Price"
+                name="price"
+                value={
+                  ticketData.price ? ticketData.price.replace("$", "") : ""
+                }
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, "");
+                  handleTicketData({
+                    target: {
+                      name: "price",
+                      value: "$" + formatPrice(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 4 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Rrp"
+                name="rrp"
+                value={ticketData.rrp || ""}
+                onChange={(e) => {
+                  const filteredValue = e.target.value.replace(/e/gi, "");
+                  handleTicketData({
+                    target: {
+                      name: "rrp",
+                      value: formatRrp(filteredValue),
+                    },
+                  });
+                }}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 4 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Save"
+                name="save"
+                disabled
+                value={ticketData.save || ""}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Rrp option</InputLabel>
+                <Select
+                  label="Rrp option"
+                  value={optionType}
+                  onChange={handleOptionTypeChange}
+                >
+                  <MenuItem value="With RRP">With RRP + Save</MenuItem>
+                  <MenuItem value="Without RRP">Without RRP + Save</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Offer type</InputLabel>
+                <Select
+                  label="Offer type"
+                  value={offerType}
+                  onChange={handleOfferTypeChange}
+                >
+                  <MenuItem value="TEMPORARY REVIVE OFFER">
+                    Temporary Revive Offer
+                  </MenuItem>
+                  <MenuItem value="ONGOING REVIVE OFFER">
+                    Ongoing Revive Offer
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {offerType !== "ONGOING REVIVE OFFER" && (
+              <>
+                <Grid size={{ xs: 6 }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    type="date"
+                    label="Start date"
+                    InputLabelProps={{ shrink: true }}
+                    name="startDate"
+                    value={startDate}
+                    onChange={handleStartDateChange}
+                    inputProps={{ min: getTodayDate() }}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 6 }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    type="date"
+                    label="Expiry date"
+                    InputLabelProps={{ shrink: true }}
+                    name="expiry"
+                    value={expiry}
+                    onChange={handleExpiryChange}
+                    inputProps={{ min: getTodayDate() }}
+                  />
+                </Grid>
+              </>
+            )}
+          </Grid>
         );
     }
   };
@@ -5722,6 +5742,7 @@ export default function GenerateTickets() {
   //handle expiry function
   const handleStartDateChange = (e) => {
     const inputValue = e.target.value;
+    // eslint-disable-next-line no-unused-vars
     const [year, month, day] = inputValue.split("-");
 
     if (year.length > 4) {
@@ -5741,6 +5762,7 @@ export default function GenerateTickets() {
 
   const handleExpiryChange = (e) => {
     const inputValue = e.target.value;
+    // eslint-disable-next-line no-unused-vars
     const [year, month, day] = inputValue.split("-");
 
     if (year.length > 4) {
@@ -5772,7 +5794,7 @@ export default function GenerateTickets() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Tickets | Revive Pharmacy </title>
+        <title>Resources | Revive Pharmacy </title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
@@ -5785,32 +5807,33 @@ export default function GenerateTickets() {
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
                 {role === "Admin" && (
-                  <Button
-                    variant="contained"
-                    component={Link}
-                    to="/ticket-category"
-                    className="mui-btn mui-btn-category"
-                  >
-                    Ticket Category
-                  </Button>
-                )}
-                {role === "Admin" && (
-                  <Button
-                    variant="contained"
-                    component={Link}
-                    to="/template-management"
-                  >
-                    Manage Template Access
-                  </Button>
+                  <div className="ticket-category">
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      to="/ticket-category"
+                      sx={{ mr: 2 }}
+                    >
+                      Ticket Category
+                    </Button>
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      to="/template-management"
+                    >
+                      Manage Template Access
+                    </Button>
+                  </div>
                 )}
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                <Typography className="section-header">
-                  Ticket Templates
+
+              <Grid size={{ xs: 12, lg: 5 }}>
+                <Typography className="section-heading" sx={{ my: 2 }}>
+                  Select Ticket Template
                 </Typography>
                 <select
                   name="ticketTemplate"
-                  id="ticketTemplate"
+                  className="filter"
                   onChange={(e) => {
                     setProductName("");
                     setproductBrand("");
@@ -5825,7 +5848,6 @@ export default function GenerateTickets() {
                     setTicketData({});
                   }}
                   value={template}
-                  className="filter"
                 >
                   <option value="">
                     {template
@@ -5866,11 +5888,13 @@ export default function GenerateTickets() {
                       ticket.category.includes("OTHER FRAGRANCES") &&
                       template === ticket.ticket_name
                   )) && (
-                  <div>
-                    <h5>Other Fragrances</h5>
+                  <>
+                    <Typography className="section-heading" sx={{ my: 2 }}>
+                      Other Fragrances
+                    </Typography>
                     <select
                       name="ticketTemplate"
-                      id="ticketTemplate"
+                      className="filter"
                       onChange={(e) => {
                         setProductName("");
                         setproductBrand("");
@@ -5897,7 +5921,7 @@ export default function GenerateTickets() {
                           </option>
                         ))}
                     </select>
-                  </div>
+                  </>
                 )}
 
                 {/* Popular Templates Dropdown */}
@@ -5907,11 +5931,13 @@ export default function GenerateTickets() {
                       ticket.category.includes("POPULAR TEMPLATES") &&
                       template === ticket.ticket_name
                   )) && (
-                  <div>
-                    <h5>Popular Templates</h5>
+                  <>
+                    <Typography className="section-heading" sx={{ my: 2 }}>
+                      Popular Templates
+                    </Typography>
                     <select
                       name="ticketTemplate"
-                      id="ticketTemplate"
+                      className="filter"
                       onChange={(e) => {
                         setProductName("");
                         setproductBrand("");
@@ -5926,9 +5952,8 @@ export default function GenerateTickets() {
                         setTicketData({});
                       }}
                       value={template}
-                      className="filter"
                     >
-                      <option value="">Select Template</option>
+                      <option value="">-- Select Popular Templates --</option>
                       {assignedTickets
                         .filter((ticket) =>
                           ticket.category.includes("POPULAR TEMPLATES")
@@ -5939,146 +5964,160 @@ export default function GenerateTickets() {
                           </option>
                         ))}
                     </select>
-                  </div>
+                  </>
                 )}
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <Box>
+                <Box
+                  sx={{
+                    height:
+                      template === "HOT PRICE TAGS (RRP and non-RRP)" ||
+                      template === "POPULAR TEMPLATES" ||
+                      template === "OTHER FRAGRANCES" ||
+                      template === ""
+                        ? 755
+                        : "",
+                  }}
+                >
+                  <Typography className="section-heading" sx={{ my: 2 }}>
+                    Enter Text Below
+                  </Typography>
                   <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, lg: 4 }}>
-                      <h5>Enter Text below</h5>
-                      <form className="p-4">
+                    <Grid size={{ xs: 12 }}>
+                      {successMessage && (
                         <div
-                          style={{ position: "relative", textAlign: "center" }}
+                          className="alert alert-success"
+                          style={{
+                            position: "absolute",
+                            top: "-50px",
+                            width: "100%",
+                          }}
                         >
-                          {successMessage && (
-                            <div
-                              className="alert alert-success"
-                              style={{
-                                position: "absolute",
-                                top: "-50px",
-                                width: "100%",
-                              }}
-                            >
-                              {successMessage}
-                            </div>
-                          )}
-                          {dateError && (
-                            <div
-                              className="alert error-message"
-                              style={{
-                                position: "absolute",
-                                top: "-50px",
-                                width: "100%",
-                                color: "red",
-                                backgroundColor: "#f7d7d7",
-                              }}
-                            >
-                              {dateError}
-                            </div>
-                          )}
+                          {successMessage}
                         </div>
-                        {renderFormFields()}
-                        <label className="mb-2">Copies</label>
-                        <div className="">
-                          <input
-                            type="number"
-                            placeholder="1"
-                            min={0}
-                            max={99} // Max value set to 99 to limit input to two digits
-                            className="form-control ticket-copies-field"
-                            value={copies}
-                            onChange={handleCopiesChange}
-                            disabled={
-                              template === "" ||
-                              template === "OTHER FRAGRANCES" ||
-                              template === "POPULAR TEMPLATES"
-                            }
-                          />
-                          <Button
-                            fullWidth
-                            type="button"
-                            variant="contained"
-                            onClick={handleAddToQueue}
-                            disabled={
-                              copies === 0 ||
-                              template === "" ||
-                              template === "OTHER FRAGRANCES" ||
-                              template === "POPULAR TEMPLATES"
-                            }
-                            sx={{ my: 2 }}
-                          >
-                            Add to Queue
-                          </Button>
-
-                          <Button
-                            fullWidth
-                            variant="contained"
-                            color="red"
-                            type="button"
-                            disabled={
-                              template === "" ||
-                              template === "OTHER FRAGRANCES" ||
-                              template === "POPULAR TEMPLATES"
-                            }
-                            onClick={() => {
-                              setCopies(1);
-                              setTicketData({
-                                productName: "",
-                                productDesc: "",
-                                price: "",
-                                rrp: "",
-                                save: "",
-                                copies: 1,
-                              });
-                              entriesCleared();
-                            }}
-                            sx={{ mb: 2 }}
-                          >
-                            Clear Entries
-                          </Button>
+                      )}
+                      {dateError && (
+                        <div
+                          className="alert error-message"
+                          style={{
+                            position: "absolute",
+                            top: "-50px",
+                            width: "100%",
+                            color: "red",
+                            backgroundColor: "#f7d7d7",
+                          }}
+                        >
+                          {dateError}
                         </div>
-                        <div className="d-flex justify-content-between">
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={handleGenerateClick}
-                            disabled={
-                              template === "" ||
-                              template === "OTHER FRAGRANCES" ||
-                              template === "POPULAR TEMPLATES"
-                            }
-                          >
-                            Generate Tickets
-                          </Button>
-                          <Button
-                            variant="contained"
-                            type="button"
-                            onClick={handlePrint}
-                            disabled={
-                              template === "" ||
-                              template === "OTHER FRAGRANCES" ||
-                              template === "POPULAR TEMPLATES"
-                            }
-                          >
-                            Print
-                          </Button>
-                        </div>
-                      </form>
+                      )}
                     </Grid>
-                    <Grid size={{ xs: 12, lg: 8 }}>
-                      <Typography className="section-heading">
-                        PDF Live Preview
-                      </Typography>
-                      <PDFViewer
-                        showToolbar={false}
-                        style={{ width: "100%", height: "100%" }}
+                    <Grid size={{ xs: 12 }}>{renderFormFields()}</Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        type="number"
+                        label="Copies"
+                        placeholder="1"
+                        inputProps={{
+                          min: 0,
+                          max: 99,
+                        }}
+                        className="ticket-copies-field"
+                        value={copies}
+                        onChange={handleCopiesChange}
+                        disabled={
+                          template === "" ||
+                          template === "OTHER FRAGRANCES" ||
+                          template === "POPULAR TEMPLATES"
+                        }
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Button
+                        fullWidth
+                        type="button"
+                        variant="contained"
+                        onClick={handleAddToQueue}
+                        disabled={
+                          copies === 0 ||
+                          template === "" ||
+                          template === "OTHER FRAGRANCES" ||
+                          template === "POPULAR TEMPLATES"
+                        }
                       >
-                        <MyDocument />
-                      </PDFViewer>
+                        Add to Queue
+                      </Button>
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        color="red"
+                        fullWidth
+                        disabled={
+                          template === "" ||
+                          template === "OTHER FRAGRANCES" ||
+                          template === "POPULAR TEMPLATES"
+                        }
+                        onClick={() => {
+                          setCopies(1);
+                          setTicketData({
+                            productName: "",
+                            productDesc: "",
+                            price: "",
+                            rrp: "",
+                            save: "",
+                            copies: 1,
+                          });
+                          entriesCleared();
+                        }}
+                      >
+                        Clear Entries
+                      </Button>
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Button
+                        fullWidth
+                        type="button"
+                        variant="contained"
+                        onClick={handleGenerateClick}
+                        disabled={
+                          template === "" ||
+                          template === "OTHER FRAGRANCES" ||
+                          template === "POPULAR TEMPLATES"
+                        }
+                      >
+                        Generate Tickets
+                      </Button>
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Button
+                        fullWidth
+                        type="button"
+                        variant="contained"
+                        onClick={handlePrint}
+                        disabled={
+                          template === "" ||
+                          template === "OTHER FRAGRANCES" ||
+                          template === "POPULAR TEMPLATES"
+                        }
+                      >
+                        Print
+                      </Button>
                     </Grid>
                   </Grid>
                 </Box>
+              </Grid>
+              <Grid size={{ xs: 12, lg: 7 }}>
+                <Typography className="section-heading">
+                  PDF Live Preview
+                </Typography>
+                <PDFViewer
+                  showToolbar={false}
+                  style={{ width: "100%", height: 842 }}
+                >
+                  <MyDocument />
+                </PDFViewer>
               </Grid>
             </Grid>
           </Paper>
@@ -6087,3 +6126,5 @@ export default function GenerateTickets() {
     </React.Fragment>
   );
 }
+
+export default GenerateTickets;

@@ -19,42 +19,46 @@ import {
 } from "@react-pdf/renderer";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import ArialBold from "../../StaffPages/GenerateTickets/fonts/arialbd.ttf";
-import ArialNarrow from "../../StaffPages/GenerateTickets/fonts/ARIALN.TTF";
-import ArialNormal from "../../StaffPages/GenerateTickets/fonts/arial.ttf";
-import ArialItalic from "../../StaffPages/GenerateTickets/fonts/ariali.ttf";
-import BarlowCondensed from "../../StaffPages/GenerateTickets/fonts/barlow/BarlowCondensed-Medium.ttf";
-import Aptos from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos.ttf";
-import AptosBold from "../../StaffPages/GenerateTickets/fonts/aptos/Microsoft Aptos Fonts/Aptos-Bold.ttf";
 import { useLoader } from "../../Loaders/LoaderContext";
 
 Font.register({
+  family: "Outfit",
+  src: "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2",
+});
+
+Font.register({
   family: "Arial",
-  src: ArialBold,
+  src: "/fonts/arial/arialbd.ttf",
 });
+
 Font.register({
-  family: "ArialNormal",
-  src: ArialNormal,
+  family: "Arial",
+  src: "/fonts/arial/arial.ttf",
 });
+
 Font.register({
-  family: "ArialItalic",
-  src: ArialItalic,
+  family: "Arial Italic",
+  src: "/fonts/arial/ariali.ttf",
 });
+
 Font.register({
-  family: "ArialNarrow",
-  src: ArialNarrow,
+  family: "Arial Narrow",
+  src: "/fonts/arial/ARIALN.TTF",
 });
+
 Font.register({
   family: "Aptos",
-  src: Aptos,
+  src: "/fonts/aptos/Aptos.ttf",
 });
+
 Font.register({
   family: "AptosBold",
-  src: AptosBold,
+  src: "/fonts/aptos/Aptos-Bold.ttf",
 });
+
 Font.register({
   family: "Barlow",
-  src: BarlowCondensed,
+  src: "/fonts/barlow/BarlowCondensed-Medium.ttf",
 });
 
 function TicketsHistory() {
