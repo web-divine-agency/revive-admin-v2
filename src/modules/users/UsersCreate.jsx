@@ -51,7 +51,7 @@ export default function UsersCreate() {
     if (
       !user.lastName ||
       !user.firstName ||
-      !user.branch ||
+      !user.branchIds.length ||
       !user.password ||
       !user.confirmPassword ||
       !user.email ||
@@ -101,7 +101,7 @@ export default function UsersCreate() {
         role_name: user.role,
       })
       .then(() => {
-        navigate("/userlist");
+        navigate("/users");
       })
       .catch(() => {
         snackbar("Oops! something went wrong", "error");
