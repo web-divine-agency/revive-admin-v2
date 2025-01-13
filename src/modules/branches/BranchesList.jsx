@@ -6,12 +6,12 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 import "font-awesome/css/font-awesome.min.css";
-import "./BranchesList.scss";
+import "./Branches.scss";
 
-import view_icon from "../../../assets/images/list-view.png";
-import edit_icon from "../../../assets/images/edit-details.png";
-import delete_icon from "../../../assets/images/delete-log.png";
-import check from "../../../assets/images/check.png";
+import view_icon from "@/assets/images/list-view.png";
+import edit_icon from "@/assets/images/edit-details.png";
+import delete_icon from "@/assets/images/delete-log.png";
+import check from "@/assets/images/check.png";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
@@ -22,8 +22,9 @@ import { useLoader } from "@/components/loaders/LoaderContext";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-function Branches() {
+export default function BranchesList() {
   const navigate = useNavigate();
+  
   const [data, setData] = useState([]);
   const [selectedBranches, setSelectedBranches] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -137,7 +138,7 @@ function Branches() {
     setShowModal(false);
   };
   const handleEditBranchClick = (branchId) => {
-    navigate(`/edit-branch/${branchId}`);
+    navigate(`/branches/${branchId}`);
   };
 
   //handle deleting of branch
@@ -284,7 +285,7 @@ function Branches() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button variant="contained" component={Link} to="/add-branch">
+                <Button variant="contained" component={Link} to="/branches/create">
                   Add New Branch
                 </Button>
               </Grid>
@@ -383,5 +384,3 @@ function Branches() {
     </React.Fragment>
   );
 }
-
-export default Branches;

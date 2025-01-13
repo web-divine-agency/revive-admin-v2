@@ -17,9 +17,9 @@ import UserRolesList from "./components/AdminPages/UserRoles/UserRolesList";
 import UserRolesCreate from "./components/AdminPages/UserRoles/UserRolesCreate";
 import UserRolesUpdate from "./components/AdminPages/UserRoles/UserRolesUpdate";
 
-import Branches from "./components/AdminPages/Branches/Branches";
-import AddBranch from "./components/AdminPages/Branches/AddBranch";
-import EditBranch from "./components/AdminPages/Branches/EditBranch";
+import BranchesList from "./modules/branches/BranchesList";
+import BranchesCreate from "./modules/branches/BranchesCreate";
+import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
 import StaffLogs from "./components/AdminPages/StaffLogs/StaffLogs";
 import History from "./components/StaffPages/History/History";
@@ -39,7 +39,6 @@ import ResourcesLists from "./modules/resources/ResourcesLists";
 import ResourcesCreate from "./modules/resources/ResourcesCreate";
 import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
-
 
 export default function AppRouter() {
   return (
@@ -181,12 +180,6 @@ export default function AppRouter() {
             />
           }
         />
-        <Route
-          path="/branches"
-          element={
-            <ProtectedRoute element={<Branches />} allowedRoles={["Admin"]} />
-          }
-        />
 
         {/* User Roles */}
         <Route
@@ -216,16 +209,33 @@ export default function AppRouter() {
             />
           }
         />
+
+        {/* Branches */}
         <Route
-          path="/add-branch"
+          path="/branches"
           element={
-            <ProtectedRoute element={<AddBranch />} allowedRoles={["Admin"]} />
+            <ProtectedRoute
+              element={<BranchesList />}
+              allowedRoles={["Admin"]}
+            />
           }
         />
         <Route
-          path="/edit-branch/:branchId"
+          path="/branches/create"
           element={
-            <ProtectedRoute element={<EditBranch />} allowedRoles={["Admin"]} />
+            <ProtectedRoute
+              element={<BranchesCreate />}
+              allowedRoles={["Admin"]}
+            />
+          }
+        />
+        <Route
+          path="/branches/:branchId"
+          element={
+            <ProtectedRoute
+              element={<BranchesUpdate />}
+              allowedRoles={["Admin"]}
+            />
           }
         />
         <Route
