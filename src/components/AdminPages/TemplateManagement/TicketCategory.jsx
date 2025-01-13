@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import check from "../../../assets/images/check.png";
+import check from "@/assets/images/check.png";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance.js";
-import { useLoader } from "../../Loaders/LoaderContext";
+import axiosInstance from "@/services/axiosInstance.js";
+import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";

@@ -1,0 +1,130 @@
+#nav-topbar {
+  position: fixed;
+  z-index: 1100;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 64px;
+    color: white;
+
+    .profile-holder {
+      display: flex;
+
+      .avatar {
+        width: 48px;
+        margin-right: 8px;
+      }
+
+      .name,
+      .email {
+        color: black;
+      }
+
+      .name {
+        font-weight: bold;
+      }
+
+      .email {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+#nav-sidebar {
+  position: fixed;
+  top: 0;
+  left: -272px;
+  z-index: 1200;
+  width: 256px;
+  height: 100%;
+  border-radius: 0;
+  background-color: var(--lime600);
+  transition: all 0.2s ease-in-out;
+
+  &.active {
+    left: 0;
+  }
+
+  .btn-menu {
+    position: absolute;
+    top: 12px;
+    right: -56px;
+    background-color: white;
+  }
+
+  .MuiContainer-root.no-padding {
+    padding: 0;
+  }
+
+  .sidebar-logo {
+    display: block;
+    width: 128px;
+    margin: auto;
+    padding-top: 32px;
+    padding-bottom: 16px;
+  }
+
+  .label {
+    margin: 0 24px;
+    font-size: 0.8rem;
+    color: white;
+  }
+
+  .menu-links,
+  .menu-settings {
+    .MuiList-root {
+      .MuiListItem-root {
+        padding: 0;
+
+        .MuiSvgIcon-root {
+          margin-right: 8px;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          padding: 16px 24px;
+          text-decoration: none;
+          color: white;
+
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
+      }
+    }
+  }
+
+  .timer {
+    position: absolute;
+    bottom: 32px;
+    color: black;
+
+    .date {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  #nav-topbar {
+    margin-left: 256px;
+    width: calc(100% - 256px);
+  }
+
+  #nav-sidebar {
+    left: 0;
+
+    .btn-menu {
+      display: none;
+    }
+  }
+}

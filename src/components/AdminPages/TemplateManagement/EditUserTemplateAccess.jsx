@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../../../../axiosInstance.js";
+import axiosInstance from "@/services/axiosInstance.js";
 import { useParams, useNavigate } from "react-router-dom";
-import check from "../../../assets/images/check.png";
+import check from "@/assets/images/check.png";
 import Swal from "sweetalert2";
 import { FiChevronLeft } from "react-icons/fi";
 

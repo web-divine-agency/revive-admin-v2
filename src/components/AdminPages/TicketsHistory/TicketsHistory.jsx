@@ -10,14 +10,14 @@ import "./TicketHistory.scss";
 import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
 
 import "font-awesome/css/font-awesome.min.css";
-import man from "../../../assets/images/man.png";
-import woman from "../../../assets/images/woman.png";
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 import { Link, useNavigate } from "react-router-dom";
-import view_icon from "../../../assets/images/list-view.png";
+import view_icon from "@/assets/images/list-view.png";
 
-import delete_icon from "../../../assets/images/delete-log.png";
-import check from "../../../assets/images/check.png";
-import axiosInstance from "../../../../axiosInstance.js";
+import delete_icon from "@/assets/images/delete-log.png";
+import check from "@/assets/images/check.png";
+import axiosInstance from "@/services/axiosInstance.js";
 import { Modal } from "react-bootstrap";
 import {
   Document,
@@ -32,9 +32,9 @@ import {
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import Swal from "sweetalert2";
 
-import { useLoader } from "../../Loaders/LoaderContext";
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import { useLoader } from "@/components/loaders/LoaderContext";
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 
 Font.register({
   family: "Outfit",

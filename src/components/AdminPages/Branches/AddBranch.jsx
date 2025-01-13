@@ -1,11 +1,9 @@
 import { useState } from "react";
-import axiosInstance from "../../../../axiosInstance.js";
+import axiosInstance from "@/services/axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import check from "../../../assets/images/check.png";
-import { FiChevronLeft } from 'react-icons/fi';
-
-
+import check from "@/assets/images/check.png";
+import { FiChevronLeft } from "react-icons/fi";
 
 function AddNewBranch() {
   const [branch, setBranch] = useState("");
@@ -51,14 +49,24 @@ function AddNewBranch() {
       status: status,
     };
 
-    if (!branch || !city || !state || !zipCode || !country || !openTime || !closeTime) {
+    if (
+      !branch ||
+      !city ||
+      !state ||
+      !zipCode ||
+      !country ||
+      !openTime ||
+      !closeTime
+    ) {
       setError("All fields are required.");
       setTimeout(() => setError(""), 3000);
       return;
     }
     if (openTime >= closeTime) {
-      setError("Invalid operating hours. Open time should be before close time.");
-      setTimeout(() => setError(""), 3000)
+      setError(
+        "Invalid operating hours. Open time should be before close time."
+      );
+      setTimeout(() => setError(""), 3000);
       return;
     }
 
@@ -101,8 +109,28 @@ function AddNewBranch() {
       </a>
       <div className="container-content">
         <form onSubmit={addBranch} className="add-branch-form">
-          <div style={{ position: "relative", textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-            {error && <div className="alert alert-danger" style={{ position: "absolute", left: "25%", top: "-10px", width: "50%", padding: "4px" }}>{error}</div>}
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {error && (
+              <div
+                className="alert alert-danger"
+                style={{
+                  position: "absolute",
+                  left: "25%",
+                  top: "-10px",
+                  width: "50%",
+                  padding: "4px",
+                }}
+              >
+                {error}
+              </div>
+            )}
           </div>
           <div className="d-flex justify-content-between ml-5 mr-5 pt-4 mt-3 add-branch-fields">
             <div className="form-group">
@@ -144,11 +172,8 @@ function AddNewBranch() {
               />
             </div>
             <div className="form-group">
-              <label>State:</label> <br />  
-              <select
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-              >
+              <label>State:</label> <br />
+              <select value={state} onChange={(e) => setState(e.target.value)}>
                 <option value="">Select State</option>
                 {australianStates.map((state, index) => (
                   <option key={index} value={state}>
@@ -166,12 +191,16 @@ function AddNewBranch() {
                 onChange={(e) => setZipCode(e.target.value)}
               />
             </div>
-
           </div>
           <div className="d-flex justify-content-between ml-5 add-branch-fields">
             <div className="form-group country-field">
               <label>Country:</label>
-              <input type="text" disabled className="form-control" value={country} />
+              <input
+                type="text"
+                disabled
+                className="form-control"
+                value={country}
+              />
             </div>
             <div className="form-group opening-time-field">
               <label>Opening Time:</label>
@@ -190,10 +219,8 @@ function AddNewBranch() {
                 style={{ opacity: "0" }}
               />
             </div>
-
-
           </div>
-     
+
           <div className="d-flex justify-content-between ml-5 add-branch-fields">
             <div className="form-group status-field">
               <label>Status:</label>
@@ -226,7 +253,10 @@ function AddNewBranch() {
               />
             </div>
           </div>
-          <button className="submit-btn mb-4 mt-4 submit-branch-btn" type="submit">
+          <button
+            className="submit-btn mb-4 mt-4 submit-branch-btn"
+            type="submit"
+          >
             SAVE
           </button>
         </form>

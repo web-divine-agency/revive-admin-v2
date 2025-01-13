@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../../../../axiosInstance.js";
+import axiosInstance from "@/services/axiosInstance.js";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
-import check from "../../../assets/images/check.png";
+import check from "@/assets/images/check.png";
 import { FiChevronLeft } from "react-icons/fi";
 
 function EditBranch() {

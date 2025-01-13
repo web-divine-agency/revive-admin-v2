@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "../../../assets/images/list-view.png";
-import edit_icon from "../../../assets/images/edit-details.png";
-import delete_icon from "../../../assets/images/delete-log.png";
+import view_icon from "@/assets/images/list-view.png";
+import edit_icon from "@/assets/images/edit-details.png";
+import delete_icon from "@/assets/images/delete-log.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance.js";
-import check from "../../../assets/images/check.png";
-import { useLoader } from "../../Loaders/LoaderContext";
+import axiosInstance from "@/services/axiosInstance.js";
+import check from "@/assets/images/check.png";
+import { useLoader } from "@/components/loaders/LoaderContext";
 
 import "./UserRolesList.scss";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 

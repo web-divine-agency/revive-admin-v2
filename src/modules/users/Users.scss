@@ -1,0 +1,58 @@
+#users-list {
+  padding-bottom: 64px;
+
+  .MuiPaper-root {
+    padding: 24px;
+  }
+}
+
+.modal {
+  top: 64px;
+
+  .profile-image {
+    display: block;
+    margin: auto;
+    width: 128px;
+  }
+}
+
+#users-create {
+  .MuiPaper-root {
+    padding: 24px;
+
+    .mui-btn {
+      &-cancel {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+#users-update {
+  .MuiPaper-root {
+    padding: 24px;
+
+    .mui-btn {
+      &-cancel {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.MuiButtonBase-root.MuiMenuItem-root.Mui-selected {
+  background-color: var(--lime600);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: var(--lime600);
+  }
+}
+
+@media (min-width: 1200px) {
+  #users-create {
+    .MuiPaper-root {
+      width: 50%;
+    }
+  }
+}

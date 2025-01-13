@@ -1,17 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { AuthContextProvider } from "./components/Authentication/authContext";
+import { AuthContextProvider } from "./middleware/AuthContext";
 
-import ProtectedRoute from "./components/PrivateRoute/PrivateRoute";
+import ProtectedRoute from "./middleware/PrivateRoute";
 
-import Login from "./components/Login/Login";
-import ForgotPassword from "./components/PasswordReset/ForgotPassword";
-import ResetPassword from "./components/PasswordReset/ResetPassword";
-import CheckEmail from "./components/PasswordReset/CheckEmail";
+import Login from "./modules/auth/Login";
+import ForgotPassword from "./modules/auth/ForgotPassword";
+import ResetPassword from "./modules/auth/ResetPassword";
+import CheckEmail from "./modules/auth/CheckEmail";
 
-import UsersList from "./components/AdminPages/UsersList/UsersList";
-import UsersCreate from "./components/AdminPages/UsersList/UsersCreate";
-import UsersUpdate from "./components/AdminPages/UsersList/UsersUpdate";
+import UsersCreate from "./modules/users/UsersCreate";
+import UsersList from "./modules/users/UsersList";
+import UsersUpdate from "./modules/users/UsersUpdate";
 
 import UserRolesList from "./components/AdminPages/UserRoles/UserRolesList";
 import UserRolesCreate from "./components/AdminPages/UserRoles/UserRolesCreate";
@@ -25,21 +25,21 @@ import StaffLogs from "./components/AdminPages/StaffLogs/StaffLogs";
 import History from "./components/StaffPages/History/History";
 import QueueList from "./components/StaffPages/QueueList/QueueList";
 
-import TicketsHistory from "./components/AdminPages/TicketsHistory/TicketsHistory";
 import TicketCategory from "./components/AdminPages/TemplateManagement/TicketCategory";
-
-import GenerateTickets from "./components/StaffPages/GenerateTickets/GenerateTickets";
+import TicketsHistory from "./components/AdminPages/TicketsHistory/TicketsHistory";
+import TicketsCreate from "./modules/tickets/TicketsCreate";
 
 import MyProfile from "./components/AdminPages/MyProfile/MyProfile";
 
 import TemplateManagement from "./components/AdminPages/TemplateManagement/TemplateManagement";
 import EditUserTemplateAccess from "./components/AdminPages/TemplateManagement/EditUserTemplateAccess";
 
-import ResourcesIndex from "./components/AdminPages/Resources/ResourcesIndex";
-import ResourcesLists from "./components/AdminPages/Resources/ResourcesLists";
-import ResourcesCreate from "./components/AdminPages/Resources/ResourcesCreate";
-import ResourcesUpdate from "./components/AdminPages/Resources/ResourcesUpdate";
-import ResourcesRead from "./components/AdminPages/Resources/ResourcesRead";
+import ResourcesIndex from "./modules/resources/ResourcesIndex";
+import ResourcesLists from "./modules/resources/ResourcesLists";
+import ResourcesCreate from "./modules/resources/ResourcesCreate";
+import ResourcesRead from "./modules/resources/ResourcesRead";
+import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
+
 
 export default function AppRouter() {
   return (
@@ -232,7 +232,7 @@ export default function AppRouter() {
           path="/generate-tickets"
           element={
             <ProtectedRoute
-              element={<GenerateTickets />}
+              element={<TicketsCreate />}
               allowedRoles={["Staff", "Admin"]}
             />
           }

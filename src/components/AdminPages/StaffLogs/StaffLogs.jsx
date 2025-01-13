@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import man from "../../../assets/images/man.png";
-import check from "../../../assets/images/check.png";
+import man from "@/assets/images/man.png";
+import check from "@/assets/images/check.png";
 
-import woman from "../../../assets/images/woman.png";
+import woman from "@/assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../../axiosInstance.js";
+import axiosInstance from "@/services/axiosInstance.js";
 import Swal from "sweetalert2";
-import delete_icon from "../../../assets/images/delete-log.png";
-import { useLoader } from "../../Loaders/LoaderContext";
+import delete_icon from "@/assets/images/delete-log.png";
+import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 

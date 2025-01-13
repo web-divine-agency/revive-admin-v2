@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import profile_avatar from "../../../assets/images/profile_avatar.png";
-import axiosInstance from "../../../../axiosInstance.js";
+import { useState, useEffect } from "react";
+import axiosInstance from "@/services/axiosInstance.js";
 import Swal from "sweetalert2";
-import close from "../../../assets/images/close.png";
-import check from "../../../assets/images/check.png";
-import man from '../../../assets/images/man.png';
-import woman from '../../../assets/images/woman.png';
+import close from "@/assets/images/close.png";
+import check from "@/assets/images/check.png";
+import man from '@/assets/images/man.png';
+import woman from '@/assets/images/woman.png';
 
 function MyProfile() {
   const [username, setUsername] = useState("");
@@ -18,6 +17,7 @@ function MyProfile() {
   const [last_name, setLastName] = useState("");
   const [role, setRole] = useState("");
   const [branch, setBranch] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {

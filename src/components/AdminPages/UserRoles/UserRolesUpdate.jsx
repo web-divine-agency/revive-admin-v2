@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance.js";
-import check from "../../../assets/images/check.png";
+import axiosInstance from "@/services/axiosInstance.js";
+import check from "@/assets/images/check.png";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar.jsx";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar.jsx";
+import NavTopbar from "@/components/navigation/NavTopbar.jsx";
+import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 import {
   Box,
   Button,

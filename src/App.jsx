@@ -12,7 +12,7 @@ import AppRouter from "./AppRouter";
 
 import Global from "./util/global";
 
-import { LoaderProvider } from "./components/Loaders/LoaderContext";
+import { LoaderProvider } from "./components/loaders/LoaderContext";
 import { SnackbarProvider } from "notistack";
 
 export default function App() {

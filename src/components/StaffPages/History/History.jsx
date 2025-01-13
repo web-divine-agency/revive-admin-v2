@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import man from "../../../assets/images/man.png";
-import woman from "../../../assets/images/woman.png";
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import view_icon from "../../../assets/images/list-view.png";
+import view_icon from "@/assets/images/list-view.png";
 
-import axiosInstance from "../../../../axiosInstance.js";
+import axiosInstance from "@/services/axiosInstance.js";
 import { Modal, Button } from "react-bootstrap";
 import {
   Document,
@@ -19,7 +19,7 @@ import {
 } from "@react-pdf/renderer";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import { useLoader } from "../../Loaders/LoaderContext";
+import { useLoader } from "@/components/loaders/LoaderContext";
 
 Font.register({
   family: "Outfit",

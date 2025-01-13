@@ -16,11 +16,11 @@ import check from "../../../assets/images/check.png";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axiosInstance.js";
-import { useLoader } from "../../Loaders/LoaderContext";
+import axiosInstance from "@/services/axiosInstance.js";
+import { useLoader } from "@/components/loaders/LoaderContext";
 
-import NavTopbar from "../../Navigation/nav-topbar/NavTopbar";
-import NavSidebar from "../../Navigation/nav-sidebar/NavSidebar";
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 
 function Branches() {
   const navigate = useNavigate();
