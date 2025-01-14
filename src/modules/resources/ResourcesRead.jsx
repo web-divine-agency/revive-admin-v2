@@ -154,7 +154,7 @@ export default function ResourcesRead() {
       <Box component={"section"} id="resources-read" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            Resource Details
+            {resourceTitle}
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>

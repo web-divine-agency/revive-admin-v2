@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import {
   Box,
+  Collapse,
   Container,
   Divider,
   IconButton,
@@ -20,6 +21,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import Global from "@/util/global";
 
@@ -40,6 +43,15 @@ export default function NavSidebar() {
 
   const [role, setRole] = useState("");
 
+  const [menu, setMenu] = useState({
+    tickets: {
+      open: false,
+    },
+    branches: {
+      open: false,
+    },
+  });
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setAuthUser({});
@@ -56,6 +68,13 @@ export default function NavSidebar() {
         time: moment().format("hh:mm:ss a"),
       }));
     }, 1000);
+  };
+
+  const toggleDropdown = (name) => {
+    setMenu((prev) => ({
+      ...prev,
+      [name]: { ...prev[name], open: !menu[name].open },
+    }));
   };
 
   useEffect(() => {
@@ -96,20 +115,76 @@ export default function NavSidebar() {
               </Link>
             </ListItem>
             {role === "Admin" && (
-              <ListItem>
-                <Link to="/tickets" onClick={() => setSidebarActive(false)}>
-                  <ConfirmationNumberIcon />
-                  Ticketing
-                </Link>
-              </ListItem>
+              <>
+                <ListItem>
+                  <Link to="#" onClick={() => toggleDropdown("tickets")}>
+                    <ConfirmationNumberIcon />
+                    Ticketing
+                    {menu.tickets.open ? <ExpandLess /> : <ExpandMore />}
+                  </Link>
+                </ListItem>
+                <Collapse
+                  component={"li"}
+                  in={menu.tickets.open}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List disablePadding>
+                    <ListItem>
+                      <Link
+                        to="/tickets"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Ticket List
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        to="/generate-tickets"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Generate Tickets
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </>
             )}
             {role === "Admin" && (
-              <ListItem>
-                <Link to="/branches" onClick={() => setSidebarActive(false)}>
-                  <ApartmentIcon />
-                  Branches
-                </Link>
-              </ListItem>
+              <>
+                <ListItem>
+                  <Link to="#" onClick={() => toggleDropdown("branches")}>
+                    <ApartmentIcon />
+                    Branches
+                    {menu.branches.open ? <ExpandLess /> : <ExpandMore />}
+                  </Link>
+                </ListItem>
+                <Collapse
+                  component={"li"}
+                  in={menu.branches.open}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List disablePadding>
+                    <ListItem>
+                      <Link
+                        to="/branches"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Branches List
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        to="/branches/create"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Add New Branch
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </>
             )}
             <ListItem>
               <Link

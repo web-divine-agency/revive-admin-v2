@@ -5805,7 +5805,7 @@ export default function TicketsCreate() {
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
-              <Grid size={{ xs: 12 }}>
+              <Grid size={{ xs: 12 }} textAlign={"right"}>
                 {role === "Admin" && (
                   <div className="ticket-category">
                     <Button
