@@ -8,6 +8,8 @@ import {
   Chip,
   Container,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -17,6 +19,8 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import "./Users.scss";
 
@@ -29,6 +33,8 @@ import axiosInstance from "@/services/axiosInstance";
 
 export default function UsersCreate() {
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -269,26 +275,58 @@ export default function UsersCreate() {
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  type="text"
-                  name="password"
-                  label="Password"
-                  value={user.password}
-                  onChange={(event) => handleOnChange(event)}
-                />
+                <FormControl fullWidth size="small" variant="outlined">
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <OutlinedInput
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    name="password"
+                    value={user.password}
+                    onChange={(event) => handleOnChange(event)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  type="text"
-                  name="confirmPassword"
-                  label="Confirm password"
-                  value={user.confirmPassword}
-                  onChange={(event) => handleOnChange(event)}
-                />
+                <FormControl fullWidth size="small" variant="outlined">
+                  <InputLabel htmlFor="password">Confirm password</InputLabel>
+                  <OutlinedInput
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    label="Confirm password"
+                    name="confirmPassword"
+                    value={user.confirmPassword}
+                    onChange={(event) => handleOnChange(event)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }} textAlign={"right"}>
                 <Button
