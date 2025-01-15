@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material";
-import { grey, lime, red } from "@mui/material/colors";
+import { blue, green, grey, lime, red } from "@mui/material/colors";
 
 import "@fontsource-variable/outfit";
 
@@ -78,12 +78,30 @@ function customTheme() {
         dark: grey[800],
         contrastText: "#fff",
       },
+      grey: {
+        light: grey[400],
+        main: grey[500],
+        dark: grey[600],
+        contrastText: "#fff",
+      },
       red: {
         light: red[700],
         main: red[900],
         dark: red[800],
         contrastText: "#fff",
       },
+      green: {
+        light: green[700],
+        main: green[900],
+        dark: green[800],
+        contrastText: "#fff",
+      },
+      blue: {
+        light: blue[700],
+        main: blue[900],
+        dark: blue[800],
+        contrastText: "#fff",
+      }
     },
   });
 }

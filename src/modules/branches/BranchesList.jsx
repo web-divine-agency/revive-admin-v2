@@ -1,95 +1,114 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { Helmet } from "react-helmet";
 import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
 
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Container,
+  IconButton,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import "font-awesome/css/font-awesome.min.css";
+
 import "./Branches.scss";
 
-import view_icon from "@/assets/images/list-view.png";
-import edit_icon from "@/assets/images/edit-details.png";
-import delete_icon from "@/assets/images/delete-log.png";
 import check from "@/assets/images/check.png";
 
-import { Link, useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
+import { snackbar } from "@/util/helper";
+
 import axiosInstance from "@/services/axiosInstance.js";
 import { useLoader } from "@/components/loaders/LoaderContext";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
+import { toAmPm } from "@/util/helper";
 
 export default function BranchesList() {
   const navigate = useNavigate();
-  
-  const [data, setData] = useState([]);
-  const [selectedBranches, setSelectedBranches] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [selectedBranchId, setSelectedBranchId] = useState("");
+
   const { setLoading } = useLoader();
 
-  useEffect(() => {
-    const fetchBranches = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosInstance.get("/branches");
-        const formattedData = response.data.map((branch) => {
-          const parsedOperatingHours = JSON.parse(branch.operating_hours); // Parse first
+  const [branches, setBranches] = useState([]);
+  const [filteredBranches, setFilteredBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState({});
+  const [selectedBranchId, setSelectedBranchId] = useState("");
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [branchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false);
+
+  const handleListBranches = () => {
+    setLoading(true);
+
+    axiosInstance
+      .get("/branches")
+      .then((response) => {
+        let temp = response.data.map((item) => {
           return {
-            id: branch.id,
-            branch_name: branch.branch_name,
-            address: formatAddress(branch.branch_address),
-            operating_hours: parsedOperatingHours,
+            id: item.id,
+            branchName: item.branch_name,
+            address: formatAddress(item.branch_address),
+            operatingHours: JSON.parse(item.operating_hours),
             status: getBranchStatus({
-              ...branch,
-              operating_hours: parsedOperatingHours,
-            }), // Pass parsed data here
+              ...item,
+              operatingHours: JSON.parse(item.operating_hours),
+            }),
           };
         });
-        setData(formattedData);
-        setFilteredData(formattedData);
-      } catch (error) {
-        console.error("Error fetching branches:", error);
-      } finally {
+
+        setBranches(temp);
+        setFilteredBranches(temp);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.msg, "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
+      });
+  };
 
-    const formatAddress = (address) => {
-      return address
-        .split(",") // Split the address into parts based on commas
-        .map((part) => part.trim()) // Remove extra spaces from each part
-        .filter((part) => part.length > 0) // Filter out empty parts
-        .join(", "); // Join the remaining parts back together with a comma
-    };
+  const formatAddress = (address) => {
+    return address
+      .split(",") // Split the address into parts based on commas
+      .map((part) => part.trim()) // Remove extra spaces from each part
+      .filter((part) => part.length > 0) // Filter out empty parts
+      .join(", "); // Join the remaining parts back together with a comma
+  };
 
-    fetchBranches();
-  }, [navigate]);
+  useEffect(() => {
+    handleListBranches();
+  }, []);
 
   //filter branches
   useEffect(() => {
-    const results = data.filter(
+    const results = branches.filter(
       (branch) =>
         (selectedBranchId ? branch.id === parseInt(selectedBranchId) : true) &&
-        (branch.branch_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (branch.branchName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           branch.address.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-    setFilteredData(results);
-  }, [searchTerm, data, selectedBranchId]);
-
-  const handleBranchSelect = (e) => {
-    setSelectedBranchId(e.target.value);
-    console.log("Selected Branch ID:", e.target.value);
-  };
+    setFilteredBranches(results);
+  }, [searchTerm, branches, selectedBranchId]);
 
   const getBranchStatus = (branch) => {
-    if (!branch.operating_hours || typeof branch.operating_hours !== "object") {
+    if (!branch.operatingHours || typeof branch.operatingHours !== "object") {
       return "Undefined";
     }
     const currentTime = new Date();
@@ -107,8 +126,8 @@ export default function BranchesList() {
       parseInt(minutes, 10) * 60 +
       parseInt(seconds, 10);
 
-    const openTime = branch.operating_hours.open.split(":");
-    const closeTime = branch.operating_hours.close.split(":");
+    const openTime = branch.operatingHours.open.split(":");
+    const closeTime = branch.operatingHours.close.split(":");
 
     const openSeconds =
       parseInt(openTime[0], 10) * 3600 +
@@ -126,19 +145,6 @@ export default function BranchesList() {
     return currentSeconds >= openSeconds && currentSeconds <= closeSeconds
       ? "Open"
       : "Closed";
-  };
-
-  //modal view
-  const handleViewClick = (branch) => {
-    setSelectedBranches(branch);
-    setShowModal(true);
-  };
-  //close modal
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-  const handleEditBranchClick = (branchId) => {
-    navigate(`/branches/${branchId}`);
   };
 
   //handle deleting of branch
@@ -162,7 +168,7 @@ export default function BranchesList() {
       if (result.isConfirmed) {
         try {
           await axiosInstance.delete(`/delete-branch/${branchId}`);
-          setData(data.filter((branch) => branch.id !== branchId));
+          setBranches(branches.filter((branch) => branch.id !== branchId));
           Swal.fire({
             title: "Success!",
             text: "Branch has been deleted.",
@@ -197,7 +203,7 @@ export default function BranchesList() {
   const columns = [
     {
       name: "Branch",
-      selector: (row) => row.branch_name,
+      selector: (row) => row.branchName,
       sortable: true,
     },
     {
@@ -208,10 +214,10 @@ export default function BranchesList() {
     {
       name: "Operating Hours",
       selector: (row) => {
-        if (typeof row.operating_hours === "object") {
-          return `${row.operating_hours.open} - ${row.operating_hours.close}`;
+        if (typeof row.operatingHours === "object") {
+          return `${row.operatingHours.open} - ${row.operatingHours.close}`;
         }
-        return row.operating_hours;
+        return row.operatingHours;
       },
       sortable: false,
     },
@@ -231,39 +237,30 @@ export default function BranchesList() {
     },
 
     {
-      name: "Action",
+      name: "Actions",
       selector: (row) => (
         <div>
-          <img
-            src={view_icon}
-            title="View Branch Details"
-            alt="view"
-            width="25"
-            height="25"
-            onClick={() => handleViewClick(row)}
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-3"
-            src={edit_icon}
-            title="Edit Branch Details"
-            onClick={() => handleEditBranchClick(row.id)}
-            style={{ cursor: "pointer" }}
-            alt="edit"
-            width="25"
-            height="25"
-          />
-
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete Branch"
-            style={{ cursor: "pointer" }}
+          <IconButton
+            onClick={() => {
+              setBranchDetailsModalOpen(true);
+              setSelectedBranch(row);
+            }}
+            color="green"
+          >
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => navigate(`/branches/${row.id}`)}
+            color="blue"
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
             onClick={() => handleDeleteBranchClick(row.id)}
-            alt="delete"
-            width="25"
-            height="25"
-          />
+            color="red"
+          >
+            <RemoveCircleIcon />
+          </IconButton>
         </div>
       ),
       sortable: false,
@@ -285,7 +282,11 @@ export default function BranchesList() {
           <Paper variant="outlined">
             <Grid container spacing={2}>
               <Grid size={{ xs: 12 }}>
-                <Button variant="contained" component={Link} to="/branches/create">
+                <Button
+                  variant="contained"
+                  component={Link}
+                  to="/branches/create"
+                >
                   Add New Branch
                 </Button>
               </Grid>
@@ -293,13 +294,13 @@ export default function BranchesList() {
                 <select
                   name="filter"
                   className="filter"
-                  onChange={handleBranchSelect}
+                  onChange={(e) => setSelectedBranchId(e.target.value)}
                   value={selectedBranchId}
                 >
                   <option value="">All Branches</option>
-                  {data.map((branch) => (
+                  {branches.map((branch) => (
                     <option key={branch.id} value={branch.id}>
-                      {branch.branch_name}
+                      {branch.branchName}
                     </option>
                   ))}
                 </select>
@@ -315,72 +316,59 @@ export default function BranchesList() {
                 <DataTable
                   className="dataTables_wrapper"
                   columns={columns}
-                  data={filteredData}
+                  data={filteredBranches}
                   pagination
                   paginationPerPage={20}
                   paginationRowsPerPageOptions={[20, 30]}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                {selectedBranches && (
-                  <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                    <Modal.Header closeButton>
-                      <Modal.Title>Branch Details</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <div className="branch-container">
-                        <h2>{selectedBranches.branch_name}</h2>
-                        <h5>Full Address:</h5>
-                        <p>{selectedBranches.address}</p>
-                        <h5>Operating Hours</h5>
-                        <p>
-                          Open: {selectedBranches.operating_hours?.open} -
-                          Close: {selectedBranches.operating_hours?.close}
-                        </p>
-                        <h5>Status</h5>
-                        <p>{selectedBranches.status}</p>
-                      </div>
-                      <div className="branch-container">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Owner</th>
-                              <th>Email</th>
-                              <th>Role</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>John Doe</td>
-                              <td>john.doe@example.com</td>
-                              <td>Admin</td>
-                            </tr>
-                            <tr>
-                              <td>Jane Smith</td>
-                              <td>jane.smith@example.com</td>
-                              <td>Admin</td>
-                            </tr>
-                            <tr>
-                              <td>Michael Johnson</td>
-                              <td>michael.johnson@example.com</td>
-                              <td>Staff</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </Modal.Body>
-                    {/* <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Modal.Footer> */}
-                  </Modal>
-                )}
-              </Grid>
             </Grid>
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={branchDetailsModalOpen}
+        onClose={() => setBranchDetailsModalOpen(false)}
+        className="branch-details-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-lg">
+          <Box className="modal-header">
+            <Typography>Branch Details</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="branch-name">
+              {selectedBranch.branchName}
+            </Typography>
+            <Typography className="branch-address">
+              {selectedBranch.address}
+            </Typography>
+            <Typography className="branch-from">
+              From: {toAmPm(selectedBranch.operatingHours?.open)}
+            </Typography>
+            <Typography className="branch-to">
+              To: {toAmPm(selectedBranch.operatingHours?.close)}
+            </Typography>
+            <Typography className="branch-status"></Typography>
+            <Chip
+              label={selectedBranch.status?.toUpperCase()}
+              color={
+                selectedBranch.status?.toLowerCase() === "open"
+                  ? "green"
+                  : "grey"
+              }
+            />
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="contained"
+              color="grey"
+              onClick={() => setBranchDetailsModalOpen(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

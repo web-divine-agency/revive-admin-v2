@@ -1,4 +1,5 @@
 import { closeSnackbar, enqueueSnackbar } from "notistack";
+import moment from "moment";
 
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,4 +20,8 @@ export function snackbar(msg, variant, duration = 3000) {
       </IconButton>
     ),
   });
+}
+
+export function toAmPm(time) {
+  return moment(time, "HH:mm").format("h:mm a");
 }
