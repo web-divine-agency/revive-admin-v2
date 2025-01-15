@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import DataTable from "react-data-table-component";
 import moment from "moment";
 
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import "./Tickets.scss";
-
-import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
 
 import "font-awesome/css/font-awesome.min.css";
 import man from "@/assets/images/man.png";
 import woman from "@/assets/images/woman.png";
-import { Link, useNavigate } from "react-router-dom";
-import view_icon from "@/assets/images/list-view.png";
 
-import delete_icon from "@/assets/images/delete-log.png";
 import check from "@/assets/images/check.png";
 import axiosInstance from "@/services/axiosInstance.js";
-import { Modal } from "react-bootstrap";
 import {
   Document,
   Page,
@@ -30,7 +35,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-import "@react-pdf-viewer/core/lib/styles/index.css";
+// import "@react-pdf-viewer/core/lib/styles/index.css";
 import Swal from "sweetalert2";
 
 import { useLoader } from "@/components/loaders/LoaderContext";
@@ -38,8 +43,38 @@ import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
 Font.register({
-  family: "Outfit",
-  src: Outfit,
+  family: "Arial",
+  src: "/fonts/arial/arialbd.ttf",
+});
+
+Font.register({
+  family: "ArialNormal",
+  src: "/fonts/arial/arial.ttf",
+});
+
+Font.register({
+  family: "ArialItalic",
+  src: "/fonts/arial/ariali.ttf",
+});
+
+Font.register({
+  family: "ArialNarrow",
+  src: "/fonts/arial/arialn.ttf",
+});
+
+Font.register({
+  family: "Aptos",
+  src: "/fonts/aptos/Aptos.ttf",
+});
+
+Font.register({
+  family: "AptosBold",
+  src: "/fonts/aptos/Aptos-Bold.ttf",
+});
+
+Font.register({
+  family: "BarlowCondensed",
+  src: "/fonts/barlow/BarlowCondensed-Medium.ttf",
 });
 
 function TicketsHistory() {
@@ -47,7 +82,6 @@ function TicketsHistory() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -55,6 +89,8 @@ function TicketsHistory() {
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const { setLoading } = useLoader();
+
+  const [ticketDetailsModalOpen, setTicketDetailsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -257,7 +293,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "24px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                             }}
                           >
@@ -267,7 +303,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "16px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                               marginTop: "3px",
                             }}
@@ -279,7 +315,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "16px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                             }}
                           >
@@ -291,7 +327,7 @@ function TicketsHistory() {
                               fontSize: "50px",
                               paddingBottom: 2,
                               // paddingTop: 2,
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                             }}
                           >
                             {item.price || "Price"}
@@ -301,7 +337,7 @@ function TicketsHistory() {
                               fontSize: "9px",
                               textAlign: "center",
                               marginBottom: "116px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                             }}
                           >
                             REVIVE OFFER AVAILABLE {"\n"}
@@ -324,7 +360,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "28px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               // fontStretch: "condensed", // Condensed style
                               textAlign: "center",
                             }}
@@ -336,7 +372,7 @@ function TicketsHistory() {
                               fontSize: "22px",
                               paddingBottom: 2,
                               // paddingTop: 2,
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                             }}
                           >
                             {item.price || "Price"}
@@ -345,7 +381,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "15px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                             }}
                           >
@@ -356,7 +392,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "15px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                             }}
                           >
@@ -367,7 +403,7 @@ function TicketsHistory() {
                             <Text
                               style={{
                                 fontSize: "10px",
-                                fontFamily: "Outfit",
+                                fontFamily: "Arial",
                                 marginTop: "2px",
                               }}
                             >
@@ -379,7 +415,7 @@ function TicketsHistory() {
                               style={{
                                 fontSize: "9px",
                                 textAlign: "center",
-                                fontFamily: "Outfit",
+                                fontFamily: "Arial",
                                 marginBottom:
                                   item.optionType === "With RRP"
                                     ? "92px"
@@ -394,7 +430,7 @@ function TicketsHistory() {
                               style={{
                                 fontSize: "9px",
                                 textAlign: "center",
-                                fontFamily: "Outfit",
+                                fontFamily: "Arial",
                                 marginBottom:
                                   item.optionType === "With RRP"
                                     ? "92px"
@@ -420,7 +456,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "24px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                               marginTop: 10,
                               lineHeight: "1px",
@@ -432,7 +468,7 @@ function TicketsHistory() {
                             style={{
                               fontSize: "26px",
                               textTransform: "uppercase",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textAlign: "center",
                               // marginTop: isPDFView ? 10 : 0,
                               lineHeight: "1px",
@@ -444,7 +480,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "50px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -458,7 +494,7 @@ function TicketsHistory() {
                             style={{
                               marginTop: "5px",
                               fontSize: "15px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -471,7 +507,7 @@ function TicketsHistory() {
                             style={{
                               marginTop: "5px",
                               fontSize: "15px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textTransform: "uppercase",
                               textAlign: "center",
                               lineHeight: "1px",
@@ -486,7 +522,7 @@ function TicketsHistory() {
                               // paddingTop: "5px",
                               fontSize: "9px",
                               textAlign: "center",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               lineHeight: "1px",
                               marginBottom: "85px",
                               paddingBottom: 8,
@@ -509,7 +545,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "72px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               textTransform: "uppercase",
                               marginTop: 10,
                             }}
@@ -531,7 +567,7 @@ function TicketsHistory() {
                           <Text
                             style={{
                               fontSize: "200px",
-                              fontFamily: "Outfit",
+                              fontFamily: "Arial",
                               marginTop: "-20px",
                             }}
                           >
@@ -1973,11 +2009,6 @@ function TicketsHistory() {
     </Document>
   );
 
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedTicket(null);
-  };
-
   const handleViewTicketClick = async (id) => {
     try {
       const response = await axiosInstance.get(`/ticket/${id}`);
@@ -1994,7 +2025,7 @@ function TicketsHistory() {
       setSelectedTicket(formattedTicketData);
       // console.log(formattedTicketData);
       // console.log(ticket);
-      setShowModal(true);
+      setTicketDetailsModalOpen(true);
     } catch (error) {
       console.error("Error viewing ticket:", error);
     }
@@ -2072,8 +2103,6 @@ function TicketsHistory() {
         </label>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
     },
     {
       name: "User",
@@ -2098,7 +2127,7 @@ function TicketsHistory() {
     {
       name: "Date Created",
       selector: (row) =>
-        moment(row.date.toLocaleString()).format("D MMM, YYYY | h:mm a"),
+        moment(new Date(row.date)).format("D MMM, YYYY | h:mm a"),
     },
 
     {
@@ -2119,28 +2148,21 @@ function TicketsHistory() {
       cell: (row) => <div>{row.ticketType}</div>,
     },
     {
-      name: "Action",
+      name: "Actions",
       selector: (row) => (
         <div>
-          <img
-            src={view_icon}
-            title="View Ticket Details"
-            alt="view"
-            width="25"
-            height="25"
+          <IconButton
             onClick={() => handleViewTicketClick(row.id)}
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-3"
-            src={delete_icon}
-            title="Delete Ticket"
-            alt="delete"
-            width="25"
-            height="25"
+            color="green"
+          >
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton
             onClick={() => handleDeleteTicketClick(row.id)}
-            style={{ cursor: "pointer" }}
-          />
+            color="red"
+          >
+            <RemoveCircleIcon />
+          </IconButton>
         </div>
       ),
       sortable: false,
@@ -2271,58 +2293,37 @@ function TicketsHistory() {
                   paginationRowsPerPageOptions={[10, 20]}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                {selectedTicket && (
-                  <Modal show={showModal} onHide={closeModal} size="lg">
-                    <Modal.Header closeButton>
-                      <Modal.Title>View Tickets</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Text>
-                        Date Created:{" "}
-                        {(() => {
-                          const date = new Date(selectedTicket.date);
-                          const options = { timeZone: "Australia/Sydney" };
-
-                          const month = date.toLocaleString("en-AU", {
-                            month: "short",
-                            ...options,
-                          }); // 'Oct'
-                          const day = date.toLocaleString("en-AU", {
-                            day: "numeric",
-                            ...options,
-                          }); // '10'
-                          const year = date.toLocaleString("en-AU", {
-                            year: "numeric",
-                            ...options,
-                          }); // '2024'
-                          const time = date.toLocaleString("en-AU", {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                            ...options,
-                          }); // '12:27 PM'
-
-                          return `${month} ${day}, ${year} ${time}`;
-                        })()}
-                      </Text>
-
-                      <PDFViewer showToolbar={true} width="100%" height="600">
-                        <TicketPDF selectedTicket={selectedTicket} />
-                      </PDFViewer>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={closeModal}>
-                        Close
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                )}
-              </Grid>
             </Grid>
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={ticketDetailsModalOpen}
+        onClose={() => setTicketDetailsModalOpen(false)}
+        className="ticket-details-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-lg">
+          <Box className="modal-header">
+            <Typography>Ticket Details</Typography>
+          </Box>
+          <Box className="modal-body">
+            {selectedTicket && (
+              <PDFViewer showToolbar={true} width="100%" height="600">
+                <TicketPDF selectedTicket={selectedTicket} />
+              </PDFViewer>
+            )}
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="contained"
+              color="grey"
+              onClick={() => setTicketDetailsModalOpen(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }
