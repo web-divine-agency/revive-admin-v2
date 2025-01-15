@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
-import "./TicketHistory.scss";
+import "./Tickets.scss";
 
 import Outfit from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
 
@@ -60,6 +61,7 @@ function TicketsHistory() {
       setLoading(true);
       try {
         const response = await axiosInstance.get("/tickets");
+
         const formattedData = response.data
           .map((tickets) => ({
             id: tickets.id,
@@ -2095,33 +2097,8 @@ function TicketsHistory() {
     },
     {
       name: "Date Created",
-      selector: (row) => {
-        const date = new Date(row.date);
-        const options = { timeZone: "Australia/Sydney" };
-
-        // Extract parts of the date separately
-        const month = date.toLocaleString("en-AU", {
-          month: "short",
-          ...options,
-        }); // 'Oct'
-        const day = date.toLocaleString("en-AU", {
-          day: "numeric",
-          ...options,
-        }); // '10'
-        const year = date.toLocaleString("en-AU", {
-          year: "numeric",
-          ...options,
-        }); // '2024'
-        const time = date.toLocaleString("en-AU", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-          ...options,
-        }); // '12:27 PM'
-
-        // Return the formatted string
-        return `${month} ${day}, ${year} ${time}`;
-      },
+      selector: (row) =>
+        moment(row.date.toLocaleString()).format("D MMM, YYYY | h:mm a"),
     },
 
     {

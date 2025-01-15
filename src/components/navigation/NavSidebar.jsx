@@ -211,7 +211,10 @@ export default function NavSidebar() {
             )}
             {role === "Admin" && (
               <ListItem>
-                <Link to="/staff-logs" onClick={() => setSidebarActive(false)}>
+                <Link
+                  to="/activity-logs"
+                  onClick={() => setSidebarActive(false)}
+                >
                   <ListAltIcon />
                   Activity Logs
                 </Link>

@@ -215,7 +215,7 @@ export default function BranchesList() {
       name: "Operating Hours",
       selector: (row) => {
         if (typeof row.operatingHours === "object") {
-          return `${row.operatingHours.open} - ${row.operatingHours.close}`;
+          return `${toAmPm(row.operatingHours.open)} - ${toAmPm(row.operatingHours.close)}`;
         }
         return row.operatingHours;
       },

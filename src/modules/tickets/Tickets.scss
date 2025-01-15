@@ -1,3 +1,16 @@
+#tickets-list {
+  .MuiPaper-root {
+    padding: 24px;
+
+    .mui-btn {
+      &-create {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+
 #tickets-create {
   padding-bottom: 64px;
 

@@ -244,7 +244,7 @@ function ResourcesLists() {
                         <TableCell>{item.status}</TableCell>
                         <TableCell>
                           {moment(item.updatedAt).format(
-                            "D MMM YYYY | hh:mm:ss a"
+                            "D MMM, YYYY | hh:mm a"
                           )}
                         </TableCell>
                       </TableRow>

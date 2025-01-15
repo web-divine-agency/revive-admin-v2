@@ -21,12 +21,11 @@ import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
-import StaffLogs from "./components/AdminPages/StaffLogs/StaffLogs";
 import History from "./components/StaffPages/History/History";
 import QueueList from "./components/StaffPages/QueueList/QueueList";
 
 import TicketCategory from "./components/AdminPages/TemplateManagement/TicketCategory";
-import TicketsHistory from "./components/AdminPages/TicketsHistory/TicketsHistory";
+import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 
 import MyProfile from "./components/AdminPages/MyProfile/MyProfile";
@@ -39,6 +38,7 @@ import ResourcesLists from "./modules/resources/ResourcesLists";
 import ResourcesCreate from "./modules/resources/ResourcesCreate";
 import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
+import ActivityLogs from "./modules/activity-logs/ActivityLogs";
 
 export default function AppRouter() {
   return (
@@ -166,16 +166,20 @@ export default function AppRouter() {
         />
 
         <Route
-          path="/staff-logs"
-          element={
-            <ProtectedRoute element={<StaffLogs />} allowedRoles={["Admin"]} />
-          }
-        />
-        <Route
           path="/tickets"
           element={
             <ProtectedRoute
               element={<TicketsHistory />}
+              allowedRoles={["Admin"]}
+            />
+          }
+        />
+
+        <Route
+          path="/activity-logs"
+          element={
+            <ProtectedRoute
+              element={<ActivityLogs />}
               allowedRoles={["Admin"]}
             />
           }

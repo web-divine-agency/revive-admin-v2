@@ -16,9 +16,10 @@ import NavSidebar from "@/components/navigation/NavSidebar";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
-import "./StaffLogs.scss";
+import "./ActivityLogs.scss";
+import moment from "moment";
 
-function StaffLogs() {
+export default function ActivityLogs() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
@@ -201,33 +202,8 @@ function StaffLogs() {
     },
     {
       name: "Date",
-      selector: (row) => {
-        const date = new Date(row.date);
-        const options = { timeZone: "Australia/Sydney" };
-
-        // Extract parts of the date separately
-        const month = date.toLocaleString("en-AU", {
-          month: "short",
-          ...options,
-        }); // 'Oct'
-        const day = date.toLocaleString("en-AU", {
-          day: "numeric",
-          ...options,
-        }); // '10'
-        const year = date.toLocaleString("en-AU", {
-          year: "numeric",
-          ...options,
-        }); // '2024'
-        const time = date.toLocaleString("en-AU", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-          ...options,
-        }); // '12:27 PM'
-
-        // Return the formatted string
-        return `${month} ${day}, ${year} ${time}`;
-      },
+      selector: (row) =>
+        moment(row.date.toLocaleString()).format("D MMM, YYYY | h:mm a"),
     },
 
     {
@@ -309,14 +285,14 @@ function StaffLogs() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Staff Logs | Revive Pharmacy </title>
+        <title>Activity Logs | Revive Pharmacy </title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
       <Box component={"section"} id="staff-logs" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            Staff Logs
+            Activity Logs
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
@@ -381,5 +357,3 @@ function StaffLogs() {
     </React.Fragment>
   );
 }
-
-export default StaffLogs;
