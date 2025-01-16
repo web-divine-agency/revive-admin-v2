@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Helmet } from "react-helmet";
 import DataTable from "react-data-table-component";
-import Swal from "sweetalert2";
 
 import {
   Box,
@@ -23,8 +22,6 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import "font-awesome/css/font-awesome.min.css";
 
 import "./Branches.scss";
-
-import check from "@/assets/images/check.png";
 
 import { snackbar } from "@/util/helper";
 
@@ -47,6 +44,7 @@ export default function BranchesList() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [branchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false);
+  const [branchDeleteModalOpen, setBranchDeleteModalOpen] = useState(false);
 
   const handleListBranches = () => {
     setLoading(true);
@@ -147,56 +145,15 @@ export default function BranchesList() {
       : "Closed";
   };
 
-  //handle deleting of branch
-  const handleDeleteBranchClick = async (branchId) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won’t be able to revert this!",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/delete-branch/${branchId}`);
-          setBranches(branches.filter((branch) => branch.id !== branchId));
-          Swal.fire({
-            title: "Success!",
-            text: "Branch has been deleted.",
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-            customClass: {
-              confirmButton: "custom-success-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        } catch {
-          Swal.fire({
-            title: "Error!",
-            text: "There was an error deleting the branch.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#EC221F",
-            customClass: {
-              confirmButton: "custom-error-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        }
-      }
-    });
+  const handleDeleteBranchClick = async () => {
+    try {
+      await axiosInstance.delete(`/delete-branch/${selectedBranch.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setBranchDeleteModalOpen(false);
+    setBranches(branches.filter((branch) => branch.id !== selectedBranch.id));
   };
 
   // table columns
@@ -215,7 +172,9 @@ export default function BranchesList() {
       name: "Operating Hours",
       selector: (row) => {
         if (typeof row.operatingHours === "object") {
-          return `${toAmPm(row.operatingHours.open)} - ${toAmPm(row.operatingHours.close)}`;
+          return `${toAmPm(row.operatingHours.open)} - ${toAmPm(
+            row.operatingHours.close
+          )}`;
         }
         return row.operatingHours;
       },
@@ -256,7 +215,10 @@ export default function BranchesList() {
             <EditIcon />
           </IconButton>
           <IconButton
-            onClick={() => handleDeleteBranchClick(row.id)}
+            onClick={() => {
+              setBranchDeleteModalOpen(true);
+              setSelectedBranch(row);
+            }}
             color="red"
           >
             <RemoveCircleIcon />
@@ -365,6 +327,37 @@ export default function BranchesList() {
               onClick={() => setBranchDetailsModalOpen(false)}
             >
               Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
+      <Modal
+        open={branchDeleteModalOpen}
+        onClose={() => setBranchDeleteModalOpen(false)}
+        className="branch-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete Branch</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setBranchDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeleteBranchClick()}
+            >
+              Delete
             </Button>
           </Box>
         </Paper>

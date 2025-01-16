@@ -22,3 +22,11 @@
     margin-bottom: 8px;
   }
 }
+
+.branch-delete-modal {
+  .mui-btn {
+    &-cancel {
+      margin-right: 8px;
+    }
+  }
+}
