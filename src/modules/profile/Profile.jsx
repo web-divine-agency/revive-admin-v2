@@ -6,7 +6,7 @@ import check from "@/assets/images/check.png";
 import man from '@/assets/images/man.png';
 import woman from '@/assets/images/woman.png';
 
-function MyProfile() {
+export default function Profile() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
@@ -229,5 +229,3 @@ function MyProfile() {
     </div>
   );
 }
-
-export default MyProfile;

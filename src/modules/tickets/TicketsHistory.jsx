@@ -23,7 +23,6 @@ import "font-awesome/css/font-awesome.min.css";
 import man from "@/assets/images/man.png";
 import woman from "@/assets/images/woman.png";
 
-import check from "@/assets/images/check.png";
 import axiosInstance from "@/services/axiosInstance.js";
 import {
   Document,
@@ -34,9 +33,6 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-import Swal from "sweetalert2";
 
 import { useLoader } from "@/components/loaders/LoaderContext";
 import NavTopbar from "@/components/navigation/NavTopbar";
@@ -86,7 +82,6 @@ function TicketsHistory() {
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
-  const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [selectedTicketId, setSelectedTicketId] = useState(0);
 
@@ -2117,48 +2112,6 @@ function TicketsHistory() {
     },
   ];
 
-  const handleMassDelete = async () => {
-    if (selectedTickets.length === 0) return;
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won’t be able to revert this!.",
-        showCancelButton: true,
-        icon: "warning",
-        confirmButtonColor: "#EC221F",
-        cancelButtonColor: "#00000000",
-        cancelTextColor: "#000000",
-        confirmButtonText: "Yes, delete it!",
-        customClass: {
-          container: "custom-container",
-          confirmButton: "custom-confirm-button",
-          cancelButton: "custom-cancel-button",
-          title: "custom-swal-title",
-        },
-      });
-
-      if (result.isConfirmed) {
-        await axiosInstance.post("/mass-delete-tickets", {
-          ids: selectedTickets,
-        });
-        setData(data.filter((ticket) => !selectedTickets.includes(ticket.id)));
-        setSelectedTickets([]); // Clear selection
-        Swal.fire({
-          title: "Deleted!",
-          text: "Selected tickets have been deleted.",
-          imageUrl: check,
-          imageWidth: 100,
-          imageHeight: 100,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting tickets:", error);
-      Swal.fire("Error!", "Failed to delete the selected tickets.", "error");
-    }
-  };
-
   return (
     <React.Fragment>
       <Helmet>
@@ -2181,14 +2134,6 @@ function TicketsHistory() {
                   className="mui-btn mui-btn-create"
                 >
                   Generate Tickets
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={handleMassDelete}
-                  disabled={selectedTickets.length === 0}
-                  color="red"
-                >
-                  Delete Selected
                 </Button>
               </Grid>
               <Grid size={{ xs: 12 }}>

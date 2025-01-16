@@ -17,7 +17,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-import "./UserRolesUpdate.scss";
+import "./UserRoles.scss";
 
 export default function UserRolesUpdate() {
   //const location = useLocation();

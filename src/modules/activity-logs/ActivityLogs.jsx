@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
 import man from "@/assets/images/man.png";
-import check from "@/assets/images/check.png";
 
 import woman from "@/assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
-import delete_icon from "@/assets/images/delete-log.png";
 import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 import "./ActivityLogs.scss";
@@ -23,7 +20,6 @@ export default function ActivityLogs() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedLogs, setSelectedLogs] = useState([]); // To handle mass delete
   // eslint-disable-next-line no-unused-vars
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [branchFilter, setBranchFilter] = useState(""); // New state for branch filter
@@ -80,106 +76,7 @@ export default function ActivityLogs() {
     fetchBranches();
   }, [navigate]);
 
-  const handleDeleteLog = async (id) => {
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won’t be able to revert this!",
-        showCancelButton: true,
-        icon: "warning",
-        confirmButtonColor: "#EC221F",
-        cancelButtonColor: "#00000000",
-        cancelTextColor: "#000000",
-        confirmButtonText: "Yes, delete it!",
-        customClass: {
-          container: "custom-container",
-          confirmButton: "custom-confirm-button",
-          cancelButton: "custom-cancel-button",
-          title: "custom-swal-title",
-        },
-      });
-
-      if (result.isConfirmed) {
-        await axiosInstance.delete(`/delete-log/${id}`);
-        setData(data.filter((log) => log.id !== id));
-        Swal.fire({
-          title: "Deleted!",
-          text: "The staff log has been deleted.",
-          imageUrl: check,
-          imageWidth: 100,
-          imageHeight: 100,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#105652",
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting staff log:", error);
-      Swal.fire("Error!", "Failed to delete the staff log.", "error");
-    }
-  };
-
-  const handleMassDelete = async () => {
-    if (selectedLogs.length === 0) return;
-    try {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won’t be able to revert this!.",
-        showCancelButton: true,
-        icon: "warning",
-        confirmButtonColor: "#EC221F",
-        cancelButtonColor: "#00000000",
-        cancelTextColor: "#000000",
-        confirmButtonText: "Yes, delete it!",
-        customClass: {
-          container: "custom-container",
-          confirmButton: "custom-confirm-button",
-          cancelButton: "custom-cancel-button",
-          title: "custom-swal-title",
-        },
-      });
-
-      if (result.isConfirmed) {
-        await axiosInstance.post("/mass-delete-logs", { ids: selectedLogs });
-        setData(data.filter((log) => !selectedLogs.includes(log.id)));
-        setSelectedLogs([]); // Clear selection
-        Swal.fire({
-          title: "Deleted!",
-          text: "Selected staff logs have been deleted.",
-          imageUrl: check,
-          imageWidth: 100,
-          imageHeight: 100,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-        });
-      }
-    } catch (error) {
-      console.error("Error deleting staff logs:", error);
-      Swal.fire("Error!", "Failed to delete the selected staff logs.", "error");
-    }
-  };
-
   const columns = [
-    {
-      name: "Select",
-      cell: (row) => (
-        <label className="del-checkbox">
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              const checked = e.target.checked;
-              setSelectedLogs((prev) =>
-                checked ? [...prev, row.id] : prev.filter((id) => id !== row.id)
-              );
-            }}
-            checked={selectedLogs.includes(row.id)}
-          />
-          <div className="del-checkmark" />
-        </label>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-    },
     {
       name: "Name",
       selector: (row) => (
@@ -220,22 +117,6 @@ export default function ActivityLogs() {
       name: "Action",
       selector: (row) => row.action,
       sortable: true,
-    },
-    {
-      name: "Delete",
-      button: true,
-      cell: (row) => (
-        <img
-          className="ml-3"
-          src={delete_icon}
-          title="Delete Log"
-          style={{ cursor: "pointer" }}
-          onClick={() => handleDeleteLog(row.id)}
-          alt="delete"
-          width="25"
-          height="25"
-        />
-      ),
     },
   ];
 
@@ -296,15 +177,6 @@ export default function ActivityLogs() {
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
-              <Grid size={{ xs: 12 }}>
-                <Button
-                  variant="contained"
-                  onClick={handleMassDelete}
-                  disabled={selectedLogs.length === 0}
-                >
-                  Delete Selected
-                </Button>
-              </Grid>
               <Grid size={{ xs: 12 }}>
                 <select
                   name="filter"

@@ -1,0 +1,26 @@
+#user-roles-list {
+  .MuiPaper-root {
+    padding: 24px;
+  }
+}
+
+#user-roles-create {
+  .MuiPaper-root {
+    padding: 24px;
+  }
+}
+
+#user-roles-update {
+  .MuiPaper-root {
+    padding: 24px;
+  }
+}
+
+.user-roles-delete-modal {
+  .mui-btn {
+    &-cancel {
+      margin-right: 8px;
+    }
+  }
+}
+

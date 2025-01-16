@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "@/assets/images/list-view.png";
-import edit_icon from "@/assets/images/edit-details.png";
-import delete_icon from "@/assets/images/delete-log.png";
 import { Link, useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
 import axiosInstance from "@/services/axiosInstance.js";
-import check from "@/assets/images/check.png";
 import { useLoader } from "@/components/loaders/LoaderContext";
 
-import "./UserRolesList.scss";
+import "./UserRoles.scss";
 import { Helmet } from "react-helmet";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export default function UserRolesList() {
   const navigate = useNavigate();
@@ -24,6 +29,11 @@ export default function UserRolesList() {
   const [roles, setRoles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const { setLoading } = useLoader();
+
+  const [seletectedRoleId, setSelectedRoleId] = useState(0);
+
+  const [userRolesDeleteModalOpen, setUserRolesDeleteModalOpen] =
+    useState(false);
 
   // Get all roles
   useEffect(() => {
@@ -56,55 +66,15 @@ export default function UserRolesList() {
     }
   };
 
-  const handleDeleteUserClick = async (roleId) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won’t be able to revert this!.",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/delete-role/${roleId}`);
-          setRoles(roles.filter((role) => role.id !== roleId));
-          Swal.fire({
-            title: "Success!",
-            text: "Role has been deleted.",
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-            customClass: {
-              confirmButton: "custom-success-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        } catch {
-          Swal.fire({
-            title: "Error!",
-            text: "There was an error deleting the role.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#EC221F",
-            customClass: {
-              confirmButton: "custom-error-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        }
-      }
-    });
+  const handleDeleteUserRole = async () => {
+    try {
+      await axiosInstance.delete(`/delete-role/${seletectedRoleId}`);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setUserRolesDeleteModalOpen(false);
+    setRoles(roles.filter((role) => role.id !== seletectedRoleId));
   };
   const handleViewRoleDetails = (roleId) => {
     fetchRoleDetails(roleId);
@@ -131,36 +101,28 @@ export default function UserRolesList() {
       name: "Action",
       selector: (row) => (
         <div>
-          <img
-            src={view_icon}
-            title="View Role Details"
-            alt="view"
-            width="25"
-            height="25"
+          <IconButton
             onClick={() => handleViewRoleDetails(row.id)}
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-3"
-            src={edit_icon}
-            title="Edit Role"
+            color="green"
+          >
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton
             onClick={() => navigate(`/user-roles/${row.id}`)}
-            alt="edit"
-            width="25"
-            height="25"
-            style={{ cursor: "pointer" }}
-          />
+            color="blue"
+          >
+            <EditIcon />
+          </IconButton>
           {row.role_name !== "Admin" && row.role_name !== "Staff" && (
-            <img
-              className="ml-3"
-              src={delete_icon}
-              title="Delete Role"
-              alt="delete"
-              width="25"
-              height="25"
-              onClick={() => handleDeleteUserClick(row.id)}
-              style={{ cursor: "pointer" }}
-            />
+            <IconButton
+              onClick={() => {
+                setSelectedRoleId(row.id);
+                setUserRolesDeleteModalOpen(true);
+              }}
+              color="red"
+            >
+              <RemoveCircleIcon />
+            </IconButton>
           )}
         </div>
       ),
@@ -227,6 +189,37 @@ export default function UserRolesList() {
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={userRolesDeleteModalOpen}
+        onClose={() => setUserRolesDeleteModalOpen(false)}
+        className="user-roles-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete User Role</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setUserRolesDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeleteUserRole()}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

@@ -13,9 +13,9 @@ import UsersCreate from "./modules/users/UsersCreate";
 import UsersList from "./modules/users/UsersList";
 import UsersUpdate from "./modules/users/UsersUpdate";
 
-import UserRolesList from "./components/AdminPages/UserRoles/UserRolesList";
-import UserRolesCreate from "./components/AdminPages/UserRoles/UserRolesCreate";
-import UserRolesUpdate from "./components/AdminPages/UserRoles/UserRolesUpdate";
+import UserRolesCreate from "./modules/user-roles/UserRolesCreate";
+import UserRolesUpdate from "./modules/user-roles/UserRolesUpdate";
+import UserRolesList from "./modules/user-roles/UserRolesList";
 
 import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
@@ -26,19 +26,20 @@ import QueueList from "./components/StaffPages/QueueList/QueueList";
 
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
-
-import MyProfile from "./components/AdminPages/MyProfile/MyProfile";
+import TicketCategory from "./modules/tickets/TicketCategory";
 
 import TemplatesList from "./modules/templates/TemplatesList";
 import TemplateAccessUpdate from "./modules/templates/TemplateAccessUpdate";
+
+import Profile from "./modules/profile/Profile";
 
 import ResourcesIndex from "./modules/resources/ResourcesIndex";
 import ResourcesLists from "./modules/resources/ResourcesLists";
 import ResourcesCreate from "./modules/resources/ResourcesCreate";
 import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
+
 import ActivityLogs from "./modules/activity-logs/ActivityLogs";
-import TicketCategory from "./modules/tickets/TicketCategory";
 
 export default function AppRouter() {
   return (
@@ -264,10 +265,10 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/my-profile"
+          path="/profile"
           element={
             <ProtectedRoute
-              element={<MyProfile />}
+              element={<Profile />}
               allowedRoles={["Admin", "Staff"]}
             />
           }

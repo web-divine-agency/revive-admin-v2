@@ -17,7 +17,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-import "./UserRolesCreate.scss";
+import "./UserRoles.scss";
 
 export default function UserRolesCreate() {
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export default function UserRolesCreate() {
         confirmButtonText: "OK",
         confirmButtonColor: "#0ABAA6",
       }).then(() => {
-        navigate("/user-management");
+        navigate("/user-roles");
       });
     } catch (error) {
       console.error("Error creating role or assigning permissions:", error);
