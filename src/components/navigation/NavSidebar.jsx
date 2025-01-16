@@ -140,7 +140,7 @@ export default function NavSidebar() {
                     </ListItem>
                     <ListItem>
                       <Link
-                        to="/generate-tickets"
+                        to="/tickets/create"
                         onClick={() => setSidebarActive(false)}
                       >
                         Generate Tickets

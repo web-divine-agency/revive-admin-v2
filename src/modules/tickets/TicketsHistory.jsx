@@ -2228,7 +2228,7 @@ function TicketsHistory() {
               <Grid size={{ xs: 12 }}>
                 <Button
                   component={Link}
-                  to="/generate-tickets"
+                  to="/tickets/create"
                   variant="contained"
                   className="mui-btn mui-btn-create"
                 >

@@ -5819,7 +5819,7 @@ export default function TicketsCreate() {
                     <Button
                       variant="contained"
                       component={Link}
-                      to="/template-management"
+                      to="/templates"
                     >
                       Manage Template Access
                     </Button>

@@ -24,14 +24,13 @@ import BranchesUpdate from "./modules/branches/BranchesUpdate";
 import History from "./components/StaffPages/History/History";
 import QueueList from "./components/StaffPages/QueueList/QueueList";
 
-import TicketCategory from "./components/AdminPages/TemplateManagement/TicketCategory";
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 
 import MyProfile from "./components/AdminPages/MyProfile/MyProfile";
 
-import TemplateManagement from "./components/AdminPages/TemplateManagement/TemplateManagement";
-import EditUserTemplateAccess from "./components/AdminPages/TemplateManagement/EditUserTemplateAccess";
+import TemplatesList from "./modules/templates/TemplatesList";
+import TemplateAccessUpdate from "./modules/templates/TemplateAccessUpdate";
 
 import ResourcesIndex from "./modules/resources/ResourcesIndex";
 import ResourcesLists from "./modules/resources/ResourcesLists";
@@ -39,6 +38,7 @@ import ResourcesCreate from "./modules/resources/ResourcesCreate";
 import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
 import ActivityLogs from "./modules/activity-logs/ActivityLogs";
+import TicketCategory from "./modules/tickets/TicketCategory";
 
 export default function AppRouter() {
   return (
@@ -147,19 +147,19 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/template-management"
+          path="/templates"
           element={
             <ProtectedRoute
-              element={<TemplateManagement />}
+              element={<TemplatesList />}
               allowedRoles={["Admin"]}
             />
           }
         />
         <Route
-          path="/assign-tickets/:userId"
+          path="/template-access/:userId"
           element={
             <ProtectedRoute
-              element={<EditUserTemplateAccess />}
+              element={<TemplateAccessUpdate />}
               allowedRoles={["Admin"]}
             />
           }
@@ -243,7 +243,7 @@ export default function AppRouter() {
           }
         />
         <Route
-          path="/generate-tickets"
+          path="/tickets/create"
           element={
             <ProtectedRoute
               element={<TicketsCreate />}

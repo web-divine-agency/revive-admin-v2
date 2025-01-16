@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "@/assets/images/list-view.png";
-import edit_icon from "@/assets/images/edit-details.png";
 import man from "@/assets/images/man.png";
 import woman from "@/assets/images/woman.png";
 import check from "@/assets/images/check.png";
@@ -14,11 +12,13 @@ import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, IconButton, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 
-function TemplateManagement() {
+export default function TemplatesList() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -184,7 +184,7 @@ function TemplateManagement() {
   };
 
   const handleEditAccessClick = (userId) => {
-    navigate(`/assign-tickets/${userId}`);
+    navigate(`/template-access/${userId}`);
   };
 
   const columns = [
@@ -226,15 +226,10 @@ function TemplateManagement() {
       sortable: true,
     },
     {
-      name: "Action",
+      name: "Actions",
       selector: (row) => (
         <div>
-          <img
-            src={view_icon}
-            title="View Allowed Templates"
-            alt="view"
-            width="25"
-            height="25"
+          <IconButton
             onClick={() =>
               handleViewClick({
                 name: `${row.first_name} ${row.last_name}`,
@@ -244,19 +239,18 @@ function TemplateManagement() {
                   "Default",
               })
             }
-            style={{ cursor: "pointer" }}
-          />
-
-          <img
-            className="ml-3"
-            src={edit_icon}
-            title="Edit Template Access"
+            color="green"
+          >
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton
             onClick={() => handleEditAccessClick(row.id)}
-            alt="edit"
-            width="25"
-            height="25"
-            style={{ cursor: "pointer" }}
-          />
+            color="blue"
+          >
+            <EditIcon />
+          </IconButton>
+
+
         </div>
       ),
       sortable: false,
@@ -273,7 +267,7 @@ function TemplateManagement() {
       <Box component={"section"} id="tickets-list" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            Manage Staff Template Access
+            Template Access
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
@@ -379,5 +373,3 @@ function TemplateManagement() {
     </React.Fragment>
   );
 }
-
-export default TemplateManagement;
