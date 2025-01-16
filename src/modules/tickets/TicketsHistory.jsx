@@ -34,6 +34,8 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
+import { getCookie } from "@/middleware/getCookie";
+
 import { useLoader } from "@/components/loaders/LoaderContext";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
@@ -90,6 +92,8 @@ function TicketsHistory() {
   const [ticketDetailsModalOpen, setTicketDetailsModalOpen] = useState(false);
   const [ticketDeleteModalOpen, setTicketDeleteModalOpen] = useState(false);
 
+  const [role, setRole] = useState("");
+
   useEffect(() => {
     const fetchTickets = async () => {
       setLoading(true);
@@ -133,6 +137,8 @@ function TicketsHistory() {
       }
     };
     fetchBranches();
+
+    setRole(getCookie("role_name"));
   }, []);
 
   //get ticket types
@@ -2098,15 +2104,17 @@ function TicketsHistory() {
           >
             <VisibilityIcon />
           </IconButton>
-          <IconButton
-            onClick={() => {
-              setSelectedTicketId(row.id);
-              setTicketDeleteModalOpen(true);
-            }}
-            color="red"
-          >
-            <RemoveCircleIcon />
-          </IconButton>
+          {role == "Admin" && (
+            <IconButton
+              onClick={() => {
+                setSelectedTicketId(row.id);
+                setTicketDeleteModalOpen(true);
+              }}
+              color="red"
+            >
+              <RemoveCircleIcon />
+            </IconButton>
+          )}
         </div>
       ),
     },

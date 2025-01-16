@@ -55,7 +55,7 @@ function Login() {
       if (roleName === "Admin") {
         navigate("/users");
       } else {
-        navigate("/generate-tickets");
+        navigate("/tickets");
       }
     } catch (error) {
       console.error("Login error:", error);

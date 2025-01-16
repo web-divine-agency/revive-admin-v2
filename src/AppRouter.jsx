@@ -21,9 +21,9 @@ import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
-import History from "./components/StaffPages/History/History";
 import QueueList from "./components/StaffPages/QueueList/QueueList";
 
+import History from "./modules/tickets/History";
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 import TicketCategory from "./modules/tickets/TicketCategory";
@@ -171,7 +171,23 @@ export default function AppRouter() {
           element={
             <ProtectedRoute
               element={<TicketsHistory />}
-              allowedRoles={["Admin"]}
+              allowedRoles={["Admin", "Staff"]}
+            />
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute element={<History />} allowedRoles={["Staff"]} />
+          }
+        />
+        <Route
+          path="/tickets/create"
+          element={
+            <ProtectedRoute
+              element={<TicketsCreate />}
+              allowedRoles={["Staff", "Admin"]}
             />
           }
         />
@@ -243,21 +259,7 @@ export default function AppRouter() {
             />
           }
         />
-        <Route
-          path="/tickets/create"
-          element={
-            <ProtectedRoute
-              element={<TicketsCreate />}
-              allowedRoles={["Staff", "Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/history"
-          element={
-            <ProtectedRoute element={<History />} allowedRoles={["Staff"]} />
-          }
-        />
+
         <Route
           path="/queue-list"
           element={

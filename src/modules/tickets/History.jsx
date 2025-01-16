@@ -61,7 +61,7 @@ Font.register({
   src: "/fonts/barlow/BarlowCondensed-Medium.ttf",
 });
 
-function TicketsHistory() {
+export default function History() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
@@ -2206,5 +2206,3 @@ function TicketsHistory() {
     </div>
   );
 }
-
-export default TicketsHistory;
