@@ -88,9 +88,12 @@ function TicketsHistory() {
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
   const [selectedTickets, setSelectedTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [selectedTicketId, setSelectedTicketId] = useState(0);
+
   const { setLoading } = useLoader();
 
   const [ticketDetailsModalOpen, setTicketDetailsModalOpen] = useState(false);
+  const [ticketDeleteModalOpen, setTicketDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -2031,81 +2034,27 @@ function TicketsHistory() {
     }
   };
 
-  const handleDeleteTicketClick = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won’t be able to revert this!",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/delete-ticket/${id}`);
-          const updatedData = data.filter((tickets) => tickets.id !== id);
-          setData(updatedData);
-          setFilteredTickets(updatedData);
-          Swal.fire({
-            title: "Success!",
-            text: "Ticket has been deleted.",
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-            customClass: {
-              confirmButton: "custom-success-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        } catch {
-          Swal.fire({
-            title: "Error!",
-            text: "There was an error deleting the ticket.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#EC221F",
-            customClass: {
-              confirmButton: "custom-error-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        }
-      }
-    });
+  const handleDeleteTicket = async () => {
+    try {
+      await axiosInstance.delete(`/delete-ticket/${selectedTicketId}`);
+    } catch (error) {
+      console.error(error);
+    }
+
+    const updatedData = data.filter(
+      (tickets) => tickets.id !== selectedTicketId
+    );
+
+    setTicketDeleteModalOpen(false);
+    setData(updatedData);
+    setFilteredTickets(updatedData);
   };
 
   const columns = [
     {
-      name: "Select",
-      cell: (row) => (
-        <label className="del-checkbox">
-          <input
-            type="checkbox"
-            onChange={(e) => {
-              const checked = e.target.checked;
-              setSelectedTickets((prev) =>
-                checked ? [...prev, row.id] : prev.filter((id) => id !== row.id)
-              );
-            }}
-            checked={selectedTickets.includes(row.id)}
-          />
-          <div className="del-checkmark" />
-        </label>
-      ),
-      ignoreRowClick: true,
-    },
-    {
       name: "User",
+      width: "20%",
+      sortable: true,
       selector: (row) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
@@ -2116,39 +2065,36 @@ function TicketsHistory() {
               width: "30px",
               height: "30px",
               borderRadius: "50%",
-              marginRight: "10px",
+              marginRight: "8px",
             }}
           />
           {row.user}
         </div>
       ),
-      sortable: true,
     },
     {
       name: "Date Created",
+      width: "15%",
+      sortable: false,
       selector: (row) =>
         moment(new Date(row.date)).format("D MMM, YYYY | h:mm a"),
     },
-
     {
       name: "Branch",
-      selector: (row) => row.branch_id,
+      width: "15%",
       sortable: true,
+      selector: (row) => row.branch_id,
     },
-
-    // {
-    //   name: "Role",
-    //   selector: (row) => row.role,
-    //   sortable: true
-    // },
     {
       name: "Ticket Type",
-      selector: (row) => row.ticketType,
+      width: "40%",
       sortable: true,
-      cell: (row) => <div>{row.ticketType}</div>,
+      selector: (row) => row.ticketType,
     },
     {
       name: "Actions",
+      width: "10%",
+      sortable: false,
       selector: (row) => (
         <div>
           <IconButton
@@ -2158,14 +2104,16 @@ function TicketsHistory() {
             <VisibilityIcon />
           </IconButton>
           <IconButton
-            onClick={() => handleDeleteTicketClick(row.id)}
+            onClick={() => {
+              setSelectedTicketId(row.id);
+              setTicketDeleteModalOpen(true);
+            }}
             color="red"
           >
             <RemoveCircleIcon />
           </IconButton>
         </div>
       ),
-      sortable: false,
     },
   ];
 
@@ -2320,6 +2268,37 @@ function TicketsHistory() {
               onClick={() => setTicketDetailsModalOpen(false)}
             >
               Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
+      <Modal
+        open={ticketDeleteModalOpen}
+        onClose={() => setTicketDeleteModalOpen(false)}
+        className="branch-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete Branch</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setTicketDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeleteTicket()}
+            >
+              Delete
             </Button>
           </Box>
         </Paper>
