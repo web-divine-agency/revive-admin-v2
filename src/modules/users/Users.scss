@@ -6,16 +6,6 @@
   }
 }
 
-.modal {
-  top: 64px;
-
-  .profile-image {
-    display: block;
-    margin: auto;
-    width: 128px;
-  }
-}
-
 #users-create {
   .MuiPaper-root {
     padding: 24px;
@@ -46,6 +36,22 @@
 
   &:hover {
     background-color: var(--lime600);
+  }
+}
+
+.user-details-modal {
+  .profile-image {
+    display: block;
+    margin: auto;
+    width: 128px;
+  }
+}
+
+.user-delete-modal {
+  .mui-btn {
+    &-cancel {
+      margin-right: 8px;
+    }
   }
 }
 

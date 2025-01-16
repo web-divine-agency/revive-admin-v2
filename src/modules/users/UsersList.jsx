@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
 
 import {
   Box,
   Button,
   Container,
+  IconButton,
+  Modal,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
-import view_icon from "@/assets/images/view-details.png";
-import edit_icon from "@/assets/images/edit-details.png";
-import delete_icon from "@/assets/images/delete-log.png";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import man from "@/assets/images/man.png";
 import woman from "@/assets/images/woman.png";
-import check from "@/assets/images/check.png";
 
 import { useLoader } from "@/components/loaders/LoaderContext";
 import axiosInstance from "@/services/axiosInstance.js";
@@ -36,7 +34,6 @@ export default function UsersList() {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -48,6 +45,10 @@ export default function UsersList() {
   const [roleFilter, setRoleFilter] = useState("");
 
   const { setLoading } = useLoader();
+
+  const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
+  const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
       localStorage.removeItem("loginSuccess");
@@ -152,80 +153,25 @@ export default function UsersList() {
     applyFilters();
   }, [filter, roleFilter, search, users, loggedInUser, selectedBranchId]);
 
-  const handleViewClick = (user) => {
-    setSelectedUser(user);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleDeleteUserClick = async (userId) => {
-    if (loggedInUser && userId === loggedInUser.id) {
-      Swal.fire({
-        icon: "error",
-        title: "Cannot Delete Your Own Account",
-        text: "You cannot delete your own account.",
-      });
-      return;
+  const handleDeleteUser = async () => {
+    try {
+      await axiosInstance.delete(`/delete-user/${selectedUser.id}`);
+    } catch (error) {
+      console.error(error);
     }
 
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/delete-user/${userId}`);
-          setUsers(users.filter((user) => user.id !== userId));
-          setFilteredUsers(filteredUsers.filter((user) => user.id !== userId));
-          Swal.fire({
-            title: "Success!",
-            text: "User has been deleted.",
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-            customClass: {
-              confirmButton: "custom-success-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        } catch {
-          Swal.fire({
-            title: "Error!",
-            text: "There was an error deleting the user.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#EC221F",
-            customClass: {
-              confirmButton: "custom-error-confirm-button",
-              title: "custom-swal-title",
-            },
-          });
-        }
-      }
-    });
+    setUserDeleteModalOpen(false);
+    setUsers(users.filter((user) => user.id !== selectedUser.id));
+    setFilteredUsers(
+      filteredUsers.filter((user) => user.id !== selectedUser.id)
+    );
   };
 
   const columns = [
     {
       name: "Name",
-      width: "30%",
+      width: "15%",
+      sortable: true,
       selector: (row) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
@@ -236,62 +182,44 @@ export default function UsersList() {
               width: "30px",
               height: "30px",
               borderRadius: "50%",
-              marginRight: "10px",
+              marginRight: "8px",
             }}
           />
-
-          <div className="user-details">
-            <span>
-              {" "}
-              {row.first_name} {row.last_name}
-            </span>
-          </div>
+          <span>
+            {row.first_name} {row.last_name}
+          </span>
         </div>
       ),
-      sortable: true,
     },
     {
       name: "Email",
-      selector: (row) => row.email || "N/A",
+      width: "15%",
       sortable: true,
+      selector: (row) => row.email || "N/A",
     },
-    // {
-    //   name: "Username",
-    //   selector: (row) => row.username || "N/A",
-    //   sortable: true,
-    // },
     {
       name: "Branch",
+      width: "40%",
+      sortable: true,
       selector: (row) =>
         row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
-      sortable: true,
-      style: {
-        width: "200px",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-      },
     },
-
     {
       name: "Role",
-      width: "15%",
-      selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
+      width: "10%",
       sortable: true,
+      selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
     },
     {
       name: "Actions",
-      width: "15%",
+      width: "20%",
+      sortable: false,
       selector: (row) => (
         <div>
-          <img
-            src={view_icon}
-            title="View User Details"
-            alt="view"
-            width="20"
-            height="20"
-            onClick={() =>
-              handleViewClick({
+          <IconButton
+            onClick={() => {
+              setSelectedUser({
+                id: row.id,
                 name: `${row.first_name} ${row.last_name}`,
                 email: row.email,
                 username: row.username,
@@ -299,35 +227,38 @@ export default function UsersList() {
                   row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
                 role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
                 profileImage: row.sex === "Male" ? man : woman,
-              })
-            }
-            style={{ cursor: "pointer" }}
-          />
-          <img
-            className="ml-2"
-            src={edit_icon}
-            title="Edit User Details"
-            onClick={() => navigate(`/users/${row.id}`)}
-            alt="edit"
-            width="20"
-            height="20"
-            style={{ cursor: "pointer" }}
-          />
+              });
+              setUserDetailsModalOpen(true);
+            }}
+            color="green"
+          >
+            <VisibilityIcon />
+          </IconButton>
+          <IconButton onClick={() => navigate(`/users/${row.id}`)} color="blue">
+            <EditIcon />
+          </IconButton>
           {loggedInUser && row.id !== loggedInUser.id && (
-            <img
-              className="ml-2"
-              src={delete_icon}
-              title="Delete User"
-              alt="delete"
-              width="20"
-              height="20"
-              onClick={() => handleDeleteUserClick(row.id)}
-              style={{ cursor: "pointer" }}
-            />
+            <IconButton
+              onClick={() => {
+                setSelectedUser({
+                  id: row.id,
+                  name: `${row.first_name} ${row.last_name}`,
+                  email: row.email,
+                  username: row.username,
+                  branch:
+                    row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
+                  role: row.roles?.map((r) => r.role_name).join(", ") || "N/A",
+                  profileImage: row.sex === "Male" ? man : woman,
+                });
+                setUserDeleteModalOpen(true);
+              }}
+              color="red"
+            >
+              <RemoveCircleIcon />
+            </IconButton>
           )}
         </div>
       ),
-      sortable: false,
     },
   ];
 
@@ -404,101 +335,147 @@ export default function UsersList() {
           </Paper>
         </Container>
       </Box>
-      {selectedUser && (
-        <Modal show={showModal} onHide={handleCloseModal} size="md">
-          <Modal.Header closeButton>
-            <Modal.Title>Acccount Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 12, lg: 4 }}>
-                <Box
-                  component={"img"}
-                  src={selectedUser.profileImage}
-                  alt={selectedUser.name}
-                  className="profile-image"
-                />
+      <Modal
+        open={userDetailsModalOpen}
+        onClose={() => setUserDetailsModalOpen(false)}
+        className="user-details-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-lg">
+          <Box className="modal-header">
+            <Typography>User Details</Typography>
+          </Box>
+          <Box className="modal-body">
+            {selectedUser && (
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, lg: 4 }}>
+                  <Box
+                    component={"img"}
+                    src={selectedUser.profileImage}
+                    alt={selectedUser.name}
+                    className="profile-image"
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  <Paper variant="outlined" sx={{ p: 2 }}>
+                    <Grid container spacing={2}>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          type="text"
+                          label="Name"
+                          value={selectedUser.name}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          type="text"
+                          label="Username"
+                          value={selectedUser.username}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          type="text"
+                          label="Role"
+                          value={selectedUser.role}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          type="text"
+                          label="Branch"
+                          value={selectedUser.branch}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          type="text"
+                          label="Email"
+                          value={selectedUser.email}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
               </Grid>
-              <Grid size={{ xs: 12, lg: 8 }}>
-                <Paper variant="outlined" sx={{ p: 2 }}>
-                  <Grid container spacing={2}>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="text"
-                        label="Name"
-                        value={selectedUser.name}
-                        slotProps={{
-                          input: {
-                            readOnly: true,
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="text"
-                        label="Username"
-                        value={selectedUser.username}
-                        slotProps={{
-                          input: {
-                            readOnly: true,
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="text"
-                        label="Role"
-                        value={selectedUser.role}
-                        slotProps={{
-                          input: {
-                            readOnly: true,
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="text"
-                        label="Branch"
-                        value={selectedUser.branch}
-                        slotProps={{
-                          input: {
-                            readOnly: true,
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="text"
-                        label="Email"
-                        value={selectedUser.email}
-                        slotProps={{
-                          input: {
-                            readOnly: true,
-                          },
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Modal.Body>
-        </Modal>
-      )}
+            )}
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="contained"
+              color="grey"
+              onClick={() => setUserDetailsModalOpen(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
+      <Modal
+        open={userDeleteModalOpen}
+        onClose={() => setUserDeleteModalOpen(false)}
+        className="user-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete User</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setUserDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeleteUser()}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }
