@@ -51,6 +51,11 @@
     left: 0;
   }
 
+  .menu-holder {
+    height: calc(100% - 194px);
+    overflow-y: auto;
+  }
+
   .btn-menu {
     position: absolute;
     top: 12px;
@@ -117,8 +122,10 @@
 
   .timer {
     position: absolute;
-    bottom: 32px;
+    bottom: 0;
+    padding-bottom: 32px;
     color: black;
+    background-color: var(--lime600);
 
     .date {
       font-size: 0.8rem;

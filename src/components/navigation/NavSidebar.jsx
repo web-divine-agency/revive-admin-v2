@@ -50,6 +50,9 @@ export default function NavSidebar() {
     branches: {
       open: false,
     },
+    resources: {
+      open: false,
+    },
   });
 
   const handleLogout = () => {
@@ -104,7 +107,7 @@ export default function NavSidebar() {
           alt="Revive Pharmacy"
         />
       </Container>
-      <Container maxWidth="false" className="no-padding">
+      <Container maxWidth="false" className="menu-holder no-padding">
         <Typography className="label">Menu</Typography>
         <Box className="menu-links">
           <List>
@@ -148,6 +151,26 @@ export default function NavSidebar() {
                         Generate Tickets
                       </Link>
                     </ListItem>
+                    {role === "Admin" && (
+                      <>
+                        <ListItem>
+                          <Link
+                            to="/ticket-category"
+                            onClick={() => setSidebarActive(false)}
+                          >
+                            Ticket Categories
+                          </Link>
+                        </ListItem>
+                        <ListItem>
+                          <Link
+                            to="/templates"
+                            onClick={() => setSidebarActive(false)}
+                          >
+                            Template Access
+                          </Link>
+                        </ListItem>
+                      </>
+                    )}
                   </List>
                 </Collapse>
               </>
@@ -189,14 +212,37 @@ export default function NavSidebar() {
               </>
             )}
             <ListItem>
-              <Link
-                to="/resources-index"
-                onClick={() => setSidebarActive(false)}
-              >
+              <Link to="#" onClick={() => toggleDropdown("resources")}>
                 <FileCopyIcon />
                 Resources
+                {menu.resources.open ? <ExpandLess /> : <ExpandMore />}
               </Link>
             </ListItem>
+            <Collapse
+              component={"li"}
+              in={menu.resources.open}
+              timeout="auto"
+              unmountOnExit
+            >
+              <List disablePadding>
+                <ListItem>
+                  <Link
+                    to="/resources-index"
+                    onClick={() => setSidebarActive(false)}
+                  >
+                    Resource Categories
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link
+                    to="/resources/create"
+                    onClick={() => setSidebarActive(false)}
+                  >
+                    Add New Resource
+                  </Link>
+                </ListItem>
+              </List>
+            </Collapse>
           </List>
         </Box>
         <Divider sx={{ mb: 2 }} />
