@@ -240,6 +240,11 @@ export default function ResourcesUpdate() {
                         name="category"
                         value={resourceCategory}
                         onChange={(e) => setResourceCategory(e.target.value)}
+                        slotProps={{
+                          input: {
+                            readOnly: true,
+                          },
+                        }}
                       />
                     </Grid>
                     <Grid size={{ xs: 12 }}>
