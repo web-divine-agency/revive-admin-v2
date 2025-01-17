@@ -27,11 +27,12 @@ export default function UserRolesList() {
   const navigate = useNavigate();
   const [selectedUserRole, setSelectedUserRole] = useState(null);
   const [roles, setRoles] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const { setLoading } = useLoader();
 
   const [seletectedRoleId, setSelectedRoleId] = useState(0);
 
+  const [userRolesDetailsModalOpen, setUserRolesDetailsModalOpen] =
+    useState(false);
   const [userRolesDeleteModalOpen, setUserRolesDeleteModalOpen] =
     useState(false);
 
@@ -60,7 +61,7 @@ export default function UserRolesList() {
         role_name: roleData.role_name,
         permissions: roleData.permissions,
       });
-      setShowModal(true);
+      setUserRolesDetailsModalOpen(true);
     } catch (error) {
       console.error("Error fetching role details:", error);
     }
@@ -78,11 +79,6 @@ export default function UserRolesList() {
   };
   const handleViewRoleDetails = (roleId) => {
     fetchRoleDetails(roleId);
-  };
-  // Modal view
-  // Close modal
-  const handleCloseModal = () => {
-    setShowModal(false);
   };
 
   // Table columns
@@ -163,32 +159,48 @@ export default function UserRolesList() {
                   paginationRowsPerPageOptions={[10, 20]}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                {selectedUserRole && (
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Role Details</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <h2>{selectedUserRole.role_name} Permissions</h2>
-                      {selectedUserRole.permissions
-                        .filter((permission) => {
-                          return (
-                            selectedUserRole.role_name !== "Admin" ||
-                            permission.permission_name !== "Generate Ticket"
-                          );
-                        })
-                        .map((permission, index) => (
-                          <p key={index}>{permission.permission_name}</p>
-                        ))}
-                    </Modal.Body>
-                  </Modal>
-                )}
-              </Grid>
+              <Grid size={{ xs: 12 }}></Grid>
             </Grid>
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={userRolesDetailsModalOpen}
+        onClose={() => setUserRolesDetailsModalOpen(false)}
+        className="user-roles-details-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-lg">
+          <Box className="modal-header">
+            <Typography>User Roles Details</Typography>
+          </Box>
+          <Box className="modal-body">
+            {selectedUserRole && (
+              <>
+                <h2>{selectedUserRole.role_name} Permissions</h2>
+                {selectedUserRole.permissions
+                  .filter((permission) => {
+                    return (
+                      selectedUserRole.role_name !== "Admin" ||
+                      permission.permission_name !== "Generate Ticket"
+                    );
+                  })
+                  .map((permission, index) => (
+                    <p key={index}>{permission.permission_name}</p>
+                  ))}
+              </>
+            )}
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="contained"
+              color="grey"
+              onClick={() => setUserRolesDetailsModalOpen(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
       <Modal
         open={userRolesDeleteModalOpen}
         onClose={() => setUserRolesDeleteModalOpen(false)}
