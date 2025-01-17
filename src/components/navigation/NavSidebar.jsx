@@ -116,43 +116,42 @@ export default function NavSidebar() {
                 </Link>
               </ListItem>
             )}
-            {role === "Admin" ||
-              (role === "Staff" && (
-                <>
-                  <ListItem>
-                    <Link to="#" onClick={() => toggleDropdown("tickets")}>
-                      <ConfirmationNumberIcon />
-                      Ticketing
-                      {menu.tickets.open ? <ExpandLess /> : <ExpandMore />}
-                    </Link>
-                  </ListItem>
-                  <Collapse
-                    component={"li"}
-                    in={menu.tickets.open}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <List disablePadding>
-                      <ListItem>
-                        <Link
-                          to="/tickets"
-                          onClick={() => setSidebarActive(false)}
-                        >
-                          Ticket List
-                        </Link>
-                      </ListItem>
-                      <ListItem>
-                        <Link
-                          to="/tickets/create"
-                          onClick={() => setSidebarActive(false)}
-                        >
-                          Generate Tickets
-                        </Link>
-                      </ListItem>
-                    </List>
-                  </Collapse>
-                </>
-              ))}
+            {(role === "Admin" || role === "Staff") && (
+              <>
+                <ListItem>
+                  <Link to="#" onClick={() => toggleDropdown("tickets")}>
+                    <ConfirmationNumberIcon />
+                    Ticketing
+                    {menu.tickets.open ? <ExpandLess /> : <ExpandMore />}
+                  </Link>
+                </ListItem>
+                <Collapse
+                  component={"li"}
+                  in={menu.tickets.open}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List disablePadding>
+                    <ListItem>
+                      <Link
+                        to="/tickets"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Ticket List
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        to="/tickets/create"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        Generate Tickets
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </>
+            )}
             {role === "Admin" && (
               <>
                 <ListItem>

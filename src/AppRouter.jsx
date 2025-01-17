@@ -21,9 +21,8 @@ import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
-import QueueList from "./components/StaffPages/QueueList/QueueList";
-
 import History from "./modules/tickets/History";
+import QueueList from "./modules/tickets/QueueList";
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 import TicketCategory from "./modules/tickets/TicketCategory";

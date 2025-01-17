@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import upload_icon from "@/assets/images/upload_icon.png";
 import check from "@/assets/images/check.png";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "@/services/axiosInstance.js";
@@ -424,14 +423,12 @@ export default function ResourcesCreate() {
                   </Button>
                 </Grid>
                 <Grid size={{ Xs: 12 }}>
-                  <Typography className="section-header">
+                  <Typography className="section-heading">
                     Upload Files
                   </Typography>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <div className="upload-content">
-                    <img src={upload_icon} alt="Upload" width={64} />
-                    <p>Browse and choose the files you want to upload</p>
                     <input
                       type="file"
                       id="fileInput"
@@ -452,34 +449,39 @@ export default function ResourcesCreate() {
                   </Button>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  {selectedResourceMedia.map((fileUrl, index) => (
-                    <Box
-                      key={index}
-                      id="selectedImages"
-                      sx={{
-                        border: "1px solid black",
-                        mb: 2,
-                        p: 2,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <img
-                        src={fileUrl}
-                        alt={`Thumbnail ${index + 1}`}
-                        width={512}
-                      />
-                      <Button
-                        variant="contained"
-                        type="button"
-                        color="red"
-                        onClick={() => handleRemoveMedia(fileUrl)}
-                      >
-                        Remove
-                      </Button>
-                    </Box>
-                  ))}
+                  <Box>
+                    <Grid container spacing={2}>
+                      {selectedResourceMedia.map((fileUrl, index) => (
+                        <Grid size={{ xs: 12, lg: 3 }} key={index}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box
+                              component={"img"}
+                              src={fileUrl}
+                              alt={`Thumbnail ${index + 1}`}
+                              width={212}
+                              sx={{
+                                marginBottom: 1,
+                              }}
+                            />
+                            <Button
+                              variant="contained"
+                              type="button"
+                              color="red"
+                              onClick={() => handleRemoveMedia(fileUrl)}
+                            >
+                              Remove
+                            </Button>
+                          </Box>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
                 </Grid>
               </Grid>
             </form>

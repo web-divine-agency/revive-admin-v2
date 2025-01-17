@@ -168,14 +168,23 @@ export default function ResourcesRead() {
               </Grid>
               <Grid size={{ xs: 12 }}>
                 {role === "Admin" && (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    component={Link}
-                    to={`/resources/${resourceID}/update`}
-                  >
-                    Edit Resource
-                  </Button>
+                  <>
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      to={`/resources/${resourceID}/update`}
+                      className="mui-btn mui-btn-edit"
+                    >
+                      Edit Resource
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteResource(resourceID)}
+                      variant="contained"
+                      color="red"
+                    >
+                      Delete Resource
+                    </Button>
+                  </>
                 )}
               </Grid>
               <Grid size={{ xs: 12 }}>
@@ -202,7 +211,7 @@ export default function ResourcesRead() {
                 ) && (
                   <Grid size={{ xs: 12 }}>
                     <Typography className="section-heading">
-                      Image Gallery:
+                      Image Gallery
                     </Typography>
                   </Grid>
                 )}
@@ -224,7 +233,7 @@ export default function ResourcesRead() {
                               m: "auto",
                               p: 2,
                               display: "inline-block",
-                              width: "50%",
+                              width: "25%",
                             }}
                           />
                         </Box>
@@ -289,16 +298,6 @@ export default function ResourcesRead() {
                   )}
               </div>
 
-              {role === "Admin" && (
-                <Button
-                  onClick={() => handleDeleteResource(resourceID)}
-                  variant="contained"
-                  color="red"
-                >
-                  Delete
-                </Button>
-              )}
-
               {/* Modal for Video */}
               {isModalOpen && (
                 <div className="modal-overlay" onClick={closeModal}>
@@ -322,19 +321,6 @@ export default function ResourcesRead() {
           </Paper>
         </Container>
       </Box>
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-md-6 resources-content-container">
-            <div className="container-content" id="view-rsrc-container">
-              <div className="created-resource">
-                <h2 className="title"></h2>
-
-                {/* Image Gallery using LightGallery */}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </React.Fragment>
   );
 }

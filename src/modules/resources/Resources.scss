@@ -45,12 +45,18 @@
 
   .MuiPaper-root {
     padding: 24px;
+
+    .mui-btn {
+      &-edit {
+        margin-right: 8px;
+      }
+    }
   }
 }
 
 .lg-backdrop,
 .lg-outer {
-  z-index: 1200;
+  z-index: 1200 !important;
 }
 
 #resources-update {

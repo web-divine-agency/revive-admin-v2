@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import upload_icon from "@/assets/images/upload_icon.png";
 import check from "@/assets/images/check.png";
 import { FaTimes } from "react-icons/fa";
 import axiosInstance from "@/services/axiosInstance.js";
@@ -305,13 +304,11 @@ export default function ResourcesUpdate() {
                           </Button>
                         </div>
 
-                        <h5>Upload Files</h5>
-                        <div className="upload-box mb-4">
+                        <Typography className="section-heading" sx={{ my: 2 }}>
+                          Upload Files
+                        </Typography>
+                        <div className="upload-box">
                           <div className="upload-content">
-                            <img src={upload_icon} alt="Upload" width={64} />
-                            <p>
-                              Browse and choose the files you want to upload
-                            </p>
                             <input
                               type="file"
                               id="fileInput"
@@ -321,36 +318,44 @@ export default function ResourcesUpdate() {
                               className="file-input"
                             />
                           </div>
-                          <h5>Current Media</h5>
+                          <Typography
+                            className="section-heading"
+                            sx={{ my: 2 }}
+                          >
+                            Current Media
+                          </Typography>
                           <div id="selectedImagesContainer">
-                            {selectedResourceMedia.map((file, index) => (
-                              <Box
-                                key={index}
-                                id="selectedImages"
-                                sx={{
-                                  border: "1px solid black",
-                                  mb: 2,
-                                  p: 2,
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <img
-                                  src={`https://dev.server.revivepharmacyportal.com.au/uploads/${file}`}
-                                  alt={`Thumbnail ${index + 1}`}
-                                  width={512}
-                                />
-                                <Button
-                                  variant="contained"
-                                  type="button"
-                                  color="red"
-                                  onClick={() => handleRemoveMedia(file)}
-                                >
-                                  Remove
-                                </Button>
-                              </Box>
-                            ))}
+                            <Grid container spacing={2}>
+                              {selectedResourceMedia.map((file, index) => (
+                                <Grid size={{ xs: 12, lg: 3 }} key={index}>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <Box
+                                      component={"img"}
+                                      src={`https://dev.server.revivepharmacyportal.com.au/uploads/${file}`}
+                                      alt={`Thumbnail ${index + 1}`}
+                                      width={212}
+                                      sx={{
+                                        marginBottom: 1,
+                                      }}
+                                    />
+                                    <Button
+                                      variant="contained"
+                                      type="button"
+                                      color="red"
+                                      onClick={() => handleRemoveMedia(file)}
+                                    >
+                                      Remove
+                                    </Button>
+                                  </Box>
+                                </Grid>
+                              ))}
+                            </Grid>
                           </div>
                         </div>
                       </div>

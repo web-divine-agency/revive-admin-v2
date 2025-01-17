@@ -1,9 +1,9 @@
 import DataTable from "react-data-table-component";
 import "font-awesome/css/font-awesome.min.css";
-import printer from "../../../assets/images/printer.png";
+import printer from "@/assets/images/printer.png";
 import "font-awesome/css/font-awesome.min.css";
-import view_icon from "../../../assets/images/view_icon.png";
-import edit_icon from "../../../assets/images/edit_icon.png";
+import view_icon from "@/assets/images/view_icon.png";
+import edit_icon from "@/assets/images/edit_icon.png";
 
 function QueueList() {
   //table columns
