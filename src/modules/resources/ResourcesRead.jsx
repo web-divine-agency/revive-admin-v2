@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
-import check from "@/assets/images/check.png";
 import LightGallery from "lightgallery/react";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
@@ -12,7 +15,14 @@ import ReactPlayer from "react-player";
 import { Helmet } from "react-helmet";
 import NavTopbar from "@/components/navigation/NavTopbar.jsx";
 import NavSidebar from "@/components/navigation/NavSidebar.jsx";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Modal,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
@@ -21,6 +31,8 @@ import "./Resources.scss";
 export default function ResourcesRead() {
   //const location = useLocation();
   //const resource = location.state;
+
+  const [searchParams] = useSearchParams();
 
   const { resourceID } = useParams();
   const { slug } = useParams();
@@ -41,6 +53,8 @@ export default function ResourcesRead() {
   const [userFetched, setUserFetched] = useState(false);
   //console.log(slug)
 
+  const [resourceDeleteModalOpen, setResourceDeleteModalOpen] = useState(false);
+
   // eslint-disable-next-line no-unused-vars
   const openModal = (mediaSrc) => {
     setSelectedMedia(mediaSrc);
@@ -53,50 +67,20 @@ export default function ResourcesRead() {
   };
 
   const handleDeleteResource = async (resourceID, slug) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won’t be able to revert this!.",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonColor: "#EC221F",
-      cancelButtonColor: "#00000000",
-      cancelTextColor: "#000000",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        container: "custom-container",
-        confirmButton: "custom-confirm-button",
-        cancelButton: "custom-cancel-button",
-        title: "custom-swal-title",
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const url =
-            role === "Admin"
-              ? `/delete-resource/${resourceID}`
-              : `/delete-resource/${slug}`;
-          await axiosInstance.delete(url);
-          Swal.fire({
-            title: "Resource Deleted",
-            text: ` ${resourceTitle}  has been removed successfully.`,
-            imageUrl: check,
-            imageWidth: 100,
-            imageHeight: 100,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#0ABAA6",
-          }).then(() => {
-            // Redirect to user list
-            navigate("/resources-list");
-          }); // Redirect to Resources List after deletion
-        } catch {
-          Swal.fire(
-            "Error!",
-            "There was an error deleting the resource.",
-            "error"
-          );
-        }
-      }
-    });
+    try {
+      const url =
+        role === "Admin"
+          ? `/delete-resource/${resourceID}`
+          : `/delete-resource/${slug}`;
+
+      await axiosInstance.delete(url);
+
+      navigate(
+        `/resources?category=${decodeURI(searchParams.get("category"))}`
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -178,7 +162,7 @@ export default function ResourcesRead() {
                       Edit Resource
                     </Button>
                     <Button
-                      onClick={() => handleDeleteResource(resourceID)}
+                      onClick={() => setResourceDeleteModalOpen(true)}
                       variant="contained"
                       color="red"
                     >
@@ -321,6 +305,37 @@ export default function ResourcesRead() {
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={resourceDeleteModalOpen}
+        onClose={() => setResourceDeleteModalOpen(false)}
+        className="resource-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete Resource</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setResourceDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeleteResource(resourceID, slug)}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

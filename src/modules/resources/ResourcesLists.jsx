@@ -234,7 +234,7 @@ function ResourcesLists() {
                     .map((item, i) => (
                       <TableRow key={i}>
                         <TableCell>
-                          <Link to={`/resources/${item.id}`}>
+                          <Link to={`/resources/${item.id}?category=${decodeURI(searchParams.get("category"))}`}>
                             {item.resource_title}
                           </Link>
                         </TableCell>
