@@ -104,7 +104,7 @@ export default function ResourcesRead() {
       const timer = setTimeout(async () => {
         try {
           const url =
-            role === "Admin" ? `/resource/${resourceID}` : `/resource/${slug}`;
+            role === "Admin" ? `/resource/${resourceID}` : `/resource/${resourceID}`;
           const response = await axiosInstance.get(url);
           const resourceData = response.data.resource_data;
           setResourceTitle(resourceData?.resource_title || "");

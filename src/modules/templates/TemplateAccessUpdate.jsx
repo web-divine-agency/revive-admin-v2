@@ -77,7 +77,7 @@ export default function TemplateAccessUpdate() {
         confirmButtonColor: "#0ABAA6",
       }).then(() => {
         // Redirect to template management page after success
-        navigate("/template-management");
+        navigate("/templates");
       });
     } catch (error) {
       console.error("Failed to assign ticket templates:", error);

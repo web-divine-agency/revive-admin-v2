@@ -86,7 +86,7 @@ export default function AppRouter() {
           element={
             <ProtectedRoute
               element={<ResourcesRead />}
-              allowedRoles={["Admin"]}
+              allowedRoles={["Admin", "Staff"]}
             />
           }
         />

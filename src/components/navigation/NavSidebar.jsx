@@ -233,14 +233,16 @@ export default function NavSidebar() {
                     Resource Categories
                   </Link>
                 </ListItem>
-                <ListItem>
-                  <Link
-                    to="/resources/create"
-                    onClick={() => setSidebarActive(false)}
-                  >
-                    Add New Resource
-                  </Link>
-                </ListItem>
+                {role === "Admin" && (
+                  <ListItem>
+                    <Link
+                      to="/resources/create"
+                      onClick={() => setSidebarActive(false)}
+                    >
+                      Add New Resource
+                    </Link>
+                  </ListItem>
+                )}
               </List>
             </Collapse>
           </List>
