@@ -8,6 +8,7 @@ import {
   Chip,
   Container,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -30,6 +31,7 @@ import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
 import axiosInstance from "@/services/axiosInstance";
+import UserService from "@/services/UserService";
 
 export default function UsersCreate() {
   const navigate = useNavigate();
@@ -53,33 +55,11 @@ export default function UsersCreate() {
     list: [],
   });
 
-  const validation = () => {
-    if (
-      !user.lastName ||
-      !user.firstName ||
-      !user.branchIds.length ||
-      !user.password ||
-      !user.confirmPassword ||
-      !user.email ||
-      !user.gender ||
-      !user.username ||
-      !user.role
-    ) {
-      return "All fields are required.";
-    }
-    if (user.password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
+  const [errors, setErrors] = useState({});
 
-    if (user.password !== user.confirmPassword) {
-      return "Passwords do not match.";
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)) {
-      return "Invalid email format.";
-    }
-
-    return "";
+  const handleError = (key) => {
+    delete errors[key];
+    setErrors((errors) => ({ ...errors }));
   };
 
   const handleOnChange = (event) => {
@@ -88,29 +68,30 @@ export default function UsersCreate() {
   };
 
   const handleCreateUser = () => {
-    let valid = validation();
-
-    if (valid) {
-      snackbar(valid, "error");
-      return;
-    }
-
-    axiosInstance
-      .post("/addUser", {
-        last_name: user.lastName,
-        first_name: user.firstName,
-        branch_ids: user.branchIds,
-        password: user.password,
-        email: user.email,
-        sex: user.gender,
-        username: user.username,
-        role_name: user.role,
-      })
+    UserService.create({
+      last_name: user.lastName,
+      first_name: user.firstName,
+      branch_ids: user.branchIds,
+      password: user.password,
+      email: user.email,
+      gender: user.gender,
+      username: user.username,
+      role_name: user.role,
+    })
       .then(() => {
         navigate("/users");
       })
-      .catch(() => {
-        snackbar("Oops! something went wrong", "error");
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.msg, "error", 3000);
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
@@ -207,6 +188,9 @@ export default function UsersCreate() {
                   label="Last name"
                   value={user.lastName}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("last_name")}
+                  error={"last_name" in errors}
+                  helperText={"last_name" in errors ? errors["last_name"] : ""}
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 8 }}>
@@ -218,10 +202,15 @@ export default function UsersCreate() {
                   label="First name"
                   value={user.firstName}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("first_name")}
+                  error={"first_name" in errors}
+                  helperText={
+                    "first_name" in errors ? errors["first_name"] : ""
+                  }
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl fullWidth size="small">
+                <FormControl fullWidth size="small" error={"gender" in errors}>
                   <InputLabel id="gender-select-label">Gender</InputLabel>
                   <Select
                     labelId="gender-select-label"
@@ -234,6 +223,9 @@ export default function UsersCreate() {
                     <MenuItem value={"Male"}>Male</MenuItem>
                     <MenuItem value={"Female"}>Female</MenuItem>
                   </Select>
+                  {"gender" in errors && (
+                    <FormHelperText>{errors["gender"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12, lg: 8 }}>
@@ -245,10 +237,17 @@ export default function UsersCreate() {
                   label="Username"
                   value={user.username}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("username")}
+                  error={"username" in errors}
+                  helperText={"username" in errors ? errors["username"] : ""}
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl fullWidth size="small">
+                <FormControl
+                  fullWidth
+                  size="small"
+                  error={"role_name" in errors}
+                >
                   <InputLabel id="role-select-label">Role</InputLabel>
                   <Select
                     labelId="role-select-label"
@@ -261,6 +260,9 @@ export default function UsersCreate() {
                     <MenuItem value={"Admin"}>Admin</MenuItem>
                     <MenuItem value={"Staff"}>Staff</MenuItem>
                   </Select>
+                  {"role_name" in errors && (
+                    <FormHelperText>{errors["role_name"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }}>
@@ -272,13 +274,20 @@ export default function UsersCreate() {
                   label="Email"
                   value={user.email}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("email")}
+                  error={"email" in errors}
+                  helperText={"email" in errors ? errors["email"] : ""}
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <FormControl fullWidth size="small" variant="outlined">
+                <FormControl
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  error={"password" in errors}
+                >
                   <InputLabel htmlFor="password">Password</InputLabel>
                   <OutlinedInput
-                    id="password"
                     type={showPassword ? "text" : "password"}
                     label="Password"
                     name="password"
@@ -299,13 +308,20 @@ export default function UsersCreate() {
                       </InputAdornment>
                     }
                   />
+                  {"password" in errors && (
+                    <FormHelperText>{errors["password"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <FormControl fullWidth size="small" variant="outlined">
+                <FormControl
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  error={user.password !== user.confirmPassword}
+                >
                   <InputLabel htmlFor="password">Confirm password</InputLabel>
                   <OutlinedInput
-                    id="password"
                     type={showPassword ? "text" : "password"}
                     label="Confirm password"
                     name="confirmPassword"
@@ -326,6 +342,9 @@ export default function UsersCreate() {
                       </InputAdornment>
                     }
                   />
+                  {user.password !== user.confirmPassword && (
+                    <FormHelperText>Password doesn&apos;t match</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }} textAlign={"right"}>
