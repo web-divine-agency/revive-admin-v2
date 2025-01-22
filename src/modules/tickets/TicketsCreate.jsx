@@ -31,6 +31,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
@@ -597,7 +598,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "PERCENTAGE OFF TAGS":
         return {
@@ -606,7 +607,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "REVLON FRAGRANCE TAGS":
         return {
@@ -615,7 +616,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "FROSTBLAND FRAGRANCE TAGS":
         return {
@@ -624,7 +625,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "COSMAX FRAGRANCE TAGS":
         return {
@@ -633,7 +634,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "BASIC PRICE TAGS":
         return {
@@ -642,7 +643,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "DAVKA FRAGRANCE TAGS":
         return {
@@ -651,7 +652,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "COTY FRAGRANCE TAGS":
         return {
@@ -660,7 +661,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "GREEN FRIDAY SALE TAGS":
         return {
@@ -669,7 +670,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
         return {
@@ -678,7 +679,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "DB FRAGRANCE TAGS":
         return {
@@ -687,7 +688,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "MUST TRY TAGS":
         return {
@@ -696,7 +697,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "CLEARANCE TAGS":
         return {
@@ -705,7 +706,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "NEW IN STORE TAGS":
         return {
@@ -714,7 +715,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS":
         return {
@@ -723,7 +724,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: 16,
         };
       case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
         return {
@@ -732,7 +733,7 @@ export default function TicketsCreate() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: "25px",
+          paddingTop: "16px",
         };
       case "A4 BIG TICKET LANDSCAPE":
         return {
@@ -759,7 +760,7 @@ export default function TicketsCreate() {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          paddingTop: "20px",
+          paddingTop: 16,
         };
       case "A4 TICKET - CLEARANCE":
         return {
@@ -768,7 +769,7 @@ export default function TicketsCreate() {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          paddingTop: "20px",
+          paddingTop: 16,
         };
       default:
         return {
@@ -1012,11 +1013,10 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "32px",
+                  fontSize: 28,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
-                  // fontWeight: "600", // Semibold weight
-                  // fontStretch: "condensed", // Condensed style
+                  lineHeight: 1,
                   textAlign: "center",
                   marginTop: isPDFView ? 5 : 0,
                 }}
@@ -1026,20 +1026,20 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "50px",
-                  paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 36,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1047,36 +1047,36 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
                 {"\n"}
               </Text>
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                RRP ${values.rrp}  Save ${values.save}
-              </Text> */}
               {ticketData.valueType !== "I'M CHEAPER THAN" && (
                 <Text
                   style={{
-                    fontSize: "14px",
+                    fontSize: 14,
                     textAlign: "center",
                     fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "60px",
                     paddingBottom: isPDFView ? 10 : 0,
+                    lineHeight: 1,
                   }}
                 >
                   I&apos;M GREATER VALUE! {"\n"}
                   <Text
                     style={{
-                      fontSize: "10px",
+                      fontSize: 10,
                       textAlign: "center",
                       fontFamily: "Aptos",
+                      lineHeight: 1,
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1087,22 +1087,24 @@ export default function TicketsCreate() {
               {ticketData.valueType === "I'M CHEAPER THAN" && (
                 <Text
                   style={{
-                    fontSize: "14px",
+                    fontSize: 14,
                     textAlign: "center",
                     marginBottom: values.productName.includes("\n")
                       ? "70px"
                       : "45px",
                     fontFamily: "Aptos",
+                    lineHeight: 1,
                     paddingBottom: isPDFView ? 8 : 0,
                   }}
                 >
                   I&apos;M CHEAPER THAN {"\n"}
                   <Text
                     style={{
-                      fontSize: "14px",
+                      fontSize: 14,
                       textAlign: "center",
                       fontFamily: "AptosBold",
                       textTransform: "uppercase",
+                      lineHeight: 1,
                     }}
                   >
                     {" "}
@@ -1111,9 +1113,10 @@ export default function TicketsCreate() {
                   </Text>
                   <Text
                     style={{
-                      fontSize: "10px",
+                      fontSize: 10,
                       textAlign: "center",
                       fontFamily: "Aptos",
+                      lineHeight: 1,
                     }}
                   >
                     ONGOING REVIVE OFFER
@@ -1162,13 +1165,14 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "32px",
+                  fontSize: 28,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
+                  lineHeight: 1,
                 }}
               >
                 VALUE PACK
@@ -1176,7 +1180,7 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "42px",
+                  fontSize: 36,
                   marigin: 0,
                   padding: 0,
                   lineHeight: 1,
@@ -1187,7 +1191,7 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
@@ -1198,7 +1202,7 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
                   textAlign: "center",
@@ -1213,7 +1217,7 @@ export default function TicketsCreate() {
               {ticketData.valueType !== "I'M CHEAPER THAN" && (
                 <Text
                   style={{
-                    fontSize: "15px",
+                    fontSize: 14,
                     textAlign: "center",
                     fontFamily: "Aptos",
                     marginBottom: values.productName.includes("\n")
@@ -1310,12 +1314,13 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "24px",
+                  fontSize: 24,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
@@ -1323,11 +1328,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1335,10 +1340,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -1346,10 +1352,9 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
-                  paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 36,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -1361,12 +1366,13 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "75px",
                   fontFamily: "Aptos",
+                  lineHeight: 1,
                   paddingBottom: isPDFView ? 10 : 0,
                 }}
               >
@@ -1413,30 +1419,31 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "24px",
+                  fontSize: 24,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
                 GREEN FRIDAY SALE
               </Text>
-              <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+              <Text style={{ fontSize: 36, fontFamily: "AptosBold" }}>
                 {values.percentOff}
-                <Text style={{ fontSize: "45px", fontFamily: "AptosBold" }}>
+                <Text style={{ fontSize: 36, fontFamily: "AptosBold" }}>
                   OFF
                 </Text>
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1444,10 +1451,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -1456,13 +1464,14 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "75px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
+                  lineHeight: 1,
                 }}
               >
                 REVIVE OFFER AVAILABLE {"\n"}
@@ -1507,12 +1516,13 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "27px",
+                  fontSize: 16,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 10 : 0,
                 }}
               >
@@ -1521,34 +1531,32 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "50px",
-                  // paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 36,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
               </Text>
               <Text
                 style={{
-                  fontSize: "12px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "AptosBold",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   textAlign: "center",
-                  marginTop: "3px",
                 }}
               >
                 TOTAL BEAUTY NETWORK {"\n"} FRAGRANCES
               </Text>
               <Text
                 style={{
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   marginBottom: "55px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 10 : 0,
-                  marginTop: "5px",
+                  lineHeight: 1,
                 }}
               >
                 ONGOING REVIVE OFFER
@@ -1592,12 +1600,13 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "43px",
+                  fontSize: 32,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 8 : 0,
                 }}
               >
@@ -1605,11 +1614,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 12,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1617,10 +1626,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 12,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -1628,28 +1638,23 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
-                  // paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 32,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
               </Text>
-
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                RRP ${values.rrp}  Save ${values.save}
-              </Text> */}
-
               <Text
                 style={{
-                  fontSize: "17px",
+                  fontSize: 14,
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "60px",
                   fontFamily: "Aptos",
                   paddingBottom: isPDFView ? 5 : 0,
+                  lineHeight: 1,
                 }}
               >
                 {values.reviveOffer}
@@ -1693,12 +1698,11 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "40px",
+                  fontSize: 36,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
-                  // fontWeight: "600", // Semibold weight
-                  // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 8 : 0,
                 }}
               >
@@ -1706,11 +1710,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1718,10 +1722,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "16px",
+                  fontSize: 14,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -1729,27 +1734,22 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
-                  // paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 36,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
               </Text>
-
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                  RRP ${values.rrp}  Save ${values.save}
-                </Text> */}
-
               <Text
                 style={{
-                  fontSize: "17px",
+                  fontSize: 14,
                   textAlign: "center",
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "55px",
                   fontFamily: "Aptos",
+                  lineHeight: 1,
                   paddingBottom: isPDFView ? 5 : 0,
                 }}
               >
@@ -1794,12 +1794,13 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "33px",
+                  fontSize: 32,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   // fontWeight: "600", // Semibold weight
                   // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 8 : 0,
                 }}
               >
@@ -1807,11 +1808,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 12,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -1819,10 +1820,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "14px",
+                  fontSize: 12,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -1830,10 +1832,9 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
-                  // paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 36,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -1845,9 +1846,10 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "19px",
+                  fontSize: 14,
                   textAlign: "center",
                   textTransform: "uppercase",
+                  lineHeight: 1,
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "65px",
@@ -1896,12 +1898,11 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "100px",
+                  fontSize: 92,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
-                  // fontWeight: "600", // Semibold weight
-                  // fontStretch: "condensed", // Condensed style
                   textAlign: "center",
+                  lineHeight: 1,
                   marginTop: isPDFView ? 8 : 0,
                 }}
               >
@@ -1990,11 +1991,10 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "120px",
+                  fontSize: 120,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
-                  // fontWeight: "600", // Semibold weight
-                  // fontStretch: "condensed", // Condensed style
+                  lineHeight: 1,
                   textAlign: "center",
                   marginTop: isPDFView ? 8 : 0,
                 }}
@@ -2003,11 +2003,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "40px",
+                  fontSize: 40,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2015,11 +2015,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "40px",
+                  fontSize: 40,
                   textTransform: "uppercase",
                   fontFamily: "Aptos",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2027,20 +2027,14 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "170px",
-                  // paddingBottom: 2,
-                  // paddingTop: 2,
+                  fontSize: 170,
                   fontFamily: "Arial",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
               </Text>
-
-              {/* <Text style={{ fontSize: "10px", fontFamily: "AptosBold", marginTop: "2px" }}>
-                RRP ${values.rrp}  Save ${values.save}
-              </Text> */}
-
-              <Text style={{ fontSize: "20px", fontFamily: "Aptos" }}>
+              <Text style={{ fontSize: 20, fontFamily: "Aptos" }}>
                 REVIVE OFFER AVAILABLE &nbsp;
                 {formatDateForDisplay(values.startDate)} -{" "}
                 {formatDateForDisplay(values.expiry)}
@@ -2084,24 +2078,24 @@ export default function TicketsCreate() {
               )}
               <Text
                 style={{
-                  fontSize: "24px",
+                  fontSize: 20,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   marginTop: isPDFView ? 10 : 0,
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 CATALOGUE
               </Text>
               <Text
                 style={{
-                  fontSize: "26px",
+                  fontSize: 20,
                   textTransform: "uppercase",
                   fontFamily: "BarlowCondensed",
                   textAlign: "center",
                   // marginTop: isPDFView ? 10 : 0,
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 SPECIAL PRICE
@@ -2114,12 +2108,11 @@ export default function TicketsCreate() {
               </Text> */}
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2127,12 +2120,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "15px",
+                  fontSize: 12,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2140,13 +2132,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "15px",
+                  fontSize: 12,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2154,11 +2144,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  // paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productName.includes("\n")
                     ? "70px"
                     : "65px",
@@ -2209,12 +2198,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "10px",
-                  fontSize: "18px",
+                  fontSize: 14,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2222,12 +2210,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: 14,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2235,12 +2222,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "10px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2248,10 +2234,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
+                  lineHeight: 1,
                   // lineHeight: "1px",
                   marginBottom: values.productDesc.includes("\n")
                     ? "30px"
@@ -2267,9 +2253,9 @@ export default function TicketsCreate() {
               >
                 <Text
                   style={{
-                    fontSize: "11px",
+                    fontSize: 10,
                     fontFamily: "AptosBold",
-                    marginBottom: "3px",
+                    lineHeight: 1,
                   }}
                 >
                   {" "}
@@ -2318,12 +2304,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "17px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2331,12 +2316,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "17px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2344,13 +2328,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "12px",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2358,11 +2340,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "25px"
                     : "90px",
@@ -2377,10 +2358,9 @@ export default function TicketsCreate() {
               >
                 <Text
                   style={{
-                    fontSize: "11px",
+                    fontSize: 10,
                     fontFamily: "AptosBold",
-                    lineHeight: 1.2,
-                    marginTop: "3px",
+                    lineHeight: 1,
                   }}
                 >
                   {" "}
@@ -2429,12 +2409,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2442,12 +2421,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2455,13 +2433,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
-                  marginTop: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2470,21 +2446,19 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "10px",
+                  fontSize: 10,
                   fontFamily: "AptosBold",
-                  marginTop: "10px",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 RRP ${values.rrp}
                 {"\n"}
                 <Text
                   style={{
-                    fontSize: "15px",
+                    fontSize: 16,
                     fontFamily: "AptosBold",
-                    marginTop: "2px",
-                    lineHeight: "1px",
+                    lineHeight: 1,
                   }}
                 >
                   Save ${values.save}{" "}
@@ -2493,10 +2467,9 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "11px",
+                  fontSize: 10,
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
-                  paddingTop: "2px",
+                  lineHeight: 1,
                 }}
               >
                 {" "}
@@ -2504,11 +2477,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "2px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "50px"
                     : "65px",
@@ -2558,12 +2530,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2571,12 +2542,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2584,13 +2554,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "45px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "12px",
-                  marginTop: "4px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2598,11 +2566,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "20px"
                     : "90px",
@@ -2617,10 +2584,9 @@ export default function TicketsCreate() {
               >
                 <Text
                   style={{
-                    fontSize: "11px",
+                    fontSize: 10,
                     fontFamily: "AptosBold",
-                    marginTop: "3px",
-                    lineHeight: "1.2px",
+                    lineHeight: 1,
                   }}
                 >
                   {" "}
@@ -2669,12 +2635,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2682,12 +2647,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2695,13 +2659,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "45px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "12px",
-                  marginTop: "4px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2709,11 +2671,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "20px"
                     : "90px",
@@ -2728,10 +2689,9 @@ export default function TicketsCreate() {
               >
                 <Text
                   style={{
-                    fontSize: "11px",
+                    fontSize: 10,
                     fontFamily: "AptosBold",
-                    marginTop: "3px",
-                    lineHeight: "1.2px",
+                    lineHeight: 1,
                   }}
                 >
                   {" "}
@@ -2780,12 +2740,11 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2793,12 +2752,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "18px",
+                  fontSize: 16,
                   fontFamily: "AptosBold",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2806,12 +2764,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "50px",
+                  fontSize: 36,
                   fontFamily: "Arial",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.price}
@@ -2820,21 +2777,19 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "10px",
+                  fontSize: 10,
                   fontFamily: "AptosBold",
-                  marginTop: "10px",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 RRP ${values.rrp}
                 {"\n"}
                 <Text
                   style={{
-                    fontSize: "15px",
+                    fontSize: 16,
                     fontFamily: "AptosBold",
-                    marginTop: "2px",
-                    lineHeight: "1px",
+                    lineHeight: 1,
                   }}
                 >
                   Save ${values.save}{" "}
@@ -2842,9 +2797,9 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "11px",
+                  fontSize: 10,
                   fontFamily: "AptosBold",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {" "}
@@ -2852,11 +2807,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "3px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "50px"
                     : "70px",
@@ -2881,7 +2835,7 @@ export default function TicketsCreate() {
                 <Text
                   style={{
                     position: "fixed",
-                    top: -5,
+                    top: 0,
                     fontFamily: "BarlowCondensed",
                     fontSize: 10,
                     height: "auto",
@@ -2894,6 +2848,7 @@ export default function TicketsCreate() {
                     color: ticketData.addedToQueue ? "green" : "red",
                     zIndex: 1000,
                     pointerEvents: "none",
+                    lineHeight: 1,
                   }}
                   className="no-print"
                 >
@@ -2905,26 +2860,23 @@ export default function TicketsCreate() {
 
               <Text
                 style={{
-                  fontSize: "68px",
+                  fontSize: 52,
                   fontFamily: "BarlowCondensed",
-                  marginTop: isPDFView ? 10 : 0,
+                  lineHeight: 1,
                 }}
               >
                 {values.percentOff}
-                <Text
-                  style={{ fontSize: "36px", fontFamily: "BarlowCondensed" }}
-                >
+                <Text style={{ fontSize: 28, fontFamily: "BarlowCondensed" }}>
                   OFF
                 </Text>
               </Text>
               <Text
                 style={{
-                  marginTop: "5px",
-                  fontSize: "19px",
+                  fontSize: 16,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productName}
@@ -2932,12 +2884,11 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  fontSize: "19px",
+                  fontSize: 16,
                   fontFamily: "Aptos",
                   textTransform: "uppercase",
                   textAlign: "center",
-                  lineHeight: "1px",
-                  marginBottom: "3px",
+                  lineHeight: 1,
                 }}
               >
                 {values.productDesc}
@@ -2945,12 +2896,10 @@ export default function TicketsCreate() {
               </Text>
               <Text
                 style={{
-                  paddingTop: "5px",
-                  fontSize: "9px",
+                  fontSize: 10,
                   textAlign: "center",
                   fontFamily: "Aptos",
-                  lineHeight: "1px",
-                  marginTop: "3px",
+                  lineHeight: 1,
                   marginBottom: values.productDesc.includes("\n")
                     ? "50px"
                     : "70px",
@@ -3503,13 +3452,13 @@ export default function TicketsCreate() {
       //   );
       case "SUPER SAVINGS TICKET - I'M GREAT VALUE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3520,13 +3469,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3537,13 +3486,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                size="small"
+                fullWidth
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -3557,33 +3506,31 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-
-            <div className="form-group">
-              <label>Value Type</label>
-              <select
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Value Type"
+                select
+                size="small"
+                fullWidth
                 value={valueType}
                 onChange={handleValueTypeChange}
               >
-                <option value="I'M GREATER VALUE!">
+                <MenuItem value="I'M GREATER VALUE!">
                   I&apos;M GREATER VALUE!
-                </option>
-                <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
-              </select>
-              <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
-            </div>
-
-            <div
-              hidden={valueType === "I'M GREATER VALUE!"}
-              className="form-group"
-            >
-              <div className="form-group">
-                <label>Product Name</label>
-                <input
-                  type="text"
-                  name="productNameValue" // Added name
-                  className="form-control"
+                </MenuItem>
+                <MenuItem value="I'M CHEAPER THAN">
+                  I&apos;M CHEAPER THAN
+                </MenuItem>
+              </TextField>
+            </Grid>
+            {valueType !== "I'M GREATER VALUE!" && (
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  label="Product Name"
+                  size="small"
+                  fullWidth
+                  name="productNameValue"
                   value={ticketData.productNameValue || ""}
                   onChange={(e) =>
                     handleTicketData({
@@ -3594,116 +3541,114 @@ export default function TicketsCreate() {
                     })
                   }
                 />
-              </div>
-            </div>
-          </>
+              </Grid>
+            )}
+          </Grid>
         );
       case "VALUE PACK TICKETS -I'M CHEAPER THAN TAGS":
         return (
           <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
-                value={ticketData.productName || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productName",
-                      value: formatTextNameRevlon(e.target.value),
-                    },
-                  })
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
-                value={ticketData.productDesc || ""}
-                onChange={(e) =>
-                  handleTicketData({
-                    target: {
-                      name: "productDesc",
-                      value: formatTextNameRevlon(e.target.value),
-                    },
-                  })
-                }
-              />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
-                value={
-                  ticketData.price ? ticketData.price.replace("$", "") : ""
-                }
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, "");
-                  handleTicketData({
-                    target: {
-                      name: "price",
-                      value: "$" + formatPrice(filteredValue),
-                    },
-                  });
-                }}
-              />
-            </div>
-
-            <div className="form-group custom-icon-div">
-              <label>Value Type</label>
-              <select
-                className="form-control"
-                value={valueType}
-                onChange={handleValueTypeChange}
-              >
-                <option value="I'M GREATER VALUE!">
-                  I&apos;M GREATER VALUE!
-                </option>
-                <option value="I'M CHEAPER THAN">I&apos;M CHEAPER THAN</option>
-              </select>
-              <i className="fa fa-chevron-down custom-dropdown-icon-2"></i>
-            </div>
-
-            <div
-              hidden={valueType === "I'M GREATER VALUE!"}
-              className="form-group"
-            >
-              <div className="form-group">
-                <label>Product Name</label>
-                <input
-                  type="text"
-                  name="productNameValue" // Added name
-                  className="form-control"
-                  value={ticketData.productNameValue || ""}
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  label="Product Name"
+                  name="productName"
+                  value={ticketData.productName || ""}
                   onChange={(e) =>
                     handleTicketData({
                       target: {
-                        name: "productNameValue",
-                        value: formatTextSuperSaving(e.target.value),
+                        name: "productName",
+                        value: formatTextNameRevlon(e.target.value),
                       },
                     })
                   }
+                  fullWidth
+                  size="small"
                 />
-              </div>
-            </div>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  label="Description"
+                  name="productDesc"
+                  value={ticketData.productDesc || ""}
+                  onChange={(e) =>
+                    handleTicketData({
+                      target: {
+                        name: "productDesc",
+                        value: formatTextNameRevlon(e.target.value),
+                      },
+                    })
+                  }
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  label="Price"
+                  name="price"
+                  value={
+                    ticketData.price ? ticketData.price.replace("$", "") : ""
+                  }
+                  onChange={(e) => {
+                    const filteredValue = e.target.value.replace(/e/gi, "");
+                    handleTicketData({
+                      target: {
+                        name: "price",
+                        value: "$" + formatPrice(filteredValue),
+                      },
+                    });
+                  }}
+                  fullWidth
+                  size="small"
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <InputLabel>Value Type</InputLabel>
+                <Select
+                  value={valueType}
+                  onChange={handleValueTypeChange}
+                  fullWidth
+                  native
+                  size="small"
+                >
+                  <option value="I'M GREATER VALUE!">
+                    I&apos;M GREATER VALUE!
+                  </option>
+                  <option value="I'M CHEAPER THAN">
+                    I&apos;M CHEAPER THAN
+                  </option>
+                </Select>
+              </Grid>
+              {valueType !== "I'M GREATER VALUE!" && (
+                <Grid size={{ xs: 12 }}>
+                  <TextField
+                    label="Product Name"
+                    name="productNameValue"
+                    value={ticketData.productNameValue || ""}
+                    onChange={(e) =>
+                      handleTicketData({
+                        target: {
+                          name: "productNameValue",
+                          value: formatTextSuperSaving(e.target.value),
+                        },
+                      })
+                    }
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+              )}
+            </Grid>
           </>
         );
       case "GREEN FRIDAY SALE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3713,14 +3658,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3730,14 +3675,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -3750,96 +3695,51 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            {/* <div className="form-group">
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
-                value={ticketData.rrp || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "rrp",
-                      value: formatRrp(filteredValue),
-                    },
-                  })
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Start Date</InputLabel>
+              <TextField
+                type="date"
+                name="startDate"
+                value={startDate}
+                onChange={handleStartDateChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Save</label>
-              <input
-                type="text"
-                name="save" // Added name
-                className="form-control"
-                value={ticketData.save || ""}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/e/gi, '');
-                  handleTicketData({
-                    target: {
-                      name: "save",
-                      value: formatSave(filteredValue),
-                    },
-                  })
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Expiry Date</InputLabel>
+              <TextField
+                type="date"
+                name="expiry"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
                 }}
               />
-            </div> */}
-
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "GREEN FRIDAY SALE TAGS - PERCENTAGE OFF":
         return (
-          <>
-            <div className="form-group">
-              <label>Percent Off</label>
-              <input
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Percent Off"
+                size="small"
+                fullWidth
                 name="percentOff"
-                type="text"
-                className="form-control"
                 value={ticketData.percentOff?.replace("%", "") || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3850,13 +3750,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3867,13 +3767,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3884,34 +3784,30 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-
-            <div className="mb-3">
-              <label>Expiry Date</label>
-              <input
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Expiry Date"
                 type="date"
+                size="small"
+                fullWidth
                 name="expiry"
-                className="form-control date-input-2"
                 value={expiry}
                 onChange={handleExpiryChange}
-                min={getTodayDate()}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
               />
-              <i
-                className="fa fa-calendar custom-date-icon-3"
-                style={{ color: "black", zIndex: "1000" }}
-              ></i>
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "DB FRAGRANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                size="small"
+                fullWidth
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -3925,18 +3821,16 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "MUST TRY TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3946,14 +3840,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -3963,14 +3857,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -3983,50 +3877,14 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            {/* <div className="form-group">
-                <label>RRP</label>
-                <input
-                  type="text"
-                  name="rrp" // Added name
-                  className="form-control"
-                  value={ticketData.rrp || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "rrp",
-                        value: formatRrp(filteredValue),
-                      },
-                    })
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label>Save</label>
-                <input
-                  type="text"
-                  name="save" // Added name
-                  className="form-control"
-                  value={ticketData.save || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "save",
-                        value: formatSave(filteredValue),
-                      },
-                    })
-                  }}
-                />
-              </div> */}
-            <div className="form-group">
-              <label>Offer</label>
-              <input
-                type="text"
-                name="reviveOffer" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Offer"
+                name="reviveOffer"
                 value={ticketData.reviveOffer || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4036,9 +3894,11 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "CLEARANCE TAGS":
         return (
@@ -4058,6 +3918,8 @@ export default function TicketsCreate() {
                 }
                 variant="outlined"
                 label="Product Name"
+                fullWidth
+                size="small"
               />
             </Grid>
             <Grid size={{ xs: 12 }}>
@@ -4075,6 +3937,8 @@ export default function TicketsCreate() {
                 }
                 variant="outlined"
                 label="Description"
+                fullWidth
+                size="small"
               />
             </Grid>
             <TextField
@@ -4092,6 +3956,8 @@ export default function TicketsCreate() {
               }}
               variant="outlined"
               label="Price"
+              fullWidth
+              size="small"
             />
             <TextField
               type="text"
@@ -4107,18 +3973,20 @@ export default function TicketsCreate() {
               }
               variant="outlined"
               label="Offer"
+              fullWidth
+              size="small"
             />
           </Grid>
         );
       case "NEW IN STORE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4129,13 +3997,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4146,13 +4014,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                size="small"
+                fullWidth
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4166,49 +4034,13 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            {/* <div className="form-group">
-                <label>RRP</label>
-                <input
-                  type="text"
-                  name="rrp" // Added name
-                  className="form-control"
-                  value={ticketData.rrp || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "rrp",
-                        value: formatRrp(filteredValue),
-                      },
-                    })
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label>Save</label>
-                <input
-                  type="text"
-                  name="save" // Added name
-                  className="form-control"
-                  value={ticketData.save || ""}
-                  onChange={(e) => {
-                    const filteredValue = e.target.value.replace(/e/gi, '');
-                    handleTicketData({
-                      target: {
-                        name: "save",
-                        value: formatSave(filteredValue),
-                      },
-                    })
-                  }}
-                />
-              </div> */}
-            <div className="form-group">
-              <label>Offer</label>
-              <input
-                type="text"
-                name="tryMe" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Offer"
+                size="small"
+                fullWidth
+                name="tryMe"
                 value={ticketData.tryMe || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4219,18 +4051,18 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "A4 TICKET - NEW IN STORE":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4241,13 +4073,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4258,13 +4090,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                size="small"
+                fullWidth
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4278,59 +4110,42 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Start Date"
+                type="date"
+                size="small"
+                fullWidth
+                name="startDate"
+                value={startDate}
+                onChange={handleStartDateChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Expiry Date"
+                type="date"
+                size="small"
+                fullWidth
+                name="expiry"
+                value={expiry}
+                onChange={handleExpiryChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+          </Grid>
         );
       case "A4 TICKET - CLEARANCE":
         return (
-          <>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4341,13 +4156,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4358,13 +4173,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                size="small"
+                fullWidth
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4378,83 +4193,40 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Start Date"
+                size="small"
+                fullWidth
+                type="date"
+                name="startDate"
+                value={startDate}
+                onChange={handleStartDateChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Expiry Date"
+                size="small"
+                fullWidth
+                type="date"
+                name="expiry"
+                value={expiry}
+                onChange={handleExpiryChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+          </Grid>
         );
       case "CATALOGUE SPECIALS PRICE TAGS":
         return (
-          <>
-            {/* <div className="form-group">
-              <label>Percent Off</label>
-              <input
-                type="text"
-                className="form-control"
-                value={percentOff.replace("%", "")}
-                onChange={(e) => {
-                  const filteredValue = e.target.value.replace(/[a-zA-Z]/g, '');
-                  setpercentOff(PercentageformatText(filteredValue))
-                }}
-                max="99"
-              />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                className="form-control"
-                value={productDesc}
-                onChange={(e) =>
-                  setproductDesc(DescriptionformatText(e.target.value))
-                }
-              />
-            </div> */}
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4467,14 +4239,14 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4484,14 +4256,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4501,60 +4273,44 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-            {/* <div className="form-group" style={{ position: "relative" }}>
-              <label>Expiry</label>
-              <input
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Start Date</InputLabel>
+              <TextField
                 type="date"
-                className="form-control"
+                name="startDate"
+                ssss
+                className="form-control date-input"
+                value={startDate}
+                onChange={handleStartDateChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Expiry Date</InputLabel>
+              <TextField
+                type="date"
+                name="expiry"
+                className="form-control date-input"
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
-            </div> */}
-          </>
+            </Grid>
+          </Grid>
         );
       // case "Big Tickets (P)":
       //   return (
@@ -4606,13 +4362,13 @@ export default function TicketsCreate() {
       //   );
       case "REVLON FRAGRANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
+                size="small"
+                fullWidth
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4626,13 +4382,13 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
+                size="small"
+                fullWidth
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4643,12 +4399,16 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
                 name="productDesc"
-                className="form-control"
+                size="small"
+                fullWidth
+                multiline
+                rows={2}
+                maxLength={33}
                 placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
                 onChange={(e) => {
@@ -4674,21 +4434,19 @@ export default function TicketsCreate() {
                     e.target.value = ticketData.productDesc || "";
                   }
                 }}
-                rows="2" // Set to 2 rows to match the limit
-                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "FROSTBLAND FRAGRANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
+                size="small"
+                fullWidth
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4702,13 +4460,14 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
+                size="small"
+                fullWidth
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4719,12 +4478,17 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
                 name="productDesc"
-                className="form-control"
+                size="small"
+                fullWidth
+                multiline
+                rows={2}
+                maxLength={33}
                 placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
                 onChange={(e) => {
@@ -4750,21 +4514,19 @@ export default function TicketsCreate() {
                     e.target.value = ticketData.productDesc || "";
                   }
                 }}
-                rows="2" // Set to 2 rows to match the limit
-                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "DAVKA FRAGRANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
+                size="small"
+                fullWidth
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4778,13 +4540,13 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
+                size="small"
+                fullWidth
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4795,12 +4557,16 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
                 name="productDesc"
-                className="form-control"
+                size="small"
+                fullWidth
+                multiline
+                rows={2}
+                maxLength={33}
                 placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
                 onChange={(e) => {
@@ -4826,21 +4592,17 @@ export default function TicketsCreate() {
                     e.target.value = ticketData.productDesc || "";
                   }
                 }}
-                rows="2" // Set to 2 rows to match the limit
-                maxLength={33} // Set max length to 32 characters (16 chars x 2 lines)
               />
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "BASIC PRICE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -4853,14 +4615,14 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4870,14 +4632,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                name="productDesc"
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -4887,14 +4649,14 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="RRP"
+                name="rrp"
                 value={ticketData.rrp || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, "");
@@ -4905,15 +4667,14 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Save</label>
-              <input
-                disabled
-                type="text"
-                name="save" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Save"
+                name="save"
                 value={ticketData.save || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, "");
@@ -4924,49 +4685,45 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
+                disabled
               />
-            </div>
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              {" "}
+              <InputLabel>Start Date</InputLabel>
+              <TextField
+                type="date"
+                name="startDate"
+                className="form-control date-input"
+                value={startDate}
+                onChange={handleStartDateChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Expiry Date</InputLabel>
+              <TextField
+                type="date"
+                name="expiry"
+                className="form-control date-input"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          </Grid>
         );
       case "COSMAX FRAGRANCE TAGS":
         return (
@@ -5046,13 +4803,13 @@ export default function TicketsCreate() {
         );
       case "COTY FRAGRANCE TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
+                size="small"
+                fullWidth
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -5066,13 +4823,14 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                name="productName"
+                size="small"
+                fullWidth
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5083,13 +4841,14 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <input
-                type="text"
-                name="productDesc" // Added name
-                className="form-control"
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                name="productDesc"
+                size="small"
+                fullWidth
                 value={ticketData.productDesc || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5100,13 +4859,14 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>RRP</label>
-              <input
-                type="text"
-                name="rrp" // Added name
-                className="form-control"
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="RRP"
+                name="rrp"
+                size="small"
+                fullWidth
                 value={ticketData.rrp || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, "");
@@ -5118,14 +4878,15 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="form-group">
-              <label>Save</label>
-              <input
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Save"
+                name="save"
+                size="small"
+                fullWidth
                 disabled
-                type="text"
-                name="save" // Added name
-                className="form-control"
                 value={ticketData.save || ""}
                 onChange={(e) => {
                   const filteredValue = e.target.value.replace(/e/gi, "");
@@ -5137,33 +4898,31 @@ export default function TicketsCreate() {
                   });
                 }}
               />
-            </div>
-            <div className="mb-3">
-              <label>Expiry Date</label>
-              <input
-                type="date"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Expiry Date"
                 name="expiry"
-                className="form-control date-input-2"
+                type="date"
+                fullWidth
                 value={expiry}
                 onChange={handleExpiryChange}
                 min={getTodayDate()}
+                InputLabelProps={{ shrink: true }}
+                size="small"
               />
-              <i
-                className="fa fa-calendar custom-date-icon-2"
-                style={{ color: "black", zIndex: "1000" }}
-              ></i>
-            </div>
-          </>
+            </Grid>
+          </Grid>
         );
       case "PERCENTAGE OFF TAGS":
         return (
-          <>
-            <div className="form-group">
-              <label>Percent Off</label>
-              <input
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Percent Off"
+                size="small"
+                fullWidth
                 name="percentOff"
-                type="text"
-                className="form-control"
                 value={ticketData.percentOff?.replace("%", "") || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5174,14 +4933,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5192,13 +4950,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
                 name="productDesc"
-                className="form-control"
-                placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
                 onChange={(e) => {
                   const inputValue = e.target.value;
@@ -5223,63 +4981,36 @@ export default function TicketsCreate() {
                     e.target.value = ticketData.productDesc || "";
                   }
                 }}
-                rows="2" // Set to 2 rows to match the limit
-                maxLength={31} // Set max length to 32 characters (16 chars x 2 lines)
+                multiline
+                rows={2}
+                inputProps={{ maxLength: 31 }} // Set max length to 32 characters (16 chars x 2 lines)
               />
-            </div>
-
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-            {/* <div className="form-group" style={{ position: "relative" }}>
-              <label>Expiry</label>
-              <input
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Start Date"
                 type="date"
-                className="form-control"
+                size="small"
+                fullWidth
+                name="startDate"
+                value={startDate}
+                onChange={handleStartDateChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Expiry Date"
+                type="date"
+                size="small"
+                fullWidth
+                name="expiry"
                 value={expiry}
                 onChange={handleExpiryChange}
-                min={getTodayDate()}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
               />
-              <i className="fa fa-calendar custom-date-icon" style={{ color: "black" }}></i>
-            </div> */}
-          </>
+            </Grid>
+          </Grid>
         );
       // case "Big Tickets (P)":
       //   return (
@@ -5331,13 +5062,11 @@ export default function TicketsCreate() {
       //   );
       case "A4 BIG TICKET LANDSCAPE":
         return (
-          <>
-            <div className="form-group">
-              <label>Brand</label>
-              <input
-                type="text"
-                name="productBrand" // Added name
-                className="form-control"
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Brand"
+                name="productBrand"
                 value={ticketData.productBrand || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5347,11 +5076,13 @@ export default function TicketsCreate() {
                     },
                   })
                 }
+                fullWidth
+                size="small"
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <textarea
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <InputLabel>Product Name</InputLabel>
+              <TextareaAutosize
                 name="productName"
                 className="form-control"
                 placeholder="Press Enter for a new line..."
@@ -5379,17 +5110,15 @@ export default function TicketsCreate() {
                     e.target.value = ticketData.productName || "";
                   }
                 }}
-                rows="3" // Set to 2 rows to match the limit
-                maxLength={75} // Set max length to 32 characters (16 chars x 2 lines)
+                minRows={3} // Set to 3 rows to match the limit
+                maxLength={75} // Set max length to 75 characters
+                style={{ width: "100%", padding: "8px", fontSize: "14px" }}
               />
-            </div>
-
-            <div className="form-group">
-              <label>Price</label>
-              <input
-                type="text"
-                name="price" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Price"
+                name="price"
                 value={
                   ticketData.price ? ticketData.price.replace("$", "") : ""
                 }
@@ -5402,59 +5131,53 @@ export default function TicketsCreate() {
                     },
                   });
                 }}
+                fullWidth
+                size="small"
               />
-            </div>
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Start Date</InputLabel>
+              <TextField
+                type="date"
+                name="startDate"
+                className="form-control date-input"
+                value={startDate}
+                onChange={handleStartDateChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <InputLabel>Expiry Date</InputLabel>
+              <TextField
+                type="date"
+                name="expiry"
+                className="form-control date-input"
+                value={expiry}
+                onChange={handleExpiryChange}
+                min={getTodayDate()}
+                fullWidth
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          </Grid>
         );
       case "A4 TICKET - PERCENTAGE OFF":
         return (
-          <>
-            <div className="form-group">
-              <label>Percent Off</label>
-              <input
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Percent Off"
+                size="small"
+                fullWidth
                 name="percentOff"
-                type="text"
-                className="form-control"
                 value={ticketData.percentOff?.replace("%", "") || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5465,13 +5188,13 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Product Name</label>
-              <input
-                type="text"
-                name="productName" // Added name
-                className="form-control"
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Product Name"
+                size="small"
+                fullWidth
+                name="productName"
                 value={ticketData.productName || ""}
                 onChange={(e) =>
                   handleTicketData({
@@ -5482,12 +5205,15 @@ export default function TicketsCreate() {
                   })
                 }
               />
-            </div>
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Description"
+                size="small"
+                fullWidth
                 name="productDesc"
-                className="form-control"
+                multiline
+                rows={2}
                 placeholder="Press Enter for a new line..."
                 value={ticketData.productDesc || ""}
                 onChange={(e) => {
@@ -5509,56 +5235,38 @@ export default function TicketsCreate() {
                     lines.length > 2 ||
                     (lines.length === 2 && lines[1].length > 19)
                   ) {
-                    // Prevent entering a third line or exceeding 16 characters on the second line
+                    // Prevent entering a third line or exceeding character limits
                     e.target.value = ticketData.productDesc || "";
                   }
                 }}
-                rows="2" // Set to 2 rows to match the limit
-                maxLength={39} // Set max length to 32 characters (16 chars x 2 lines)
+                inputProps={{ maxLength: 39 }}
               />
-            </div>
-
-            <div
-              className="form-group"
-              style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  className="form-control date-input"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon-1"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <label>Expiry Date</label>
-                <input
-                  type="date"
-                  name="expiry"
-                  className="form-control date-input"
-                  value={expiry}
-                  onChange={handleExpiryChange}
-                  min={getTodayDate()}
-                />
-                <i
-                  className="fa fa-calendar custom-date-icon"
-                  style={{ color: "black", zIndex: "1000" }}
-                ></i>
-              </div>
-            </div>
-          </>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Start Date"
+                type="date"
+                size="small"
+                fullWidth
+                name="startDate"
+                value={startDate}
+                onChange={handleStartDateChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, lg: 6 }}>
+              <TextField
+                label="Expiry Date"
+                type="date"
+                size="small"
+                fullWidth
+                name="expiry"
+                value={expiry}
+                onChange={handleExpiryChange}
+                InputProps={{ inputProps: { min: getTodayDate() } }}
+              />
+            </Grid>
+          </Grid>
         );
       default:
         return (
