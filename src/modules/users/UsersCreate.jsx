@@ -25,16 +25,20 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import "./Users.scss";
 
+import Global from "@/util/global";
+
 import { snackbar } from "@/util/helper";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import axiosInstance from "@/services/axiosInstance";
 import UserService from "@/services/UserService";
+import BranchService from "@/services/BranchService";
 
 export default function UsersCreate() {
   const navigate = useNavigate();
+
+  const { authUser } = useState(Global);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -96,8 +100,7 @@ export default function UsersCreate() {
   };
 
   const handleGetBranches = () => {
-    axiosInstance
-      .get("/branches")
+    BranchService.list({}, authUser?.token)
       .then((response) => {
         setBranches({
           names: response.data.flatMap((branch) => branch.branch_name),

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
 import { useParams, useNavigate } from "react-router-dom";
-import check from "@/assets/images/check.png";
-import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../components/navigation/NavTopbar";
-import NavSidebar from "../../components/navigation/NavSidebar";
+
+import Swal from "sweetalert2";
+
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+
+import NavTopbar from "../../components/navigation/NavTopbar";
+import NavSidebar from "../../components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
 
 export default function TemplateAccessUpdate() {
   const { userId } = useParams();
@@ -17,19 +20,19 @@ export default function TemplateAccessUpdate() {
   const navigate = useNavigate(); // Store selected ticket types
 
   useEffect(() => {
-    const fetchTicketTypes = async () => {
+    const fetchTicketTypes = () => {
       try {
-        const response = await axiosInstance.get("/ticketTypes");
+        const response = {};
         setTicketTypes(response.data); // Store the ticket type data
       } catch (error) {
         console.error("Error fetching ticket types:", error);
       }
     };
 
-    const fetchUserData = async () => {
+    const fetchUserData = () => {
       if (userId) {
         try {
-          const response = await axiosInstance.get(`/user/${userId}`);
+          const response = {};
           const userData = response.data;
           const assignedTicketIds = userData?.ticketTypes?.map(
             (ticketType) => ticketType.id
@@ -62,11 +65,6 @@ export default function TemplateAccessUpdate() {
   const assignTickets = async (e) => {
     e.preventDefault(); // Prevent default form submission
     try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await axiosInstance.post(`/assign-tickets/${userId}`, {
-        ticket_type_ids: selectedTicketIds, // Send selected ticket IDs to the backend
-      });
-
       Swal.fire({
         title: "Ticket Template Assigned Successfully",
         text: `The user has been updated.`,

@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import "font-awesome/css/font-awesome.min.css";
-import man from "@/assets/images/man.png";
-
-import woman from "@/assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "@/services/axiosInstance.js";
-import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
+import moment from "moment";
+
+import DataTable from "react-data-table-component";
+
 import { Box, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 import "./ActivityLogs.scss";
-import moment from "moment";
+
+import { useLoader } from "@/components/loaders/LoaderContext";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 
 export default function ActivityLogs() {
   const navigate = useNavigate();
@@ -29,10 +31,10 @@ export default function ActivityLogs() {
   const { setLoading } = useLoader();
 
   useEffect(() => {
-    const fetchLogs = async () => {
+    const fetchLogs = () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/staffLogs");
+        const response = {};
         const formattedData = response.data.map((staff_logs) => ({
           id: staff_logs?.id,
           name: `${staff_logs?.user?.first_name || "N/A"} ${
@@ -63,9 +65,9 @@ export default function ActivityLogs() {
       }
     };
 
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         setBranches(response.data); // Assuming backend returns a list of branches
       } catch (error) {
         console.error("Error fetching branches:", error);
@@ -121,18 +123,18 @@ export default function ActivityLogs() {
   ];
 
   useEffect(() => {
-    const fetchLoggedInUser = async () => {
+    const fetchLoggedInUser = () => {
       try {
-        const response = await axiosInstance.get("/user");
+        const response = {};
         setLoggedInUser(response.data);
       } catch (error) {
         console.error("Error fetching logged-in user:", error);
       }
     };
 
-    const fetchRoles = async () => {
+    const fetchRoles = () => {
       try {
-        const response = await axiosInstance.get("/roles");
+        const response = {};
         setRoles(response.data);
       } catch (e) {
         console.error(e);

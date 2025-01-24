@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../../../../axiosInstance.js";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import check from "../../../assets/images/check.png";
+
+import Swal from "sweetalert2";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+
 import { FiChevronLeft } from "react-icons/fi";
+
+import check from "../../../assets/images/check.png";
 
 const animatedComponents = makeAnimated();
 
@@ -28,9 +30,9 @@ function AddNewUser() {
 
   useEffect(() => {
     // Fetch branches
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         const options = response.data.map((branch) => ({
           value: branch.id,
           label: branch.branch_name,
@@ -43,9 +45,9 @@ function AddNewUser() {
     fetchBranches();
 
     // Fetch roles
-    const fetchRoles = async () => {
+    const fetchRoles = () => {
       try {
-        const response = await axiosInstance.get("/roles");
+        const response = {};
         setRoles(response.data);
       } catch (error) {
         console.error("Error fetching roles:", error);
@@ -97,18 +99,6 @@ function AddNewUser() {
     }
 
     try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await axiosInstance.post("/addUser", {
-        last_name,
-        first_name,
-        branch_ids: selectedBranches.map((branch) => branch.value),
-        password,
-        email,
-        sex,
-        username,
-        role_name,
-      });
-
       // setSuccessMessage("User added successfully!");
       setError("");
       setLastname("");

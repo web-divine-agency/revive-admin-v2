@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-// import video_play_icon from "../../../assets/images/playbutton.svg";
-// import images_outline from "../../../assets/images/images-outline.svg";
-// import filetype_pdf from "../../../assets/images/filetype-pdf.svg";
-
-import axiosInstance from "@/services/axiosInstance.js";
-import "./Resources.scss";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
+import moment from "moment";
+
 import {
   Box,
   Button,
@@ -21,11 +15,21 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
+import "./Resources.scss";
+
+import Global from "@/util/global";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 import TableDefault from "@/components/tables/TableDefault";
-import moment from "moment";
+
+import ResourceService from "@/services/ResourceService";
+import UserService from "@/services/UserService";
 
 function ResourcesLists() {
   const navigate = useNavigate();
+
+  const { authUser } = useContext(Global);
 
   const [searchParams] = useSearchParams();
 
@@ -38,7 +42,7 @@ function ResourcesLists() {
 
   // eslint-disable-next-line no-unused-vars
   const handleListResources = (page = 1, show = 10) => {
-    axiosInstance
+    ResourceService.list({}, authUser?.token)
       .get("/all-resources")
       .then((response) => {
         setResources({
@@ -52,8 +56,7 @@ function ResourcesLists() {
   };
 
   const handleReadUser = () => {
-    axiosInstance
-      .get("/user")
+    UserService.read(0, authUser?.token)
       .then((response) => {
         setUser(response.data);
       })
@@ -234,7 +237,11 @@ function ResourcesLists() {
                     .map((item, i) => (
                       <TableRow key={i}>
                         <TableCell>
-                          <Link to={`/resources/${item.id}?category=${decodeURI(searchParams.get("category"))}`}>
+                          <Link
+                            to={`/resources/${item.id}?category=${decodeURI(
+                              searchParams.get("category")
+                            )}`}
+                          >
                             {item.resource_title}
                           </Link>
                         </TableCell>

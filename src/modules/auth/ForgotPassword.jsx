@@ -1,8 +1,9 @@
 import { useState } from "react";
-import "./Auth.scss";
-import password from "@/assets/images/password.png";
-import axiosInstance from "@/services/axiosInstance.js";
 import { useNavigate } from "react-router-dom";
+
+import "./Auth.scss";
+
+import password from "@/assets/images/password.png";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -10,12 +11,10 @@ export default function ForgotPassword() {
   const [isEmailNotFound, setIsEmailNotFound] = useState(false);
   const navigate = useNavigate();
 
-  const handlePasswordResetRequest = async (e) => {
+  const handlePasswordResetRequest = (e) => {
     e.preventDefault();
 
     try {
-      await axiosInstance.post("/reset-password", { email });
-
       setMessage("Reset instructions sent! Check your email.");
       setIsEmailNotFound(false);
       setTimeout(() => navigate("/open-email", { state: { email } }), 3000);

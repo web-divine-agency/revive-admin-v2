@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -15,18 +15,22 @@ import Grid from "@mui/material/Grid2";
 
 import "./Resources.scss";
 
+import Global from "@/util/global";
+
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import axiosInstance from "@/services/axiosInstance";
+import ResourceService from "@/services/ResourceService";
 
 export default function ResourcesIndex() {
   const navigate = useNavigate();
 
+  const { authUser } = useContext(Global);
+
   const [resources, setResources] = useState([]);
 
   const handleListResources = () => {
-    axiosInstance
+    ResourceService.list({}, authUser?.token)
       .get("/all-resources")
       .then((response) => {
         let data = response.data.resource_data;

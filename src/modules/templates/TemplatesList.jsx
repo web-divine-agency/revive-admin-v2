@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
-import DataTable from "react-data-table-component";
-import "font-awesome/css/font-awesome.min.css";
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
-import check from "@/assets/images/check.png";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import Swal from "sweetalert2";
-import axiosInstance from "@/services/axiosInstance.js";
-import { useLoader } from "@/components/loaders/LoaderContext";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
-import { Box, Button, Container, IconButton, Paper, Typography } from "@mui/material";
+
+import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
+
+import { Modal } from "react-bootstrap";
+import { useLoader } from "@/components/loaders/LoaderContext";
+
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
+import check from "@/assets/images/check.png";
 
 export default function TemplatesList() {
   const navigate = useNavigate();
@@ -56,13 +66,13 @@ export default function TemplatesList() {
   }, []);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUsers = () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/users");
+        const response = {};
         setUsers(response.data);
         setFilteredUsers(response.data);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -71,9 +81,9 @@ export default function TemplatesList() {
       }
     };
 
-    const fetchRoles = async () => {
+    const fetchRoles = () => {
       try {
-        const response = await axiosInstance.get("/roles");
+        const response = {};
         setRoles(response.data);
       } catch (e) {
         console.error(e);
@@ -85,9 +95,9 @@ export default function TemplatesList() {
   }, [navigate]);
 
   useEffect(() => {
-    const fetchLoggedInUser = async () => {
+    const fetchLoggedInUser = () => {
       try {
-        const response = await axiosInstance.get("/user"); // Adjust the endpoint if needed
+        const response = {}; // Adjust the endpoint if needed
         setLoggedInUser(response.data); // Assuming response contains user data
       } catch (error) {
         console.error("Error fetching logged-in user:", error);
@@ -98,9 +108,9 @@ export default function TemplatesList() {
   }, []);
 
   useEffect(() => {
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
@@ -120,7 +130,7 @@ export default function TemplatesList() {
   useEffect(() => {
     const fetchTicketTypes = async () => {
       try {
-        const response = await axiosInstance.get("/ticketTypes");
+        const response = {};
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
@@ -249,8 +259,6 @@ export default function TemplatesList() {
           >
             <EditIcon />
           </IconButton>
-
-
         </div>
       ),
       sortable: false,

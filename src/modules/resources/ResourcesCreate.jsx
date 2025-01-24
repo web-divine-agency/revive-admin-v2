@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import check from "@/assets/images/check.png";
-import { FaTimes } from "react-icons/fa";
-import axiosInstance from "@/services/axiosInstance.js";
-import { useLoader } from "@/components/loaders/LoaderContext";
-import Swal from "sweetalert2";
-
-import JoditEditor from "jodit-react";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
+
+import Swal from "sweetalert2";
+import JoditEditor from "jodit-react";
+
 import {
   Box,
   Button,
@@ -28,8 +23,20 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
+import { FaTimes } from "react-icons/fa";
+
 import "./Resources.scss";
+
+import { useLoader } from "@/components/loaders/LoaderContext";
+
 import { snackbar } from "@/util/helper";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
+import ResourceService from "../../services/ResourceService";
+import Global from "../../util/global";
 
 export default function ResourcesCreate() {
   const [resources, setResources] = useState([]);
@@ -57,11 +64,12 @@ export default function ResourcesCreate() {
 
   const [role, setRole] = useState("");
 
+  const { authUser } = useContext(Global);
+
   const [resourceBody, setResourceBody] = useState("");
 
   const handleListResources = () => {
-    axiosInstance
-      .get("/all-resources")
+    ResourceService.list({}, authUser?.token)
       .then((response) => {
         let resources = response.data.resource_data.flatMap(
           (item) => item.category
@@ -80,9 +88,9 @@ export default function ResourcesCreate() {
   }, []);
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
+    const fetchUserDetails = () => {
       try {
-        const response = await axiosInstance.get("/user");
+        const response = {};
         const { roles } = response.data;
         const role = roles.length > 0 ? roles[0].role_name : "No Role";
         setRole(role);
@@ -247,9 +255,6 @@ export default function ResourcesCreate() {
     //formDataToSend.append("additional_fields", JSON.stringify(additionalFields));
 
     try {
-      await axiosInstance.post("/create-resource", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
       Swal.fire({
         title: "Success!",
         text: "Resource has been created.",

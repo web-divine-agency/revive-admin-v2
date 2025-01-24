@@ -1,8 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import DataTable from "react-data-table-component";
 import moment from "moment";
+
+import DataTable from "react-data-table-component";
+
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  PDFViewer,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 
 import {
   Box,
@@ -19,26 +30,15 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import "./Tickets.scss";
 
-import "font-awesome/css/font-awesome.min.css";
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
-
-import axiosInstance from "@/services/axiosInstance.js";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  PDFViewer,
-  StyleSheet,
-  Font,
-} from "@react-pdf/renderer";
-
-import { getCookie } from "@/middleware/getCookie";
-
 import { useLoader } from "@/components/loaders/LoaderContext";
+
+import Global from "@/util/global";
+
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
+
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 
 Font.register({
   family: "Arial",
@@ -89,16 +89,16 @@ function TicketsHistory() {
 
   const { setLoading } = useLoader();
 
+  const { authUser } = useContext(Global);
+
   const [ticketDetailsModalOpen, setTicketDetailsModalOpen] = useState(false);
   const [ticketDeleteModalOpen, setTicketDeleteModalOpen] = useState(false);
 
-  const [role, setRole] = useState("");
-
   useEffect(() => {
-    const fetchTickets = async () => {
+    const fetchTickets = () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/tickets");
+        const response = {};
 
         const formattedData = response.data
           .map((tickets) => ({
@@ -124,9 +124,9 @@ function TicketsHistory() {
 
   // Get Branches for filter
   useEffect(() => {
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
@@ -137,15 +137,13 @@ function TicketsHistory() {
       }
     };
     fetchBranches();
-
-    setRole(getCookie("role_name"));
   }, []);
 
   //get ticket types
   useEffect(() => {
     const fetchTicketTypes = async () => {
       try {
-        const response = await axiosInstance.get("/ticketTypes");
+        const response = {};
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
@@ -2013,9 +2011,9 @@ function TicketsHistory() {
     </Document>
   );
 
-  const handleViewTicketClick = async (id) => {
+  const handleViewTicketClick = () => {
     try {
-      const response = await axiosInstance.get(`/ticket/${id}`);
+      const response = {};
       const ticket = response.data;
       const formattedTicketData = {
         id: ticket.id,
@@ -2037,7 +2035,7 @@ function TicketsHistory() {
 
   const handleDeleteTicket = async () => {
     try {
-      await axiosInstance.delete(`/delete-ticket/${selectedTicketId}`);
+      console.log("Delete");
     } catch (error) {
       console.error(error);
     }
@@ -2104,7 +2102,7 @@ function TicketsHistory() {
           >
             <VisibilityIcon />
           </IconButton>
-          {role == "Admin" && (
+          {authUser?.role_name == "Admin" && (
             <IconButton
               onClick={() => {
                 setSelectedTicketId(row.id);

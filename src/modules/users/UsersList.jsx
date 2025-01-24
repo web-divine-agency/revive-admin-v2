@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import DataTable from "react-data-table-component";
 import { Helmet } from "react-helmet";
+
+import DataTable from "react-data-table-component";
 
 import {
   Box,
@@ -18,16 +19,15 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
+import "./Users.scss";
 
 import { useLoader } from "@/components/loaders/LoaderContext";
-import axiosInstance from "@/services/axiosInstance.js";
-
-import "./Users.scss";
 
 import NavSidebar from "@/components/navigation/NavSidebar";
 import NavTopbar from "@/components/navigation/NavTopbar";
+
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 
 export default function UsersList() {
   const navigate = useNavigate();
@@ -56,13 +56,12 @@ export default function UsersList() {
   }, []);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUsers = () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/users");
+        const response = {};
         setUsers(response.data);
         setFilteredUsers(response.data);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         // console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -71,9 +70,9 @@ export default function UsersList() {
       }
     };
 
-    const fetchRoles = async () => {
+    const fetchRoles = () => {
       try {
-        const response = await axiosInstance.get("/roles");
+        const response = {};
         setRoles(response.data);
       } catch (error) {
         console.error(error);
@@ -85,9 +84,9 @@ export default function UsersList() {
   }, [navigate]);
 
   useEffect(() => {
-    const fetchLoggedInUser = async () => {
+    const fetchLoggedInUser = () => {
       try {
-        const response = await axiosInstance.get("/user"); // Adjust the endpoint if needed
+        const response = {}; // Adjust the endpoint if needed
         setLoggedInUser(response.data); // Assuming response contains user data
       } catch (error) {
         console.error("Error fetching logged-in user:", error);
@@ -98,9 +97,9 @@ export default function UsersList() {
   }, []);
 
   useEffect(() => {
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
@@ -155,7 +154,7 @@ export default function UsersList() {
 
   const handleDeleteUser = async () => {
     try {
-      await axiosInstance.delete(`/delete-user/${selectedUser.id}`);
+      console.log("Delete");
     } catch (error) {
       console.error(error);
     }

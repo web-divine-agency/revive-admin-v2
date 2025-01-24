@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment/moment";
 
 import {
   Box,
@@ -24,24 +25,21 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-import Global from "@/util/global";
-
 import "./Navigation.scss";
-import { getCookie } from "@/middleware/getCookie";
-import moment from "moment/moment";
+
+import Global from "@/util/global";
 
 export default function NavSidebar() {
   const navigate = useNavigate();
 
-  const { sidebarActive, setSidebarActive, setAuthUser } = useContext(Global);
+  const { sidebarActive, setSidebarActive, authUser, setAuthUser } =
+    useContext(Global);
 
   const [datetime, setDatetime] = useState({
     day: "",
     date: "",
     time: "",
   });
-
-  const [role, setRole] = useState("");
 
   const [menu, setMenu] = useState({
     tickets: {
@@ -81,7 +79,6 @@ export default function NavSidebar() {
   };
 
   useEffect(() => {
-    setRole(getCookie("role_name"));
     insertClock();
   }, []);
 
@@ -111,7 +108,7 @@ export default function NavSidebar() {
         <Typography className="label">Menu</Typography>
         <Box className="menu-links">
           <List>
-            {role === "Admin" && (
+            {authUser?.role_name === "Admin" && (
               <ListItem>
                 <Link to="/users" onClick={() => setSidebarActive(false)}>
                   <PeopleAltIcon />
@@ -119,7 +116,8 @@ export default function NavSidebar() {
                 </Link>
               </ListItem>
             )}
-            {(role === "Admin" || role === "Staff") && (
+            {(authUser?.role_name === "Admin" ||
+              authUser?.role_name === "Staff") && (
               <>
                 <ListItem>
                   <Link to="#" onClick={() => toggleDropdown("tickets")}>
@@ -151,7 +149,7 @@ export default function NavSidebar() {
                         Generate Tickets
                       </Link>
                     </ListItem>
-                    {role === "Admin" && (
+                    {authUser?.role_name === "Admin" && (
                       <>
                         <ListItem>
                           <Link
@@ -175,7 +173,7 @@ export default function NavSidebar() {
                 </Collapse>
               </>
             )}
-            {role === "Admin" && (
+            {authUser?.role_name === "Admin" && (
               <>
                 <ListItem>
                   <Link to="#" onClick={() => toggleDropdown("branches")}>
@@ -233,7 +231,7 @@ export default function NavSidebar() {
                     Resource Categories
                   </Link>
                 </ListItem>
-                {role === "Admin" && (
+                {authUser?.role_name === "Admin" && (
                   <ListItem>
                     <Link
                       to="/resources/create"
@@ -251,7 +249,7 @@ export default function NavSidebar() {
         <Typography className="label">Settings</Typography>
         <Box className="menu-settings">
           <List>
-            {role === "Admin" && (
+            {authUser?.role_name === "Admin" && (
               <ListItem>
                 <Link to="/user-roles" onClick={() => setSidebarActive(false)}>
                   <ManageAccountsIcon />
@@ -259,7 +257,7 @@ export default function NavSidebar() {
                 </Link>
               </ListItem>
             )}
-            {role === "Admin" && (
+            {authUser?.role_name === "Admin" && (
               <ListItem>
                 <Link
                   to="/activity-logs"

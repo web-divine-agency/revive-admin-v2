@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+
+import Swal from "sweetalert2";
+import { saveAs } from "file-saver";
 
 import {
   Document,
@@ -10,18 +14,7 @@ import {
   Font,
   pdf,
 } from "@react-pdf/renderer";
-import Swal from "sweetalert2";
-import { saveAs } from "file-saver";
-import check from "@/assets/images/check.png";
-import close from "@/assets/images/close.png";
-import axiosInstance from "@/services/axiosInstance.js";
-// import revive_logo from "@/assets/images/revive-logo.png";
-// import revive_logo_white from "@/assets/images/revive-logo-white.png";
 
-import "./Tickets.scss";
-import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
 import {
   Box,
   Button,
@@ -36,6 +29,14 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+
+import "./Tickets.scss";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
+import close from "@/assets/images/close.png";
 
 Font.register({
   family: "Arial",
@@ -148,9 +149,9 @@ export default function TicketsCreate() {
   // fetch user for user role
   useEffect(() => {
     // Fetch current user details
-    const fetchUserDetails = async () => {
+    const fetchUserDetails = () => {
       try {
-        const response = await axiosInstance.get("/user");
+        const response = {};
         const { roles, assigned_tickets, assigned_ticket_categories } =
           response.data;
         const role = roles.length > 0 ? roles[0].role_name : "No Role";
@@ -227,11 +228,6 @@ export default function TicketsCreate() {
         try {
           await new Promise((resolve) => setTimeout(resolve, 500));
           const blob = await pdf(<MyDocument isPDFView={true} />).toBlob();
-          // eslint-disable-next-line no-unused-vars
-          const response = await axiosInstance.post("/create-ticket", {
-            ticket_type: template,
-            data: ticketQueue,
-          });
 
           const fileName = `Revive-${template}.pdf`;
           saveAs(blob, fileName);

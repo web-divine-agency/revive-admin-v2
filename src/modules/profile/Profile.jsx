@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
+
 import Swal from "sweetalert2";
+
 import close from "@/assets/images/close.png";
 import check from "@/assets/images/check.png";
-import man from '@/assets/images/man.png';
-import woman from '@/assets/images/woman.png';
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
@@ -22,11 +23,12 @@ export default function Profile() {
 
   useEffect(() => {
     // Fetch current user details
-    const fetchUserDetails = async () => {
+    const fetchUserDetails = () => {
       try {
-        const response = await axiosInstance.get("/user");
-        const { username, email, first_name, last_name, sex, roles, branch } = response.data;
-        const role = roles.length > 0 ? roles[0].role_name : 'No Role';
+        const response = {};
+        const { username, email, first_name, last_name, sex, roles, branch } =
+          response.data;
+        const role = roles.length > 0 ? roles[0].role_name : "No Role";
 
         setUsername(username);
         setEmail(email);
@@ -84,8 +86,8 @@ export default function Profile() {
 
     if (!oldPassword) {
       Swal.fire({
-        title: 'Old Password Required',
-        text: 'Please enter your old password before making changes.',
+        title: "Old Password Required",
+        text: "Please enter your old password before making changes.",
         imageUrl: close,
         imageWidth: 100,
         imageHeight: 100,
@@ -100,18 +102,12 @@ export default function Profile() {
     }
 
     try {
-      await axiosInstance.put("/update-profile", {
-        username,
-        email,
-        oldPassword,
-        newPassword,
-      });
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
       Swal.fire({
-        title: 'Profile Updated',
-        text: 'Your profile has been updated successfully.',
+        title: "Profile Updated",
+        text: "Your profile has been updated successfully.",
         imageUrl: check,
         imageWidth: 100,
         imageHeight: 100,
@@ -124,8 +120,10 @@ export default function Profile() {
       });
     } catch (error) {
       Swal.fire({
-        title: 'Update Failed',
-        text: error.response?.data?.message || 'Something went wrong. Please try again later.',
+        title: "Update Failed",
+        text:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again later.",
         imageUrl: close,
         imageWidth: 100,
         imageHeight: 100,
@@ -139,19 +137,23 @@ export default function Profile() {
     }
   };
 
-
   return (
-    
     <div className="custom-profile-container">
       <div className="col-lg-12">
         <div className="row custom-row">
-          <div className="col-lg-7" style={{ paddingLeft: "0px", marginLeft: "-20px" }}>
-            <h3>Hello, {first_name} {last_name}!</h3>
-            <p>This is your profile page, where you can customize your profile and change your password as needed</p>
+          <div
+            className="col-lg-7"
+            style={{ paddingLeft: "0px", marginLeft: "-20px" }}
+          >
+            <h3>
+              Hello, {first_name} {last_name}!
+            </h3>
+            <p>
+              This is your profile page, where you can customize your profile
+              and change your password as needed
+            </p>
           </div>
-          <div className="col-lg-4">
-
-          </div>
+          <div className="col-lg-4"></div>
           <div className="col-lg-7 profile-update pb-4">
             <h2>User Information</h2>
             <form onSubmit={handleProfileUpdate} className="user-info-form">
@@ -177,7 +179,7 @@ export default function Profile() {
               </div>
             </form>
             <h2 className="mt-4">Change Password</h2>
-            <form onSubmit={handleProfileUpdate}  >
+            <form onSubmit={handleProfileUpdate}>
               <div className="">
                 <div className="form-group">
                   <label>Old Password</label>
@@ -208,18 +210,21 @@ export default function Profile() {
                   />
                 </div>
               </div>
-              <button className="submit-btn" type="submit">Update Profile</button>
+              <button className="submit-btn" type="submit">
+                Update Profile
+              </button>
             </form>
           </div>
           <div className="col-lg-4 profile-user text-center">
-          <img className='profile-image'
-            src={sex === 'Male' ? man : woman}
-            style={{
-              width: '40%',
-              height: '100%',
-              borderRadius: '50%',
-            }}
-          />
+            <img
+              className="profile-image"
+              src={sex === "Male" ? man : woman}
+              style={{
+                width: "40%",
+                height: "100%",
+                borderRadius: "50%",
+              }}
+            />
             <h5>{`${first_name} ${last_name}`}</h5>
             <h6>Role: {role}</h6>
             <h6>Branch: {branch}</h6>

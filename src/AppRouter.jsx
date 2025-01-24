@@ -1,8 +1,7 @@
+import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { AuthContextProvider } from "./middleware/AuthContext";
-
-import ProtectedRoute from "./middleware/PrivateRoute";
+import { Authenticated, AuthRedirect } from "./middleware/auth";
 
 import Login from "./modules/auth/Login";
 import ForgotPassword from "./modules/auth/ForgotPassword";
@@ -39,243 +38,130 @@ import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
 
 import ActivityLogs from "./modules/activity-logs/ActivityLogs";
+import NotFound from "./modules/not-found/NotFound";
 
 export default function AppRouter() {
   return (
-    <AuthContextProvider>
-      <Routes>
-        {/* Auth */}
-        <Route path="/" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route
-          path="/reset-password/:passwordToken"
-          name="reset-password"
-          element={<ResetPassword />}
-        />
-        <Route path="/open-email" element={<CheckEmail />} />
+    <Routes>
+      <Route element={<Authenticated />}>
+        {users()}
+        {tickets()}
+        {branches()}
+        {resources()}
+        {userRoles()}
+        {logs()}
+        {profile()}
+      </Route>
 
-        {/* Users */}
-        <Route
-          path="/users/:userId"
-          element={
-            <ProtectedRoute
-              element={<UsersUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/users/create"
-          element={
-            <ProtectedRoute
-              element={<UsersCreate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <ProtectedRoute element={<UsersList />} allowedRoles={["Admin"]} />
-          }
-        />
+      <Route element={<AuthRedirect />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
 
-        {/* Resources */}
-        <Route
-          path="/resources/:resourceID"
-          element={
-            <ProtectedRoute
-              element={<ResourcesRead />}
-              allowedRoles={["Admin", "Staff"]}
-            />
-          }
-        />
-        <Route
-          path="/resources/:resourceID/update"
-          element={
-            <ProtectedRoute
-              element={<ResourcesUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/resources/create"
-          element={
-            <ProtectedRoute
-              element={<ResourcesCreate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/resources"
-          element={
-            <ProtectedRoute
-              element={<ResourcesLists />}
-              allowedRoles={["Admin", "Staff"]}
-            />
-          }
-        />
-        <Route
-          path="/resources-index"
-          element={
-            <ProtectedRoute
-              element={<ResourcesIndex />}
-              allowedRoles={["Admin", "Staff"]}
-            />
-          }
-        />
-        <Route
-          path="/staff-view-resource/:slug"
-          element={
-            <ProtectedRoute
-              element={<ResourcesRead />}
-              allowedRoles={["Staff"]}
-            />
-          }
-        />
+      {resetPassword()}
 
-        {/* Tickets */}
-        <Route
-          path="/ticket-category"
-          element={
-            <ProtectedRoute
-              element={<TicketCategory />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/templates"
-          element={
-            <ProtectedRoute
-              element={<TemplatesList />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/template-access/:userId"
-          element={
-            <ProtectedRoute
-              element={<TemplateAccessUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+      {fallback()}
+    </Routes>
+  );
+}
 
-        <Route
-          path="/tickets"
-          element={
-            <ProtectedRoute
-              element={<TicketsHistory />}
-              allowedRoles={["Admin", "Staff"]}
-            />
-          }
-        />
+function resetPassword() {
+  return (
+    <React.Fragment>
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="/reset-password/:passwordToken"
+        element={<ResetPassword />}
+      />
+      <Route path="/open-email" element={<CheckEmail />} />
+    </React.Fragment>
+  );
+}
 
-        <Route
-          path="/history"
-          element={
-            <ProtectedRoute element={<History />} allowedRoles={["Staff"]} />
-          }
-        />
-        <Route
-          path="/tickets/create"
-          element={
-            <ProtectedRoute
-              element={<TicketsCreate />}
-              allowedRoles={["Staff", "Admin"]}
-            />
-          }
-        />
+function users() {
+  return (
+    <React.Fragment>
+      <Route path="/users/:userId" element={<UsersUpdate />} />
+      <Route path="/users/create" element={<UsersCreate />} />
+      <Route path="/users" element={<UsersList />} />
+    </React.Fragment>
+  );
+}
 
-        <Route
-          path="/activity-logs"
-          element={
-            <ProtectedRoute
-              element={<ActivityLogs />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+function tickets() {
+  return (
+    <React.Fragment>
+      <Route path="/ticket-category" element={<TicketCategory />} />
+      <Route path="/templates" element={<TemplatesList />} />
+      <Route
+        path="/template-access/:userId"
+        element={<TemplateAccessUpdate />}
+      />
+      <Route path="/tickets" element={<TicketsHistory />} />
+      <Route path="/history" element={<History />} />
+      <Route path="/tickets/create" element={<TicketsCreate />} />
+      <Route path="/queue-list" element={<QueueList />} />
+    </React.Fragment>
+  );
+}
 
-        {/* User Roles */}
-        <Route
-          path="/user-roles/create"
-          element={
-            <ProtectedRoute
-              element={<UserRolesCreate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/user-roles/:roleId"
-          element={
-            <ProtectedRoute
-              element={<UserRolesUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/user-roles"
-          element={
-            <ProtectedRoute
-              element={<UserRolesList />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+function branches() {
+  return (
+    <React.Fragment>
+      <Route path="/branches" element={<BranchesList />} />
+      <Route path="/branches/create" element={<BranchesCreate />} />
+      <Route path="/branches/:branchId" element={<BranchesUpdate />} />
+    </React.Fragment>
+  );
+}
 
-        {/* Branches */}
-        <Route
-          path="/branches"
-          element={
-            <ProtectedRoute
-              element={<BranchesList />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/branches/create"
-          element={
-            <ProtectedRoute
-              element={<BranchesCreate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
-        <Route
-          path="/branches/:branchId"
-          element={
-            <ProtectedRoute
-              element={<BranchesUpdate />}
-              allowedRoles={["Admin"]}
-            />
-          }
-        />
+function resources() {
+  return (
+    <React.Fragment>
+      <Route path="/resources/:resourceID" element={<ResourcesRead />} />
+      <Route
+        path="/resources/:resourceID/update"
+        element={<ResourcesUpdate />}
+      />
+      <Route path="/resources/create" element={<ResourcesCreate />} />
+      <Route path="/resources" element={<ResourcesLists />} />
+      <Route path="/resources-index" element={<ResourcesIndex />} />
+      <Route path="/staff-view-resource/:slug" element={<ResourcesRead />} />
+    </React.Fragment>
+  );
+}
 
-        <Route
-          path="/queue-list"
-          element={
-            <ProtectedRoute element={<QueueList />} allowedRoles={["Staff"]} />
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute
-              element={<Profile />}
-              allowedRoles={["Admin", "Staff"]}
-            />
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AuthContextProvider>
+function userRoles() {
+  return (
+    <React.Fragment>
+      <Route path="/user-roles/create" element={<UserRolesCreate />} />
+      <Route path="/user-roles/:roleId" element={<UserRolesUpdate />} />
+      <Route path="/user-roles" element={<UserRolesList />} />
+    </React.Fragment>
+  );
+}
+
+function logs() {
+  return (
+    <React.Fragment>
+      <Route path="/activity-logs" element={<ActivityLogs />} />
+    </React.Fragment>
+  );
+}
+
+function profile() {
+  return (
+    <React.Fragment>
+      <Route path="/profile" element={<Profile />} />
+    </React.Fragment>
+  );
+}
+
+function fallback() {
+  return (
+    <React.Fragment>
+      <Route path="/not-found" element={<NotFound />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/not-found" />} />
+    </React.Fragment>
   );
 }

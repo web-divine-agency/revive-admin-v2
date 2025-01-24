@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import check from "@/assets/images/check.png";
-import { FaTimes } from "react-icons/fa";
-import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
+import Swal from "sweetalert2";
 import JoditEditor from "jodit-react";
 
-import "./Resources.scss";
-import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
 import {
   Box,
   Button,
@@ -21,6 +15,15 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+
+import { FaTimes } from "react-icons/fa";
+
+import "./Resources.scss";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
 
 export default function ResourcesUpdate() {
   const { resourceID } = useParams();
@@ -42,9 +45,9 @@ export default function ResourcesUpdate() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchResourceDetails = async () => {
+    const fetchResourceDetails = () => {
       try {
-        const response = await axiosInstance.get(`/resource/${resourceID}`);
+        const response = {};
         const resourceData = response.data.resource_data;
         setResourceTitle(resourceData?.resource_title || "");
         setResourceBody(resourceData?.resource_body || "");
@@ -63,7 +66,7 @@ export default function ResourcesUpdate() {
 
     const fetchUserDetails = async () => {
       try {
-        const response = await axiosInstance.get("/user");
+        const response = {};
         const { roles } = response.data;
         const role = roles.length > 0 ? roles[0].role_name : "No Role";
         setRole(role);
@@ -182,13 +185,6 @@ export default function ResourcesUpdate() {
       formDataToSend.append("resource_media", file)
     );
     try {
-      await axiosInstance.put(
-        `/update-resource/${resourceID}`,
-        formDataToSend,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
       Swal.fire({
         title: "Success!",
         text: "Resource has been updated.",

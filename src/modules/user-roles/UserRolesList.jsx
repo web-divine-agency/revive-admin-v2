@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import DataTable from "react-data-table-component";
-import "font-awesome/css/font-awesome.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "@/services/axiosInstance.js";
+
+import DataTable from "react-data-table-component";
+
 import { useLoader } from "@/components/loaders/LoaderContext";
 
-import "./UserRoles.scss";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
+
 import {
   Box,
   Button,
@@ -22,6 +20,11 @@ import Grid from "@mui/material/Grid2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+
+import "./UserRoles.scss";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
 
 export default function UserRolesList() {
   const navigate = useNavigate();
@@ -39,9 +42,9 @@ export default function UserRolesList() {
   // Get all roles
   useEffect(() => {
     setLoading(true);
-    const fetchRoles = async () => {
+    const fetchRoles = () => {
       try {
-        const response = await axiosInstance.get("/roles");
+        const response = {};
         setRoles(response.data);
         // console.log(response.data);
       } catch (error) {
@@ -53,9 +56,9 @@ export default function UserRolesList() {
     fetchRoles();
   }, []);
 
-  const fetchRoleDetails = async (roleId) => {
+  const fetchRoleDetails = () => {
     try {
-      const response = await axiosInstance.get(`/role/${roleId}`);
+      const response = {};
       const roleData = response.data;
       setSelectedUserRole({
         role_name: roleData.role_name,
@@ -69,7 +72,7 @@ export default function UserRolesList() {
 
   const handleDeleteUserRole = async () => {
     try {
-      await axiosInstance.delete(`/delete-role/${seletectedRoleId}`);
+      console.log("Delete");
     } catch (error) {
       console.error(error);
     }

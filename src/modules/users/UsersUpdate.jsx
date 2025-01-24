@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar.jsx";
-import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
 import {
   Box,
   Button,
@@ -20,14 +18,26 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { snackbar } from "@/util/helper.jsx";
 
 import "./Users.scss";
+
+import Global from "@/util/global";
+
+import { snackbar } from "@/util/helper.jsx";
+
+import NavTopbar from "@/components/navigation/NavTopbar.jsx";
+import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
+import UserService from "@/services/UserService";
+import BranchService from "../../services/BranchService";
+import UserRoleService from "../../services/UserRoleService";
 
 export default function UsersUpdate() {
   const { userId } = useParams();
 
   const navigate = useNavigate();
+
+  const { authUser } = useState(Global);
 
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
@@ -59,8 +69,7 @@ export default function UsersUpdate() {
   };
 
   const handleReadUser = () => {
-    axiosInstance
-      .get(`/user/${userId}`)
+    UserService.read(userId, authUser?.token)
       .then((response) => {
         setUser({
           firstName: response.data.first_name,
@@ -80,8 +89,7 @@ export default function UsersUpdate() {
   };
 
   const handleListBranches = () => {
-    axiosInstance
-      .get("/branches")
+    BranchService.list({}, authUser?.token)
       .then((response) => {
         setBranches({
           names: response.data.flatMap((branch) => branch.branch_name),
@@ -94,8 +102,7 @@ export default function UsersUpdate() {
   };
 
   const handleListRoles = () => {
-    axiosInstance
-      .get("/roles")
+    UserRoleService.list({}, authUser?.token)
       .then((response) => {
         setRoles(response.data);
       })
@@ -146,8 +153,9 @@ export default function UsersUpdate() {
       return;
     }
 
-    axiosInstance
-      .put(`/update-user/${userId}`, {
+    UserService.udpate(
+      userId,
+      {
         first_name: user.firstName,
         last_name: user.lastName,
         branch_ids: user.branchIds,
@@ -156,7 +164,9 @@ export default function UsersUpdate() {
         sex: user.gender,
         username: user.username,
         role_name: user.role,
-      })
+      },
+      authUser?.token
+    )
       .then(() => {
         navigate("/users");
       })

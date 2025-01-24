@@ -5,16 +5,16 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import axiosInstance from "@/services/axiosInstance.js";
+import { Helmet } from "react-helmet";
+
+import ReactPlayer from "react-player";
 import LightGallery from "lightgallery/react";
+
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-video.css";
-import ReactPlayer from "react-player";
-import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar.jsx";
-import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
 import {
   Box,
   Button,
@@ -28,10 +28,10 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./Resources.scss";
 
-export default function ResourcesRead() {
-  //const location = useLocation();
-  //const resource = location.state;
+import NavTopbar from "@/components/navigation/NavTopbar.jsx";
+import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 
+export default function ResourcesRead() {
   const [searchParams] = useSearchParams();
 
   const { resourceID } = useParams();
@@ -44,14 +44,12 @@ export default function ResourcesRead() {
   const [additionalFields, setAdditionalFields] = useState([]);
   const [resourceTitle, setResourceTitle] = useState("");
   const [resourceBody, setResourceBody] = useState("");
-  //const [resourceStatus, setResourceStatus] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [resourceCategory, setResourceCategory] = useState("");
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const [resourceMedia, setResourceMedia] = useState(null);
 
   const [userFetched, setUserFetched] = useState(false);
-  //console.log(slug)
 
   const [resourceDeleteModalOpen, setResourceDeleteModalOpen] = useState(false);
 
@@ -73,7 +71,7 @@ export default function ResourcesRead() {
           ? `/delete-resource/${resourceID}`
           : `/delete-resource/${slug}`;
 
-      await axiosInstance.delete(url);
+      console.log(`delete ${url}`);
 
       navigate(
         `/resources?category=${decodeURI(searchParams.get("category"))}`
@@ -86,7 +84,7 @@ export default function ResourcesRead() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axiosInstance.get("/user");
+        const response = {};
         const { roles } = response.data;
         const roleName = roles.length > 0 ? roles[0].role_name : "No Role";
         setRole(roleName);
@@ -104,8 +102,12 @@ export default function ResourcesRead() {
       const timer = setTimeout(async () => {
         try {
           const url =
-            role === "Admin" ? `/resource/${resourceID}` : `/resource/${resourceID}`;
-          const response = await axiosInstance.get(url);
+            role === "Admin"
+              ? `/resource/${resourceID}`
+              : `/resource/${resourceID}`;
+
+          console.log(`get ${url}`);
+          const response = {};
           const resourceData = response.data.resource_data;
           setResourceTitle(resourceData?.resource_title || "");
           setResourceBody(resourceData?.resource_body || "");

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import DataTable from "react-data-table-component";
-import "font-awesome/css/font-awesome.min.css";
-import check from "@/assets/images/check.png";
-import Swal from "sweetalert2";
-import axiosInstance from "@/services/axiosInstance.js";
-import { useLoader } from "@/components/loaders/LoaderContext";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar";
-import NavSidebar from "@/components/navigation/NavSidebar";
+
+import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
+
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { useNavigate } from "react-router-dom";
 
 import "./TicketCategory.scss";
+
+import { useLoader } from "@/components/loaders/LoaderContext";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
 
 function TicketCategory() {
   const navigate = useNavigate();
@@ -40,19 +43,19 @@ function TicketCategory() {
   }, []);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategories = () => {
       try {
-        const categoryResponse = await axiosInstance.get("/categories"); // Fetch all categories
+        const categoryResponse = {}; // Fetch all categories
         setCategories(categoryResponse.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
-    const fetchTicketTypes = async () => {
+    const fetchTicketTypes = () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/ticketTypes");
+        const response = {};
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
@@ -105,17 +108,6 @@ function TicketCategory() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      const updatePromises = ticketTypes.map(async (ticket) => {
-        const ticketId = ticket.id;
-        const currentCategories = selectedCategories[ticketId] || [];
-        // Send the update request for each ticket with the selected categories
-        await axiosInstance.post(`/assign-ticket-category/${ticketId}`, {
-          categories: currentCategories, // Send the selected categories
-        });
-      });
-
-      await Promise.all(updatePromises);
-
       Swal.fire({
         title: "Success",
         text: "Ticket categories updated successfully",

@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Auth.scss";
+
 import password_icon from "@/assets/images/password.png";
-import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "@/services/axiosInstance.js";
 
 function ResetPassword() {
   // eslint-disable-next-line no-unused-vars
@@ -12,7 +13,6 @@ function ResetPassword() {
   const [message, setMessage] = useState("");
   const [hasError, setHasError] = useState(true);
   const navigate = useNavigate();
-  const { passwordToken } = useParams();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -23,10 +23,6 @@ function ResetPassword() {
     }
 
     try {
-      await axiosInstance.post("/confirm-reset-password", {
-        token: passwordToken,
-        newPassword: password,
-      });
       setHasError(false);
       setMessage("Password reset successful!");
       setTimeout(() => navigate("/login"), 2000);

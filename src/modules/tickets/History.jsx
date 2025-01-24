@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import "font-awesome/css/font-awesome.min.css";
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
 import { useNavigate } from "react-router-dom";
-import view_icon from "@/assets/images/list-view.png";
 
-import axiosInstance from "@/services/axiosInstance.js";
+import DataTable from "react-data-table-component";
+
 import { Modal, Button } from "react-bootstrap";
 import {
   Document,
@@ -19,7 +15,12 @@ import {
 } from "@react-pdf/renderer";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
+
 import { useLoader } from "@/components/loaders/LoaderContext";
+
+import man from "@/assets/images/man.png";
+import woman from "@/assets/images/woman.png";
+import view_icon from "@/assets/images/list-view.png";
 
 Font.register({
   family: "Outfit",
@@ -78,7 +79,7 @@ export default function History() {
     const fetchTickets = async () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.get("/tickets");
+        const response = {};
         const formattedData = response.data
           ?.map((tickets) => ({
             id: tickets.id,
@@ -106,9 +107,9 @@ export default function History() {
 
   // Get Branches for filter
   useEffect(() => {
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get("/branches");
+        const response = {};
         const formattedData = response.data.map((branch) => ({
           id: branch.id,
           branch_name: branch.branch_name,
@@ -123,9 +124,9 @@ export default function History() {
 
   //get ticket types
   useEffect(() => {
-    const fetchTicketTypes = async () => {
+    const fetchTicketTypes = () => {
       try {
-        const response = await axiosInstance.get("/ticketTypes");
+        const response = {};
         const formattedData = response.data.map((ticket_type) => ({
           id: ticket_type.id,
           ticket_type: ticket_type.ticket_type,
@@ -1992,9 +1993,9 @@ export default function History() {
     setSelectedTicket(null);
   };
 
-  const handleViewTicketClick = async (id) => {
+  const handleViewTicketClick = () => {
     try {
-      const response = await axiosInstance.get(`/ticket/${id}`);
+      const response = {};
       const ticket = response.data;
       const formattedTicketData = {
         id: ticket.id,

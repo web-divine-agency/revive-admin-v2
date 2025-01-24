@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
-import check from "@/assets/images/check.png";
+import { Helmet } from "react-helmet";
+
+import Swal from "sweetalert2";
+
 import { snackbar } from "@/util/helper";
 import {
   Box,
@@ -17,9 +18,11 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Helmet } from "react-helmet";
+
 import NavTopbar from "../../components/navigation/NavTopbar";
 import NavSidebar from "../../components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
 
 export default function BranchesUpdate() {
   const { branchId } = useParams();
@@ -52,9 +55,9 @@ export default function BranchesUpdate() {
   //assuming these are th data from database
   useEffect(() => {
     // Fetch branches
-    const fetchBranches = async () => {
+    const fetchBranches = () => {
       try {
-        const response = await axiosInstance.get(`/branch/${branchId}`);
+        const response = {};
         const { branch_name, branch_address, operating_hours, status } =
           response.data;
         const parsedOperatingHours = JSON.parse(operating_hours);
@@ -87,6 +90,7 @@ export default function BranchesUpdate() {
       close: closeTime,
     };
 
+    // eslint-disable-next-line no-unused-vars
     const updatedBranchData = {
       branch_name: branch,
       branch_address: branchAddress,
@@ -115,7 +119,6 @@ export default function BranchesUpdate() {
       return;
     }
     try {
-      await axiosInstance.put(`/update-branch/${branchId}`, updatedBranchData);
       Swal.fire({
         title: "Branch Updated Successfully",
         text: `${branch} has been updated in the system.`,

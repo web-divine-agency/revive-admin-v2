@@ -1,72 +1,76 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./Auth.scss";
-import login_image_2 from "@/assets/images/login_image_2.png";
-import axiosInstance from "@/services/axiosInstance.js";
+
 import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+import "./Auth.scss";
+
+import AuthService from "@/services/AuthService";
+import Global from "@/util/global";
+
+import login_image_2 from "@/assets/images/login_image_2.png";
+import { snackbar } from "../../util/helper";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState("Staff");
-  const [showPassword, setShowPassword] = useState(false);
-  // const [branches, setBranches] = useState([]);
-  // const [selectedBranch, setSelectedBranch] = useState('Main');
-  const [error, setError] = useState({ value: "", isShow: false });
   const navigate = useNavigate();
 
-  const login = async (event) => {
+  const { setAuthUser } = useContext(Global);
+
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [selectedRole, setSelectedRole] = useState("Staff");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setUser((user) => ({ ...user, [name]: value }));
+  };
+
+  const handleError = (key) => {
+    delete errors[key];
+    setErrors((errors) => ({ ...errors }));
+  };
+
+  const handleLogin = (event) => {
     event.preventDefault();
-    try {
-      const response = await axiosInstance.post("/login", {
-        username,
-        password,
-      });
 
-      // eslint-disable-next-line no-unused-vars
-      const { user, accessToken, refreshToken, roleName } = response.data;
-      // console.log("User ID:", user.id);
-      if (selectedRole !== roleName) {
-        // setError(`You cannot log in as ${selectedRole}. Your account role is ${userRole}.`);
-
-        setError({
-          value: "Invalid login, Please check your credentials",
-          isShow: true,
-        });
-
-        return;
-      }
-
-      document.cookie = `role_name=${roleName}; Path=/;`;
-      document.cookie = `accessToken=${accessToken}; Path=/;`;
-      document.cookie = `refreshToken=${refreshToken}; Path=/; `;
-
-      localStorage.setItem("loginSuccess", "true");
-      if (roleName === "Admin") {
+    AuthService.login(user)
+      .then((response) => {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        setAuthUser(response.data.user);
         navigate("/users");
-      } else {
-        navigate("/tickets");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-
-      setError({
-        value: "Invalid login ,Please check your credentials ",
-        isShow: true,
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.error, "error", 3000);
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
-
-      return;
-    }
   };
 
   return (
@@ -93,98 +97,94 @@ function Login() {
             <h2 className="text-left mb-4">
               {selectedRole === "Staff" ? "Staff Login" : "Admin Login"}
             </h2>
-            {error.value !== "" && error.isShow === true && (
-              <div className="alert alert-danger">
-                {error.value}
-                <div
-                  className={"close-quick-alert"}
-                  onClick={() => setError({ ...error, isShow: false })}
-                ></div>
-              </div>
-            )}
-            <form onSubmit={login}>
+            <form onSubmit={handleLogin}>
               <Grid container spacing={2}>
                 <Grid size={{ xs: 12 }}>
                   <TextField
                     fullWidth
                     size="small"
+                    type="text"
+                    variant="outlined"
                     label="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    name="username"
+                    value={user.username}
+                    onChange={(event) => handleOnChange(event)}
+                    onClick={() => handleError("username")}
+                    error={"username" in errors}
+                    helperText={"username" in errors ? errors["username"] : ""}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <TextField
+                  <FormControl
                     fullWidth
-                    type={showPassword ? "text" : "password"}
                     size="small"
-                    label="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
-              <div className="form-group group-field-password">
-                <input
-                  type="checkbox"
-                  id="showPassword"
-                  checked={showPassword}
-                  onChange={() => setShowPassword(!showPassword)}
-                />{" "}
-                &nbsp;
-                <label htmlFor="showPassword">Show Password</label>
-                <a
-                  style={{ cursor: "pointer" }}
-                  className="float-end"
-                  onClick={() => navigate("/forgot-password")}
-                >
-                  Forgot Password?
-                </a>
-              </div>
-              <div className="d-flex">
-                {/* <div className="d-flex mb-3 mr-3">
-                                    <h6>
-                                        <select
-                                            id="branch"
-                                            className="form-control-sm"
-                                            value={selectedBranch}
-                                            onChange={(e) => setSelectedBranch(e.target.value)}
-                                        >
-                                            <option value="">Branch</option>
-                                            {branches.map((branch) => (
-                                                <option key={branch.id} value={branch.branch_name}>
-                                                    {branch.branch_name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </h6>
-                                </div> */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  <FormControl>
-                    <InputLabel id="role-select-label">Role</InputLabel>
-                    <Select
-                      size="small"
-                      labelId="role-select-label"
-                      id="role-select"
-                      value={selectedRole}
-                      label="Role"
-                      onChange={(e) => setSelectedRole(e.target.value)}
-                    >
-                      <MenuItem value={"Staff"}>Staff</MenuItem>
-                      <MenuItem value={"Admin"}>Admin</MenuItem>
-                    </Select>
+                    variant="outlined"
+                    error={"password" in errors}
+                  >
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <OutlinedInput
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      name="password"
+                      value={user.password}
+                      onChange={(event) => handleOnChange(event)}
+                      onClick={() => handleError("password")}
+                      onKeyUp={({ code }) => {
+                        if (code === "Enter" || code === "NumpadEnter") {
+                          handleLogin();
+                        }
+                      }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <VisibilityOffIcon />
+                            ) : (
+                              <VisibilityIcon />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {"password" in errors && (
+                      <FormHelperText>{errors["password"]}</FormHelperText>
+                    )}
                   </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <FormControl>
+                      <InputLabel id="role-select-label">Role</InputLabel>
+                      <Select
+                        size="small"
+                        labelId="role-select-label"
+                        id="role-select"
+                        value={selectedRole}
+                        label="Role"
+                        onChange={(e) => setSelectedRole(e.target.value)}
+                      >
+                        <MenuItem value={"Staff"}>Staff</MenuItem>
+                        <MenuItem value={"Admin"}>Admin</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
                   <Button type="submit" variant="contained" sx={{ width: 128 }}>
                     Login
                   </Button>
-                </Box>
-              </div>
+                </Grid>
+              </Grid>
             </form>
           </div>
         </div>

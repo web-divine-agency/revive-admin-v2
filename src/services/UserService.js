@@ -15,4 +15,40 @@ export default {
       data: payload,
     });
   },
+
+  /**
+   * Read user
+   * @param {*} userId
+   * @param {*} token
+   * @returns
+   */
+  read: (userId, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.userService,
+      url: `/portal/res/users/${userId}`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Update user
+   * @param {*} userId 
+   * @param {*} payload 
+   * @param {*} token 
+   * @returns 
+   */
+  update: (userId, payload, token) => {
+    return axios({
+      method: "PUT",
+      baseURL: url.classService,
+      url: `/portal/res/users/${userId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

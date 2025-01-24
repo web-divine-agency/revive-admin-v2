@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import check from "@/assets/images/check.png";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar.jsx";
-import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
+import Swal from "sweetalert2";
+
 import {
   Box,
   Button,
@@ -19,40 +17,24 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./UserRoles.scss";
 
+import NavTopbar from "@/components/navigation/NavTopbar.jsx";
+import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
+import check from "@/assets/images/check.png";
+
 export default function UserRolesCreate() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const [roleDescription, setRoleDescription] = useState("");
 
-  const defaultPermissions = [
-    { permission_name: "Generate Ticket", permission_id: 1 },
-    { permission_name: "View Ticket History", permission_id: 4 },
-    { permission_name: "Manage Account", permission_id: 7 },
-  ];
-
-  const addUserRole = async (e) => {
+  const addUserRole = (e) => {
     e.preventDefault();
-
-    const roleData = {
-      role_name: role,
-      role_description: roleDescription,
-    };
 
     try {
       // Create the role first
-      const roleResponse = await axiosInstance.post("/create-role", roleData);
-      const { message } = roleResponse.data;
+      const roleResponse = {};
 
       if (roleResponse && roleResponse.data) {
-        const newRoleId = parseInt(message.split(": ")[1]);
-
-        for (const permission of defaultPermissions) {
-          await axiosInstance.post("/create-rolePermission", {
-            role_id: newRoleId,
-            permission_id: permission.permission_id,
-          });
-        }
-
         console.log("All selected permissions assigned successfully.");
       }
 

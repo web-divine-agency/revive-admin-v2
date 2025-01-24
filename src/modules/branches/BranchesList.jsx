@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { Helmet } from "react-helmet";
+
 import DataTable from "react-data-table-component";
 
 import {
@@ -19,23 +19,23 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-import "font-awesome/css/font-awesome.min.css";
-
 import "./Branches.scss";
 
-import { snackbar } from "@/util/helper";
+import { snackbar, toAmPm } from "@/util/helper";
 
-import axiosInstance from "@/services/axiosInstance.js";
 import { useLoader } from "@/components/loaders/LoaderContext";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import { toAmPm } from "@/util/helper";
+import BranchService from "../../services/BranchService";
+import Global from "../../util/global";
 
 export default function BranchesList() {
   const navigate = useNavigate();
 
   const { setLoading } = useLoader();
+
+  const { authUser } = useContext(Global);
 
   const [branches, setBranches] = useState([]);
   const [filteredBranches, setFilteredBranches] = useState([]);
@@ -49,8 +49,7 @@ export default function BranchesList() {
   const handleListBranches = () => {
     setLoading(true);
 
-    axiosInstance
-      .get("/branches")
+    BranchService.list({}, authUser?.token)
       .then((response) => {
         let temp = response.data.map((item) => {
           return {
@@ -145,9 +144,9 @@ export default function BranchesList() {
       : "Closed";
   };
 
-  const handleDeleteBranchClick = async () => {
+  const handleDeleteBranchClick = () => {
     try {
-      await axiosInstance.delete(`/delete-branch/${selectedBranch.id}`);
+      console.log("delete");
     } catch (error) {
       console.error(error);
     }

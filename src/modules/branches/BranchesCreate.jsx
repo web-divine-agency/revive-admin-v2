@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import axiosInstance from "@/services/axiosInstance.js";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import check from "@/assets/images/check.png";
 import { Helmet } from "react-helmet";
-import NavTopbar from "../../components/navigation/NavTopbar";
-import NavSidebar from "../../components/navigation/NavSidebar";
+
+import Swal from "sweetalert2";
+
 import {
   Box,
   Button,
@@ -19,7 +17,13 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { snackbar } from "../../util/helper";
+
+import { snackbar } from "@/util/helper";
+
+import NavTopbar from "@/components/navigation/NavTopbar";
+import NavSidebar from "@/components/navigation/NavSidebar";
+
+import check from "@/assets/images/check.png";
 
 export default function BranchesCreate() {
   const [branch, setBranch] = useState("");
@@ -49,7 +53,7 @@ export default function BranchesCreate() {
     "Northern Territory",
   ];
 
-  const addBranch = async (e) => {
+  const addBranch = (e) => {
     e.preventDefault();
 
     const branchAddress = `${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`;
@@ -59,6 +63,7 @@ export default function BranchesCreate() {
       close: closeTime,
     };
 
+    // eslint-disable-next-line no-unused-vars
     const newBranchData = {
       branch_name: branch,
       branch_address: branchAddress,
@@ -88,8 +93,6 @@ export default function BranchesCreate() {
     }
 
     try {
-      await axiosInstance.post("/create-branch", newBranchData);
-
       setError("");
       setBranch("");
       setAddressLine1("");

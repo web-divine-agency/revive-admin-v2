@@ -4,8 +4,6 @@ import { Box, Container, Typography } from "@mui/material";
 
 import "./Navigation.scss";
 
-import axiosInstance from "@/services/axiosInstance";
-
 export default function NavTopbar() {
   const [user, setUser] = useState({
     firstName: "",
@@ -14,9 +12,9 @@ export default function NavTopbar() {
     email: "",
   });
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = () => {
     try {
-      const response = await axiosInstance.get("/user");
+      const response = {};
 
       setUser({
         firstName: response.data.first_name,

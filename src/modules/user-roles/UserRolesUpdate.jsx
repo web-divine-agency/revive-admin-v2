@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import axiosInstance from "@/services/axiosInstance.js";
-import check from "@/assets/images/check.png";
 import { Helmet } from "react-helmet";
-import NavTopbar from "@/components/navigation/NavTopbar.jsx";
-import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
+import Swal from "sweetalert2";
+
 import {
   Box,
   Button,
@@ -19,6 +17,11 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./UserRoles.scss";
 
+import NavTopbar from "@/components/navigation/NavTopbar.jsx";
+import NavSidebar from "@/components/navigation/NavSidebar.jsx";
+
+import check from "@/assets/images/check.png";
+
 export default function UserRolesUpdate() {
   //const location = useLocation();
   //const { roleData } = location.state || {};
@@ -30,10 +33,10 @@ export default function UserRolesUpdate() {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    const fetchRoleData = async () => {
+    const fetchRoleData = () => {
       if (roleId) {
         try {
-          const response = await axiosInstance.get(`/role/${roleId}`);
+          const response = {};
           const roleInfo = response.data;
 
           setRole(roleInfo.role_name);
@@ -52,31 +55,18 @@ export default function UserRolesUpdate() {
   const updateUserRole = async (e) => {
     e.preventDefault();
 
-    const updatedRoleData = {
-      role_name: role,
-      role_description: description,
-    };
-
     try {
-      const roleResponse = await axiosInstance.put(
-        `/update-role/${roleId}`,
-        updatedRoleData
-      );
-      if (roleResponse && roleResponse.data) {
-        Swal.fire({
-          title: "Role Updated Successfully",
-          text: `The role has been updated!`,
-          imageUrl: check,
-          imageWidth: 100,
-          imageHeight: 100,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#0ABAA6",
-        }).then(() => {
-          navigate("/user-roles");
-        });
-      } else {
-        console.error("Unexpected response structure:", roleResponse);
-      }
+      Swal.fire({
+        title: "Role Updated Successfully",
+        text: `The role has been updated!`,
+        imageUrl: check,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0ABAA6",
+      }).then(() => {
+        navigate("/user-roles");
+      });
     } catch (error) {
       console.error("Error updating role or assigning permissions:", error);
       if (error.response) {

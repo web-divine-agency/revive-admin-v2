@@ -18,7 +18,11 @@ import { SnackbarProvider } from "notistack";
 export default function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
 
+  const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("user")));
+
   const globals = {
+    authUser,
+    setAuthUser,
     sidebarActive,
     setSidebarActive,
   };
