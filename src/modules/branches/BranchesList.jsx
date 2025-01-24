@@ -1,71 +1,67 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-
-import DataTable from "react-data-table-component";
 
 import {
   Box,
   Button,
   Chip,
   Container,
-  IconButton,
   Modal,
   Paper,
+  TableCell,
+  TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import "./Branches.scss";
 
-import { snackbar, toAmPm } from "@/util/helper";
+import Global from "@/util/global";
 
-import { useLoader } from "@/components/loaders/LoaderContext";
+import { snackbar, toAmPm } from "@/util/helper";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import BranchService from "../../services/BranchService";
-import Global from "../../util/global";
+
+import BranchService from "@/services/BranchService";
+import TableDefault from "../../components/tables/TableDefault";
+import moment from "moment";
 
 export default function BranchesList() {
-  const navigate = useNavigate();
-
-  const { setLoading } = useLoader();
-
   const { authUser } = useContext(Global);
 
   const [branches, setBranches] = useState([]);
-  const [filteredBranches, setFilteredBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState({});
-  const [selectedBranchId, setSelectedBranchId] = useState("");
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [branchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false);
   const [branchDeleteModalOpen, setBranchDeleteModalOpen] = useState(false);
 
-  const handleListBranches = () => {
-    setLoading(true);
+  const formatAddress = (branch) => {
+    const { address_line_1, address_line_2, city, state, zip_code } = branch;
 
-    BranchService.list({}, authUser?.token)
+    return [address_line_1, address_line_2, city, state, zip_code]
+      .filter(Boolean)
+      .join(", ");
+  };
+
+  const getStatus = (opening, closing) => {
+    const now = moment();
+    const open = moment(opening, "HH:mm");
+    const close = moment(closing, "HH:mm");
+
+    // Check if the current time is within the opening hours
+    if (now.isBetween(open, close, null, "[)")) {
+      return "Open";
+    }
+    return "Closed";
+  };
+
+  const handleListBranches = (page = 1, show = 10) => {
+    BranchService.list({ page: page, show: show }, authUser?.token)
       .then((response) => {
-        let temp = response.data.map((item) => {
-          return {
-            id: item.id,
-            branchName: item.branch_name,
-            address: formatAddress(item.branch_address),
-            operatingHours: JSON.parse(item.operating_hours),
-            status: getBranchStatus({
-              ...item,
-              operatingHours: JSON.parse(item.operating_hours),
-            }),
-          };
-        });
-
-        setBranches(temp);
-        setFilteredBranches(temp);
+        setBranches(response.data.branches);
       })
       .catch((error) => {
         if (error.code === "ERR_NETWORK") {
@@ -75,158 +71,12 @@ export default function BranchesList() {
         } else {
           snackbar("Oops! Something went wrong", "error", 3000);
         }
-      })
-      .finally(() => {
-        setLoading(false);
       });
-  };
-
-  const formatAddress = (address) => {
-    return address
-      .split(",") // Split the address into parts based on commas
-      .map((part) => part.trim()) // Remove extra spaces from each part
-      .filter((part) => part.length > 0) // Filter out empty parts
-      .join(", "); // Join the remaining parts back together with a comma
   };
 
   useEffect(() => {
     handleListBranches();
   }, []);
-
-  //filter branches
-  useEffect(() => {
-    const results = branches.filter(
-      (branch) =>
-        (selectedBranchId ? branch.id === parseInt(selectedBranchId) : true) &&
-        (branch.branchName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          branch.address.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
-    setFilteredBranches(results);
-  }, [searchTerm, branches, selectedBranchId]);
-
-  const getBranchStatus = (branch) => {
-    if (!branch.operatingHours || typeof branch.operatingHours !== "object") {
-      return "Undefined";
-    }
-    const currentTime = new Date();
-    const options = {
-      timeZone: "Australia/Sydney",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    };
-    const formatter = new Intl.DateTimeFormat([], options);
-    const [hours, minutes, seconds] = formatter.format(currentTime).split(":");
-    const currentSeconds =
-      parseInt(hours, 10) * 3600 +
-      parseInt(minutes, 10) * 60 +
-      parseInt(seconds, 10);
-
-    const openTime = branch.operatingHours.open.split(":");
-    const closeTime = branch.operatingHours.close.split(":");
-
-    const openSeconds =
-      parseInt(openTime[0], 10) * 3600 +
-      parseInt(openTime[1], 10) * 60 +
-      parseInt(openTime[2] || 0, 10);
-    let closeSeconds =
-      parseInt(closeTime[0], 10) * 3600 +
-      parseInt(closeTime[1], 10) * 60 +
-      parseInt(closeTime[2] || 0, 10);
-
-    if (closeSeconds < openSeconds) {
-      closeSeconds += 24 * 3600;
-    }
-
-    return currentSeconds >= openSeconds && currentSeconds <= closeSeconds
-      ? "Open"
-      : "Closed";
-  };
-
-  const handleDeleteBranchClick = () => {
-    try {
-      console.log("delete");
-    } catch (error) {
-      console.error(error);
-    }
-
-    setBranchDeleteModalOpen(false);
-    setBranches(branches.filter((branch) => branch.id !== selectedBranch.id));
-  };
-
-  // table columns
-  const columns = [
-    {
-      name: "Branch",
-      selector: (row) => row.branchName,
-      sortable: true,
-    },
-    {
-      name: "Address",
-      selector: (row) => row.address,
-      sortable: true,
-    },
-    {
-      name: "Operating Hours",
-      selector: (row) => {
-        if (typeof row.operatingHours === "object") {
-          return `${toAmPm(row.operatingHours.open)} - ${toAmPm(
-            row.operatingHours.close
-          )}`;
-        }
-        return row.operatingHours;
-      },
-      sortable: false,
-    },
-    {
-      name: "Status",
-      selector: (row) => (
-        <span
-          style={{
-            color: row.status === "Open" ? "green" : "red",
-            marginLeft: 0,
-          }}
-        >
-          {row.status}
-        </span>
-      ),
-      sortable: false,
-    },
-
-    {
-      name: "Actions",
-      selector: (row) => (
-        <div>
-          <IconButton
-            onClick={() => {
-              setBranchDetailsModalOpen(true);
-              setSelectedBranch(row);
-            }}
-            color="green"
-          >
-            <VisibilityIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => navigate(`/branches/${row.id}`)}
-            color="blue"
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => {
-              setBranchDeleteModalOpen(true);
-              setSelectedBranch(row);
-            }}
-            color="red"
-          >
-            <RemoveCircleIcon />
-          </IconButton>
-        </div>
-      ),
-      sortable: false,
-    },
-  ];
 
   return (
     <React.Fragment>
@@ -252,36 +102,50 @@ export default function BranchesList() {
                 </Button>
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <select
-                  name="filter"
-                  className="filter"
-                  onChange={(e) => setSelectedBranchId(e.target.value)}
-                  value={selectedBranchId}
+                <TableDefault
+                  search={true}
+                  pagination={true}
+                  filter={true}
+                  data={branches}
+                  tableName="branches"
+                  header={["Name", "Address", "Status", "Operations"]}
+                  onChangeData={(page, show) => () => {
+                    handleListBranches(page, show);
+                  }}
                 >
-                  <option value="">All Branches</option>
-                  {branches.map((branch) => (
-                    <option key={branch.id} value={branch.id}>
-                      {branch.branchName}
-                    </option>
+                  {branches?.list?.map((item, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <Tooltip title="View Details" placement="right">
+                          <Button
+                            variant="text"
+                            onClick={() => {
+                              setBranchDetailsModalOpen(true);
+                              setSelectedBranch(item);
+                            }}
+                            className="open-details"
+                          >
+                            {item.name}
+                          </Button>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>{formatAddress(item)}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={getStatus(item.opening, item.closing)}
+                          color={
+                            getStatus(item.opening, item.closing) === "Open"
+                              ? "green"
+                              : "grey"
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {toAmPm(item.opening)} - {toAmPm(item.closing)}
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </select>
-                <input
-                  className="search-bar"
-                  type="text"
-                  placeholder="Search Branch or Address"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <DataTable
-                  className="dataTables_wrapper"
-                  columns={columns}
-                  data={filteredBranches}
-                  pagination
-                  paginationPerPage={20}
-                  paginationRowsPerPageOptions={[20, 30]}
-                />
+                </TableDefault>
               </Grid>
             </Grid>
           </Paper>
@@ -298,22 +162,23 @@ export default function BranchesList() {
           </Box>
           <Box className="modal-body">
             <Typography className="branch-name">
-              {selectedBranch.branchName}
+              {selectedBranch.name}
             </Typography>
             <Typography className="branch-address">
-              {selectedBranch.address}
+              {formatAddress(selectedBranch)}
             </Typography>
             <Typography className="branch-from">
-              From: {toAmPm(selectedBranch.operatingHours?.open)}
+              From: {toAmPm(selectedBranch.opening)}
             </Typography>
             <Typography className="branch-to">
-              To: {toAmPm(selectedBranch.operatingHours?.close)}
+              To: {toAmPm(selectedBranch.closing)}
             </Typography>
             <Typography className="branch-status"></Typography>
             <Chip
-              label={selectedBranch.status?.toUpperCase()}
+              label={getStatus(selectedBranch.opening, selectedBranch.closing)}
               color={
-                selectedBranch.status?.toLowerCase() === "open"
+                getStatus(selectedBranch.opening, selectedBranch.closing) ===
+                "Open"
                   ? "green"
                   : "grey"
               }
@@ -322,7 +187,7 @@ export default function BranchesList() {
           <Box className="modal-footer">
             <Button
               variant="contained"
-              color="grey"
+              color="black"
               onClick={() => setBranchDetailsModalOpen(false)}
             >
               Close
@@ -351,11 +216,7 @@ export default function BranchesList() {
             >
               Cancel
             </Button>
-            <Button
-              variant="contained"
-              color="red"
-              onClick={() => handleDeleteBranchClick()}
-            >
+            <Button variant="contained" color="red" onClick={() => {}}>
               Delete
             </Button>
           </Box>
