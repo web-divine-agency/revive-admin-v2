@@ -48,8 +48,6 @@ export default function UsersList() {
   const [branches, setBranches] = useState([]);
   const [selectedBranchName, setSelectedBranchName] = useState("");
 
-  // To Do: Get all branches and filter user by branch
-
   const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
@@ -57,7 +55,7 @@ export default function UsersList() {
     let branch_id = branches.find(
       (item) => item.name === selectedBranchName
     )?.id;
-    
+
     UserService.list(
       {
         page: page,
