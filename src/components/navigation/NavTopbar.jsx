@@ -1,35 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 
 import { Box, Container, Typography } from "@mui/material";
+
+import Global from "@/util/global";
 
 import "./Navigation.scss";
 
 export default function NavTopbar() {
-  const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    sex: "",
-    email: "",
-  });
-
-  const fetchUserDetails = () => {
-    try {
-      const response = {};
-
-      setUser({
-        firstName: response.data.first_name,
-        lastName: response.data.last_name,
-        sex: response.data.sex,
-        email: response.data.email,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
+  const { authUser } = useContext(Global);
 
   return (
     <Box component={"nav"} id="nav-topbar">
@@ -40,15 +18,17 @@ export default function NavTopbar() {
               component={"img"}
               className="avatar"
               src={
-                user.sex === "Male" ? "/assets/man.png" : "/assets/woman.png"
+                authUser?.gender === "Male"
+                  ? "/assets/man.png"
+                  : "/assets/woman.png"
               }
               alt="Profile"
             />
             <Box className="profile-info">
               <Typography className="name">
-                {user.firstName} {user.lastName}
+                {authUser?.first_name} {authUser?.last_name}
               </Typography>
-              <Typography className="email">{user.email} </Typography>
+              <Typography className="email">{authUser?.email} </Typography>
             </Box>
           </Box>
         </Box>

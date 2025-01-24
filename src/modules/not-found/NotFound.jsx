@@ -15,7 +15,7 @@ export default function NotFound() {
       <Box id="not-found">
         <Box className="not-found-holder">
           <Typography>404 | Page Not Found</Typography>
-          <Link to="/dashboard">Go to Dashboard</Link>
+          <Link to="/users">Go to Accounts</Link>
         </Box>
       </Box>
     </React.Fragment>

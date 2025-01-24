@@ -2,17 +2,15 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
   FormControl,
   FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
-  MenuItem,
   OutlinedInput,
-  Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -36,7 +34,6 @@ function Login() {
     password: "",
   });
 
-  const [selectedRole, setSelectedRole] = useState("Staff");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -94,9 +91,8 @@ function Login() {
 
         <div className="col-md-6 d-flex align-items-center justify-content-center">
           <div className="card p-4 login-form-wrap" style={{ width: "450px" }}>
-            <h2 className="text-left mb-4">
-              {selectedRole === "Staff" ? "Staff Login" : "Admin Login"}
-            </h2>
+            <Typography className="section-title">Welcome back!</Typography>
+            <Typography mb={2}>Login to you account</Typography>
             <form onSubmit={handleLogin}>
               <Grid container spacing={2}>
                 <Grid size={{ xs: 12 }}>
@@ -154,30 +150,6 @@ function Login() {
                       <FormHelperText>{errors["password"]}</FormHelperText>
                     )}
                   </FormControl>
-                </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      width: "100%",
-                    }}
-                  >
-                    <FormControl>
-                      <InputLabel id="role-select-label">Role</InputLabel>
-                      <Select
-                        size="small"
-                        labelId="role-select-label"
-                        id="role-select"
-                        value={selectedRole}
-                        label="Role"
-                        onChange={(e) => setSelectedRole(e.target.value)}
-                      >
-                        <MenuItem value={"Staff"}>Staff</MenuItem>
-                        <MenuItem value={"Admin"}>Admin</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <Button type="submit" variant="contained" sx={{ width: 128 }}>
