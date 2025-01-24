@@ -34,6 +34,7 @@ import TableDefault from "@/components/tables/TableDefault";
 
 import UserService from "@/services/UserService";
 import RoleService from "../../services/RoleService";
+import BranchService from "../../services/BranchService";
 
 export default function UsersList() {
   const { authUser } = useContext(Global);
@@ -43,6 +44,9 @@ export default function UsersList() {
 
   const [roles, setRoles] = useState([]);
   const [selectedRoleName, setSelectedRoleName] = useState("");
+
+  const [branches, setBranches] = useState([]);
+  const [selectedBranchName, setSelectedBranchName] = useState("");
 
   // To Do: Get all branches and filter user by branch
 
@@ -68,6 +72,22 @@ export default function UsersList() {
       });
   };
 
+  const handleAllBranches = () => {
+    BranchService.all(authUser?.token)
+      .then((response) => {
+        setBranches(response.data.branches);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.msg, "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
   const handleAllRoles = () => {
     RoleService.all(authUser?.token)
       .then((response) => {
@@ -87,6 +107,7 @@ export default function UsersList() {
   useEffect(() => {
     handleListUsers();
     handleAllRoles();
+    handleAllBranches();
   }, []);
 
   useEffect(() => {
@@ -105,7 +126,7 @@ export default function UsersList() {
 
   const filtersEl = (
     <React.Fragment>
-      <Box sx={{ minWidth: 120 }}>
+      <Box sx={{ minWidth: 128 }} className="filter-el">
         <FormControl fullWidth size="small">
           <InputLabel id="roles-select-label">Roles</InputLabel>
           <Select
@@ -117,8 +138,29 @@ export default function UsersList() {
               setSelectedRoleName(event.target.value);
             }}
           >
-            <MenuItem value="">&nbsp;</MenuItem>
+            <MenuItem value="">All</MenuItem>
             {roles?.map((item, i) => (
+              <MenuItem value={item.name} key={i}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ minWidth: 128 }} className="filter-el">
+        <FormControl fullWidth size="small">
+          <InputLabel id="branches-select-label">Branches</InputLabel>
+          <Select
+            labelId="branches-select-label"
+            id="branches-select"
+            value={selectedBranchName}
+            label="Branches"
+            onChange={(event) => {
+              setSelectedBranchName(event.target.value);
+            }}
+          >
+            <MenuItem value="">All</MenuItem>
+            {branches?.map((item, i) => (
               <MenuItem value={item.name} key={i}>
                 {item.name}
               </MenuItem>

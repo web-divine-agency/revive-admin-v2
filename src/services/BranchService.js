@@ -3,6 +3,22 @@ import { url } from "../config/app";
 
 export default {
   /**
+   * List all branches without pagination
+   * @param {*} token 
+   * @returns 
+   */
+  all: (token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.branchService,
+      url: `/admin/fn/branches-all`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * List branches
    * @param {*} params
    * @param {*} token
