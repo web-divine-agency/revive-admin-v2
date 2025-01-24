@@ -3,6 +3,24 @@ import { url } from "../config/app";
 
 export default {
   /**
+   * List users
+   * @param {*} params
+   * @param {*} token
+   * @returns
+   */
+  list: (params, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.userService,
+      url: `/admin/res/users`,
+      params: params,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * Create user
    * @param {*} payload
    * @returns
@@ -35,10 +53,10 @@ export default {
 
   /**
    * Update user
-   * @param {*} userId 
-   * @param {*} payload 
-   * @param {*} token 
-   * @returns 
+   * @param {*} userId
+   * @param {*} payload
+   * @param {*} token
+   * @returns
    */
   update: (userId, payload, token) => {
     return axios({

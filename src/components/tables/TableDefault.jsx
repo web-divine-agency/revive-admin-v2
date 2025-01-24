@@ -28,6 +28,8 @@ export default function TableDefault({
   children,
   search,
   pagination,
+  filter,
+  filters,
 }) {
   const [page, setPage] = useState(1);
   const [show, setShow] = useState(10);
@@ -39,14 +41,15 @@ export default function TableDefault({
   return (
     <Box id="table-default">
       <TableContainer>
-        {search && (
-          <Box className="search-holder">
-            <TextField size="small" label={`Search for ${tableName}`} />
-            <Button variant="contained" className="btn">
-              Search
-            </Button>
-          </Box>
-        )}
+        <Box className="control-holder">
+          {filter && <Box className="filter-holder">{filters}</Box>}
+          {search && (
+            <Box className="search-holder">
+              <TextField size="small" label={`Search for ${tableName}`} />
+              <Button variant="contained">Search</Button>
+            </Box>
+          )}
+        </Box>
         <Box className="table-holder">
           <Table size="small">
             <TableHead>

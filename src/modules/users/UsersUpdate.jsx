@@ -30,7 +30,7 @@ import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 
 import UserService from "@/services/UserService";
 import BranchService from "../../services/BranchService";
-import UserRoleService from "../../services/UserRoleService";
+import RoleService from "../../services/RoleService";
 
 export default function UsersUpdate() {
   const { userId } = useParams();
@@ -102,7 +102,7 @@ export default function UsersUpdate() {
   };
 
   const handleListRoles = () => {
-    UserRoleService.list({}, authUser?.token)
+    RoleService.list({}, authUser?.token)
       .then((response) => {
         setRoles(response.data);
       })

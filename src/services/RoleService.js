@@ -3,7 +3,7 @@ import { url } from "../config/app";
 
 export default {
   /**
-   * List user roles
+   * List roles
    * @param {*} params 
    * @param {*} token 
    * @returns 
@@ -12,11 +12,27 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/portal/res/user-roles`,
+      url: `/admin/res/roles`,
       params: params,
       headers: {
         Authorization: token,
       },
     });
   },
+
+  /**
+   * List all roles without pagination
+   * @param {*} token 
+   * @returns 
+   */
+  all: (token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.userService,
+      url: `/admin/fn/roles-all`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
 };

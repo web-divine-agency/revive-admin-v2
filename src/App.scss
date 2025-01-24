@@ -75,6 +75,9 @@ input.search-bar {
     }
 
     .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(0,0,0,0.2);
 

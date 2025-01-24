@@ -3,6 +3,11 @@
 
   .MuiPaper-root {
     padding: 24px;
+
+    .open-details {
+      color: black;
+      text-decoration: underline;
+    }
   }
 }
 
@@ -40,6 +45,12 @@
 }
 
 .user-details-modal {
+  .mui-btn {
+    &-edit {
+      margin-right: 8px;
+    }
+  }
+
   .profile-image {
     display: block;
     margin: auto;
