@@ -54,8 +54,17 @@ export default function UsersList() {
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
   const handleListUsers = (page = 1, show = 50) => {
+    let branch_id = branches.find(
+      (item) => item.name === selectedBranchName
+    )?.id;
+    
     UserService.list(
-      { page: page, show: show, role: selectedRoleName },
+      {
+        page: page,
+        show: show,
+        role: selectedRoleName,
+        branch_id: branch_id,
+      },
       authUser?.token
     )
       .then((response) => {
@@ -112,7 +121,7 @@ export default function UsersList() {
 
   useEffect(() => {
     handleListUsers();
-  }, [selectedRoleName]);
+  }, [selectedRoleName, selectedBranchName]);
 
   const handleDeleteUser = async () => {
     try {
@@ -231,7 +240,11 @@ export default function UsersList() {
                         </Tooltip>
                       </TableCell>
                       <TableCell>{item.email}</TableCell>
-                      <TableCell>{item.branches}</TableCell>
+                      <TableCell>
+                        {JSON.parse(item.all_branches)
+                          ?.map((item) => item.name)
+                          .join(", ")}
+                      </TableCell>
                       <TableCell>{item.role_name}</TableCell>
                     </TableRow>
                   ))}
