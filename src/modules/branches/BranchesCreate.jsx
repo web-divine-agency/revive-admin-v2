@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-
-import Swal from "sweetalert2";
 
 import {
   Box,
   Button,
   Container,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Paper,
@@ -18,30 +17,32 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
+import Global from "@/util/global";
+
 import { snackbar } from "@/util/helper";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import check from "@/assets/images/check.png";
+import BranchService from "@/services/BranchService";
 
 export default function BranchesCreate() {
-  const [branch, setBranch] = useState("");
-  const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState(""); // Changed to be a dropdown for Australian states
-  const [zipCode, setZipCode] = useState("");
-  const [country, setCountry] = useState("Australia"); // Set default country to Australia
-  const [openTime, setOpenTime] = useState("");
-  const [closeTime, setCloseTime] = useState("");
-  const [status, setStatus] = useState("Closed");
-
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // list of countries
+  const { authUser } = useContext(Global);
+
+  const [branch, setBranch] = useState({
+    name: "",
+    addressLine1: "",
+    addressLine2: "",
+    zipCode: "",
+    city: "",
+    state: "",
+    country: "Australia",
+    opening: "08:00:00",
+    closing: "17:00:00",
+  });
+
   const australianStates = [
     "New South Wales",
     "Victoria",
@@ -53,77 +54,56 @@ export default function BranchesCreate() {
     "Northern Territory",
   ];
 
-  const addBranch = (e) => {
-    e.preventDefault();
+  const [errors, setErrors] = useState({});
 
-    const branchAddress = `${addressLine1}, ${addressLine2}, ${city}, ${state}, ${zipCode}, ${country}`;
+  const handleError = (key) => {
+    delete errors[key];
+    setErrors((errors) => ({ ...errors }));
+  };
 
-    const operatingHours = {
-      open: openTime,
-      close: closeTime,
-    };
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setBranch((prev) => ({ ...prev, [name]: value }));
+  };
 
-    // eslint-disable-next-line no-unused-vars
-    const newBranchData = {
-      branch_name: branch,
-      branch_address: branchAddress,
-      operating_hours: operatingHours,
-      status: status,
-    };
+  const handleCreateBranch = (event) => {
+    event.preventDefault();
 
-    if (
-      !branch ||
-      !city ||
-      !state ||
-      !zipCode ||
-      !country ||
-      !openTime ||
-      !closeTime
-    ) {
-      snackbar("All fields are required", "error", 3000);
-      return;
-    }
-
-    if (openTime >= closeTime) {
-      setError(
-        "Invalid operating hours. Open time should be before close time."
-      );
-      setTimeout(() => setError(""), 3000);
-      return;
-    }
-
-    try {
-      setError("");
-      setBranch("");
-      setAddressLine1("");
-      setAddressLine2("");
-      setCity("");
-      setState("");
-      setZipCode("");
-      setCountry("");
-      setOpenTime("");
-      setCloseTime("");
-      setStatus("");
-      Swal.fire({
-        title: "Branch Added Successfully",
-        text: `${branch} has been added to the system.`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => {
+    BranchService.create(
+      {
+        name: branch.name,
+        address_line_1: branch.addressLine1,
+        address_line_2: branch.addressLine2,
+        zip_code: branch.zipCode,
+        city: branch.city,
+        state: branch.state,
+        country: branch.country,
+        opening: branch.opening,
+        closing: branch.closing,
+      },
+      authUser?.token
+    )
+      .then(() => {
         navigate("/branches");
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.msg, "error", 3000);
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
-    } catch (error) {
-      console.error("Error adding branch:", error);
-    }
   };
 
   return (
     <React.Fragment>
       <Helmet>
-        <title>Branches | Revive Pharmacy </title>
+        <title>Branches | Revive Pharmacy</title>
       </Helmet>
       <NavTopbar />
       <NavSidebar />
@@ -133,131 +113,130 @@ export default function BranchesCreate() {
             Add New Branch
           </Typography>
           <Paper variant="outlined">
-            <form onSubmit={addBranch} className="add-branch-form">
+            <form onSubmit={handleCreateBranch}>
               <Grid container spacing={2}>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Branch name"
                     variant="outlined"
-                    value={branch}
-                    onChange={(e) => setBranch(e.target.value)}
+                    name="name"
+                    value={branch.name}
+                    onChange={(event) => handleOnChange(event)}
+                    onClick={() => handleError("name")}
+                    error={"name" in errors}
+                    helperText={"name" in errors ? errors["name"] : ""}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Address line 1"
                     variant="outlined"
-                    value={addressLine1}
-                    onChange={(e) => setAddressLine1(e.target.value)}
+                    name="addressLine1"
+                    value={branch.addressLine1}
+                    onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Address line 2"
                     variant="outlined"
-                    value={addressLine2}
-                    onChange={(e) => setAddressLine2(e.target.value)}
+                    name="addressLine2"
+                    value={branch.addressLine2}
+                    onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Zip Code"
-                    variant="outlined"
-                    type="number"
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
-                  />
-                </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="City"
                     variant="outlined"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={branch.city}
+                    name="city"
+                    onChange={(event) => handleOnChange(event)}
+                    onClick={() => handleError("city")}
+                    error={"city" in errors}
+                    helperText={"city" in errors ? errors["city"] : ""}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
-                  <FormControl fullWidth size="small">
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
+                  <FormControl fullWidth size="small" error={"state" in errors}>
                     <InputLabel id="state-label">State</InputLabel>
                     <Select
                       labelId="state-label"
-                      value={state}
-                      onChange={(e) => setState(e.target.value)}
+                      value={branch.state}
+                      name="state"
+                      onChange={(event) => handleOnChange(event)}
                       label="State"
                     >
-                      <MenuItem value="">
-                        <em>Select State</em>
-                      </MenuItem>
                       {australianStates.map((stateOption, index) => (
                         <MenuItem key={index} value={stateOption}>
                           {stateOption}
                         </MenuItem>
                       ))}
                     </Select>
+                    {"state" in errors && (
+                      <FormHelperText>{errors["gender"]}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Country"
                     variant="outlined"
-                    value={country}
-                    InputProps={{
-                      readOnly: true, // Makes the field disabled
+                    value={branch.country}
+                    slotProps={{
+                      input: {
+                        readOnly: true,
+                      },
                     }}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="status-label">Status</InputLabel>
-                    <Select
-                      labelId="status-label"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      label="Status"
-                    >
-                      <MenuItem value="Closed">Closed</MenuItem>
-                      <MenuItem value="Open">Open</MenuItem>
-                    </Select>
-                  </FormControl>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Zip Code"
+                    variant="outlined"
+                    type="number"
+                    name="zipCode"
+                    value={branch.zipCode}
+                    onChange={(event) => handleOnChange(event)}
+                    onClick={() => handleError("zip_code")}
+                    error={"zip_code" in errors}
+                    helperText={"zip_code" in errors ? errors["zip_code"] : ""}
+                  />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Opening Time"
                     variant="outlined"
                     type="time"
-                    value={openTime}
-                    onChange={(e) => setOpenTime(e.target.value)}
-                    InputLabelProps={{
-                      shrink: true, // Ensures the label stays visible with type="time"
-                    }}
+                    name="opening"
+                    value={branch.opening}
+                    onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, lg: 6, xl: 3 }}>
+                <Grid size={{ xs: 12, lg: 6, xl: 4 }}>
                   <TextField
                     size="small"
                     fullWidth
                     label="Closing Time"
                     variant="outlined"
                     type="time"
-                    value={closeTime}
-                    onChange={(e) => setCloseTime(e.target.value)}
-                    InputLabelProps={{
-                      shrink: true, // Ensures the label stays visible for type="time"
-                    }}
+                    value={branch.closing}
+                    name="closing"
+                    onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
