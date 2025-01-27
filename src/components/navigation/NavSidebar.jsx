@@ -6,7 +6,6 @@ import {
   Box,
   Collapse,
   Container,
-  Divider,
   IconButton,
   List,
   ListItem,
@@ -245,7 +244,6 @@ export default function NavSidebar() {
             </Collapse>
           </List>
         </Box>
-        <Divider sx={{ mb: 2 }} />
         <Typography className="label">Settings</Typography>
         <Box className="menu-settings">
           <List>

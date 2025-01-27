@@ -1,7 +1,9 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -21,8 +23,7 @@ import "./Auth.scss";
 import AuthService from "@/services/AuthService";
 import Global from "@/util/global";
 
-import login_image_2 from "@/assets/images/login_image_2.png";
-import { snackbar } from "../../util/helper";
+import { snackbar } from "@/util/helper";
 
 function Login() {
   const navigate = useNavigate();
@@ -71,97 +72,106 @@ function Login() {
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center custom-login">
-      <div className="row">
-        <div className="col-md-6 d-flex flex-column align-items-center justify-content-center custom-col">
-          <div className="header-title">
-            <h1>
-              Welcome to Revive <br /> Pharmacy Portal
-            </h1>
-            <br />
-          </div>
-          <div className="bg-image">
-            <img
-              className="img-fluid login_image"
-              src={login_image_2}
-              alt="Login"
-            />
-          </div>
-        </div>
+    <React.Fragment>
+      <Helmet>
+        <title>Login | Revive Pharmacy </title>
+      </Helmet>
+      <Box component={"section"} id="login">
+        <Box className="left-panel">
+          <Box className="green-circle" />
+          <Box
+            component={"img"}
+            src="/assets/login-image.png"
+            alt="Login Image"
+            className="login-image"
+          />
+        </Box>
+        <Box className="right-panel">
+          <Box className="login-holder">
+            <Box className="login-form">
+              <Typography className="section-title">
+                Revive&nbsp;Pharmacy&nbsp;Portal
+              </Typography>
+              <Typography mb={2}>
+                Welcome back! Login to your account
+              </Typography>
 
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
-          <div className="card p-4 login-form-wrap" style={{ width: "450px" }}>
-            <Typography className="section-title">Welcome back!</Typography>
-            <Typography mb={2}>Login to you account</Typography>
-            <form onSubmit={handleLogin}>
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 12 }}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    type="text"
-                    variant="outlined"
-                    label="Username"
-                    name="username"
-                    value={user.username}
-                    onChange={(event) => handleOnChange(event)}
-                    onClick={() => handleError("username")}
-                    error={"username" in errors}
-                    helperText={"username" in errors ? errors["username"] : ""}
-                  />
-                </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <FormControl
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    error={"password" in errors}
-                  >
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <OutlinedInput
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      label="Password"
-                      name="password"
-                      value={user.password}
+              <Box component={"form"} onSubmit={handleLogin}>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      variant="outlined"
+                      label="Username"
+                      name="username"
+                      value={user.username}
                       onChange={(event) => handleOnChange(event)}
-                      onClick={() => handleError("password")}
-                      onKeyUp={({ code }) => {
-                        if (code === "Enter" || code === "NumpadEnter") {
-                          handleLogin();
-                        }
-                      }}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                          >
-                            {showPassword ? (
-                              <VisibilityOffIcon />
-                            ) : (
-                              <VisibilityIcon />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
+                      onClick={() => handleError("username")}
+                      error={"username" in errors}
+                      helperText={
+                        "username" in errors ? errors["username"] : ""
                       }
                     />
-                    {"password" in errors && (
-                      <FormHelperText>{errors["password"]}</FormHelperText>
-                    )}
-                  </FormControl>
+                  </Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      error={"password" in errors}
+                    >
+                      <InputLabel htmlFor="password">Password</InputLabel>
+                      <OutlinedInput
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        label="Password"
+                        name="password"
+                        value={user.password}
+                        onChange={(event) => handleOnChange(event)}
+                        onClick={() => handleError("password")}
+                        onKeyUp={({ code }) => {
+                          if (code === "Enter" || code === "NumpadEnter") {
+                            handleLogin();
+                          }
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOffIcon />
+                              ) : (
+                                <VisibilityIcon />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      {"password" in errors && (
+                        <FormHelperText>{errors["password"]}</FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ width: 128 }}
+                    >
+                      Login
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <Button type="submit" variant="contained" sx={{ width: 128 }}>
-                    Login
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </React.Fragment>
   );
 }
 
