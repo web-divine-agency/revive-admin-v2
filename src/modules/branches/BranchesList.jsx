@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import {
   Box,
   Button,
   Chip,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Modal,
   Paper,
+  Select,
   TableCell,
   TableRow,
   Tooltip,
@@ -24,16 +29,19 @@ import { snackbar, toAmPm } from "@/util/helper";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
+import TableDefault from "@/components/tables/TableDefault";
 
 import BranchService from "@/services/BranchService";
-import TableDefault from "../../components/tables/TableDefault";
-import moment from "moment";
 
 export default function BranchesList() {
+  const navigate = useNavigate();
+
   const { authUser } = useContext(Global);
 
   const [branches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState({});
+  const [branchNames, setBranchNames] = useState([]);
+  const [selectedBranchName, setSelectedBranchName] = useState("");
 
   const [branchDetailsModalOpen, setBranchDetailsModalOpen] = useState(false);
   const [branchDeleteModalOpen, setBranchDeleteModalOpen] = useState(false);
@@ -58,8 +66,11 @@ export default function BranchesList() {
     return "Closed";
   };
 
-  const handleListBranches = (page = 1, show = 10) => {
-    BranchService.list({ page: page, show: show }, authUser?.token)
+  const handleListBranches = (page = 1, show = 10, find = "") => {
+    BranchService.list(
+      { page: page, show: show, find: find, name: selectedBranchName },
+      authUser?.token
+    )
       .then((response) => {
         setBranches(response.data.branches);
       })
@@ -67,7 +78,23 @@ export default function BranchesList() {
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {
-          snackbar(error.response.data.msg, "error", 3000);
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  const handleAllBranches = () => {
+    BranchService.all(authUser?.token)
+      .then((response) => {
+        setBranchNames(response.data.branches);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
         } else {
           snackbar("Oops! Something went wrong", "error", 3000);
         }
@@ -75,8 +102,38 @@ export default function BranchesList() {
   };
 
   useEffect(() => {
-    handleListBranches();
+    handleAllBranches();
   }, []);
+
+  useEffect(() => {
+    handleListBranches(1, 10, "");
+  }, [selectedBranchName]);
+
+  const filtersEl = (
+    <React.Fragment>
+      <Box sx={{ minWidth: 128 }} className="filter-el">
+        <FormControl fullWidth size="small">
+          <InputLabel id="branches-select-label">Branches</InputLabel>
+          <Select
+            labelId="branches-select-label"
+            id="branches-select"
+            value={selectedBranchName}
+            label="Branches"
+            onChange={(event) => {
+              setSelectedBranchName(event.target.value);
+            }}
+          >
+            <MenuItem value="">All</MenuItem>
+            {branchNames?.map((item, i) => (
+              <MenuItem value={item.name} key={i}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+    </React.Fragment>
+  );
 
   return (
     <React.Fragment>
@@ -106,11 +163,12 @@ export default function BranchesList() {
                   search={true}
                   pagination={true}
                   filter={true}
+                  filters={filtersEl}
                   data={branches}
                   tableName="branches"
                   header={["Name", "Address", "Status", "Operations"]}
-                  onChangeData={(page, show) => () => {
-                    handleListBranches(page, show);
+                  onChangeData={(page, show, find) => {
+                    handleListBranches(page, show, find);
                   }}
                 >
                   {branches?.list?.map((item, i) => (

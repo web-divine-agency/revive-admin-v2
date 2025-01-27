@@ -109,13 +109,13 @@ export default function TableDefault({
             </Box>
             <Box className="page-control">
               <IconButton
-                disabled={!data.prev_page}
-                onClick={() => setPage(data.first_page)}
+                disabled={!data?.prev_page}
+                onClick={() => setPage(data?.first_page)}
               >
                 <KeyboardDoubleArrowLeftIcon />
               </IconButton>
               <IconButton
-                disabled={!data.prev_page}
+                disabled={!data?.prev_page}
                 onClick={() => setPage(page - 1)}
               >
                 <KeyboardArrowLeftIcon />
@@ -125,22 +125,22 @@ export default function TableDefault({
                 value={page}
                 onChange={(event) => setPage(parseInt(event.target.value))}
               >
-                {[...Array(data.pages)].map((item, i) => (
+                {[...Array(data?.pages)].map((item, i) => (
                   <Box component="option" value={item} key={i}>
                     {i + 1}
                   </Box>
                 ))}
               </Box>
-              of {data.pages}
+              of {data?.pages}
               <IconButton
-                disabled={!data.next_page}
+                disabled={!data?.next_page}
                 onClick={() => setPage(page + 1)}
               >
                 <KeyboardArrowRightIcon />
               </IconButton>
               <IconButton
-                disabled={!data.next_page}
-                onClick={() => setPage(data.last_page)}
+                disabled={!data?.next_page}
+                onClick={() => setPage(data?.last_page)}
               >
                 <KeyboardDoubleArrowRightIcon />
               </IconButton>
