@@ -33,9 +33,14 @@ export default function TableDefault({
 }) {
   const [page, setPage] = useState(1);
   const [show, setShow] = useState(10);
+  const [find, setFind] = useState("");
+
+  const handleSearch = () => {
+    onChangeData(page, show, find);
+  };
 
   useEffect(() => {
-    onChangeData(page, show);
+    onChangeData(page, show, find);
   }, [page, show]);
 
   return (
@@ -45,8 +50,16 @@ export default function TableDefault({
           {filter && <Box className="filter-holder">{filters}</Box>}
           {search && (
             <Box className="search-holder">
-              <TextField size="small" label={`Search for ${tableName}`} />
-              <Button variant="contained">Search</Button>
+              <TextField
+                size="small"
+                label={`Search for ${tableName}`}
+                value={find}
+                onChange={({ target }) => setFind(target.value)}
+                onKeyUp={({ code }) => code === "Enter" && handleSearch()}
+              />
+              <Button variant="contained" onClick={() => handleSearch()}>
+                Search
+              </Button>
             </Box>
           )}
         </Box>

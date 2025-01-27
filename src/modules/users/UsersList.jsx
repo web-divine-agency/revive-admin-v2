@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import {
@@ -37,6 +37,8 @@ import RoleService from "../../services/RoleService";
 import BranchService from "../../services/BranchService";
 
 export default function UsersList() {
+  const navigate = useNavigate();
+
   const { authUser } = useContext(Global);
 
   const [users, setUsers] = useState([]);
@@ -51,7 +53,7 @@ export default function UsersList() {
   const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
-  const handleListUsers = (page = 1, show = 50) => {
+  const handleListUsers = (page = 1, show = 50, find = "") => {
     let branch_id = branches.find(
       (item) => item.name === selectedBranchName
     )?.id;
@@ -60,6 +62,7 @@ export default function UsersList() {
       {
         page: page,
         show: show,
+        find: find,
         role: selectedRoleName,
         branch_id: branch_id,
       },
@@ -72,7 +75,7 @@ export default function UsersList() {
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {
-          snackbar(error.response.data.error, "error", 3000);
+          navigate("/login");
         } else {
           snackbar("Oops! Something went wrong", "error", 3000);
         }
@@ -88,7 +91,7 @@ export default function UsersList() {
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {
-          snackbar(error.response.data.msg, "error", 3000);
+          navigate("/login");
         } else {
           snackbar("Oops! Something went wrong", "error", 3000);
         }
@@ -104,7 +107,7 @@ export default function UsersList() {
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {
-          snackbar(error.response.data.error, "error", 3000);
+          navigate("/login");
         } else {
           snackbar("Oops! Something went wrong", "error", 3000);
         }
@@ -112,13 +115,12 @@ export default function UsersList() {
   };
 
   useEffect(() => {
-    handleListUsers();
     handleAllRoles();
     handleAllBranches();
   }, []);
 
   useEffect(() => {
-    handleListUsers();
+    handleListUsers(1, 10, "");
   }, [selectedRoleName, selectedBranchName]);
 
   const handleDeleteUser = async () => {
@@ -206,9 +208,9 @@ export default function UsersList() {
                   data={users}
                   tableName="users"
                   header={["Name", "Email", "Branches", "Role"]}
-                  onChangeData={(page, show) => () => {
-                    handleListUsers(page, show);
-                  }}
+                  onChangeData={(page, show, find) =>
+                    handleListUsers(page, show, find)
+                  }
                 >
                   {users?.list?.map((item, i) => (
                     <TableRow key={i}>
