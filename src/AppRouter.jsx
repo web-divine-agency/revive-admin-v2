@@ -16,6 +16,9 @@ import UserRolesCreate from "./modules/user-roles/UserRolesCreate";
 import UserRolesUpdate from "./modules/user-roles/UserRolesUpdate";
 import UserRolesList from "./modules/user-roles/UserRolesList";
 
+import PermissionsList from "./modules/permissions/PermissionsList";
+import PermissionsCreate from "./modules/permissions/PermissionsCreate";
+
 import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
@@ -49,6 +52,7 @@ export default function AppRouter() {
         {branches()}
         {resources()}
         {userRoles()}
+        {permissions()}
         {logs()}
         {profile()}
       </Route>
@@ -136,6 +140,15 @@ function userRoles() {
       <Route path="/user-roles/create" element={<UserRolesCreate />} />
       <Route path="/user-roles/:roleId" element={<UserRolesUpdate />} />
       <Route path="/user-roles" element={<UserRolesList />} />
+    </React.Fragment>
+  );
+}
+
+function permissions() {
+  return (
+    <React.Fragment>
+      <Route path="/permissions" element={<PermissionsList />} />
+      <Route path="/permissions/create" element={<PermissionsCreate />} />
     </React.Fragment>
   );
 }

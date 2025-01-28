@@ -81,6 +81,7 @@ export default function TableDefault({
               <Typography>Showing</Typography>
               <Button
                 variant="outlined"
+                color="black"
                 onClick={() => {
                   setShow(10);
                   setPage(1);
@@ -90,6 +91,7 @@ export default function TableDefault({
               </Button>
               <Button
                 variant="outlined"
+                color="black"
                 onClick={() => {
                   setShow(25);
                   setPage(1);
@@ -99,6 +101,7 @@ export default function TableDefault({
               </Button>
               <Button
                 variant="outlined"
+                color="black"
                 onClick={() => {
                   setShow(50);
                   setPage(1);

@@ -23,6 +23,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import PolicyIcon from '@mui/icons-material/Policy';
 
 import "./Navigation.scss";
 
@@ -252,6 +253,17 @@ export default function NavSidebar() {
                 <Link to="/user-roles" onClick={() => setSidebarActive(false)}>
                   <ManageAccountsIcon />
                   User Roles
+                </Link>
+              </ListItem>
+            )}
+            {authUser?.role_name === "Admin" && (
+              <ListItem>
+                <Link
+                  to="/permissions"
+                  onClick={() => setSidebarActive(false)}
+                >
+                  <PolicyIcon />
+                  Permissions
                 </Link>
               </ListItem>
             )}

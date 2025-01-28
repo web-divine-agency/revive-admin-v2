@@ -1,6 +1,13 @@
 #user-roles-list {
   .MuiPaper-root {
     padding: 24px;
+
+    .open-details {
+      justify-content: flex-start;
+      padding-left: 0;
+      color: black;
+      text-decoration: underline;
+    }
   }
 }
 
