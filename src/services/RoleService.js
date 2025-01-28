@@ -3,10 +3,26 @@ import { url } from "../config/app";
 
 export default {
   /**
+   * List all roles without pagination
+   * @param {*} token
+   * @returns
+   */
+  all: (token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.userService,
+      url: `/admin/fn/roles-all`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * List roles
-   * @param {*} params 
-   * @param {*} token 
-   * @returns 
+   * @param {*} params
+   * @param {*} token
+   * @returns
    */
   list: (params, token) => {
     return axios({
@@ -21,18 +37,19 @@ export default {
   },
 
   /**
-   * List all roles without pagination
-   * @param {*} token 
-   * @returns 
+   * Create role
+   * @param {*} payload
+   * @returns
    */
-  all: (token) => {
+  create: (payload, token) => {
     return axios({
-      method: "GET",
+      method: "POST",
       baseURL: url.userService,
-      url: `/admin/fn/roles-all`,
+      url: `/admin/res/roles`,
+      data: payload,
       headers: {
         Authorization: token,
       },
     });
-  }
+  },
 };

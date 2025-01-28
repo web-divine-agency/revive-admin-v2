@@ -29,7 +29,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/fn/roles-all`,
+      url: `/admin/fn/permissions-all`,
       headers: {
         Authorization: token,
       },

@@ -32,8 +32,8 @@ export default function UserRolesList() {
 
   const [roles, setRoles] = useState([]);
 
+  // eslint-disable-next-line no-unused-vars
   const [selectedUserRole, setSelectedUserRole] = useState(null);
-  const [seletectedRoleId, setSelectedRoleId] = useState(0);
 
   const [userRolesDetailsModalOpen, setUserRolesDetailsModalOpen] =
     useState(false);
@@ -109,11 +109,11 @@ export default function UserRolesList() {
                             }}
                             className="open-details"
                           >
-                            {item.name}
+                            {item.role_name}
                           </Button>
                         </Tooltip>
                       </TableCell>
-                      <TableCell>{item.description}</TableCell>
+                      <TableCell>{item.role_description}</TableCell>
                     </TableRow>
                   ))}
                 </TableDefault>
