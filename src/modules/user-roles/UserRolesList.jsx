@@ -11,6 +11,7 @@ import {
   Paper,
   TableCell,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -32,8 +33,7 @@ export default function UserRolesList() {
 
   const [roles, setRoles] = useState([]);
 
-  // eslint-disable-next-line no-unused-vars
-  const [selectedUserRole, setSelectedUserRole] = useState(null);
+  const [selectedUserRole, setSelectedUserRole] = useState({});
 
   const [userRolesDetailsModalOpen, setUserRolesDetailsModalOpen] =
     useState(false);
@@ -131,7 +131,52 @@ export default function UserRolesList() {
           <Box className="modal-header">
             <Typography>User Roles Details</Typography>
           </Box>
-          <Box className="modal-body"></Box>
+          <Box className="modal-body">
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 5 }}>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Role name"
+                        value={selectedUserRole?.role_name}
+                        slotProps={{ input: { readOnly: true } }}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={4}
+                        label="Role description"
+                        value={selectedUserRole?.role_description}
+                        slotProps={{ input: { readOnly: true } }}
+                        sx={{ minWidth: 256 }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+              <Grid size={{ xs: 7 }}>
+                <Box>
+                  <Typography sx={{ mb: 1, fontSize: 24 }}>
+                    Permisisons
+                  </Typography>
+                  {selectedUserRole?.all_permissions &&
+                    JSON.parse(selectedUserRole?.all_permissions)?.map(
+                      (item, i) => (
+                        <Typography key={i}>{`${i + 1}. ${
+                          item.name
+                        }`}</Typography>
+                      )
+                    )}
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
           <Box className="modal-footer">
             <Button
               variant="contained"

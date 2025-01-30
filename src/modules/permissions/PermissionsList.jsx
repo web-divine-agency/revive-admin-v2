@@ -9,7 +9,6 @@ import {
   Paper,
   TableCell,
   TableRow,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -95,20 +94,7 @@ export default function PermissionsList() {
                 >
                   {permissions?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell>
-                        <Tooltip title="View Details" placement="right">
-                          <Button
-                            variant="text"
-                            onClick={() => {
-                              setPermissionsDetailsModalOpen(true);
-                              setSelectedPermission(item);
-                            }}
-                            className="open-details"
-                          >
-                            {item.name}
-                          </Button>
-                        </Tooltip>
-                      </TableCell>
+                      <TableCell sx={{ width: "25%" }}>{item.name}</TableCell>
                       <TableCell>{item.description}</TableCell>
                     </TableRow>
                   ))}
