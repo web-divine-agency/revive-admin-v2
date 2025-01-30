@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-
-import Swal from "sweetalert2";
 
 import {
   Box,
   Button,
+  Checkbox,
+  Chip,
   Container,
+  FormControlLabel,
+  FormGroup,
   Paper,
   TextField,
   Typography,
@@ -19,65 +21,132 @@ import "./UserRoles.scss";
 
 import NavTopbar from "@/components/navigation/NavTopbar.jsx";
 import NavSidebar from "@/components/navigation/NavSidebar.jsx";
-
-import check from "@/assets/images/check.png";
+import PermissionService from "../../services/PermissionService";
+import Global from "../../util/global";
+import { snackbar } from "../../util/helper";
+import RoleService from "../../services/RoleService";
 
 export default function UserRolesUpdate() {
-  //const location = useLocation();
-  //const { roleData } = location.state || {};
-
   const navigate = useNavigate();
+
   const { roleId } = useParams();
 
-  const [role, setRole] = useState("");
-  const [description, setDescription] = useState("");
+  const { authUser } = useContext(Global);
+
+  const [role, setRole] = useState({
+    id: 0,
+    name: "",
+    description: "",
+  });
+
+  const [permissions, setPermissions] = useState([]);
+  const [selectedPermissions, setSelectedPermissions] = useState([]);
+
+  const [errors, setErrors] = useState({});
+
+  const handleError = (key) => {
+    delete errors[key];
+    setErrors((errors) => ({ ...errors }));
+  };
+
+  const handleOnChange = (event) => {
+    const { name, value } = event.target;
+    setRole((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+
+    // Convert `value` to a number since `item.id` is a number
+    const numericValue = Number(value);
+
+    setSelectedPermissions((prev) =>
+      checked
+        ? [...prev, numericValue]
+        : prev.filter((val) => val !== numericValue)
+    );
+  };
 
   useEffect(() => {
-    const fetchRoleData = () => {
-      if (roleId) {
-        try {
-          const response = {};
-          const roleInfo = response.data;
+    console.log(selectedPermissions);
+  }, [selectedPermissions]);
 
-          setRole(roleInfo.role_name);
-          setDescription(roleInfo.role_description);
-        } catch (error) {
-          console.error(
-            "Error fetching role data:",
-            error.response ? error.response.data : error.message
-          );
+  const handleAllPermissions = () => {
+    PermissionService.all(authUser?.token)
+      .then((response) => {
+        setPermissions(response.data.permissions);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
         }
-      }
-    };
-    fetchRoleData();
-  }, [roleId]);
-
-  const updateUserRole = async (e) => {
-    e.preventDefault();
-
-    try {
-      Swal.fire({
-        title: "Role Updated Successfully",
-        text: `The role has been updated!`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => {
-        navigate("/user-roles");
       });
-    } catch (error) {
-      console.error("Error updating role or assigning permissions:", error);
-      if (error.response) {
-        console.error("Server responded with an error:", error.response);
-      } else if (error.request) {
-        console.error("No response received from server:", error.request);
-      } else {
-        console.error("Error setting up request:", error.message);
-      }
-    }
   };
+
+  const handleReadUserRole = () => {
+    RoleService.read(roleId, authUser?.token)
+      .then(({ data }) => {
+        setRole({
+          id: data.role.role_id,
+          name: data.role.role_name,
+          description: data.role.role_description,
+        });
+
+        let permissionIds = JSON.parse(data.role.all_permissions)?.map(
+          (item) => item.id
+        );
+
+        setSelectedPermissions(permissionIds);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  const handleUpdateUserRole = () => {
+    RoleService.update(
+      roleId,
+      {
+        name: role.name,
+        description: role.description,
+        permission_ids: selectedPermissions,
+      },
+      authUser?.token
+    )
+      .then(() => {
+        navigate("/user-roles");
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  useEffect(() => {
+    handleReadUserRole();
+    handleAllPermissions();
+  }, []);
 
   return (
     <React.Fragment>
@@ -92,39 +161,72 @@ export default function UserRolesUpdate() {
             Update User Roles
           </Typography>
           <Paper variant="outlined">
-            <form onSubmit={updateUserRole}>
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 12 }}>
-                  <Button
-                    onClick={() => navigate(-1)}
-                    startIcon={<NavigateBeforeIcon />}
-                  >
-                    User Roles
-                  </Button>
-                </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <TextField
-                    size="small"
-                    type="text"
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                  />
-                </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <TextField
-                    size="small"
-                    type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <Button type="submit" variant="contained">
-                    Update
-                  </Button>
-                </Grid>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  User Roles
+                </Button>
               </Grid>
-            </form>
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  size="small"
+                  type="text"
+                  name="name"
+                  label="Name"
+                  value={role.name}
+                  onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("name")}
+                  error={"name" in errors}
+                  helperText={"name" in errors ? errors["name"] : ""}
+                  sx={{ minWidth: 256 }}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <TextField
+                  multiline
+                  size="small"
+                  label="Description"
+                  value={role.description}
+                  name="description"
+                  onChange={(event) => handleOnChange(event)}
+                  sx={{ minWidth: 256 }}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Typography className="section-heading">
+                  Permissions{" "}
+                  {"permission_ids" in errors && (
+                    <Chip label="required" color="red" />
+                  )}
+                </Typography>
+                <FormGroup>
+                  {permissions?.map((item, i) => (
+                    <FormControlLabel
+                      key={i}
+                      control={
+                        <Checkbox
+                          value={item.id}
+                          checked={selectedPermissions.includes(item.id)}
+                          onChange={handleCheckboxChange}
+                        />
+                      }
+                      label={item.name}
+                    />
+                  ))}
+                </FormGroup>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  variant="contained"
+                  onClick={() => handleUpdateUserRole()}
+                >
+                  Update
+                </Button>
+              </Grid>
+            </Grid>
           </Paper>
         </Container>
       </Box>

@@ -52,4 +52,57 @@ export default {
       },
     });
   },
+
+  /**
+   * Read role
+   * @param {*} roleId
+   * @param {*} token
+   * @returns
+   */
+  read: (roleId, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.userService,
+      url: `/admin/res/roles/${roleId}`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Update role
+   * @param {*} roleId
+   * @param {*} payload
+   * @param {*} token
+   * @returns
+   */
+  update: (roleId, payload, token) => {
+    return axios({
+      method: "PUT",
+      baseURL: url.userService,
+      url: `/admin/res/roles/${roleId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Delete role
+   * @param {*} roleId
+   * @param {*} token
+   * @returns
+   */
+  delete: (roleId, token) => {
+    return axios({
+      method: "DELETE",
+      baseURL: url.userService,
+      url: `/admin/res/roles/${roleId}`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

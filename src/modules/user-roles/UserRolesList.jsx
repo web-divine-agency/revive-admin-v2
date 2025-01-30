@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
   Modal,
   Paper,
   TableCell,
@@ -16,6 +17,10 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./UserRoles.scss";
 
@@ -40,12 +45,27 @@ export default function UserRolesList() {
   const [userRolesDeleteModalOpen, setUserRolesDeleteModalOpen] =
     useState(false);
 
-  const handleDeleteUserRole = () => {};
-
   const handleListUserRoles = (page = 1, show = 10) => {
     RoleService.list({ page: page, show: show }, authUser?.token)
       .then((response) => {
         setRoles(response.data.roles);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  const handleDeleteUserRole = () => {
+    RoleService.delete(selectedUserRole.role_id, authUser?.token)
+      .then(() => {
+        setUserRolesDeleteModalOpen(false);
+        handleListUserRoles();
       })
       .catch((error) => {
         if (error.code === "ERR_NETWORK") {
@@ -92,28 +112,52 @@ export default function UserRolesList() {
                   filter={false}
                   data={roles}
                   tableName="roles"
-                  header={["Name", "Description"]}
+                  header={["Name", "Description", "Actions"]}
                   onChangeData={(page, show, find) => {
                     handleListUserRoles(page, show, find);
                   }}
                 >
                   {roles?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell>
-                        <Tooltip title="View Details" placement="right">
-                          <Button
-                            variant="text"
-                            onClick={() => {
-                              setUserRolesDetailsModalOpen(true);
-                              setSelectedUserRole(item);
-                            }}
-                            className="open-details"
-                          >
-                            {item.role_name}
-                          </Button>
-                        </Tooltip>
+                      <TableCell sx={{ width: "20%" }}>
+                        <Typography>{item.role_name}</Typography>
                       </TableCell>
-                      <TableCell>{item.role_description}</TableCell>
+                      <TableCell sx={{ width: "70%" }}>
+                        <Typography>{item.role_description}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "10%" }}>
+                        <Tooltip title="View" placement="top">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedUserRole(item);
+                              setUserRolesDetailsModalOpen(true);
+                            }}
+                          >
+                            <VisibilityIcon color="green" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit" placement="top">
+                          <IconButton
+                            component={Link}
+                            to={`/user-roles/${item.role_id}`}
+                          >
+                            <EditIcon color="blue" />
+                          </IconButton>
+                        </Tooltip>
+                        {(item.role_name !== "Admin" &&
+                          item.role_name !== "Staff") && (
+                          <Tooltip title="Delete" placement="top">
+                            <IconButton
+                              onClick={() => {
+                                setSelectedUserRole(item);
+                                setUserRolesDeleteModalOpen(true);
+                              }}
+                            >
+                              <DeleteIcon color="red" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableDefault>
@@ -130,6 +174,9 @@ export default function UserRolesList() {
         <Paper elevation={4} className="modal-holder modal-holder-lg">
           <Box className="modal-header">
             <Typography>User Roles Details</Typography>
+            <IconButton onClick={() => setUserRolesDetailsModalOpen(false)}>
+              <CloseIcon />
+            </IconButton>
           </Box>
           <Box className="modal-body">
             <Grid container spacing={2}>
