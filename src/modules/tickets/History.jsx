@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import DataTable from "react-data-table-component";
-
-import { Modal, Button } from "react-bootstrap";
 import {
   Document,
   Page,
   Text,
   View,
-  PDFViewer,
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-
-import "@react-pdf-viewer/core/lib/styles/index.css";
-
-import { useLoader } from "@/components/loaders/LoaderContext";
-
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
-import view_icon from "@/assets/images/list-view.png";
 
 Font.register({
   family: "Outfit",
@@ -66,18 +54,15 @@ export default function History() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const { setLoading } = useLoader();
 
   useEffect(() => {
     const fetchTickets = async () => {
-      setLoading(true);
       try {
         const response = {};
         const formattedData = response.data
@@ -99,7 +84,7 @@ export default function History() {
       } catch (error) {
         console.error("Error fetching staff logs:", error);
       } finally {
-        setLoading(false);
+        // Do nothing
       }
     };
     fetchTickets();
@@ -210,6 +195,7 @@ export default function History() {
     },
   });
 
+  // eslint-disable-next-line no-unused-vars
   const TicketPDF = ({ selectedTicket }) => (
     <Document>
       <Page
@@ -1988,121 +1974,6 @@ export default function History() {
     </Document>
   );
 
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedTicket(null);
-  };
-
-  const handleViewTicketClick = () => {
-    try {
-      const response = {};
-      const ticket = response.data;
-      const formattedTicketData = {
-        id: ticket.id,
-        ticketType: ticket.ticket_type_id,
-        data:
-          typeof ticket.data === "string"
-            ? JSON.parse(ticket.data)
-            : ticket.data,
-        date: new Date(ticket.createdAt),
-      };
-      setSelectedTicket(formattedTicketData);
-      // console.log(formattedTicketData);
-      // console.log(ticket);
-      setShowModal(true);
-    } catch (error) {
-      console.error("Error viewing ticket:", error);
-    }
-  };
-
-  const columns = [
-    {
-      name: "User",
-      selector: (row) => (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            className="profile-image"
-            src={row.sex === "Male" ? man : woman}
-            alt={row.name}
-            style={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%",
-              marginRight: "10px",
-            }}
-          />
-          {row.user}
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Date Created",
-      selector: (row) => {
-        const date = new Date(row.date);
-        const options = { timeZone: "Australia/Sydney" };
-
-        // Extract parts of the date separately
-        const month = date.toLocaleString("en-AU", {
-          month: "short",
-          ...options,
-        }); // 'Oct'
-        const day = date.toLocaleString("en-AU", {
-          day: "numeric",
-          ...options,
-        }); // '10'
-        const year = date.toLocaleString("en-AU", {
-          year: "numeric",
-          ...options,
-        }); // '2024'
-        const time = date.toLocaleString("en-AU", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-          ...options,
-        }); // '12:27 PM'
-
-        // Return the formatted string
-        return `${month} ${day}, ${year} ${time}`;
-      },
-    },
-
-    {
-      name: "Branch",
-      selector: (row) => row.branch_id,
-      sortable: true,
-    },
-
-    // {
-    //   name: "Role",
-    //   selector: (row) => row.role,
-    //   sortable: true
-    // },
-    {
-      name: "Ticket Type",
-      selector: (row) => row.ticketType,
-      sortable: true,
-      cell: (row) => <div>{row.ticketType}</div>,
-    },
-    {
-      name: "Action",
-      selector: (row) => (
-        <div>
-          <img
-            src={view_icon}
-            title="View Ticket Details"
-            alt="view"
-            width="25"
-            height="25"
-            onClick={() => handleViewTicketClick(row.id)}
-            style={{ cursor: "pointer" }}
-          />
-        </div>
-      ),
-      sortable: false,
-    },
-  ];
-
   return (
     <div className="container">
       <div className="row">
@@ -2146,64 +2017,9 @@ export default function History() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="container-content">
-            <DataTable
-              className="dataTables_wrapper"
-              columns={columns}
-              data={filteredTickets}
-              pagination
-              paginationPerPage={10}
-              paginationRowsPerPageOptions={[10, 20]}
-            />
-          </div>
+          <div className="container-content"></div>
         </div>
       </div>
-      {selectedTicket && (
-        <Modal show={showModal} onHide={closeModal} size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>Ticket History View</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Text>
-              Date Created:{" "}
-              {(() => {
-                const date = new Date(selectedTicket.date);
-                const options = { timeZone: "Australia/Sydney" };
-
-                const month = date.toLocaleString("en-AU", {
-                  month: "short",
-                  ...options,
-                }); // 'Oct'
-                const day = date.toLocaleString("en-AU", {
-                  day: "numeric",
-                  ...options,
-                }); // '10'
-                const year = date.toLocaleString("en-AU", {
-                  year: "numeric",
-                  ...options,
-                }); // '2024'
-                const time = date.toLocaleString("en-AU", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                  ...options,
-                }); // '12:27 PM'
-
-                return `${month} ${day}, ${year} ${time}`;
-              })()}
-            </Text>
-
-            <PDFViewer showToolbar={true} width="100%" height="600">
-              <TicketPDF selectedTicket={selectedTicket} />
-            </PDFViewer>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={closeModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
     </div>
   );
 }

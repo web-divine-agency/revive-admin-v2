@@ -6,12 +6,17 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
+  Modal,
   Paper,
   TableCell,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./Permissions.scss";
 
@@ -34,8 +39,7 @@ export default function PermissionsList() {
   // eslint-disable-next-line no-unused-vars
   const [selectedPermission, setSelectedPermission] = useState({});
 
-  // eslint-disable-next-line no-unused-vars
-  const [permissionsDetailsModalOpen, setPermissionsDetailsModalOpen] =
+  const [permissionDeleteModalOpen, setPermissionDeleteModalOpen] =
     useState(false);
 
   const handleListPermissions = (page = 1, show = 10, find = "") => {
@@ -56,6 +60,8 @@ export default function PermissionsList() {
         }
       });
   };
+
+  const handleDeletePermission = () => {};
 
   return (
     <React.Fragment>
@@ -87,15 +93,39 @@ export default function PermissionsList() {
                   filter={false}
                   data={permissions}
                   tableName="permissions"
-                  header={["Name", "Description"]}
+                  header={["Name", "Description", "Actions"]}
                   onChangeData={(page, show, find) => {
                     handleListPermissions(page, show, find);
                   }}
                 >
                   {permissions?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell sx={{ width: "25%" }}>{item.name}</TableCell>
-                      <TableCell>{item.description}</TableCell>
+                      <TableCell sx={{ width: "30%" }}>
+                        <Typography>{item.name}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "60%" }}>
+                        <Typography>{item.description}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "10%" }}>
+                        <Tooltip title="Edit" placement="top">
+                          <IconButton
+                            component={Link}
+                            to={`/permissions/${item.id}`}
+                          >
+                            <EditIcon color="blue" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete" placement="top">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedPermission(item);
+                              setPermissionDeleteModalOpen(true);
+                            }}
+                          >
+                            <DeleteIcon color="red" />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableDefault>
@@ -104,6 +134,37 @@ export default function PermissionsList() {
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={permissionDeleteModalOpen}
+        onClose={() => setPermissionDeleteModalOpen(false)}
+        className="user-roles-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete Permission</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setPermissionDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={() => handleDeletePermission()}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

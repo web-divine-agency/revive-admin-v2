@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Swal from "sweetalert2";
 import JoditEditor from "jodit-react";
 
 import {
@@ -23,8 +22,6 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-import { FaTimes } from "react-icons/fa";
-
 import "./Resources.scss";
 
 import { useLoader } from "@/components/loaders/LoaderContext";
@@ -34,7 +31,6 @@ import { snackbar } from "@/util/helper";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import check from "@/assets/images/check.png";
 import ResourceService from "../../services/ResourceService";
 import Global from "../../util/global";
 
@@ -253,29 +249,6 @@ export default function ResourcesCreate() {
 
     // Convert additional fields to JSON and add to form data
     //formDataToSend.append("additional_fields", JSON.stringify(additionalFields));
-
-    try {
-      Swal.fire({
-        title: "Success!",
-        text: "Resource has been created.",
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => {
-        // Redirect to user list
-        navigate(`/resources?category=${formData.category}`);
-      });
-      setFormData({
-        resource_title: "",
-        resource_body: "",
-        status: "draft",
-      });
-      setResourceMedia([]);
-      setAdditionalFields([]);
-    } catch (error) {
-      console.error("Error creating resource:", error);
-    }
   };
 
   return (
@@ -413,7 +386,6 @@ export default function ResourcesCreate() {
                           marginTop: "-240px",
                         }}
                       >
-                        <FaTimes />
                       </button>
                     </div>
                   </Grid>

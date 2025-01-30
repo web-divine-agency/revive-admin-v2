@@ -2,42 +2,28 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import DataTable from "react-data-table-component";
-import Swal from "sweetalert2";
-
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./TicketCategory.scss";
 
-import { useLoader } from "@/components/loaders/LoaderContext";
-
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-
-import check from "@/assets/images/check.png";
 
 function TicketCategory() {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [ticketTypes, setTicketTypes] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [categories, setCategories] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedCategories, setSelectedCategories] = useState({}); // State to track selected categories
-  const { setLoading } = useLoader();
 
   useEffect(() => {
     if (localStorage.getItem("loginSuccess") === "true") {
-      Swal.fire({
-        title: "Login Successful",
-        text: `Welcome`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      });
       localStorage.removeItem("loginSuccess");
     }
   }, []);
@@ -53,7 +39,6 @@ function TicketCategory() {
     };
 
     const fetchTicketTypes = () => {
-      setLoading(true);
       try {
         const response = {};
         const formattedData = response.data.map((ticket_type) => ({
@@ -76,91 +61,23 @@ function TicketCategory() {
       } catch (error) {
         console.error("Error fetching ticket types:", error);
       } finally {
-        setLoading(false);
+        // Do nothing
       }
     };
 
     fetchCategories(); // Fetch categories
     fetchTicketTypes(); // Fetch ticket types with their categories
-  }, [setLoading]);
-
-  // Handle checkbox selection
-  const handleCheckboxChange = (ticketId, categoryId) => {
-    setSelectedCategories((prevSelectedCategories) => {
-      const currentCategories = Array.isArray(prevSelectedCategories[ticketId])
-        ? prevSelectedCategories[ticketId]
-        : [];
-
-      if (currentCategories.includes(categoryId)) {
-        return {
-          ...prevSelectedCategories,
-          [ticketId]: currentCategories.filter((id) => id !== categoryId),
-        };
-      } else {
-        return {
-          ...prevSelectedCategories,
-          [ticketId]: [...currentCategories, categoryId],
-        };
-      }
-    });
-  };
+  }, []);
 
   const handleSave = async () => {
-    setLoading(true);
     try {
-      Swal.fire({
-        title: "Success",
-        text: "Ticket categories updated successfully",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      console.log("okay");
     } catch (error) {
       console.error("Error updating ticket categories:", error);
-      Swal.fire({
-        title: "Error",
-        text: "Failed to update ticket categories",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
     } finally {
-      setLoading(false);
+      // Do nothing
     }
   };
-
-  const columns = [
-    {
-      name: "Template",
-      selector: (row) => row.ticket_type || "N/A",
-      sortable: true,
-    },
-    {
-      name: "Action",
-      selector: (row) => (
-        <Box sx={{ display: "flex" }}>
-          {categories.map((category) => {
-            const checkboxId = `cbx-${row.id}-${category.id}`; // Unique ID for each checkbox
-            return (
-              <Box key={category.id}>
-                <Box
-                  component={"input"}
-                  id={checkboxId} // Assign unique ID here
-                  className="inp-cbx"
-                  type="checkbox"
-                  checked={selectedCategories[row.id]?.includes(category.id)} // Pre-check if assigned
-                  onChange={() => handleCheckboxChange(row.id, category.id)} // Handle checkbox toggle
-                  sx={{ mr: 1 }}
-                />
-                <Box component={"label"} htmlFor={checkboxId} sx={{ mr: 2 }}>
-                  <span>{category.category_name}</span>
-                </Box>
-              </Box>
-            );
-          })}
-        </Box>
-      ),
-      sortable: false,
-    },
-  ];
 
   return (
     <React.Fragment>
@@ -193,16 +110,7 @@ function TicketCategory() {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                <DataTable
-                  className="dataTables_wrapper"
-                  columns={columns}
-                  data={ticketTypes}
-                  pagination
-                  paginationPerPage={10}
-                  paginationRowsPerPageOptions={[10, 25]}
-                />
-              </Grid>
+              <Grid size={{ xs: 12 }}></Grid>
               <Grid size={{ xs: 12 }}>
                 <Button type="submit" variant="contained" onClick={handleSave}>
                   Save Changes

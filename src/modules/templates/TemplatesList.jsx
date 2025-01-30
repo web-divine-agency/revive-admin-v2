@@ -2,38 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import DataTable from "react-data-table-component";
-import Swal from "sweetalert2";
-
-import { Modal } from "react-bootstrap";
-import { useLoader } from "@/components/loaders/LoaderContext";
-
-import {
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
-import check from "@/assets/images/check.png";
-
 export default function TemplatesList() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -47,27 +27,15 @@ export default function TemplatesList() {
   // eslint-disable-next-line no-unused-vars
   const [ticketTypes, setTicketTypes] = useState([]);
 
-  const { setLoading } = useLoader();
   useEffect(() => {
     // success login swal
     if (localStorage.getItem("loginSuccess") === "true") {
-      Swal.fire({
-        title: "Login Successful",
-        text: `Welcome`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      });
-
       localStorage.removeItem("loginSuccess");
     }
   }, []);
 
   useEffect(() => {
     const fetchUsers = () => {
-      setLoading(true);
       try {
         const response = {};
         setUsers(response.data);
@@ -77,7 +45,7 @@ export default function TemplatesList() {
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
-        setLoading(false);
+        // Do nothing
       }
     };
 
@@ -184,87 +152,6 @@ export default function TemplatesList() {
     applyFilters();
   }, [filter, roleFilter, search, users, loggedInUser, selectedBranchId]);
 
-  const handleViewClick = (user) => {
-    setSelectedUser(user);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleEditAccessClick = (userId) => {
-    navigate(`/template-access/${userId}`);
-  };
-
-  const columns = [
-    {
-      name: "Name",
-      selector: (row) => (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            className="profile-image"
-            src={row.sex === "Male" ? man : woman}
-            alt={row.last_name}
-            style={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%",
-              marginRight: "10px",
-            }}
-          />
-          {row.first_name} {row.last_name}
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Branch",
-      selector: (row) =>
-        row.branches?.map((r) => r.branch_name).join(", ") || "N/A",
-      sortable: true,
-      style: {
-        width: "200px",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-      },
-    },
-    {
-      name: "Role",
-      selector: (row) => row.roles?.map((r) => r.role_name).join(", ") || "N/A",
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      selector: (row) => (
-        <div>
-          <IconButton
-            onClick={() =>
-              handleViewClick({
-                name: `${row.first_name} ${row.last_name}`,
-                profileImage: row.sex === "Male" ? man : woman,
-                ticket_type:
-                  row.ticketTypes?.map((r) => r.ticket_type).join(", ") ||
-                  "Default",
-              })
-            }
-            color="green"
-          >
-            <VisibilityIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => handleEditAccessClick(row.id)}
-            color="blue"
-          >
-            <EditIcon />
-          </IconButton>
-        </div>
-      ),
-      sortable: false,
-    },
-  ];
-
   return (
     <React.Fragment>
       <Helmet>
@@ -321,58 +208,6 @@ export default function TemplatesList() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <DataTable
-                  className="dataTables_wrapper"
-                  columns={columns}
-                  data={filteredUsers}
-                  pagination
-                  paginationPerPage={10}
-                  paginationRowsPerPageOptions={[10, 20]}
-                />
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                {selectedUser && (
-                  <Modal show={showModal} size="lg" onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>User Details</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <div className="profile-container">
-                        <div className="profile-image">
-                          <img
-                            src={selectedUser.profileImage}
-                            alt={selectedUser.name}
-                            style={{
-                              width: "170px",
-                              height: "auto",
-                              borderRadius: "50%",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <center>
-                            {" "}
-                            <h2> {selectedUser.name} </h2>
-                          </center>
-                        </div>
-
-                        <div className="ticketTypeListContainer">
-                          <p> Allowed Templates: </p>
-                          <h5>
-                            {selectedUser.ticket_type
-                              .split(",")
-                              .map((type, index) => (
-                                <p className="allowedTickets" key={index}>
-                                  {type.trim()}
-                                </p>
-                              ))}
-                          </h5>
-                        </div>
-                      </div>
-                    </Modal.Body>
-                  </Modal>
-                )}
               </Grid>
             </Grid>
           </Paper>

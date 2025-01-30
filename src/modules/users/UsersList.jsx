@@ -21,6 +21,9 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./Users.scss";
 
@@ -123,13 +126,7 @@ export default function UsersList() {
     handleListUsers(1, 10, "");
   }, [selectedRoleName, selectedBranchName]);
 
-  const handleDeleteUser = async () => {
-    try {
-      console.log("Delete");
-    } catch (error) {
-      console.error(error);
-    }
-
+  const handleDeleteUser = () => {
     setUserDeleteModalOpen(false);
   };
 
@@ -207,14 +204,20 @@ export default function UsersList() {
                   filters={filtersEl}
                   data={users}
                   tableName="users"
-                  header={["Name", "Email", "Branches", "Role"]}
+                  header={["Name", "Role", "Email", "Branches", "Actions"]}
                   onChangeData={(page, show, find) =>
                     handleListUsers(page, show, find)
                   }
                 >
                   {users?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell sx={{ display: "flex", alignItems: "center" }}>
+                      <TableCell
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "20%",
+                        }}
+                      >
                         <Box
                           component={"img"}
                           src={
@@ -226,26 +229,53 @@ export default function UsersList() {
                           width={32}
                           mr={1}
                         />
-                        <Tooltip title="View Details" placement="right">
-                          <Button
-                            variant="text"
+                        <Typography>
+                          {item.first_name} {item.last_name}
+                        </Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "10%" }}>
+                        <Typography>{item.role_name}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "20%" }}>
+                        <Typography>{item.email}</Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "40%" }}>
+                        <Typography>
+                          {JSON.parse(item.all_branches)
+                            ?.map((item) => item.name)
+                            .join(", ")}
+                        </Typography>
+                      </TableCell>
+                      <TableCell sx={{ width: "10%" }}>
+                        <Tooltip title="View" placement="top">
+                          <IconButton
                             onClick={() => {
-                              setUserDetailsModalOpen(true);
                               setSelectedUser(item);
+                              setUserDetailsModalOpen(true);
                             }}
-                            className="open-details"
                           >
-                            {item.first_name} {item.last_name}
-                          </Button>
+                            <VisibilityIcon color="green" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit" placement="top">
+                          <IconButton
+                            component={Link}
+                            to={`/users/${selectedUser.id}`}
+                          >
+                            <EditIcon color="blue" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete" placement="top">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedUser(item);
+                              setUserDeleteModalOpen(true);
+                            }}
+                          >
+                            <DeleteIcon color="red" />
+                          </IconButton>
                         </Tooltip>
                       </TableCell>
-                      <TableCell>{item.email}</TableCell>
-                      <TableCell>
-                        {JSON.parse(item.all_branches)
-                          ?.map((item) => item.name)
-                          .join(", ")}
-                      </TableCell>
-                      <TableCell>{item.role_name}</TableCell>
                     </TableRow>
                   ))}
                 </TableDefault>
@@ -269,20 +299,6 @@ export default function UsersList() {
           <Box className="modal-body">
             {selectedUser && (
               <Grid container spacing={2}>
-                <Grid size={{ xs: 12 }} textAlign={"right"}>
-                  <Button
-                    component={Link}
-                    to={`/users/${selectedUser.id}`}
-                    variant="contained"
-                    color="blue"
-                    className="mui-btn mui-btn-edit"
-                  >
-                    Edit Details
-                  </Button>
-                  <Button variant="contained" color="red">
-                    Delete User
-                  </Button>
-                </Grid>
                 <Grid size={{ xs: 12, lg: 3 }}>
                   <Box
                     component={"img"}
@@ -376,7 +392,7 @@ export default function UsersList() {
           </Box>
           <Box className="modal-footer">
             <Button
-              variant="contained"
+              variant="outlined"
               color="black"
               onClick={() => setUserDetailsModalOpen(false)}
             >

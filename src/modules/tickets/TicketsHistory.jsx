@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import moment from "moment";
-
-import DataTable from "react-data-table-component";
 
 import {
   Document,
@@ -19,14 +16,11 @@ import {
   Box,
   Button,
   Container,
-  IconButton,
   Modal,
   Paper,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import "./Tickets.scss";
 
@@ -37,8 +31,6 @@ import Global from "@/util/global";
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
-import man from "@/assets/images/man.png";
-import woman from "@/assets/images/woman.png";
 
 Font.register({
   family: "Arial",
@@ -79,16 +71,20 @@ function TicketsHistory() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [branches, setBranches] = useState([]);
   const [selectedBranchId, setSelectedBranchId] = useState("");
   const [ticketTypes, setTicketTypes] = useState([]);
   const [selectedTicketTypeId, setSelectedTicketTypeId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [selectedTicket, setSelectedTicket] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [selectedTicketId, setSelectedTicketId] = useState(0);
 
   const { setLoading } = useLoader();
 
+  // eslint-disable-next-line no-unused-vars
   const { authUser } = useContext(Global);
 
   const [ticketDetailsModalOpen, setTicketDetailsModalOpen] = useState(false);
@@ -2011,28 +2007,6 @@ function TicketsHistory() {
     </Document>
   );
 
-  const handleViewTicketClick = () => {
-    try {
-      const response = {};
-      const ticket = response.data;
-      const formattedTicketData = {
-        id: ticket.id,
-        ticketType: ticket.ticket_type_id,
-        data:
-          typeof ticket.data === "string"
-            ? JSON.parse(ticket.data)
-            : ticket.data,
-        date: new Date(ticket.createdAt),
-      };
-      setSelectedTicket(formattedTicketData);
-      // console.log(formattedTicketData);
-      // console.log(ticket);
-      setTicketDetailsModalOpen(true);
-    } catch (error) {
-      console.error("Error viewing ticket:", error);
-    }
-  };
-
   const handleDeleteTicket = async () => {
     try {
       console.log("Delete");
@@ -2048,75 +2022,6 @@ function TicketsHistory() {
     setData(updatedData);
     setFilteredTickets(updatedData);
   };
-
-  const columns = [
-    {
-      name: "User",
-      width: "20%",
-      sortable: true,
-      selector: (row) => (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            className="profile-image"
-            src={row.sex === "Male" ? man : woman}
-            alt={row.name}
-            style={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%",
-              marginRight: "8px",
-            }}
-          />
-          {row.user}
-        </div>
-      ),
-    },
-    {
-      name: "Date Created",
-      width: "15%",
-      sortable: false,
-      selector: (row) =>
-        moment(new Date(row.date)).format("D MMM, YYYY | h:mm a"),
-    },
-    {
-      name: "Branch",
-      width: "15%",
-      sortable: true,
-      selector: (row) => row.branch_id,
-    },
-    {
-      name: "Ticket Type",
-      width: "40%",
-      sortable: true,
-      selector: (row) => row.ticketType,
-    },
-    {
-      name: "Actions",
-      width: "10%",
-      sortable: false,
-      selector: (row) => (
-        <div>
-          <IconButton
-            onClick={() => handleViewTicketClick(row.id)}
-            color="green"
-          >
-            <VisibilityIcon />
-          </IconButton>
-          {authUser?.role_name == "Admin" && (
-            <IconButton
-              onClick={() => {
-                setSelectedTicketId(row.id);
-                setTicketDeleteModalOpen(true);
-              }}
-              color="red"
-            >
-              <RemoveCircleIcon />
-            </IconButton>
-          )}
-        </div>
-      ),
-    },
-  ];
 
   return (
     <React.Fragment>
@@ -2182,16 +2087,7 @@ function TicketsHistory() {
                   />
                 </div>
               </Grid>
-              <Grid size={{ xs: 12 }}>
-                <DataTable
-                  className="dataTables_wrapper"
-                  columns={columns}
-                  data={filteredTickets}
-                  pagination
-                  paginationPerPage={10}
-                  paginationRowsPerPageOptions={[10, 20]}
-                />
-              </Grid>
+              <Grid size={{ xs: 12 }}></Grid>
             </Grid>
           </Paper>
         </Container>

@@ -24,7 +24,6 @@ import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
 import History from "./modules/tickets/History";
-import QueueList from "./modules/tickets/QueueList";
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 import TicketCategory from "./modules/tickets/TicketCategory";
@@ -103,7 +102,6 @@ function tickets() {
       <Route path="/tickets" element={<TicketsHistory />} />
       <Route path="/history" element={<History />} />
       <Route path="/tickets/create" element={<TicketsCreate />} />
-      <Route path="/queue-list" element={<QueueList />} />
     </React.Fragment>
   );
 }

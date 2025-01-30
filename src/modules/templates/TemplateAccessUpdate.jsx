@@ -2,16 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Swal from "sweetalert2";
-
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import NavTopbar from "../../components/navigation/NavTopbar";
 import NavSidebar from "../../components/navigation/NavSidebar";
-
-import check from "@/assets/images/check.png";
 
 export default function TemplateAccessUpdate() {
   const { userId } = useParams();
@@ -65,27 +61,9 @@ export default function TemplateAccessUpdate() {
   const assignTickets = async (e) => {
     e.preventDefault(); // Prevent default form submission
     try {
-      Swal.fire({
-        title: "Ticket Template Assigned Successfully",
-        text: `The user has been updated.`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => {
-        // Redirect to template management page after success
-        navigate("/templates");
-      });
+      navigate("/templates");
     } catch (error) {
       console.error("Failed to assign ticket templates:", error);
-      Swal.fire({
-        title: "Error",
-        text: "Failed to assign ticket templates. Please try again.",
-        icon: "error",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#FF0000",
-      });
     }
   };
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 
 import {
@@ -34,9 +33,6 @@ import "./Tickets.scss";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-
-import check from "@/assets/images/check.png";
-import close from "@/assets/images/close.png";
 
 Font.register({
   family: "Arial",
@@ -246,73 +242,11 @@ export default function TicketsCreate() {
     // Check if there are tickets in the queue
     setCopies(0);
     if (ticketQueue.length === 0) {
-      Swal.fire({
-        title: "No Tickets Added to Queue!",
-        text: "Add tickets to the queue first to proceed.",
-        imageUrl: close,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#EC221F",
-        customClass: {
-          confirmButton: "custom-error-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
+     
       return;
     } else {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Do you really want to generate this ticket?",
-        showCancelButton: true,
-        confirmButtonColor: "#109F69",
-        cancelButtonColor: "#00000000",
-        cancelTextColor: "#000000",
-        confirmButtonText: "Yes, Generate it!",
-        customClass: {
-          container: "custom-container",
-          confirmButton: "custom-confirm-button",
-          cancelButton: "custom-cancel-button",
-          title: "custom-swal-title",
-        },
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            setCopies(0);
-            setTriggerDownload(true);
-            Swal.fire({
-              title: "Success",
-              text: "Tickets Generated Successfully",
-              imageUrl: check,
-              imageWidth: 100,
-              imageHeight: 100,
-              confirmButtonText: "OK",
-              confirmButtonColor: "#0ABAA6",
-            });
-            setTicketData({
-              productName: "",
-              productNameValue: "",
-              productDesc: "",
-              price: "",
-              rrp: "",
-              save: "",
-              copies: 1,
-            });
-          } catch {
-            Swal.fire({
-              title: "Error!",
-              text: "There was an error generating this ticket.",
-              icon: "error",
-              confirmButtonText: "OK",
-              confirmButtonColor: "#EC221F",
-              customClass: {
-                confirmButton: "custom-error-confirm-button",
-                title: "custom-swal-title",
-              },
-            });
-          }
-        }
-      });
+     
+      // Nothing
     }
   };
 

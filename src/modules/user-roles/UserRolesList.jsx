@@ -24,12 +24,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./UserRoles.scss";
 
+import Global from "@/util/global";
+import { snackbar } from "@/util/helper";
+
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-import RoleService from "../../services/RoleService";
-import Global from "../../util/global";
-import { snackbar } from "../../util/helper";
-import TableDefault from "../../components/tables/TableDefault";
+import TableDefault from "@/components/tables/TableDefault";
+
+import RoleService from "@/services/RoleService";
 
 export default function UserRolesList() {
   const navigate = useNavigate();

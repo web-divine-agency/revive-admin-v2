@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Swal from "sweetalert2";
-
 import { snackbar } from "@/util/helper";
 import {
   Box,
@@ -21,8 +19,6 @@ import Grid from "@mui/material/Grid2";
 
 import NavTopbar from "../../components/navigation/NavTopbar";
 import NavSidebar from "../../components/navigation/NavSidebar";
-
-import check from "@/assets/images/check.png";
 
 export default function BranchesUpdate() {
   const { branchId } = useParams();
@@ -119,17 +115,7 @@ export default function BranchesUpdate() {
       return;
     }
     try {
-      Swal.fire({
-        title: "Branch Updated Successfully",
-        text: `${branch} has been updated in the system.`,
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => {
-        navigate("/branches");
-      });
+      navigate("/branches");
     } catch (error) {
       console.error("Error updating branch:", error);
       setError("An error occurred while updating the branch.");

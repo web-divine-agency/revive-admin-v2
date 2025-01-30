@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 
-import Swal from "sweetalert2";
-
-import close from "@/assets/images/close.png";
-import check from "@/assets/images/check.png";
 import man from "@/assets/images/man.png";
 import woman from "@/assets/images/woman.png";
 
@@ -51,53 +47,14 @@ export default function Profile() {
 
     // Validate passwords
     if (newPassword !== confirmPassword) {
-      Swal.fire({
-        title: "Password Mismatch",
-        text: "New password and confirm password do not match.",
-        imageUrl: close,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#EC221F",
-        customClass: {
-          confirmButton: "custom-error-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
       return;
     }
 
     if (newPassword && newPassword.length < 8) {
-      Swal.fire({
-        title: "Invalid Password",
-        text: "Password must be at least 8 characters long",
-        imageUrl: close,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#EC221F",
-        customClass: {
-          confirmButton: "custom-error-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
       return;
     }
 
     if (!oldPassword) {
-      Swal.fire({
-        title: "Old Password Required",
-        text: "Please enter your old password before making changes.",
-        imageUrl: close,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#EC221F",
-        customClass: {
-          confirmButton: "custom-error-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
       return;
     }
 
@@ -105,35 +62,8 @@ export default function Profile() {
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      Swal.fire({
-        title: "Profile Updated",
-        text: "Your profile has been updated successfully.",
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0ABAA6",
-        customClass: {
-          confirmButton: "custom-success-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
-    } catch (error) {
-      Swal.fire({
-        title: "Update Failed",
-        text:
-          error.response?.data?.message ||
-          "Something went wrong. Please try again later.",
-        imageUrl: close,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonText: "OK",
-        confirmButtonColor: "#EC221F",
-        customClass: {
-          confirmButton: "custom-error-confirm-button",
-          title: "custom-swal-title",
-        },
-      });
+    } catch {
+      // Do nothing
     }
   };
 

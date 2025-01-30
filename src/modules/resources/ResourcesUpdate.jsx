@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Swal from "sweetalert2";
 import JoditEditor from "jodit-react";
 
 import {
@@ -16,14 +15,10 @@ import {
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
-import { FaTimes } from "react-icons/fa";
-
 import "./Resources.scss";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-
-import check from "@/assets/images/check.png";
 
 export default function ResourcesUpdate() {
   const { resourceID } = useParams();
@@ -185,14 +180,7 @@ export default function ResourcesUpdate() {
       formDataToSend.append("resource_media", file)
     );
     try {
-      Swal.fire({
-        title: "Success!",
-        text: "Resource has been updated.",
-        imageUrl: check,
-        imageWidth: 100,
-        imageHeight: 100,
-        confirmButtonColor: "#0ABAA6",
-      }).then(() => navigate(-1));
+      // Do nothing
     } catch (error) {
       console.error("Error updating resource:", error);
     }
@@ -295,9 +283,7 @@ export default function ResourcesUpdate() {
                                 style={{
                                   marginTop: "-240px",
                                 }}
-                              >
-                                <FaTimes />
-                              </button>
+                              ></button>
                             </div>
                           ))}
                           <Button variant="contained" onClick={addNewField}>
