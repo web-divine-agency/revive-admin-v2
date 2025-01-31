@@ -23,6 +23,7 @@ import BranchesList from "./modules/branches/BranchesList";
 import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
+import TicketsList from "./modules/tickets/TicketsList";
 import History from "./modules/tickets/History";
 import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
@@ -93,6 +94,7 @@ function users() {
 function tickets() {
   return (
     <React.Fragment>
+      <Route path="/tickets-list" element={<TicketsList />} />
       <Route path="/ticket-category" element={<TicketCategory />} />
       <Route path="/templates" element={<TemplatesList />} />
       <Route
