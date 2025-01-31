@@ -29,7 +29,7 @@ export function AuthRedirect(props) {
       // tri-state breaks the route loop
       return;
     case "success":
-      return <Navigate to="/users" />;
+      return user?.role_name === "Admin" ? <Navigate to="/users" /> : <Navigate to="/users" />;
     case "failed":
       return <Outlet {...props} />;
   }

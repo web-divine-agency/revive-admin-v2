@@ -55,7 +55,12 @@ function Login() {
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         setAuthUser(response.data.user);
-        navigate("/users");
+
+        if (response.data.user.role_name === "Admin") {
+          navigate("/users");
+        } else {
+          navigate("/tickets-list");
+        }
       })
       .catch((error) => {
         if (error.code === "ERR_NETWORK") {
