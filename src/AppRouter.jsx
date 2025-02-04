@@ -40,6 +40,7 @@ import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
 
 import ActivityLogs from "./modules/activity-logs/ActivityLogs";
 import NotFound from "./modules/not-found/NotFound";
+import ResourceCategoriesList from "./modules/resources/ResourceCategoriesList";
 
 export default function AppRouter() {
   const users = (
@@ -82,6 +83,8 @@ export default function AppRouter() {
       <Route path="/resources" element={<ResourcesLists />} />
       <Route path="/resources-index" element={<ResourcesIndex />} />
       <Route path="/staff-view-resource/:slug" element={<ResourcesRead />} />
+
+      <Route path="/resource-categories" element={<ResourceCategoriesList />} />
     </React.Fragment>
   );
 

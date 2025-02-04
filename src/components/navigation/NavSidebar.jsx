@@ -225,7 +225,7 @@ export default function NavSidebar() {
               <List disablePadding>
                 <ListItem>
                   <Link
-                    to="/resources-index"
+                    to="/resource-categories"
                     onClick={() => setSidebarActive(false)}
                   >
                     Resource Categories

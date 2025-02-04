@@ -5,6 +5,7 @@ const env = {
     ticketService: "http://localhost:8802",
     branchService: "http://localhost:8803",
     loggerService: "http://localhost:8804",
+    resourceService: "http://localhost:8805",
   },
   uat: {
     portal: "http://localhost:3001",
@@ -12,6 +13,7 @@ const env = {
     ticketService: "http://localhost:8802",
     branchService: "http://localhost:8803",
     loggerService: "http://localhost:8804",
+    resourceService: "http://localhost:8805",
   },
 };
 
