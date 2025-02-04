@@ -40,6 +40,7 @@ import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
 
 import ResourceCategoriesList from "./modules/resources/ResourceCategoriesList";
 import ResourceCategoriesCreate from "./modules/resources/ResourceCategoriesCreate";
+import ResourceCategoriesUpdate from "./modules/resources/ResourceCategoriesUpdate";
 
 import ActivityLogs from "./modules/activity-logs/ActivityLogs";
 
@@ -88,6 +89,10 @@ export default function AppRouter() {
       <Route path="/staff-view-resource/:slug" element={<ResourcesRead />} />
 
       <Route path="/resource-categories" element={<ResourceCategoriesList />} />
+      <Route
+        path="/resource-categories/:resourceCategoryId"
+        element={<ResourceCategoriesUpdate />}
+      />
       <Route
         path="/resource-categories/create"
         element={<ResourceCategoriesCreate />}

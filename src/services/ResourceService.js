@@ -73,6 +73,42 @@ export default {
   },
 
   /**
+   * Read resource category
+   * @param {*} resourceCategoryId
+   * @param {*} token
+   * @returns
+   */
+  readCategory: (resourceCategoryId, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.resourceService,
+      url: `/admin/res/resource-categories/${resourceCategoryId}`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Update resource category
+   * @param {*} resourceCategoryId
+   * @param {*} payload
+   * @param {*} token
+   * @returns
+   */
+  updateCategory: (resourceCategoryId, payload, token) => {
+    return axios({
+      method: "PUT",
+      baseURL: url.resourceService,
+      url: `/admin/res/resource-categories/${resourceCategoryId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * Delete resource category
    * @param {*} resourceCategoryId
    * @param {*} token
