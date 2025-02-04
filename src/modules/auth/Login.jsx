@@ -25,7 +25,7 @@ import Global from "@/util/global";
 
 import { snackbar } from "@/util/helper";
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
 
   const { setAuthUser } = useContext(Global);
@@ -179,5 +179,3 @@ function Login() {
     </React.Fragment>
   );
 }
-
-export default Login;

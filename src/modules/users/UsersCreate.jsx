@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -38,7 +38,7 @@ import BranchService from "@/services/BranchService";
 export default function UsersCreate() {
   const navigate = useNavigate();
 
-  const { authUser } = useState(Global);
+  const { authUser } = useContext(Global);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -72,16 +72,21 @@ export default function UsersCreate() {
   };
 
   const handleCreateUser = () => {
-    UserService.create({
-      last_name: user.lastName,
-      first_name: user.firstName,
-      branch_ids: user.branchIds,
-      password: user.password,
-      email: user.email,
-      gender: user.gender,
-      username: user.username,
-      role_name: user.role,
-    })
+    UserService.create(
+      {
+        last_name: user.lastName,
+        first_name: user.firstName,
+        branch_ids: user.branchIds,
+        password: user.password,
+        email: user.email,
+        gender: user.gender,
+        username: user.username,
+        role_name: user.role,
+        user_id: authUser?.id,
+        token: authUser?.token,
+      },
+      authUser?.token
+    )
       .then(() => {
         navigate("/users");
       })
@@ -99,12 +104,12 @@ export default function UsersCreate() {
       });
   };
 
-  const handleGetBranches = () => {
-    BranchService.list({}, authUser?.token)
+  const handleAllBranches = () => {
+    BranchService.all(authUser?.token)
       .then((response) => {
         setBranches({
-          names: response.data.flatMap((branch) => branch.branch_name),
-          list: response.data,
+          names: response.data.branches.flatMap((branch) => branch.name),
+          list: response.data.branches,
         });
       })
       .catch((err) => {
@@ -113,7 +118,7 @@ export default function UsersCreate() {
   };
 
   useEffect(() => {
-    handleGetBranches();
+    handleAllBranches();
   }, []);
 
   return (
@@ -162,7 +167,7 @@ export default function UsersCreate() {
                           sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
                         >
                           {names.map((item, i) => (
-                            <Chip key={i} label={item.branch_name} />
+                            <Chip key={i} label={item.name} />
                           ))}
                         </Box>
                       );
@@ -176,7 +181,7 @@ export default function UsersCreate() {
                   >
                     {branches.list.map((item, i) => (
                       <MenuItem key={i} value={item.id}>
-                        {item.branch_name}
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>

@@ -25,12 +25,15 @@ export default {
    * @param {*} payload
    * @returns
    */
-  create: (payload) => {
+  create: (payload, token) => {
     return axios({
       method: "POST",
       baseURL: url.userService,
-      url: `/admin/users`,
+      url: `/admin/res/users`,
       data: payload,
+      headers: {
+        Authorization: token,
+      },
     });
   },
 

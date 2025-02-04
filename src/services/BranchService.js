@@ -4,8 +4,8 @@ import { url } from "../config/app";
 export default {
   /**
    * List all branches without pagination
-   * @param {*} token 
-   * @returns 
+   * @param {*} token
+   * @returns
    */
   all: (token) => {
     return axios({
