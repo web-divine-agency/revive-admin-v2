@@ -23,7 +23,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import PolicyIcon from '@mui/icons-material/Policy';
+import PolicyIcon from "@mui/icons-material/Policy";
 
 import "./Navigation.scss";
 
@@ -223,21 +223,43 @@ export default function NavSidebar() {
               unmountOnExit
             >
               <List disablePadding>
-                <ListItem>
-                  <Link
-                    to="/resource-categories"
-                    onClick={() => setSidebarActive(false)}
-                  >
-                    Resource Categories
-                  </Link>
-                </ListItem>
+                {authUser?.role_name === "Admin" && (
+                  <ListItem>
+                    <Link
+                      to="/resources-index"
+                      onClick={() => setSidebarActive(false)}
+                    >
+                      List Resources
+                    </Link>
+                  </ListItem>
+                )}
                 {authUser?.role_name === "Admin" && (
                   <ListItem>
                     <Link
                       to="/resources/create"
                       onClick={() => setSidebarActive(false)}
                     >
-                      Add New Resource
+                      Add Resource
+                    </Link>
+                  </ListItem>
+                )}
+                {authUser?.role_name === "Admin" && (
+                  <ListItem>
+                    <Link
+                      to="/resource-categories"
+                      onClick={() => setSidebarActive(false)}
+                    >
+                      List Categories
+                    </Link>
+                  </ListItem>
+                )}
+                {authUser?.role_name === "Admin" && (
+                  <ListItem>
+                    <Link
+                      to="/resource-categories/create"
+                      onClick={() => setSidebarActive(false)}
+                    >
+                      Add Category
                     </Link>
                   </ListItem>
                 )}
@@ -258,10 +280,7 @@ export default function NavSidebar() {
             )}
             {authUser?.role_name === "Admin" && (
               <ListItem>
-                <Link
-                  to="/permissions"
-                  onClick={() => setSidebarActive(false)}
-                >
+                <Link to="/permissions" onClick={() => setSidebarActive(false)}>
                   <PolicyIcon />
                   Permissions
                 </Link>

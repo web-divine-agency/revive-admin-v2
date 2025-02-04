@@ -37,4 +37,22 @@ export default {
       },
     });
   },
+
+  /**
+   * Create resource category
+   * @param {*} payload 
+   * @param {*} token 
+   * @returns 
+   */
+  createCategories: (payload, token) => {
+    return axios({
+      method: "POST",
+      baseURL: url.resourceService,
+      url: `/admin/res/resource-categories`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

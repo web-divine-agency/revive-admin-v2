@@ -54,6 +54,25 @@
   .menu-holder {
     height: calc(100% - 194px);
     overflow-y: auto;
+
+    /* For WebKit Browsers (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   }
 
   .btn-menu {

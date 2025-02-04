@@ -239,9 +239,18 @@ export default function BranchesCreate() {
                     onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
+
                 <Grid size={{ xs: 12 }}>
+                  <Button
+                    onClick={() => navigate("/branches")}
+                    variant="contained"
+                    color="black"
+                    className="mui-btn mui-btn-cancel"
+                  >
+                    Cancel
+                  </Button>
                   <Button type="submit" variant="contained">
-                    Save
+                    Create
                   </Button>
                 </Grid>
               </Grid>

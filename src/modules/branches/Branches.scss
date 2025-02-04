@@ -7,6 +7,12 @@
 #branches-create {
   .MuiPaper-root {
     padding: 24px;
+
+    .mui-btn {
+      &-cancel {
+        margin-right: 8px;
+      }
+    }
   }
 }
 

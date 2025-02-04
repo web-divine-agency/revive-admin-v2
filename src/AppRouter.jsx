@@ -38,9 +38,12 @@ import ResourcesCreate from "./modules/resources/ResourcesCreate";
 import ResourcesRead from "./modules/resources/ResourcesRead";
 import ResourcesUpdate from "./modules/resources/ResourcesUpdate";
 
-import ActivityLogs from "./modules/activity-logs/ActivityLogs";
-import NotFound from "./modules/not-found/NotFound";
 import ResourceCategoriesList from "./modules/resources/ResourceCategoriesList";
+import ResourceCategoriesCreate from "./modules/resources/ResourceCategoriesCreate";
+
+import ActivityLogs from "./modules/activity-logs/ActivityLogs";
+
+import NotFound from "./modules/not-found/NotFound";
 
 export default function AppRouter() {
   const users = (
@@ -85,6 +88,10 @@ export default function AppRouter() {
       <Route path="/staff-view-resource/:slug" element={<ResourcesRead />} />
 
       <Route path="/resource-categories" element={<ResourceCategoriesList />} />
+      <Route
+        path="/resource-categories/create"
+        element={<ResourceCategoriesCreate />}
+      />
     </React.Fragment>
   );
 

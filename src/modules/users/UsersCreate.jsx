@@ -22,6 +22,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./Users.scss";
 
@@ -135,6 +136,14 @@ export default function UsersCreate() {
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  onClick={() => navigate(-1)}
+                  startIcon={<NavigateBeforeIcon />}
+                >
+                  Go Back
+                </Button>
+              </Grid>
               <Grid size={{ xs: 12 }}>
                 <FormControl size="small" fullWidth>
                   <InputLabel id="branches-multiple-chip-label">
@@ -355,9 +364,9 @@ export default function UsersCreate() {
                   )}
                 </FormControl>
               </Grid>
-              <Grid size={{ xs: 12 }} textAlign={"right"}>
+              <Grid size={{ xs: 12 }}>
                 <Button
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/users")}
                   variant="contained"
                   color="black"
                   className="mui-btn mui-btn-cancel"

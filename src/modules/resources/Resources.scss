@@ -67,7 +67,6 @@
   }
 }
 
-
 .resource-delete-modal {
   .mui-btn {
     &-cancel {
@@ -76,4 +75,16 @@
   }
 }
 
+#resource-categories-create {
+  padding-bottom: 64px;
 
+  .MuiPaper-root {
+    padding: 24px;
+
+    .mui-btn {
+      &-cancel {
+        margin-right: 8px;
+      }
+    }
+  }
+}
