@@ -12,13 +12,14 @@ import AppRouter from "./AppRouter";
 
 import Global from "./util/global";
 
-import { LoaderProvider } from "./components/loaders/LoaderContext";
 import { SnackbarProvider } from "notistack";
 
 export default function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
 
-  const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
   const globals = {
     authUser,
@@ -38,10 +39,8 @@ export default function App() {
     <BrowserRouter>
       <ThemeProvider theme={customTheme()}>
         <Global.Provider value={globals}>
-          <LoaderProvider>
-            <AppRouter />
-            <SnackbarProvider anchorOrigin={snackbar.anchorOrigin} />
-          </LoaderProvider>
+          <AppRouter />
+          <SnackbarProvider anchorOrigin={snackbar.anchorOrigin} />
         </Global.Provider>
       </ThemeProvider>
     </BrowserRouter>
@@ -105,7 +104,7 @@ function customTheme() {
         main: blue[900],
         dark: blue[800],
         contrastText: "#fff",
-      }
+      },
     },
   });
 }

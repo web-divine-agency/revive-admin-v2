@@ -24,8 +24,6 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./Resources.scss";
 
-import { useLoader } from "@/components/loaders/LoaderContext";
-
 import { snackbar } from "@/util/helper";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
@@ -50,7 +48,6 @@ export default function ResourcesCreate() {
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
   const [additionalFields, setAdditionalFields] = useState([]);
   const navigate = useNavigate();
-  const { setLoading } = useLoader();
   // eslint-disable-next-line no-unused-vars
   const [showFiles, setShowFiles] = useState(false);
 
@@ -96,7 +93,7 @@ export default function ResourcesCreate() {
     };
 
     fetchUserDetails();
-  }, [setLoading]);
+  }, []);
 
   const buttons = [
     "undo",
@@ -385,8 +382,7 @@ export default function ResourcesCreate() {
                         style={{
                           marginTop: "-240px",
                         }}
-                      >
-                      </button>
+                      ></button>
                     </div>
                   </Grid>
                 ))}

@@ -24,8 +24,6 @@ import BranchesCreate from "./modules/branches/BranchesCreate";
 import BranchesUpdate from "./modules/branches/BranchesUpdate";
 
 import TicketsList from "./modules/tickets/TicketsList";
-import History from "./modules/tickets/History";
-import TicketsHistory from "./modules/tickets/TicketsHistory";
 import TicketsCreate from "./modules/tickets/TicketsCreate";
 import TicketCategory from "./modules/tickets/TicketCategory";
 
@@ -44,82 +42,36 @@ import ActivityLogs from "./modules/activity-logs/ActivityLogs";
 import NotFound from "./modules/not-found/NotFound";
 
 export default function AppRouter() {
-  return (
-    <Routes>
-      <Route element={<Authenticated />}>
-        {users()}
-        {tickets()}
-        {branches()}
-        {resources()}
-        {userRoles()}
-        {permissions()}
-        {logs()}
-        {profile()}
-      </Route>
-
-      <Route element={<AuthRedirect />}>
-        <Route path="/login" element={<Login />} />
-      </Route>
-
-      {resetPassword()}
-
-      {fallback()}
-    </Routes>
-  );
-}
-
-function resetPassword() {
-  return (
-    <React.Fragment>
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route
-        path="/reset-password/:passwordToken"
-        element={<ResetPassword />}
-      />
-      <Route path="/open-email" element={<CheckEmail />} />
-    </React.Fragment>
-  );
-}
-
-function users() {
-  return (
+  const users = (
     <React.Fragment>
       <Route path="/users/:userId" element={<UsersUpdate />} />
       <Route path="/users/create" element={<UsersCreate />} />
       <Route path="/users" element={<UsersList />} />
     </React.Fragment>
   );
-}
 
-function tickets() {
-  return (
+  const tickets = (
     <React.Fragment>
-      <Route path="/tickets-list" element={<TicketsList />} />
+      <Route path="/tickets" element={<TicketsList />} />
       <Route path="/ticket-category" element={<TicketCategory />} />
       <Route path="/templates" element={<TemplatesList />} />
       <Route
         path="/template-access/:userId"
         element={<TemplateAccessUpdate />}
       />
-      <Route path="/tickets" element={<TicketsHistory />} />
-      <Route path="/history" element={<History />} />
       <Route path="/tickets/create" element={<TicketsCreate />} />
     </React.Fragment>
   );
-}
 
-function branches() {
-  return (
+  const branches = (
     <React.Fragment>
       <Route path="/branches" element={<BranchesList />} />
       <Route path="/branches/create" element={<BranchesCreate />} />
       <Route path="/branches/:branchId" element={<BranchesUpdate />} />
     </React.Fragment>
   );
-}
 
-function resources() {
-  return (
+  const resources = (
     <React.Fragment>
       <Route path="/resources/:resourceID" element={<ResourcesRead />} />
       <Route
@@ -132,49 +84,73 @@ function resources() {
       <Route path="/staff-view-resource/:slug" element={<ResourcesRead />} />
     </React.Fragment>
   );
-}
 
-function userRoles() {
-  return (
+  const userRoles = (
     <React.Fragment>
       <Route path="/user-roles/create" element={<UserRolesCreate />} />
       <Route path="/user-roles/:roleId" element={<UserRolesUpdate />} />
       <Route path="/user-roles" element={<UserRolesList />} />
     </React.Fragment>
   );
-}
 
-function permissions() {
-  return (
+  const permissions = (
     <React.Fragment>
       <Route path="/permissions" element={<PermissionsList />} />
       <Route path="/permissions/create" element={<PermissionsCreate />} />
     </React.Fragment>
   );
-}
 
-function logs() {
-  return (
+  const logs = (
     <React.Fragment>
       <Route path="/activity-logs" element={<ActivityLogs />} />
     </React.Fragment>
   );
-}
 
-function profile() {
-  return (
+  const profile = (
     <React.Fragment>
       <Route path="/profile" element={<Profile />} />
     </React.Fragment>
   );
-}
 
-function fallback() {
-  return (
+  const fallback = (
     <React.Fragment>
       <Route path="/not-found" element={<NotFound />} />
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="*" element={<Navigate to="/not-found" />} />
     </React.Fragment>
+  );
+
+  const resetPassword = (
+    <React.Fragment>
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route
+        path="/reset-password/:passwordToken"
+        element={<ResetPassword />}
+      />
+      <Route path="/open-email" element={<CheckEmail />} />
+    </React.Fragment>
+  );
+
+  const authentication = <Route path="/login" element={<Login />} />;
+
+  return (
+    <Routes>
+      <Route element={<Authenticated />}>
+        {users}
+        {tickets}
+        {branches}
+        {resources}
+        {userRoles}
+        {permissions}
+        {logs}
+        {profile}
+      </Route>
+
+      <Route element={<AuthRedirect />}>{authentication}</Route>
+
+      {resetPassword}
+
+      {fallback}
+    </Routes>
   );
 }
