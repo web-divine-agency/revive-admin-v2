@@ -42,7 +42,7 @@ export default function ResourceCategoriesCreate() {
   };
 
   const handleCreateResourceCategory = () => {
-    ResourceService.createCategories(
+    ResourceService.createCategory(
       {
         name: resourceCategory.name,
         description: resourceCategory.description,

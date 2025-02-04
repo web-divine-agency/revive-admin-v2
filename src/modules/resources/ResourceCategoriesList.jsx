@@ -7,6 +7,7 @@ import {
   Button,
   Container,
   IconButton,
+  Modal,
   Paper,
   TableCell,
   TableRow,
@@ -14,7 +15,6 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -38,12 +38,6 @@ export default function ResourceCategoriesList() {
 
   const [selectedResourceCategory, setSelectedResourceCategory] = useState({});
 
-  const [
-    // eslint-disable-next-line no-unused-vars
-    resourceCategoryDetailsModalOpen,
-    setResourceCategoryDetailsModalOpen,
-  ] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [resourceCategoryDeleteModalOpen, setResourceCategoryDeleteModalOpen] =
     useState(false);
 
@@ -64,6 +58,23 @@ export default function ResourceCategoriesList() {
     )
       .then((response) => {
         setResourceCategories(response.data.resource_categories);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  const handleDeleteResourceCategory = () => {
+    ResourceService.deleteCategory(selectedResourceCategory.id, authUser?.token)
+      .then(() => {
+        setResourceCategoryDeleteModalOpen(false);
+        handleListResourceCategories();
       })
       .catch((error) => {
         if (error.code === "ERR_NETWORK") {
@@ -116,20 +127,10 @@ export default function ResourceCategoriesList() {
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.description}</TableCell>
                       <TableCell>
-                        <Tooltip title="View" placement="top">
-                          <IconButton
-                            onClick={() => {
-                              setSelectedResourceCategory(item);
-                              setResourceCategoryDetailsModalOpen(true);
-                            }}
-                          >
-                            <VisibilityIcon color="green" />
-                          </IconButton>
-                        </Tooltip>
                         <Tooltip title="Edit" placement="top">
                           <IconButton
                             component={Link}
-                            to={`/resource-categories/${selectedResourceCategory.id}`}
+                            to={`/resource-categories/${item.id}`}
                           >
                             <EditIcon color="blue" />
                           </IconButton>
@@ -153,6 +154,37 @@ export default function ResourceCategoriesList() {
           </Paper>
         </Container>
       </Box>
+      <Modal
+        open={resourceCategoryDeleteModalOpen}
+        onClose={() => setResourceCategoryDeleteModalOpen(false)}
+        className="user-roles-delete-modal"
+      >
+        <Paper elevation={4} className="modal-holder modal-holder-sm">
+          <Box className="modal-header">
+            <Typography>Delete Resource Category</Typography>
+          </Box>
+          <Box className="modal-body">
+            <Typography className="are-you-sure">Are you sure?</Typography>
+          </Box>
+          <Box className="modal-footer">
+            <Button
+              variant="outlined"
+              color="black"
+              onClick={() => setResourceCategoryDeleteModalOpen(false)}
+              className="mui-btn mui-btn-cancel"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={handleDeleteResourceCategory}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

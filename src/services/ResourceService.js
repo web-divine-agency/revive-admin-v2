@@ -22,8 +22,8 @@ export default {
 
   /**
    * List all resources categories pagination
-   * @param {*} token 
-   * @returns 
+   * @param {*} token
+   * @returns
    */
   allCategories: (token) => {
     return axios({
@@ -60,12 +60,29 @@ export default {
    * @param {*} token
    * @returns
    */
-  createCategories: (payload, token) => {
+  createCategory: (payload, token) => {
     return axios({
       method: "POST",
       baseURL: url.resourceService,
       url: `/admin/res/resource-categories`,
       data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Delete resource category
+   * @param {*} resourceCategoryId
+   * @param {*} token
+   * @returns
+   */
+  deleteCategory: (resourceCategoryId, token) => {
+    return axios({
+      method: "DELETE",
+      baseURL: url.resourceService,
+      url: `/admin/res/resource-categories/${resourceCategoryId}`,
       headers: {
         Authorization: token,
       },
