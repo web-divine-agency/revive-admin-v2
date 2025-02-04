@@ -8,7 +8,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
       min-height: 128px;
       background-color: var(--lime600);
       box-shadow: none;
@@ -16,7 +15,7 @@
       text-decoration: none;
 
       .card-title {
-        color: white;
+        color: black;
         font-size: 1.4rem;
         font-weight: bold;
       }
@@ -54,11 +53,6 @@
   }
 }
 
-.lg-backdrop,
-.lg-outer {
-  z-index: 1200 !important;
-}
-
 #resources-update {
   padding-bottom: 64px;
 
@@ -87,4 +81,9 @@
       }
     }
   }
+}
+
+.lg-backdrop,
+.lg-outer {
+  z-index: 1200 !important;
 }

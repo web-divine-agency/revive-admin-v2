@@ -9,12 +9,9 @@ import {
   Button,
   Container,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   Paper,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
   Typography,
@@ -33,123 +30,96 @@ import ResourceService from "../../services/ResourceService";
 import Global from "../../util/global";
 
 export default function ResourcesCreate() {
+  const navigate = useNavigate();
+
+  const { authUser } = useContext(Global);
+
+  // eslint-disable-next-line no-unused-vars
   const [resources, setResources] = useState([]);
+
   const [formData, setFormData] = useState({
     resource_title: "",
     resource_body: "",
     status: "draft",
     category: " ",
   });
-  const [category, setCategory] = useState({
-    radioButton: "existing",
-    name: "",
-  });
+
+  const [resourceCategories, setResourceCategories] = useState([]);
+
   const [resourceMedia, setResourceMedia] = useState([]);
+
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
+
   const [additionalFields, setAdditionalFields] = useState([]);
-  const navigate = useNavigate();
+
   // eslint-disable-next-line no-unused-vars
   const [showFiles, setShowFiles] = useState(false);
 
-  const editor = useRef(null);
   // eslint-disable-next-line no-unused-vars
   const [viewAsHtml, setViewAsHtml] = useState(false);
 
-  const [role, setRole] = useState("");
-
-  const { authUser } = useContext(Global);
-
   const [resourceBody, setResourceBody] = useState("");
 
-  const handleListResources = () => {
-    ResourceService.list({}, authUser?.token)
-      .then((response) => {
-        let resources = response.data.resource_data.flatMap(
-          (item) => item.category
-        );
+  const editor = useRef(null);
 
-        // Handle duplicates
-        setResources(
-          resources.filter((item, i) => resources.indexOf(item) == i)
-        );
+  const handleAllResourceCategories = () => {
+    ResourceService.allCategories(authUser?.token)
+      .then((response) => {
+        setResourceCategories(response.data.resource_categories);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
   };
 
   useEffect(() => {
-    handleListResources();
+    handleAllResourceCategories();
   }, []);
-
-  useEffect(() => {
-    const fetchUserDetails = () => {
-      try {
-        const response = {};
-        const { roles } = response.data;
-        const role = roles.length > 0 ? roles[0].role_name : "No Role";
-        setRole(role);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, []);
-
-  const buttons = [
-    "undo",
-    "redo",
-    "|",
-    "bold",
-    "strikethrough",
-    "underline",
-    "italic",
-    "|",
-    "superscript",
-    "subscript",
-    "|",
-    "align",
-    "|",
-    "ul",
-    "ol",
-    "outdent",
-    "indent",
-    "|",
-    "font",
-    "fontsize",
-    "brush",
-    "paragraph",
-    "|",
-    "image",
-    "link",
-    "video", // Add video button here
-    "table",
-    "|",
-    "hr",
-    "eraser",
-    "copyformat",
-    "|",
-    "fullsize",
-    "selectall",
-    "print",
-    "|",
-    "source",
-    "|",
-  ];
 
   const config = {
-    readonly: role !== "Admin", // Make editor read-only for non-Admins
+    readonly: false,
     toolbarSticky: false,
     toolbar: true,
     spellcheck: true,
     language: "en",
     toolbarButtonSize: "medium",
     toolbarAdaptive: false,
-    showCharsCounter: true,
-    showWordsCounter: true,
+    showCharsCounter: false,
+    showWordsCounter: false,
     showXPathInStatusbar: false,
-    placeholder: "Start writing your description...",
     multiple: true,
-    buttons: buttons,
+    buttons: [
+      "undo",
+      "redo",
+      "|",
+      "bold",
+      "strikethrough",
+      "underline",
+      "italic",
+      "|",
+      "align",
+      "|",
+      "ul",
+      "ol",
+      "outdent",
+      "indent",
+      "|",
+      "font",
+      "fontsize",
+      "|",
+      "image",
+      "link",
+      "video", // Add video button here
+      "table",
+      "|",
+      "hr",
+    ],
     uploader: {
       insertImageAsBase64URI: true,
     },
@@ -224,28 +194,12 @@ export default function ResourcesCreate() {
       JSON.stringify(additionalFields)
     );
 
-    if (
-      category.radioButton === "new" &&
-      resources.includes(formData.category)
-    ) {
-      snackbar("Resource is existing", "error");
-      setCategory((category) => ({
-        ...category,
-        name: formData.category,
-        radioButton: "existing",
-      }));
-      return;
-    }
-
     // Append media files
     if (resourceMedia && resourceMedia.length > 0) {
       resourceMedia.forEach((file) => {
         formDataToSend.append("resource_media", file);
       });
     }
-
-    // Convert additional fields to JSON and add to form data
-    //formDataToSend.append("additional_fields", JSON.stringify(additionalFields));
   };
 
   return (
@@ -268,7 +222,7 @@ export default function ResourcesCreate() {
                     onClick={() => navigate(-1)}
                     startIcon={<NavigateBeforeIcon />}
                   >
-                    Resources
+                    Go Back
                   </Button>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -276,70 +230,27 @@ export default function ResourcesCreate() {
                     Publish
                   </Button>
                 </Grid>
-                <Grid size={{ xs: 12 }}>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      name="category-buttons-group"
-                      value={category.radioButton}
-                      onChange={({ target }) =>
-                        setCategory((category) => ({
-                          ...category,
-                          radioButton: target.value,
-                        }))
-                      }
+                <Grid size={{ xs: 12, lg: 4 }}>
+                  <FormControl size="small" fullWidth>
+                    <InputLabel id="category-select-label">Category</InputLabel>
+                    <Select
+                      labelId="category-select-label"
+                      id="category-select"
+                      value={formData.category}
+                      name="category"
+                      label="Category"
+                      onChange={handleInputChange}
                     >
-                      <FormControlLabel
-                        value="new"
-                        control={<Radio />}
-                        label="New"
-                      />
-                      <FormControlLabel
-                        value="existing"
-                        control={<Radio />}
-                        label="Existing"
-                      />
-                    </RadioGroup>
+                      <MenuItem value={" "}>&nbsp;</MenuItem>
+                      {resourceCategories.map((item, i) => (
+                        <MenuItem value={item.id} key={i}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </FormControl>
                 </Grid>
-                {category.radioButton === "existing" && (
-                  <Grid size={{ xs: 12 }}>
-                    <FormControl size="small" fullWidth>
-                      <InputLabel id="category-select-label">
-                        Category
-                      </InputLabel>
-                      <Select
-                        labelId="category-select-label"
-                        id="category-select"
-                        value={formData.category}
-                        name="category"
-                        label="Category"
-                        onChange={handleInputChange}
-                      >
-                        <MenuItem value={" "}>&nbsp;</MenuItem>
-                        {resources.map((item, i) => (
-                          <MenuItem value={item} key={i}>
-                            {item}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                )}
-                {category.radioButton === "new" && (
-                  <Grid size={{ xs: 12 }}>
-                    <TextField
-                      fullWidth
-                      type="text"
-                      size="small"
-                      label="New Category"
-                      name="category"
-                      value={formData.category}
-                      onChange={handleInputChange}
-                    />
-                  </Grid>
-                )}
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12, lg: 8 }}>
                   <TextField
                     fullWidth
                     type="text"
@@ -352,7 +263,7 @@ export default function ResourcesCreate() {
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  {role === "Admin" ? (
+                  {authUser?.role_name === "Admin" ? (
                     <JoditEditor
                       ref={editor}
                       value={formData.resource_body}
@@ -366,24 +277,22 @@ export default function ResourcesCreate() {
                   )}
                 </Grid>
                 {additionalFields.map((field, index) => (
-                  <Grid size={{ xs: 12 }} key={index}>
-                    <div style={{ marginBottom: "10px" }} className="mt-5">
-                      <JoditEditor
-                        value={field.content}
-                        config={config}
-                        onBlur={(newContent) =>
-                          handleFieldChange(index, newContent)
-                        }
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-danger float-end"
-                        onClick={() => removeField(index)}
-                        style={{
-                          marginTop: "-240px",
-                        }}
-                      ></button>
-                    </div>
+                  <Grid size={{ xs: 12 }} key={index} textAlign={"right"}>
+                    <JoditEditor
+                      value={field.content}
+                      config={config}
+                      onBlur={(newContent) =>
+                        handleFieldChange(index, newContent)
+                      }
+                    />
+                    <Button
+                      type="button"
+                      variant="outlined"
+                      onClick={() => removeField(index)}
+                      color="red"
+                    >
+                      Remove Field
+                    </Button>
                   </Grid>
                 ))}
                 <Grid size={{ xs: 12 }}>

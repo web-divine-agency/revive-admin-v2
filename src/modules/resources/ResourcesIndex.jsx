@@ -21,34 +21,33 @@ import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
 
 import ResourceService from "@/services/ResourceService";
+import { snackbar } from "../../util/helper";
 
 export default function ResourcesIndex() {
   const navigate = useNavigate();
 
   const { authUser } = useContext(Global);
 
-  const [resources, setResources] = useState([]);
+  const [resourceCategories, setResourceCategories] = useState([]);
 
-  const handleListResources = () => {
-    ResourceService.list({}, authUser?.token)
-      .get("/all-resources")
+  const handleAllResourceCategories = () => {
+    ResourceService.allCategories(authUser?.token)
       .then((response) => {
-        let data = response.data.resource_data;
-
-        // Handle duplicates
-        let r = data.filter((item, i) => {
-          if (i !== data.length && item.category !== data[i + 1]?.category) {
-            return item;
-          }
-        });
-
-        setResources(r);
+        setResourceCategories(response.data.resource_categories);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
   };
 
   useEffect(() => {
-    handleListResources();
+    handleAllResourceCategories();
   }, []);
 
   return (
@@ -61,7 +60,7 @@ export default function ResourcesIndex() {
       <Box component={"section"} id="resources-index" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            Resource Categories
+            Resources
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
@@ -73,15 +72,15 @@ export default function ResourcesIndex() {
                   Add New Resource
                 </Button>
               </Grid>
-              {resources.map((item, i) => (
+              {resourceCategories?.map((item, i) => (
                 <Grid size={{ xs: 12, lg: 4 }} key={i}>
                   <Card
                     component={Link}
-                    to={`/resources?category=${item.category}`}
+                    to={`/resources?category_id=${item.id}&category_name=${item.name}`}
                   >
                     <CardContent>
                       <Typography className="card-title">
-                        {item.category}
+                        {item.name}
                       </Typography>
                     </CardContent>
                   </Card>

@@ -11,9 +11,25 @@ export default {
   list: (params, token) => {
     return axios({
       method: "GET",
-      baseURL: url.userService,
-      url: `/portal/res/resources`,
+      baseURL: url.resourceService,
+      url: `/admin/res/resources`,
       params: params,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * List all resources categories pagination
+   * @param {*} token 
+   * @returns 
+   */
+  allCategories: (token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.resourceService,
+      url: `/admin/fn/resource-categories-all`,
       headers: {
         Authorization: token,
       },
@@ -40,9 +56,9 @@ export default {
 
   /**
    * Create resource category
-   * @param {*} payload 
-   * @param {*} token 
-   * @returns 
+   * @param {*} payload
+   * @param {*} token
+   * @returns
    */
   createCategories: (payload, token) => {
     return axios({
