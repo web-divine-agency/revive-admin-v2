@@ -56,7 +56,7 @@ export default function UsersList() {
   const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
-  const handleListUsers = (page = 1, show = 50, find = "") => {
+  const handleListUsers = (page = 1, show = 50, find = "", sortBy = "") => {
     let branch_id = branches.find(
       (item) => item.name === selectedBranchName
     )?.id;
@@ -66,6 +66,7 @@ export default function UsersList() {
         page: page,
         show: show,
         find: find,
+        sort_by: sortBy,
         role: selectedRoleName,
         branch_id: branch_id,
       },
@@ -211,13 +212,7 @@ export default function UsersList() {
                 >
                   {users?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "20%",
-                        }}
-                      >
+                      <TableCell sx={{ position: "relative", pl: 5 }}>
                         <Box
                           component={"img"}
                           src={
@@ -226,27 +221,24 @@ export default function UsersList() {
                               : "/assets/woman.png"
                           }
                           alt={item.gender}
-                          width={32}
-                          mr={1}
+                          sx={{
+                            width: 32,
+                            height: 32,
+                            position: "absolute",
+                            left: 0,
+                            top: 8,
+                          }}
                         />
-                        <Typography>
-                          {item.first_name} {item.last_name}
-                        </Typography>
+                        {item.last_name}, {item.first_name} 
                       </TableCell>
-                      <TableCell sx={{ width: "10%" }}>
-                        <Typography>{item.role_name}</Typography>
+                      <TableCell>{item.role_name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>
+                        {JSON.parse(item.all_branches)
+                          ?.map((item) => item.name)
+                          .join(", ")}
                       </TableCell>
-                      <TableCell sx={{ width: "20%" }}>
-                        <Typography>{item.email}</Typography>
-                      </TableCell>
-                      <TableCell sx={{ width: "40%" }}>
-                        <Typography>
-                          {JSON.parse(item.all_branches)
-                            ?.map((item) => item.name)
-                            .join(", ")}
-                        </Typography>
-                      </TableCell>
-                      <TableCell sx={{ width: "10%" }}>
+                      <TableCell>
                         <Tooltip title="View" placement="top">
                           <IconButton
                             onClick={() => {

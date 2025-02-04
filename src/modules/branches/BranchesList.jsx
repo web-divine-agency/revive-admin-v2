@@ -9,6 +9,7 @@ import {
   Chip,
   Container,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Modal,
@@ -20,6 +21,9 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./Branches.scss";
 
@@ -66,9 +70,15 @@ export default function BranchesList() {
     return "Closed";
   };
 
-  const handleListBranches = (page = 1, show = 10, find = "") => {
+  const handleListBranches = (page = 1, show = 10, find = "", sortBy = "") => {
     BranchService.list(
-      { page: page, show: show, find: find, name: selectedBranchName },
+      {
+        page: page,
+        show: show,
+        find: find,
+        sort_by: sortBy,
+        name: selectedBranchName,
+      },
       authUser?.token
     )
       .then((response) => {
@@ -166,28 +176,24 @@ export default function BranchesList() {
                   filters={filtersEl}
                   data={branches}
                   tableName="branches"
-                  header={["Name", "Address", "Status", "Operations"]}
+                  header={[
+                    "Name",
+                    "Address",
+                    "Status",
+                    "Operations",
+                    "Actions",
+                  ]}
                   onChangeData={(page, show, find) => {
                     handleListBranches(page, show, find);
                   }}
                 >
                   {branches?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell>
-                        <Tooltip title="View Details" placement="right">
-                          <Button
-                            variant="text"
-                            onClick={() => {
-                              setBranchDetailsModalOpen(true);
-                              setSelectedBranch(item);
-                            }}
-                            className="open-details"
-                          >
-                            {item.name}
-                          </Button>
-                        </Tooltip>
-                      </TableCell>
+                      <TableCell>{item.name}</TableCell>
                       <TableCell>{formatAddress(item)}</TableCell>
+                      <TableCell>
+                        {toAmPm(item.opening)} - {toAmPm(item.closing)}
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label={getStatus(item.opening, item.closing)}
@@ -199,7 +205,34 @@ export default function BranchesList() {
                         />
                       </TableCell>
                       <TableCell>
-                        {toAmPm(item.opening)} - {toAmPm(item.closing)}
+                        <Tooltip title="View" placement="top">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedBranch(item);
+                              setBranchDetailsModalOpen(true);
+                            }}
+                          >
+                            <VisibilityIcon color="green" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit" placement="top">
+                          <IconButton
+                            component={Link}
+                            to={`/branches/${selectedBranch.id}`}
+                          >
+                            <EditIcon color="blue" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete" placement="top">
+                          <IconButton
+                            onClick={() => {
+                              setSelectedBranch(item);
+                              setBranchDeleteModalOpen(true);
+                            }}
+                          >
+                            <DeleteIcon color="red" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))}

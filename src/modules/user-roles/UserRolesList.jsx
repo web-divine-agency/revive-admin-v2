@@ -121,13 +121,13 @@ export default function UserRolesList() {
                 >
                   {roles?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell sx={{ width: "20%" }}>
+                      <TableCell>
                         <Typography>{item.role_name}</Typography>
                       </TableCell>
-                      <TableCell sx={{ width: "70%" }}>
+                      <TableCell>
                         <Typography>{item.role_description}</Typography>
                       </TableCell>
-                      <TableCell sx={{ width: "10%" }}>
+                      <TableCell>
                         <Tooltip title="View" placement="top">
                           <IconButton
                             onClick={() => {
@@ -146,19 +146,19 @@ export default function UserRolesList() {
                             <EditIcon color="blue" />
                           </IconButton>
                         </Tooltip>
-                        {(item.role_name !== "Admin" &&
-                          item.role_name !== "Staff") && (
-                          <Tooltip title="Delete" placement="top">
-                            <IconButton
-                              onClick={() => {
-                                setSelectedUserRole(item);
-                                setUserRolesDeleteModalOpen(true);
-                              }}
-                            >
-                              <DeleteIcon color="red" />
-                            </IconButton>
-                          </Tooltip>
-                        )}
+                        {item.role_name !== "Admin" &&
+                          item.role_name !== "Staff" && (
+                            <Tooltip title="Delete" placement="top">
+                              <IconButton
+                                onClick={() => {
+                                  setSelectedUserRole(item);
+                                  setUserRolesDeleteModalOpen(true);
+                                }}
+                              >
+                                <DeleteIcon color="red" />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                       </TableCell>
                     </TableRow>
                   ))}

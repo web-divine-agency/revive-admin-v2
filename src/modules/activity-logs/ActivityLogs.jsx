@@ -33,8 +33,11 @@ export default function ActivityLogs() {
 
   const [logs, setLogs] = useState([]);
 
-  const handleListLogs = (page = 1, show = 10, find = "") => {
-    LoggerService.list({ page: page, show: show, find: find }, authUser?.token)
+  const handleListLogs = (page = 1, show = 10, find = "", sortBy = "") => {
+    LoggerService.list(
+      { page: page, show: show, find: find, sort_by: sortBy },
+      authUser?.token
+    )
       .then((response) => {
         setLogs(response.data.activity_logs);
       })
@@ -77,23 +80,15 @@ export default function ActivityLogs() {
                 >
                   {logs?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell sx={{ width: "20%" }}>
-                        <Typography>
-                          {item.first_name} {item.last_name}
-                        </Typography>
+                      <TableCell>
+                        {item.first_name} {item.last_name}
                       </TableCell>
-                      <TableCell sx={{ width: "20%" }}>
-                        <Typography>{item.module}</Typography>
-                      </TableCell>
-                      <TableCell sx={{ width: "30%" }}>
-                        <Typography>{item.note}</Typography>
-                      </TableCell>
-                      <TableCell sx={{ width: "20%" }}>
-                        <Typography>
-                          {moment(item.created_at).format(
-                            "DD MMM, YYYY | hh:mm a"
-                          )}
-                        </Typography>
+                      <TableCell>{item.module}</TableCell>
+                      <TableCell>{item.note}</TableCell>
+                      <TableCell>
+                        {moment(item.created_at).format(
+                          "DD MMM, YYYY | hh:mm a"
+                        )}
                       </TableCell>
                       <TableCell sx={{ width: "10%" }}>
                         <Chip
