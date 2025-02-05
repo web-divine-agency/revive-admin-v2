@@ -174,7 +174,7 @@ export default function ResourcesCreate() {
 
     // Append additional fields as JSON string
     formData.append(
-      "additionalFields",
+      "additional_fields",
       JSON.stringify(resource.additionalFields)
     );
 
