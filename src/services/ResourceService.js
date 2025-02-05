@@ -21,6 +21,24 @@ export default {
   },
 
   /**
+   * Create resource
+   * @param {*} payload
+   * @param {*} token
+   * @returns
+   */
+  create: (payload, token) => {
+    return axios({
+      method: "POST",
+      baseURL: url.resourceService,
+      url: `/admin/res/resources`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * List all resources categories pagination
    * @param {*} token
    * @returns

@@ -78,9 +78,9 @@ export default function AppRouter() {
 
   const resources = (
     <React.Fragment>
-      <Route path="/resources/:resourceID" element={<ResourcesRead />} />
+      <Route path="/resources/:resourceSlug" element={<ResourcesRead />} />
       <Route
-        path="/resources/:resourceID/update"
+        path="/resources/:resourceSlug/update"
         element={<ResourcesUpdate />}
       />
       <Route path="/resources/create" element={<ResourcesCreate />} />
@@ -90,7 +90,7 @@ export default function AppRouter() {
 
       <Route path="/resource-categories" element={<ResourceCategoriesList />} />
       <Route
-        path="/resource-categories/:resourceCategoryId"
+        path="/resource-categories/:resourceCategoryId/update"
         element={<ResourceCategoriesUpdate />}
       />
       <Route

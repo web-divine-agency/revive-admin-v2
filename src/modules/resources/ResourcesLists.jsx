@@ -114,15 +114,7 @@ function ResourcesLists() {
                 >
                   {resources?.list?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell>
-                        <Link
-                          to={`/resources/${item.id}?category=${decodeURI(
-                            searchParams.get("category")
-                          )}`}
-                        >
-                          {item.title}
-                        </Link>
-                      </TableCell>
+                      <TableCell>{item.title}</TableCell>
                       <TableCell>
                         {item.first_name} {item.last_name}
                       </TableCell>
@@ -132,12 +124,18 @@ function ResourcesLists() {
                       </TableCell>
                       <TableCell>
                         <Tooltip title="View" placement="top">
-                          <IconButton component={Link} to={`/`}>
+                          <IconButton
+                            component={Link}
+                            to={`/resources/${item.slug}`}
+                          >
                             <VisibilityIcon color="green" />
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="Edit" placement="top">
-                          <IconButton component={Link} to={`/`}>
+                          <IconButton
+                            component={Link}
+                            to={`/resources/${item.slug}/update`}
+                          >
                             <EditIcon color="blue" />
                           </IconButton>
                         </Tooltip>

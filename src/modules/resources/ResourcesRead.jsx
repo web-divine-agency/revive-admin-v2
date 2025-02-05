@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Link,
   useNavigate,
@@ -28,30 +28,42 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 import "./Resources.scss";
 
+import Global from "@/util/global";
+
 import NavTopbar from "@/components/navigation/NavTopbar.jsx";
 import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 
 export default function ResourcesRead() {
+  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
 
-  const { resourceID } = useParams();
-  const { slug } = useParams();
-  const [role, setRole] = useState("");
-  const navigate = useNavigate();
+  const { resourceSlug } = useParams();
+
+  const { authUser } = useContext(Global);
+
   const [isModalOpen, setModalOpen] = useState(false);
+
   const [selectedMedia, setSelectedMedia] = useState("");
 
   const [additionalFields, setAdditionalFields] = useState([]);
+
   const [resourceTitle, setResourceTitle] = useState("");
+
   const [resourceBody, setResourceBody] = useState("");
+
   // eslint-disable-next-line no-unused-vars
   const [resourceCategory, setResourceCategory] = useState("");
+
   const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
+
   const [resourceMedia, setResourceMedia] = useState(null);
 
   const [userFetched, setUserFetched] = useState(false);
 
   const [resourceDeleteModalOpen, setResourceDeleteModalOpen] = useState(false);
+
+  const [resource, setResource] = useState({});
 
   // eslint-disable-next-line no-unused-vars
   const openModal = (mediaSrc) => {
@@ -64,71 +76,9 @@ export default function ResourcesRead() {
     setSelectedMedia(null);
   };
 
-  const handleDeleteResource = async (resourceID, slug) => {
-    try {
-      const url =
-        role === "Admin"
-          ? `/delete-resource/${resourceID}`
-          : `/delete-resource/${slug}`;
+  const handleDeleteResource = () => {};
 
-      console.log(`delete ${url}`);
-
-      navigate(
-        `/resources?category=${decodeURI(searchParams.get("category"))}`
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const response = {};
-        const { roles } = response.data;
-        const roleName = roles.length > 0 ? roles[0].role_name : "No Role";
-        setRole(roleName);
-        setUserFetched(true);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    };
-    fetchUserDetails();
-  });
-
-  useEffect(() => {
-    // Only fetch resource details if user details are fetched and delay by 2 seconds
-    if (userFetched) {
-      const timer = setTimeout(async () => {
-        try {
-          const url =
-            role === "Admin"
-              ? `/resource/${resourceID}`
-              : `/resource/${resourceID}`;
-
-          console.log(`get ${url}`);
-          const response = {};
-          const resourceData = response.data.resource_data;
-          setResourceTitle(resourceData?.resource_title || "");
-          setResourceBody(resourceData?.resource_body || "");
-          setResourceCategory(resourceData?.category || "");
-          const parsedFields = JSON.parse(
-            resourceData?.additional_fields || "[]"
-          );
-          setAdditionalFields(parsedFields);
-          setResourceMedia(JSON.parse(resourceData?.resource_media || "[]"));
-          setSelectedResourceMedia(
-            JSON.parse(resourceData?.resource_media || "[]")
-          );
-          console.log(selectedResourceMedia);
-        } catch (error) {
-          console.error("Error fetching resource details:", error);
-        }
-      }, 1000); // Delay fetch by 2 seconds
-
-      return () => clearTimeout(timer); // Cleanup timer if component unmounts or effect re-runs
-    }
-  }, [userFetched, role]);
+  const handleReadResourceBySlug = () => {};
 
   return (
     <React.Fragment>
@@ -154,11 +104,11 @@ export default function ResourcesRead() {
               </Grid>
               <Grid size={{ xs: 12 }}>
                 {role === "Admin" && (
-                  <>
+                  <React.Fragment>
                     <Button
                       variant="contained"
                       component={Link}
-                      to={`/resources/${resourceID}/update`}
+                      to={`/resources/${resourceSlug}/update`}
                       className="mui-btn mui-btn-edit"
                     >
                       Edit Resource
@@ -170,7 +120,7 @@ export default function ResourcesRead() {
                     >
                       Delete Resource
                     </Button>
-                  </>
+                  </React.Fragment>
                 )}
               </Grid>
               <Grid size={{ xs: 12 }}>

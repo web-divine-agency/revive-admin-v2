@@ -130,7 +130,7 @@ export default function ResourceCategoriesList() {
                         <Tooltip title="Edit" placement="top">
                           <IconButton
                             component={Link}
-                            to={`/resource-categories/${item.id}`}
+                            to={`/resource-categories/${item.id}/update`}
                           >
                             <EditIcon color="blue" />
                           </IconButton>
