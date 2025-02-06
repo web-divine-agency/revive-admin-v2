@@ -39,6 +39,23 @@ export default {
   },
 
   /**
+   * Read resource
+   * @param {*} resourceSlug 
+   * @param {*} token 
+   * @returns 
+   */
+  read: (resourceSlug, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.resourceService,
+      url: `/admin/res/resources/${resourceSlug}`,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
    * List all resources categories pagination
    * @param {*} token
    * @returns

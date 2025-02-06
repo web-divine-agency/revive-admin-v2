@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import ReactPlayer from "react-player";
 import LightGallery from "lightgallery/react";
 
 import "lightgallery/css/lightgallery.css";
@@ -29,56 +23,76 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import "./Resources.scss";
 
 import Global from "@/util/global";
+import { snackbar } from "@/util/helper";
+
+import { url } from "@/config/app";
 
 import NavTopbar from "@/components/navigation/NavTopbar.jsx";
 import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 
+import ResourceService from "@/services/ResourceService";
+
 export default function ResourcesRead() {
   const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
 
   const { resourceSlug } = useParams();
 
   const { authUser } = useContext(Global);
 
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const [selectedMedia, setSelectedMedia] = useState("");
-
-  const [additionalFields, setAdditionalFields] = useState([]);
-
-  const [resourceTitle, setResourceTitle] = useState("");
-
-  const [resourceBody, setResourceBody] = useState("");
-
-  // eslint-disable-next-line no-unused-vars
-  const [resourceCategory, setResourceCategory] = useState("");
-
-  const [selectedResourceMedia, setSelectedResourceMedia] = useState([]);
-
-  const [resourceMedia, setResourceMedia] = useState(null);
-
-  const [userFetched, setUserFetched] = useState(false);
-
   const [resourceDeleteModalOpen, setResourceDeleteModalOpen] = useState(false);
 
-  const [resource, setResource] = useState({});
-
-  // eslint-disable-next-line no-unused-vars
-  const openModal = (mediaSrc) => {
-    setSelectedMedia(mediaSrc);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setSelectedMedia(null);
-  };
+  const [resource, setResource] = useState({
+    resourceId: "",
+    categoryId: "",
+    userId: "",
+    title: "",
+    slug: "",
+    body: "",
+    additionalFields: [],
+    media: [],
+    link: "",
+    status: [],
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
 
   const handleDeleteResource = () => {};
 
-  const handleReadResourceBySlug = () => {};
+  const handleReadResourceBySlug = () => {
+    ResourceService.read(resourceSlug, authUser?.token)
+      .then((response) => {
+        setResource({
+          resourceId: response.data.resource.resource_id,
+          categoryId: response.data.resource.category_id,
+          userId: response.data.resource.user_id,
+          title: response.data.resource.title,
+          slug: response.data.resource.slug,
+          body: response.data.resource.body,
+          additionalFields:
+            JSON.parse(response.data.resource.additional_fields) || [],
+          media: JSON.parse(response.data.resource.media) || [],
+          link: response.data.resource.link,
+          status: response.data.resource.status,
+          firstName: response.data.resource.first_name,
+          lastName: response.data.resource.last_name,
+          email: response.data.resource.email,
+        });
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
+  useEffect(() => {
+    handleReadResourceBySlug();
+  }, []);
 
   return (
     <React.Fragment>
@@ -90,7 +104,7 @@ export default function ResourcesRead() {
       <Box component={"section"} id="resources-read" className="panel">
         <Container maxWidth="false">
           <Typography component={"h1"} className="section-title">
-            {resourceTitle}
+            {resource.title}
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
@@ -99,11 +113,11 @@ export default function ResourcesRead() {
                   onClick={() => navigate(-1)}
                   startIcon={<NavigateBeforeIcon />}
                 >
-                  Resources
+                  Go Back
                 </Button>
               </Grid>
               <Grid size={{ xs: 12 }}>
-                {role === "Admin" && (
+                {authUser?.role_name === "Admin" && (
                   <React.Fragment>
                     <Button
                       variant="contained"
@@ -125,45 +139,42 @@ export default function ResourcesRead() {
               </Grid>
               <Grid size={{ xs: 12 }}>
                 <Typography className="section-heading">
-                  {resourceTitle}
+                  {resource.title}
                 </Typography>
               </Grid>
               <Grid size={{ xs: 12 }}>
                 <div
                   className="resoruce-iamge-content"
-                  dangerouslySetInnerHTML={{ __html: resourceBody }}
+                  dangerouslySetInnerHTML={{ __html: resource.body }}
                 ></div>
               </Grid>
-              {additionalFields.map((field, index) => (
+              {resource.additionalFields.map((field, index) => (
                 <Grid
                   size={{ xs: 12 }}
                   key={index}
                   dangerouslySetInnerHTML={{ __html: field.content }}
                 ></Grid>
               ))}
-              {resourceMedia &&
-                resourceMedia.some((media) =>
-                  media.match(/\.(jpg|jpeg|png|gif)$/i)
-                ) && (
-                  <Grid size={{ xs: 12 }}>
-                    <Typography className="section-heading">
-                      Image Gallery
-                    </Typography>
-                  </Grid>
-                )}
-              {resourceMedia && (
+              {resource.media.length && (
+                <Grid size={{ xs: 12 }}>
+                  <Typography className="section-heading">
+                    Image Gallery
+                  </Typography>
+                </Grid>
+              )}
+              {resource.media.length && (
                 <LightGallery thumbnail={true}>
-                  {resourceMedia
-                    .filter((media) => media.match(/\.(jpg|jpeg|png|gif)$/i))
-                    .map((media, i) => (
+                  {resource.media
+                    .filter((file) => file.mimetype.includes("image"))
+                    .map((file, i) => (
                       <React.Fragment key={i}>
                         <Box
                           component={"a"}
-                          href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                          href={`${url.resourceService}${file.url}`}
                         >
                           <Box
                             component={"img"}
-                            src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
+                            src={`${url.resourceService}${file.url}`}
                             alt={`Resource Image ${i + 1}`}
                             sx={{
                               m: "auto",
@@ -176,82 +187,6 @@ export default function ResourcesRead() {
                       </React.Fragment>
                     ))}
                 </LightGallery>
-              )}
-
-              {/* Video Gallery using ReactPlayer */}
-              {resourceMedia &&
-                resourceMedia.some((media) =>
-                  media.match(/\.(mp4|mkv|avi)$/i)
-                ) && (
-                  <div>
-                    <h3>Video Gallery:</h3>
-                    <div className="video-gallery">
-                      {resourceMedia
-                        .filter((media) => media.match(/\.(mp4|mkv|avi)$/i))
-                        .map((media, index) => (
-                          <div key={index} className="video-item">
-                            {/* <ReactPlayer
-                              url={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                              width="100%"
-                              height="auto"
-                              controls
-                              onClick={() => handleViewResource(resource.id, resource.resource_link)}
-                            /> */}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                )}
-
-              {/* PDF Viewer */}
-              {resourceMedia &&
-                resourceMedia.some((media) => media.endsWith(".pdf")) && (
-                  <h3>Other Documents:</h3>
-                )}
-              <div className="image-grid">
-                {resourceMedia &&
-                  resourceMedia.map((media, index) =>
-                    media.endsWith(".pdf") ? (
-                      <>
-                        <embed
-                          key={index}
-                          src={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          type="application/pdf"
-                          width="150%"
-                          height="600px"
-                          title="PDF Document"
-                          className="embedded-pdf"
-                        />
-                        <a
-                          href={`https://dev.server.revivepharmacyportal.com.au/uploads/${media}`}
-                          download
-                          className="pdf-download-link mobile-only"
-                        >
-                          Download PDF
-                        </a>
-                      </>
-                    ) : null
-                  )}
-              </div>
-
-              {/* Modal for Video */}
-              {isModalOpen && (
-                <div className="modal-overlay" onClick={closeModal}>
-                  <span className="close-button" onClick={closeModal}>
-                    &times;
-                  </span>
-                  <div
-                    className="modal-content-resource"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <ReactPlayer
-                      url={selectedMedia}
-                      width="100%"
-                      height="auto"
-                      controls
-                    />
-                  </div>
-                </div>
               )}
             </Grid>
           </Paper>
@@ -281,7 +216,7 @@ export default function ResourcesRead() {
             <Button
               variant="contained"
               color="red"
-              onClick={() => handleDeleteResource(resourceID, slug)}
+              onClick={() => handleDeleteResource()}
             >
               Delete
             </Button>
