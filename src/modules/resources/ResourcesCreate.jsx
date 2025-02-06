@@ -9,6 +9,7 @@ import {
   Button,
   Container,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Paper,
@@ -43,7 +44,7 @@ export default function ResourcesCreate() {
     additionalFields: [],
     link: "",
     status: "draft",
-    categoryId: " ",
+    categoryId: "",
   });
 
   const [resourceCategories, setResourceCategories] = useState([]);
@@ -165,9 +166,16 @@ export default function ResourcesCreate() {
   const handleCreateResource = () => {
     const formData = new FormData();
 
+    let slug = resource.title
+      .toLowerCase() // Convert to lowercase
+      .trim() // Trim leading and trailing spaces
+      .replace(/[\s\W-]+/g, "-") // Replace spaces and non-word characters with hyphens
+      .replace(/^-+|-+$/g, ""); // Remove leading and trailing hyphens
+
     formData.append("category_id", resource.categoryId);
     formData.append("user_id", authUser?.id);
     formData.append("title", resource.title);
+    formData.append("slug", slug);
     formData.append("body", resource.body);
     formData.append("link", resource.link);
     formData.append("status", resource.status);
@@ -185,11 +193,26 @@ export default function ResourcesCreate() {
 
     // Send FormData to backend
     ResourceService.create(formData, authUser?.token)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        let category = resourceCategories.find(
+          (item) => item.id === resource.categoryId
+        );
+
+        navigate(
+          `/resources?category_id=${category.id}&category_name=${category.name}`
+        );
       })
       .catch((error) => {
-        console.error(error);
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
@@ -237,7 +260,11 @@ export default function ResourcesCreate() {
                 </Button>
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl size="small" fullWidth>
+                <FormControl
+                  size="small"
+                  fullWidth
+                  error={"category_id" in errors}
+                >
                   <InputLabel id="category-select-label">Category</InputLabel>
                   <Select
                     labelId="category-select-label"
@@ -246,14 +273,18 @@ export default function ResourcesCreate() {
                     name="categoryId"
                     label="Category"
                     onChange={handleOnChange}
+                    onClick={() => handleError("category_id")}
                   >
-                    <MenuItem value={" "}>&nbsp;</MenuItem>
+                    <MenuItem value={""}>&nbsp;</MenuItem>
                     {resourceCategories.map((item, i) => (
                       <MenuItem value={item.id} key={i}>
                         {item.name}
                       </MenuItem>
                     ))}
                   </Select>
+                  {"category_id" in errors && (
+                    <FormHelperText>{errors["category_id"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12, lg: 8 }}>
@@ -265,6 +296,17 @@ export default function ResourcesCreate() {
                   name="title"
                   value={resource.title}
                   onChange={handleOnChange}
+                  onClick={() =>
+                    "title" in errors
+                      ? handleError("title")
+                      : handleError("slug")
+                  }
+                  error={"title" in errors || "slug" in errors}
+                  helperText={
+                    "title" in errors || "slug" in errors
+                      ? errors["title"] || errors["slug"]
+                      : ""
+                  }
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
