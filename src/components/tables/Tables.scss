@@ -129,4 +129,12 @@
       }
     }
   }
+
+  #table-default {
+    .pagination {
+      .page-control {
+        justify-content: flex-end;
+      }
+    }
+  }
 }

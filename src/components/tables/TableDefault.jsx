@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Box,
   Button,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -14,11 +13,11 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import "./Tables.scss";
+import moment from "moment";
 
 export default function TableDefault({
   data,
@@ -31,17 +30,33 @@ export default function TableDefault({
   filter,
   filters,
 }) {
-  const [page, setPage] = useState(1);
-  const [show, setShow] = useState(10);
+  const [show, setShow] = useState(5);
   const [find, setFind] = useState("");
 
   const handleSearch = () => {
-    onChangeData(page, show, find);
+    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", show, find);
+  };
+
+  const handleNext = () => {
+    let last =
+      data[data.length - 1]?.created_at_order ||
+      moment().format("YYYYMMDDhhmmss");
+    onChangeData(last, "next", show, find);
+  };
+
+  const handlePrev = () => {
+    let last = data[0]?.created_at_order || moment().format("YYYYMMDDhhmmss");
+    onChangeData(last, "prev", show, find);
+  };
+
+  const handleRefresh = () => {
+    setFind("");
+    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", 5, "");
   };
 
   useEffect(() => {
-    onChangeData(page, show, find);
-  }, [page, show]);
+    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", show, find);
+  }, [show]);
 
   return (
     <Box id="table-default">
@@ -64,89 +79,97 @@ export default function TableDefault({
           )}
         </Box>
         <Box className="table-holder">
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                {header?.map((item, i) => (
-                  <TableCell key={i}>{item}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>{children}</TableBody>
-          </Table>
+          {data.length ? (
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  {header?.map((item, i) => (
+                    <TableCell key={i}>{item}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>{children}</TableBody>
+            </Table>
+          ) : (
+            <React.Fragment>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: 256,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={handleRefresh}
+                  color="black"
+                  startIcon={<RefreshIcon />}
+                >
+                  Refresh
+                </Button>
+              </Box>
+            </React.Fragment>
+          )}
         </Box>
         {pagination && (
           <Box className="pagination">
             <Box className="show-control">
               <Typography>Showing</Typography>
               <Button
-                variant="outlined"
+                variant={show === 5 ? "contained" : "outlined"}
                 color="black"
-                onClick={() => {
-                  setShow(10);
-                  setPage(1);
-                }}
+                disabled={!data.length}
+                onClick={() => setShow(5)}
+              >
+                5
+              </Button>
+              <Button
+                variant={show === 10 ? "contained" : "outlined"}
+                color="black"
+                disabled={!data.length}
+                onClick={() => setShow(10)}
               >
                 10
               </Button>
               <Button
-                variant="outlined"
+                variant={show === 25 ? "contained" : "outlined"}
                 color="black"
-                onClick={() => {
-                  setShow(25);
-                  setPage(1);
-                }}
+                disabled={!data.length}
+                onClick={() => setShow(25)}
               >
                 25
               </Button>
               <Button
-                variant="outlined"
+                variant={show === 50 ? "contained" : "outlined"}
                 color="black"
-                onClick={() => {
-                  setShow(50);
-                  setPage(1);
-                }}
+                disabled={!data.length}
+                onClick={() => setShow(50)}
               >
                 50
               </Button>
             </Box>
             <Box className="page-control">
-              <IconButton
-                disabled={!data?.prev_page}
-                onClick={() => setPage(data?.first_page)}
-              >
-                <KeyboardDoubleArrowLeftIcon />
-              </IconButton>
-              <IconButton
-                disabled={!data?.prev_page}
-                onClick={() => setPage(page - 1)}
-              >
-                <KeyboardArrowLeftIcon />
-              </IconButton>
-              <Box
-                component="select"
-                value={page}
-                onChange={(event) => setPage(parseInt(event.target.value))}
-              >
-                {[...Array(data?.pages)].map((item, i) => (
-                  <Box component="option" value={item} key={i}>
-                    {i + 1}
-                  </Box>
-                ))}
-              </Box>
-              of {data?.pages}
-              <IconButton
-                disabled={!data?.next_page}
-                onClick={() => setPage(page + 1)}
-              >
-                <KeyboardArrowRightIcon />
-              </IconButton>
-              <IconButton
-                disabled={!data?.next_page}
-                onClick={() => setPage(data?.last_page)}
-              >
-                <KeyboardDoubleArrowRightIcon />
-              </IconButton>
+              <React.Fragment>
+                <Button
+                  variant="outlined"
+                  disabled={!data.length}
+                  onClick={handlePrev}
+                  color="black"
+                  startIcon={<KeyboardArrowLeftIcon />}
+                >
+                  BACK
+                </Button>
+                <Button
+                  variant="outlined"
+                  disabled={!data.length}
+                  onClick={handleNext}
+                  color="black"
+                  endIcon={<KeyboardArrowRightIcon />}
+                >
+                  NEXT
+                </Button>
+              </React.Fragment>
             </Box>
           </Box>
         )}

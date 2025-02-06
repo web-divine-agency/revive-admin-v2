@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import {
   Box,
@@ -56,17 +57,17 @@ export default function UsersList() {
   const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
-  const handleListUsers = (page = 1, show = 50, find = "", sortBy = "") => {
+  const handleListUsers = (last, dir = "next", show = 5, find = "") => {
     let branch_id = branches.find(
       (item) => item.name === selectedBranchName
     )?.id;
 
     UserService.list(
       {
-        page: page,
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        dir: dir,
         show: show,
         find: find,
-        sort_by: sortBy,
         role: selectedRoleName,
         branch_id: branch_id,
       },
@@ -124,7 +125,7 @@ export default function UsersList() {
   }, []);
 
   useEffect(() => {
-    handleListUsers(1, 10, "");
+    handleListUsers();
   }, [selectedRoleName, selectedBranchName]);
 
   const handleDeleteUser = () => {
@@ -206,11 +207,11 @@ export default function UsersList() {
                   data={users}
                   tableName="users"
                   header={["Name", "Role", "Email", "Branches", "Actions"]}
-                  onChangeData={(page, show, find) =>
-                    handleListUsers(page, show, find)
+                  onChangeData={(last, dir, show, find) =>
+                    handleListUsers(last, dir, show, find)
                   }
                 >
-                  {users?.list?.map((item, i) => (
+                  {users?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell sx={{ position: "relative", pl: 5 }}>
                         <Box
@@ -229,7 +230,7 @@ export default function UsersList() {
                             top: 8,
                           }}
                         />
-                        {item.last_name}, {item.first_name} 
+                        {item.last_name}, {item.first_name}
                       </TableCell>
                       <TableCell>{item.role_name}</TableCell>
                       <TableCell>{item.email}</TableCell>
