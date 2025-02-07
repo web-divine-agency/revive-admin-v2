@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import {
   Box,
@@ -47,8 +47,16 @@ export default function UserRolesList() {
   const [userRolesDeleteModalOpen, setUserRolesDeleteModalOpen] =
     useState(false);
 
-  const handleListUserRoles = (page = 1, show = 10) => {
-    RoleService.list({ page: page, show: show }, authUser?.token)
+  const handleListUserRoles = (last, direction, show, find) => {
+    RoleService.list(
+      {
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
+      },
+      authUser?.token
+    )
       .then((response) => {
         setRoles(response.data.roles);
       })
@@ -115,11 +123,11 @@ export default function UserRolesList() {
                   data={roles}
                   tableName="roles"
                   header={["Name", "Description", "Actions"]}
-                  onChangeData={(page, show, find) => {
-                    handleListUserRoles(page, show, find);
+                  onChangeData={(last, direction, show, find) => {
+                    handleListUserRoles(last, direction, show, find);
                   }}
                 >
-                  {roles?.list?.map((item, i) => (
+                  {roles?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell>
                         <Typography>{item.role_name}</Typography>

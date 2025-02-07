@@ -39,14 +39,14 @@ function ResourcesLists() {
 
   const [resources, setResources] = useState([]);
 
-  const handleListResources = (page = 1, show = 10, find = "", sortBy = "") => {
+  const handleListResources = (last, direction, show, find) => {
     ResourceService.list(
       {
         category_id: searchParams.get("category_id"),
-        page: page,
-        show: show,
-        find: find,
-        sort_by: sortBy,
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
       },
       authUser?.token
     )
@@ -63,10 +63,6 @@ function ResourcesLists() {
         }
       });
   };
-
-  useEffect(() => {
-    handleListResources();
-  }, []);
 
   useEffect(() => {
     handleListResources();
@@ -108,11 +104,11 @@ function ResourcesLists() {
                     "Last Update",
                     "Actions",
                   ]}
-                  onChangeData={(page, show, find) => () => {
-                    handleListResources(page, show, find);
+                  onChangeData={(last, direction, show, find) => {
+                    handleListResources(last, direction, show, find);
                   }}
                 >
-                  {resources?.list?.map((item, i) => (
+                  {resources?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell>{item.title}</TableCell>
                       <TableCell>

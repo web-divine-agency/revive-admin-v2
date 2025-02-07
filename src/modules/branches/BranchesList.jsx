@@ -70,13 +70,13 @@ export default function BranchesList() {
     return "Closed";
   };
 
-  const handleListBranches = (page = 1, show = 10, find = "", sortBy = "") => {
+  const handleListBranches = (last, direction, show, find) => {
     BranchService.list(
       {
-        page: page,
-        show: show,
-        find: find,
-        sort_by: sortBy,
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
         name: selectedBranchName,
       },
       authUser?.token
@@ -116,7 +116,7 @@ export default function BranchesList() {
   }, []);
 
   useEffect(() => {
-    handleListBranches(1, 10, "");
+    handleListBranches();
   }, [selectedBranchName]);
 
   const filtersEl = (
@@ -183,11 +183,11 @@ export default function BranchesList() {
                     "Operations",
                     "Actions",
                   ]}
-                  onChangeData={(page, show, find) => {
-                    handleListBranches(page, show, find);
+                  onChangeData={(last, direction, show, find) => {
+                    handleListBranches(last, direction, show, find);
                   }}
                 >
-                  {branches?.list?.map((item, i) => (
+                  {branches?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{formatAddress(item)}</TableCell>

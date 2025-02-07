@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import {
   Box,
@@ -41,18 +42,13 @@ export default function ResourceCategoriesList() {
   const [resourceCategoryDeleteModalOpen, setResourceCategoryDeleteModalOpen] =
     useState(false);
 
-  const handleListResourceCategories = (
-    page = 1,
-    show = 10,
-    find = "",
-    sortBy = ""
-  ) => {
+  const handleListResourceCategories = (last, direction, show, find) => {
     ResourceService.listCategories(
       {
-        page: page,
-        show: show,
-        find: find,
-        sort_by: sortBy,
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
       },
       authUser?.token
     )
@@ -118,11 +114,11 @@ export default function ResourceCategoriesList() {
                   data={resourceCategories}
                   tableName="resource categories"
                   header={["Name", "Description", "Actions"]}
-                  onChangeData={(page, show, find) =>
-                    handleListResourceCategories(page, show, find)
+                  onChangeData={(last, direction, show, find) =>
+                    handleListResourceCategories(last, direction, show, find)
                   }
                 >
-                  {resourceCategories?.list?.map((item, i) => (
+                  {resourceCategories?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.description}</TableCell>

@@ -57,7 +57,7 @@ export default function UsersList() {
   const [userDeleteModalOpen, setUserDeleteModalOpen] = useState(false);
   const [userDetailsModalOpen, setUserDetailsModalOpen] = useState(false);
 
-  const handleListUsers = (last, dir = "next", show = 5, find = "") => {
+  const handleListUsers = (last, direction, show, find) => {
     let branch_id = branches.find(
       (item) => item.name === selectedBranchName
     )?.id;
@@ -65,9 +65,9 @@ export default function UsersList() {
     UserService.list(
       {
         last: last || moment().format("YYYYMMDDhhmmss"),
-        dir: dir,
-        show: show,
-        find: find,
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
         role: selectedRoleName,
         branch_id: branch_id,
       },

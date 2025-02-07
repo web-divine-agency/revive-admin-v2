@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import moment from "moment";
 
 import {
   Box,
@@ -42,9 +43,14 @@ export default function PermissionsList() {
   const [permissionDeleteModalOpen, setPermissionDeleteModalOpen] =
     useState(false);
 
-  const handleListPermissions = (page = 1, show = 10, find = "") => {
+  const handleListPermissions = (last, direction, show, find) => {
     PermissionService.list(
-      { page: page, show: show, find: find },
+      {
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
+      },
       authUser?.token
     )
       .then((response) => {
@@ -94,19 +100,19 @@ export default function PermissionsList() {
                   data={permissions}
                   tableName="permissions"
                   header={["Name", "Description", "Actions"]}
-                  onChangeData={(page, show, find) => {
-                    handleListPermissions(page, show, find);
+                  onChangeData={(last, direction, show, find) => {
+                    handleListPermissions(last, direction, show, find);
                   }}
                 >
-                  {permissions?.list?.map((item, i) => (
+                  {permissions?.map((item, i) => (
                     <TableRow key={i}>
-                      <TableCell sx={{ width: "30%" }}>
+                      <TableCell>
                         <Typography>{item.name}</Typography>
                       </TableCell>
-                      <TableCell sx={{ width: "60%" }}>
+                      <TableCell>
                         <Typography>{item.description}</Typography>
                       </TableCell>
-                      <TableCell sx={{ width: "10%" }}>
+                      <TableCell>
                         <Tooltip title="Edit" placement="top">
                           <IconButton
                             component={Link}

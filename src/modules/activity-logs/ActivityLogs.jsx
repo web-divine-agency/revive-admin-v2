@@ -33,9 +33,14 @@ export default function ActivityLogs() {
 
   const [logs, setLogs] = useState([]);
 
-  const handleListLogs = (page = 1, show = 10, find = "", sortBy = "") => {
+  const handleListLogs = (last, direction, show, find) => {
     LoggerService.list(
-      { page: page, show: show, find: find, sort_by: sortBy },
+      {
+        last: last || moment().format("YYYYMMDDhhmmss"),
+        direction: direction || "next",
+        show: show || 5,
+        find: find || "",
+      },
       authUser?.token
     )
       .then((response) => {
@@ -72,13 +77,13 @@ export default function ActivityLogs() {
                   pagination={true}
                   filter={false}
                   data={logs}
-                  tableName="roles"
+                  tableName="activities"
                   header={["User", "Module", "Note", "Date", "User Status"]}
-                  onChangeData={(page, show, find) => {
-                    handleListLogs(page, show, find);
+                  onChangeData={(last, direction, show, find) => {
+                    handleListLogs(last, direction, show, find);
                   }}
                 >
-                  {logs?.list?.map((item, i) => (
+                  {logs?.map((item, i) => (
                     <TableRow key={i}>
                       <TableCell>
                         {item.first_name} {item.last_name}

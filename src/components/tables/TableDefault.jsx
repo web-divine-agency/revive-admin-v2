@@ -39,7 +39,7 @@ export default function TableDefault({
 
   const handleNext = () => {
     let last =
-      data[data.length - 1]?.created_at_order ||
+      data[data?.length - 1]?.created_at_order ||
       moment().format("YYYYMMDDhhmmss");
     onChangeData(last, "next", show, find);
   };
@@ -51,6 +51,7 @@ export default function TableDefault({
 
   const handleRefresh = () => {
     setFind("");
+    setShow(5);
     onChangeData(moment().format("YYYYMMDDhhmmss"), "next", 5, "");
   };
 
@@ -79,7 +80,7 @@ export default function TableDefault({
           )}
         </Box>
         <Box className="table-holder">
-          {data.length ? (
+          {data?.length ? (
             <Table size="small">
               <TableHead>
                 <TableRow>
@@ -119,7 +120,7 @@ export default function TableDefault({
               <Button
                 variant={show === 5 ? "contained" : "outlined"}
                 color="black"
-                disabled={!data.length}
+                disabled={!data?.length}
                 onClick={() => setShow(5)}
               >
                 5
@@ -127,7 +128,7 @@ export default function TableDefault({
               <Button
                 variant={show === 10 ? "contained" : "outlined"}
                 color="black"
-                disabled={!data.length}
+                disabled={!data?.length}
                 onClick={() => setShow(10)}
               >
                 10
@@ -135,7 +136,7 @@ export default function TableDefault({
               <Button
                 variant={show === 25 ? "contained" : "outlined"}
                 color="black"
-                disabled={!data.length}
+                disabled={!data?.length}
                 onClick={() => setShow(25)}
               >
                 25
@@ -143,7 +144,7 @@ export default function TableDefault({
               <Button
                 variant={show === 50 ? "contained" : "outlined"}
                 color="black"
-                disabled={!data.length}
+                disabled={!data?.length}
                 onClick={() => setShow(50)}
               >
                 50
@@ -153,7 +154,7 @@ export default function TableDefault({
               <React.Fragment>
                 <Button
                   variant="outlined"
-                  disabled={!data.length}
+                  disabled={!data?.length}
                   onClick={handlePrev}
                   color="black"
                   startIcon={<KeyboardArrowLeftIcon />}
@@ -162,7 +163,7 @@ export default function TableDefault({
                 </Button>
                 <Button
                   variant="outlined"
-                  disabled={!data.length}
+                  disabled={!data?.length}
                   onClick={handleNext}
                   color="black"
                   endIcon={<KeyboardArrowRightIcon />}
