@@ -1,11 +1,11 @@
 const env = {
   dev: {
     portal: "http://localhost:3001",
-    userService: "http://localhost:8801",
-    ticketService: "http://localhost:8802",
-    branchService: "http://localhost:8803",
-    loggerService: "http://localhost:8804",
-    resourceService: "http://localhost:8805",
+    userService: "http://localhost:8802",
+    ticketService: "http://localhost:8803",
+    branchService: "http://localhost:8804",
+    loggerService: "http://localhost:8805",
+    resourceService: "http://localhost:8806",
   },
   uat: {
     portal: "http://nadescrib.com:3001",
