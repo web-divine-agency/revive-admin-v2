@@ -36,7 +36,7 @@ export default function ActivityLogs() {
   const handleListLogs = (last, direction, show, find) => {
     LoggerService.list(
       {
-        last: last || moment().format("YYYYMMDDhhmmss"),
+        last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
         show: show || 5,
         find: find || "",

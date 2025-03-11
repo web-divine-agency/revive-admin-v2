@@ -12,7 +12,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/res/users`,
+      url: `/admin/users`,
       params: params,
       headers: {
         Authorization: token,
@@ -29,7 +29,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.userService,
-      url: `/admin/res/users`,
+      url: `/admin/users`,
       data: payload,
       headers: {
         Authorization: token,
@@ -47,7 +47,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/portal/res/users/${userId}`,
+      url: `/portal/users/${userId}`,
       headers: {
         Authorization: token,
       },
@@ -65,7 +65,7 @@ export default {
     return axios({
       method: "PUT",
       baseURL: url.classService,
-      url: `/portal/res/users/${userId}`,
+      url: `/portal/users/${userId}`,
       data: payload,
       headers: {
         Authorization: token,

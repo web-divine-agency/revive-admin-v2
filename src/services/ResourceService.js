@@ -12,7 +12,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/res/resources`,
+      url: `/admin/resources`,
       params: params,
       headers: {
         Authorization: token,
@@ -30,7 +30,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.resourceService,
-      url: `/admin/res/resources`,
+      url: `/admin/resources`,
       data: payload,
       headers: {
         Authorization: token,
@@ -48,7 +48,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/res/resources/${resourceSlug}`,
+      url: `/admin/resources/${resourceSlug}`,
       headers: {
         Authorization: token,
       },
@@ -81,7 +81,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/res/resource-categories`,
+      url: `/admin/resource-categories`,
       params: params,
       headers: {
         Authorization: token,
@@ -99,7 +99,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.resourceService,
-      url: `/admin/res/resource-categories`,
+      url: `/admin/resource-categories`,
       data: payload,
       headers: {
         Authorization: token,
@@ -117,7 +117,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/res/resource-categories/${resourceCategoryId}`,
+      url: `/admin/resource-categories/${resourceCategoryId}`,
       headers: {
         Authorization: token,
       },
@@ -135,7 +135,7 @@ export default {
     return axios({
       method: "PUT",
       baseURL: url.resourceService,
-      url: `/admin/res/resource-categories/${resourceCategoryId}`,
+      url: `/admin/resource-categories/${resourceCategoryId}`,
       data: payload,
       headers: {
         Authorization: token,
@@ -153,7 +153,7 @@ export default {
     return axios({
       method: "DELETE",
       baseURL: url.resourceService,
-      url: `/admin/res/resource-categories/${resourceCategoryId}`,
+      url: `/admin/resource-categories/${resourceCategoryId}`,
       headers: {
         Authorization: token,
       },

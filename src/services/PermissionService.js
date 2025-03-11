@@ -12,7 +12,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/res/permissions`,
+      url: `/admin/permissions`,
       params: params,
       headers: {
         Authorization: token,
@@ -46,7 +46,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.userService,
-      url: `/admin/res/permissions`,
+      url: `/admin/permissions`,
       data: payload,
       headers: {
         Authorization: token,

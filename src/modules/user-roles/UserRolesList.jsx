@@ -50,7 +50,7 @@ export default function UserRolesList() {
   const handleListUserRoles = (last, direction, show, find) => {
     RoleService.list(
       {
-        last: last || moment().format("YYYYMMDDhhmmss"),
+        last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
         show: show || 5,
         find: find || "",

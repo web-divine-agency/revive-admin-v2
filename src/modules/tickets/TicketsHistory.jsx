@@ -24,13 +24,10 @@ import Grid from "@mui/material/Grid2";
 
 import "./Tickets.scss";
 
-import { useLoader } from "@/components/loaders/LoaderContext";
-
 import Global from "@/util/global";
 
 import NavTopbar from "@/components/navigation/NavTopbar";
 import NavSidebar from "@/components/navigation/NavSidebar";
-
 
 Font.register({
   family: "Arial",
@@ -82,8 +79,6 @@ function TicketsHistory() {
   // eslint-disable-next-line no-unused-vars
   const [selectedTicketId, setSelectedTicketId] = useState(0);
 
-  const { setLoading } = useLoader();
-
   // eslint-disable-next-line no-unused-vars
   const { authUser } = useContext(Global);
 
@@ -92,7 +87,6 @@ function TicketsHistory() {
 
   useEffect(() => {
     const fetchTickets = () => {
-      setLoading(true);
       try {
         const response = {};
 
@@ -111,8 +105,6 @@ function TicketsHistory() {
         setData(formattedData);
       } catch (error) {
         console.error("Error fetching staff logs:", error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchTickets();

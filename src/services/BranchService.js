@@ -28,7 +28,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.branchService,
-      url: `/admin/res/branches`,
+      url: `/admin/branches`,
       params: params,
       headers: {
         Authorization: token,
@@ -46,7 +46,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.branchService,
-      url: `/admin/res/branches`,
+      url: `/admin/branches`,
       data: payload,
       headers: {
         Authorization: token,

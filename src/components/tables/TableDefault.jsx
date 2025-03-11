@@ -34,29 +34,29 @@ export default function TableDefault({
   const [find, setFind] = useState("");
 
   const handleSearch = () => {
-    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", show, find);
+    onChangeData(moment().format("YYYYMMDDHHmmss"), "next", show, find);
   };
 
   const handleNext = () => {
     let last =
       data[data?.length - 1]?.created_at_order ||
-      moment().format("YYYYMMDDhhmmss");
+      moment().format("YYYYMMDDHHmmss");
     onChangeData(last, "next", show, find);
   };
 
   const handlePrev = () => {
-    let last = data[0]?.created_at_order || moment().format("YYYYMMDDhhmmss");
+    let last = data[0]?.created_at_order || moment().format("YYYYMMDDHHmmss");
     onChangeData(last, "prev", show, find);
   };
 
   const handleRefresh = () => {
     setFind("");
     setShow(5);
-    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", 5, "");
+    onChangeData(moment().format("YYYYMMDDHHmmss"), "next", 5, "");
   };
 
   useEffect(() => {
-    onChangeData(moment().format("YYYYMMDDhhmmss"), "next", show, find);
+    onChangeData(moment().format("YYYYMMDDHHmmss"), "next", show, find);
   }, [show]);
 
   return (

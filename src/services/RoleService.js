@@ -28,7 +28,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/res/roles`,
+      url: `/admin/roles`,
       params: params,
       headers: {
         Authorization: token,
@@ -45,7 +45,7 @@ export default {
     return axios({
       method: "POST",
       baseURL: url.userService,
-      url: `/admin/res/roles`,
+      url: `/admin/roles`,
       data: payload,
       headers: {
         Authorization: token,
@@ -63,7 +63,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/res/roles/${roleId}`,
+      url: `/admin/roles/${roleId}`,
       headers: {
         Authorization: token,
       },
@@ -81,7 +81,7 @@ export default {
     return axios({
       method: "PUT",
       baseURL: url.userService,
-      url: `/admin/res/roles/${roleId}`,
+      url: `/admin/roles/${roleId}`,
       data: payload,
       headers: {
         Authorization: token,
@@ -99,7 +99,7 @@ export default {
     return axios({
       method: "DELETE",
       baseURL: url.userService,
-      url: `/admin/res/roles/${roleId}`,
+      url: `/admin/roles/${roleId}`,
       headers: {
         Authorization: token,
       },

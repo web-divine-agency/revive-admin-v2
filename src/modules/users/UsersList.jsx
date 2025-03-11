@@ -64,7 +64,7 @@ export default function UsersList() {
 
     UserService.list(
       {
-        last: last || moment().format("YYYYMMDDhhmmss"),
+        last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
         show: show || 5,
         find: find || "",

@@ -46,7 +46,7 @@ export default function PermissionsList() {
   const handleListPermissions = (last, direction, show, find) => {
     PermissionService.list(
       {
-        last: last || moment().format("YYYYMMDDhhmmss"),
+        last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
         show: show || 5,
         find: find || "",

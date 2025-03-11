@@ -73,7 +73,7 @@ export default function BranchesList() {
   const handleListBranches = (last, direction, show, find) => {
     BranchService.list(
       {
-        last: last || moment().format("YYYYMMDDhhmmss"),
+        last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
         show: show || 5,
         find: find || "",
