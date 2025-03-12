@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
+import moment from "moment-timezone";
 
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, green, grey, lime, red } from "@mui/material/colors";
@@ -15,6 +16,8 @@ import Global from "./util/global";
 import { SnackbarProvider } from "notistack";
 
 export default function App() {
+  moment.tz.setDefault("Australia/Sydney");
+
   const [sidebarActive, setSidebarActive] = useState(false);
 
   const [authUser, setAuthUser] = useState(

@@ -1,2 +1,8 @@
-// Left empty to find all import suggestions
-{}
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

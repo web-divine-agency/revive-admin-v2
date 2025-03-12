@@ -37,8 +37,8 @@ import NavTopbar from "@/components/navigation/NavTopbar";
 import TableDefault from "@/components/tables/TableDefault";
 
 import UserService from "@/services/UserService";
-import RoleService from "../../services/RoleService";
-import BranchService from "../../services/BranchService";
+import RoleService from "@/services/RoleService";
+import BranchService from "@/services/BranchService";
 
 export default function UsersList() {
   const navigate = useNavigate();
@@ -77,6 +77,7 @@ export default function UsersList() {
         setUsers(response.data.users);
       })
       .catch((error) => {
+        console.log(error);
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {

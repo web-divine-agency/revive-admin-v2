@@ -8,8 +8,8 @@ export default {
    * @param {*} token
    * @returns
    */
-  list: (params, token) => {
-    return axios({
+  list: async (params, token) => {
+    return await axios({
       method: "GET",
       baseURL: url.userService,
       url: `/admin/users`,

@@ -63,9 +63,13 @@ export default function Login() {
         }
       })
       .catch((error) => {
+        console.log(error);
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
-        } else if (error.response.status === 401) {
+        } else if (
+          error.response.status === 401 ||
+          error.response.status === 404
+        ) {
           snackbar(error.response.data.error, "error", 3000);
         } else if (error.response.status === 422) {
           setErrors(error.response.data.error);
@@ -101,7 +105,7 @@ export default function Login() {
                 Welcome back! Login to your account
               </Typography>
 
-              <Box component={"form"} onSubmit={handleLogin}>
+              <Box component={"form"} onSubmit={(event) => handleLogin(event)}>
                 <Grid container spacing={2}>
                   <Grid size={{ xs: 12 }}>
                     <TextField
