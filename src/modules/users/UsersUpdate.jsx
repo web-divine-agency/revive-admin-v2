@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -37,7 +37,7 @@ export default function UsersUpdate() {
 
   const navigate = useNavigate();
 
-  const { authUser } = useState(Global);
+  const { authUser } = useContext(Global);
 
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState("");
@@ -48,7 +48,7 @@ export default function UsersUpdate() {
     gender: "",
     username: "",
     branchIds: [],
-    role: " ",
+    roleId: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -61,8 +61,6 @@ export default function UsersUpdate() {
 
   const [roles, setRoles] = useState([]);
 
-  // const [successMessage, setSuccessMessage] = useState("");
-
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setUser((user) => ({ ...user, [name]: value }));
@@ -71,50 +69,70 @@ export default function UsersUpdate() {
   const handleReadUser = () => {
     UserService.read(userId, authUser?.token)
       .then((response) => {
+        let branches = JSON.parse(response.data.user.all_branches);
+
         setUser({
-          firstName: response.data.first_name,
-          lastName: response.data.last_name,
-          gender: response.data.sex,
-          username: response.data.username,
-          branchIds: response.data.branches.flatMap((i) => i.id),
-          role: response.data.roles[0]?.role_name,
-          email: response.data.email,
+          firstName: response.data.user.first_name,
+          lastName: response.data.user.last_name,
+          gender: response.data.user.gender,
+          username: response.data.user.username,
+          branchIds: branches.flatMap((i) => i.id),
+          roleId: response.data.user.role_id,
+          email: response.data.user.email,
           password: "",
           confirmPassword: "",
         });
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
-  const handleListBranches = () => {
-    BranchService.list({}, authUser?.token)
+  const handleAllBranches = () => {
+    BranchService.all(authUser?.token)
       .then((response) => {
         setBranches({
-          names: response.data.flatMap((branch) => branch.branch_name),
-          list: response.data,
+          names: response.data.branches.flatMap((branch) => branch.name),
+          list: response.data.branches,
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
-  const handleListRoles = () => {
-    RoleService.list({}, authUser?.token)
+  const handleAllRoles = () => {
+    RoleService.all(authUser?.token)
       .then((response) => {
-        setRoles(response.data);
+        setRoles(response.data.roles);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
   useEffect(() => {
     handleReadUser();
-    handleListBranches();
-    handleListRoles();
+    handleAllBranches();
+    handleAllRoles();
   }, []);
 
   const validation = () => {
@@ -229,7 +247,7 @@ export default function UsersUpdate() {
                           sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
                         >
                           {names.map((item, i) => (
-                            <Chip key={i} label={item?.branch_name} />
+                            <Chip key={i} label={item?.name} />
                           ))}
                         </Box>
                       );
@@ -241,10 +259,9 @@ export default function UsersUpdate() {
                       },
                     }}
                   >
-                    <MenuItem value=""></MenuItem>
                     {branches.list.map((item, i) => (
                       <MenuItem key={i} value={item.id}>
-                        {item.branch_name}
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -283,6 +300,7 @@ export default function UsersUpdate() {
                     value={user.gender}
                     onChange={(event) => handleOnChange(event)}
                   >
+                    <MenuItem value={""}>&nbsp;</MenuItem>
                     <MenuItem value={"Male"}>Male</MenuItem>
                     <MenuItem value={"Female"}>Female</MenuItem>
                   </Select>
@@ -296,7 +314,11 @@ export default function UsersUpdate() {
                   name="username"
                   label="Username"
                   value={user.username}
-                  onChange={(event) => handleOnChange(event)}
+                  slotProps={{
+                    input: {
+                      readOnly: true,
+                    },
+                  }}
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
@@ -307,13 +329,13 @@ export default function UsersUpdate() {
                     id="role-select"
                     label="Role"
                     name="role"
-                    value={user.role}
+                    value={user.roleId}
                     onChange={(event) => handleOnChange(event)}
                   >
-                    <MenuItem value=" ">&nbsp;</MenuItem>
+                    <MenuItem value="">&nbsp;</MenuItem>
                     {roles?.map((item, i) => (
-                      <MenuItem value={item.role_name} key={i}>
-                        {item.role_name}
+                      <MenuItem value={item.id} key={i}>
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>

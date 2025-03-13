@@ -11,7 +11,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.branchService,
-      url: `/admin/fn/branches-all`,
+      url: `/portal/branches/all`,
       headers: {
         Authorization: token,
       },

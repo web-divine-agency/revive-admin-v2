@@ -12,7 +12,7 @@ export default {
     return await axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/users`,
+      url: `/portal/users`,
       params: params,
       headers: {
         Authorization: token,

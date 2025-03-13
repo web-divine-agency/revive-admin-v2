@@ -11,7 +11,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/fn/roles-all`,
+      url: `/portal/roles/all`,
       headers: {
         Authorization: token,
       },
@@ -28,7 +28,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/roles`,
+      url: `/portal/roles`,
       params: params,
       headers: {
         Authorization: token,

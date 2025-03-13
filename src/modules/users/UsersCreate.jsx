@@ -83,8 +83,7 @@ export default function UsersCreate() {
         gender: user.gender,
         username: user.username,
         role_name: user.role,
-        user_id: authUser?.id,
-        token: authUser?.token,
+        auth_id: authUser?.id,
       },
       authUser?.token
     )
@@ -113,8 +112,14 @@ export default function UsersCreate() {
           list: response.data.branches,
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 

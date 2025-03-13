@@ -77,7 +77,6 @@ export default function UsersList() {
         setUsers(response.data.users);
       })
       .catch((error) => {
-        console.log(error);
         if (error.code === "ERR_NETWORK") {
           snackbar(error.message, "error", 3000);
         } else if (error.response.status === 401) {
@@ -252,10 +251,7 @@ export default function UsersList() {
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="Edit" placement="top">
-                          <IconButton
-                            component={Link}
-                            to={`/users/${selectedUser.id}`}
-                          >
+                          <IconButton component={Link} to={`/users/${item.id}`}>
                             <EditIcon color="blue" />
                           </IconButton>
                         </Tooltip>
