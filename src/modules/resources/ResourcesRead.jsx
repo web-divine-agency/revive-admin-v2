@@ -57,6 +57,11 @@ export default function ResourcesRead() {
     email: "",
   });
 
+  const [media, setMedia] = useState({
+    pdfs: [],
+    images: [],
+  });
+
   const handleDeleteResource = () => {};
 
   const handleReadResourceBySlug = () => {
@@ -93,6 +98,17 @@ export default function ResourcesRead() {
   useEffect(() => {
     handleReadResourceBySlug();
   }, []);
+
+  // Handle sort media
+  useEffect(() => {
+    let pdfs = resource.media.filter((file) => file.mimetype.includes("pdf"));
+    let images = resource.media.filter((file) =>
+      file.mimetype.includes("image")
+    );
+
+    setMedia((prev) => ({ ...prev, pdfs: pdfs }));
+    setMedia((prev) => ({ ...prev, images: images }));
+  }, [resource]);
 
   return (
     <React.Fragment>
@@ -155,37 +171,55 @@ export default function ResourcesRead() {
                   dangerouslySetInnerHTML={{ __html: field.content }}
                 ></Grid>
               ))}
-              {resource.media.length && (
+              {media.pdfs.length > 0 && (
+                <Grid size={{ xs: 12 }}>
+                  <Typography className="section-heading">Documents</Typography>
+                </Grid>
+              )}
+              {media.pdfs.length > 0 && (
+                <Grid size={{ xs: 12 }}>
+                  {media.pdfs.map((file, i) => (
+                    <Box
+                      component={"embed"}
+                      key={i}
+                      src={`${url.resourceService}${file.url}`}
+                      type="application/pdf"
+                      width="100%"
+                      height="1024px"
+                      title={file.title}
+                    />
+                  ))}
+                </Grid>
+              )}
+              {media.images.length > 0 && (
                 <Grid size={{ xs: 12 }}>
                   <Typography className="section-heading">
                     Image Gallery
                   </Typography>
                 </Grid>
               )}
-              {resource.media.length && (
+              {media.images.length > 0 && (
                 <LightGallery thumbnail={true}>
-                  {resource.media
-                    .filter((file) => file.mimetype.includes("image"))
-                    .map((file, i) => (
-                      <React.Fragment key={i}>
+                  {media.images.map((file, i) => (
+                    <React.Fragment key={i}>
+                      <Box
+                        component={"a"}
+                        href={`${url.resourceService}${file.url}`}
+                      >
                         <Box
-                          component={"a"}
-                          href={`${url.resourceService}${file.url}`}
-                        >
-                          <Box
-                            component={"img"}
-                            src={`${url.resourceService}${file.url}`}
-                            alt={`Resource Image ${i + 1}`}
-                            sx={{
-                              m: "auto",
-                              p: 2,
-                              display: "inline-block",
-                              width: "25%",
-                            }}
-                          />
-                        </Box>
-                      </React.Fragment>
-                    ))}
+                          component={"img"}
+                          src={`${url.resourceService}${file.url}`}
+                          alt={`Resource Image ${i + 1}`}
+                          sx={{
+                            m: "auto",
+                            p: 2,
+                            display: "inline-block",
+                            width: "25%",
+                          }}
+                        />
+                      </Box>
+                    </React.Fragment>
+                  ))}
                 </LightGallery>
               )}
             </Grid>

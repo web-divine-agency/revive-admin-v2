@@ -66,6 +66,10 @@ function ResourcesLists() {
 
   useEffect(() => {
     handleListResources();
+  }, []);
+
+  useEffect(() => {
+    handleListResources();
   }, [searchParams]);
 
   return (
@@ -104,9 +108,9 @@ function ResourcesLists() {
                     "Last Update",
                     "Actions",
                   ]}
-                  onChangeData={(last, direction, show, find) => {
-                    handleListResources(last, direction, show, find);
-                  }}
+                  onChangeData={(last, direction, show, find) =>
+                    handleListResources(last, direction, show, find)
+                  }
                 >
                   {resources?.map((item, i) => (
                     <TableRow key={i}>

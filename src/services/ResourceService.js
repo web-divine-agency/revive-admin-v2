@@ -12,7 +12,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/resources`,
+      url: `/portal/resources`,
       params: params,
       headers: {
         Authorization: token,
@@ -48,7 +48,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/resources/${resourceSlug}`,
+      url: `/portal/resources/${resourceSlug}`,
       headers: {
         Authorization: token,
       },
@@ -64,7 +64,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/fn/resource-categories-all`,
+      url: `/portal/resource-categories/all`,
       headers: {
         Authorization: token,
       },
@@ -81,7 +81,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/resource-categories`,
+      url: `/portal/resource-categories`,
       params: params,
       headers: {
         Authorization: token,

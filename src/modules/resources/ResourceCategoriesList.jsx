@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import moment from "moment";
@@ -82,6 +82,10 @@ export default function ResourceCategoriesList() {
         }
       });
   };
+
+  useEffect(() => {
+    handleListResourceCategories();
+  }, []);
 
   return (
     <React.Fragment>

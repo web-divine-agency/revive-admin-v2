@@ -393,7 +393,7 @@ export default function ResourcesCreate() {
                               component={"img"}
                               src={URL.createObjectURL(item)}
                               alt={item.name}
-                              width={212}
+                              width={"100%"}
                               sx={{
                                 marginBottom: 1,
                               }}

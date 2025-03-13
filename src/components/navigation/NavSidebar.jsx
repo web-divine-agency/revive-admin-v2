@@ -4,6 +4,7 @@ import moment from "moment/moment";
 
 import {
   Box,
+  Button,
   Collapse,
   Container,
   IconButton,
@@ -122,11 +123,11 @@ export default function NavSidebar() {
               authUser?.role_name === "Staff") && (
               <>
                 <ListItem>
-                  <Link to="#" onClick={() => toggleDropdown("tickets")}>
+                  <Button onClick={() => toggleDropdown("tickets")}>
                     <ConfirmationNumberIcon />
                     Ticketing
                     {menu.tickets.open ? <ExpandLess /> : <ExpandMore />}
-                  </Link>
+                  </Button>
                 </ListItem>
                 <Collapse
                   component={"li"}
@@ -178,11 +179,11 @@ export default function NavSidebar() {
             {authUser?.role_name === "Admin" && (
               <>
                 <ListItem>
-                  <Link to="#" onClick={() => toggleDropdown("branches")}>
+                  <Button onClick={() => toggleDropdown("branches")}>
                     <ApartmentIcon />
                     Branches
                     {menu.branches.open ? <ExpandLess /> : <ExpandMore />}
-                  </Link>
+                  </Button>
                 </ListItem>
                 <Collapse
                   component={"li"}
@@ -212,11 +213,11 @@ export default function NavSidebar() {
               </>
             )}
             <ListItem>
-              <Link to="#" onClick={() => toggleDropdown("resources")}>
+              <Button onClick={() => toggleDropdown("resources")}>
                 <FileCopyIcon />
                 Resources
                 {menu.resources.open ? <ExpandLess /> : <ExpandMore />}
-              </Link>
+              </Button>
             </ListItem>
             <Collapse
               component={"li"}
@@ -275,11 +276,11 @@ export default function NavSidebar() {
             {authUser?.role_name === "Admin" && (
               <>
                 <ListItem>
-                  <Link to="#" onClick={() => toggleDropdown("user_roles")}>
+                  <Button onClick={() => toggleDropdown("user_roles")}>
                     <ManageAccountsIcon />
                     User Roles
-                    {menu.resources.open ? <ExpandLess /> : <ExpandMore />}
-                  </Link>
+                    {menu.user_roles.open ? <ExpandLess /> : <ExpandMore />}
+                  </Button>
                 </ListItem>
                 <Collapse
                   component={"li"}
