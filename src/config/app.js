@@ -8,12 +8,12 @@ const env = {
     resourceService: "http://localhost:8806",
   },
   uat: {
-    portal: "http://nadescrib.com:3001",
-    userService: "http://nadescrib.com:8801",
-    ticketService: "http://nadescrib.com:8802",
-    branchService: "http://nadescrib.com:8803",
-    loggerService: "http://nadescrib.com:8804",
-    resourceService: "http://nadescrib.com:8805",
+    portal: "https://v2.revivepharmacyportal.com.au",
+    userService: "http://nadescrib.com:8802",
+    ticketService: "http://nadescrib.com:8803",
+    branchService: "http://nadescrib.com:8804",
+    loggerService: "http://nadescrib.com:8805",
+    resourceService: "http://nadescrib.com:8806",
   },
 };
 
