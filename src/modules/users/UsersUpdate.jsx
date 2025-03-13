@@ -40,7 +40,7 @@ export default function UsersUpdate() {
   const { authUser } = useContext(Global);
 
   // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
 
   const [user, setUser] = useState({
     firstName: "",
@@ -135,43 +135,8 @@ export default function UsersUpdate() {
     handleAllRoles();
   }, []);
 
-  const validation = () => {
-    if (
-      !user.lastName ||
-      !user.firstName ||
-      !user.branchIds.length ||
-      !user.email ||
-      !user.gender ||
-      !user.username ||
-      !user.role
-    ) {
-      return "All fields are required.";
-    }
-
-    if (user.password && user.password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
-
-    if (user.password !== user.confirmPassword) {
-      return "Passwords do not match.";
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)) {
-      return "Invalid email format.";
-    }
-
-    return "";
-  };
-
-  const handleUpdateUser = async () => {
-    let valid = validation();
-
-    if (valid) {
-      snackbar(valid, "error");
-      return;
-    }
-
-    UserService.udpate(
+  const handleUpdateUser = () => {
+    UserService.update(
       userId,
       {
         first_name: user.firstName,
@@ -179,9 +144,9 @@ export default function UsersUpdate() {
         branch_ids: user.branchIds,
         password: user.password,
         email: user.email,
-        sex: user.gender,
-        username: user.username,
-        role_name: user.role,
+        gender: user.gender,
+        role_id: user.roleId,
+        auth_id: authUser?.id,
       },
       authUser?.token
     )
@@ -189,7 +154,16 @@ export default function UsersUpdate() {
         navigate("/users");
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          snackbar(error.response.data.msg, "error", 3000);
+        } else if (error.response.status === 422) {
+          setErrors(error.response.data.error);
+          snackbar("Invalid input found", "error", 3000);
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
       });
   };
 
@@ -328,7 +302,7 @@ export default function UsersUpdate() {
                     labelId="role-select-label"
                     id="role-select"
                     label="Role"
-                    name="role"
+                    name="roleId"
                     value={user.roleId}
                     onChange={(event) => handleOnChange(event)}
                   >

@@ -100,9 +100,9 @@ export default function PermissionsList() {
                   data={permissions}
                   tableName="permissions"
                   header={["Name", "Description", "Actions"]}
-                  onChangeData={(last, direction, show, find) => {
-                    handleListPermissions(last, direction, show, find);
-                  }}
+                  onChangeData={(last, direction, show, find) =>
+                    handleListPermissions(last, direction, show, find)
+                  }
                 >
                   {permissions?.map((item, i) => (
                     <TableRow key={i}>
@@ -145,7 +145,7 @@ export default function PermissionsList() {
         onClose={() => setPermissionDeleteModalOpen(false)}
         className="user-roles-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete Permission</Typography>
           </Box>

@@ -197,7 +197,7 @@ export default function ResourcesRead() {
         onClose={() => setResourceDeleteModalOpen(false)}
         className="resource-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete Resource</Typography>
           </Box>

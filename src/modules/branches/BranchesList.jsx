@@ -183,9 +183,9 @@ export default function BranchesList() {
                     "Operations",
                     "Actions",
                   ]}
-                  onChangeData={(last, direction, show, find) => {
-                    handleListBranches(last, direction, show, find);
-                  }}
+                  onChangeData={(last, direction, show, find) =>
+                    handleListBranches(last, direction, show, find)
+                  }
                 >
                   {branches?.map((item, i) => (
                     <TableRow key={i}>
@@ -247,7 +247,7 @@ export default function BranchesList() {
         onClose={() => setBranchDetailsModalOpen(false)}
         className="branch-details-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-lg">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Branch Details</Typography>
           </Box>
@@ -291,7 +291,7 @@ export default function BranchesList() {
         onClose={() => setBranchDeleteModalOpen(false)}
         className="branch-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete Branch</Typography>
           </Box>

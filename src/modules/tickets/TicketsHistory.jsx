@@ -2089,7 +2089,7 @@ function TicketsHistory() {
         onClose={() => setTicketDetailsModalOpen(false)}
         className="ticket-details-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-lg">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Ticket Details</Typography>
           </Box>
@@ -2116,7 +2116,7 @@ function TicketsHistory() {
         onClose={() => setTicketDeleteModalOpen(false)}
         className="branch-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete Branch</Typography>
           </Box>

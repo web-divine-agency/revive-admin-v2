@@ -3,7 +3,7 @@ import { url } from "../config/app";
 
 export default {
   /**
-   * List all branches without pagination
+   * List branches without pagination
    * @param {*} token
    * @returns
    */
@@ -28,7 +28,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.branchService,
-      url: `/admin/branches`,
+      url: `/portal/branches`,
       params: params,
       headers: {
         Authorization: token,

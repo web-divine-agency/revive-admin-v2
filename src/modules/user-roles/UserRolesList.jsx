@@ -181,7 +181,7 @@ export default function UserRolesList() {
         onClose={() => setUserRolesDetailsModalOpen(false)}
         className="user-roles-details-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-lg">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>User Roles Details</Typography>
             <IconButton onClick={() => setUserRolesDetailsModalOpen(false)}>
@@ -250,7 +250,7 @@ export default function UserRolesList() {
         onClose={() => setUserRolesDeleteModalOpen(false)}
         className="user-roles-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete User Role</Typography>
           </Box>

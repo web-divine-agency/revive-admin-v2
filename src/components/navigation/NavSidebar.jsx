@@ -23,7 +23,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import PolicyIcon from "@mui/icons-material/Policy";
 
 import "./Navigation.scss";
 
@@ -49,6 +48,9 @@ export default function NavSidebar() {
       open: false,
     },
     resources: {
+      open: false,
+    },
+    user_roles: {
       open: false,
     },
   });
@@ -271,20 +273,40 @@ export default function NavSidebar() {
         <Box className="menu-settings">
           <List>
             {authUser?.role_name === "Admin" && (
-              <ListItem>
-                <Link to="/user-roles" onClick={() => setSidebarActive(false)}>
-                  <ManageAccountsIcon />
-                  User Roles
-                </Link>
-              </ListItem>
-            )}
-            {authUser?.role_name === "Admin" && (
-              <ListItem>
-                <Link to="/permissions" onClick={() => setSidebarActive(false)}>
-                  <PolicyIcon />
-                  Permissions
-                </Link>
-              </ListItem>
+              <>
+                <ListItem>
+                  <Link to="#" onClick={() => toggleDropdown("user_roles")}>
+                    <ManageAccountsIcon />
+                    User Roles
+                    {menu.resources.open ? <ExpandLess /> : <ExpandMore />}
+                  </Link>
+                </ListItem>
+                <Collapse
+                  component={"li"}
+                  in={menu.user_roles.open}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List disablePadding>
+                    <ListItem>
+                      <Link
+                        to="/user-roles"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        List Roles
+                      </Link>
+                    </ListItem>
+                    <ListItem>
+                      <Link
+                        to="/permissions"
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        List Permissions
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Collapse>
+              </>
             )}
             {authUser?.role_name === "Admin" && (
               <ListItem>

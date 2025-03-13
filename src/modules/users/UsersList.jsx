@@ -119,18 +119,19 @@ export default function UsersList() {
       });
   };
 
+  const handleDeleteUser = () => {
+    setUserDeleteModalOpen(false);
+  };
+
   useEffect(() => {
     handleAllRoles();
     handleAllBranches();
+    handleListUsers();
   }, []);
 
   useEffect(() => {
     handleListUsers();
   }, [selectedRoleName, selectedBranchName]);
-
-  const handleDeleteUser = () => {
-    setUserDeleteModalOpen(false);
-  };
 
   const filtersEl = (
     <React.Fragment>
@@ -279,7 +280,7 @@ export default function UsersList() {
         onClose={() => setUserDetailsModalOpen(false)}
         className="user-details-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-lg">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>User Details</Typography>
             <IconButton onClick={() => setUserDetailsModalOpen(false)}>
@@ -396,7 +397,7 @@ export default function UsersList() {
         onClose={() => setUserDeleteModalOpen(false)}
         className="user-delete-modal"
       >
-        <Paper elevation={4} className="modal-holder modal-holder-sm">
+        <Paper elevation={4} className="modal-holder">
           <Box className="modal-header">
             <Typography>Delete User</Typography>
           </Box>

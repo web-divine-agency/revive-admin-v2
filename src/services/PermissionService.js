@@ -4,15 +4,15 @@ import { url } from "../config/app";
 export default {
   /**
    * List permissions
-   * @param {*} params 
-   * @param {*} token 
-   * @returns 
+   * @param {*} params
+   * @param {*} token
+   * @returns
    */
   list: (params, token) => {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/permissions`,
+      url: `/portal/permissions`,
       params: params,
       headers: {
         Authorization: token,
@@ -21,15 +21,15 @@ export default {
   },
 
   /**
-   * List all permissions without pagination
-   * @param {*} token 
-   * @returns 
+   * List permissions without pagination
+   * @param {*} token
+   * @returns
    */
   all: (token) => {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/fn/permissions-all`,
+      url: `/portal/permissions/all`,
       headers: {
         Authorization: token,
       },
@@ -38,9 +38,9 @@ export default {
 
   /**
    * Create permission
-   * @param {*} payload 
-   * @param {*} token 
-   * @returns 
+   * @param {*} payload
+   * @param {*} token
+   * @returns
    */
   create: (payload, token) => {
     return axios({

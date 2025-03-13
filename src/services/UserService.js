@@ -64,8 +64,8 @@ export default {
   update: (userId, payload, token) => {
     return axios({
       method: "PUT",
-      baseURL: url.classService,
-      url: `/portal/users/${userId}`,
+      baseURL: url.userService,
+      url: `/admin/users/${userId}`,
       data: payload,
       headers: {
         Authorization: token,

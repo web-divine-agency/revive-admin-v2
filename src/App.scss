@@ -57,29 +57,17 @@ input.search-bar {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 512px;
+    width: 80%;
     background-color: white;
     border-radius: 8px;
     padding: 16px;
-
-    &-sm {
-      width: 256px;
-    }
-
-    &-md {
-      width: 512px;
-    }
-
-    &-lg {
-      width: 1024px;
-    }
 
     .modal-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
       .MuiTypography-root {
         font-size: 1.2rem;
@@ -98,8 +86,24 @@ input.search-bar {
   }
 }
 
+@media (min-width: 768px) {
+  .MuiModal-root {
+    .modal-holder {
+      width: 60%;
+    }
+  }
+}
+
 @media (min-width: 992px) {
   section.panel {
     padding-left: 256px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .MuiModal-root {
+    .modal-holder {
+      width: 50%;
+    }
   }
 }
