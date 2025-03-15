@@ -120,7 +120,20 @@ export default function UsersList() {
   };
 
   const handleDeleteUser = () => {
-    setUserDeleteModalOpen(false);
+    UserService.delete(selectedUser.id, {}, authUser?.token)
+      .then(() => {
+        handleListUsers();
+        setUserDeleteModalOpen(false);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
   };
 
   useEffect(() => {
@@ -368,6 +381,20 @@ export default function UsersList() {
                           type="text"
                           label="Email"
                           value={selectedUser.email}
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12 }}>
+                        <TextField
+                          multiline
+                          fullWidth
+                          size="small"
+                          label="Branches"
+                          value={selectedUser.all_branches}
                           slotProps={{
                             input: {
                               readOnly: true,

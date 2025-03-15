@@ -59,7 +59,7 @@ export default function Login() {
         if (response.data.user.role_name === "Admin") {
           navigate("/users");
         } else {
-          navigate("/tickets-list");
+          navigate("/tickets/create");
         }
       })
       .catch((error) => {

@@ -8,6 +8,9 @@ import {
   Chip,
   Container,
   FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -18,6 +21,8 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import "./Users.scss";
 
@@ -29,8 +34,8 @@ import NavTopbar from "@/components/navigation/NavTopbar.jsx";
 import NavSidebar from "@/components/navigation/NavSidebar.jsx";
 
 import UserService from "@/services/UserService";
-import BranchService from "../../services/BranchService";
-import RoleService from "../../services/RoleService";
+import BranchService from "@/services/BranchService";
+import RoleService from "@/services/RoleService";
 
 export default function UsersUpdate() {
   const { userId } = useParams();
@@ -39,8 +44,9 @@ export default function UsersUpdate() {
 
   const { authUser } = useContext(Global);
 
-  // eslint-disable-next-line no-unused-vars
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -64,6 +70,11 @@ export default function UsersUpdate() {
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setUser((user) => ({ ...user, [name]: value }));
+  };
+
+  const handleError = (key) => {
+    delete errors[key];
+    setErrors((errors) => ({ ...errors }));
   };
 
   const handleReadUser = () => {
@@ -250,6 +261,9 @@ export default function UsersUpdate() {
                   label="Last name"
                   value={user.lastName}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("last_name")}
+                  error={"last_name" in errors}
+                  helperText={"last_name" in errors ? errors["last_name"] : ""}
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 8 }}>
@@ -261,10 +275,15 @@ export default function UsersUpdate() {
                   label="First name"
                   value={user.firstName}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("first_name")}
+                  error={"first_name" in errors}
+                  helperText={
+                    "first_name" in errors ? errors["first_name"] : ""
+                  }
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl fullWidth size="small">
+                <FormControl fullWidth size="small" error={"gender" in errors}>
                   <InputLabel id="gender-select-label">Gender</InputLabel>
                   <Select
                     labelId="gender-select-label"
@@ -274,10 +293,12 @@ export default function UsersUpdate() {
                     value={user.gender}
                     onChange={(event) => handleOnChange(event)}
                   >
-                    <MenuItem value={""}>&nbsp;</MenuItem>
                     <MenuItem value={"Male"}>Male</MenuItem>
                     <MenuItem value={"Female"}>Female</MenuItem>
                   </Select>
+                  {"gender" in errors && (
+                    <FormHelperText>{errors["gender"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12, lg: 8 }}>
@@ -296,7 +317,7 @@ export default function UsersUpdate() {
                 />
               </Grid>
               <Grid size={{ xs: 12, lg: 4 }}>
-                <FormControl fullWidth size="small">
+                <FormControl fullWidth size="small" error={"role_id" in errors}>
                   <InputLabel id="role-select-label">Role</InputLabel>
                   <Select
                     labelId="role-select-label"
@@ -313,6 +334,9 @@ export default function UsersUpdate() {
                       </MenuItem>
                     ))}
                   </Select>
+                  {"role_id" in errors && (
+                    <FormHelperText>{errors["role_id"]}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }}>
@@ -324,29 +348,78 @@ export default function UsersUpdate() {
                   label="Email"
                   value={user.email}
                   onChange={(event) => handleOnChange(event)}
+                  onClick={() => handleError("email")}
+                  error={"email" in errors}
+                  helperText={"email" in errors ? errors["email"] : ""}
                 />
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <TextField
+                <FormControl
                   fullWidth
                   size="small"
-                  type="text"
-                  name="password"
-                  label="Password"
-                  value={user.password}
-                  onChange={(event) => handleOnChange(event)}
-                />
+                  variant="outlined"
+                  error={"password" in errors}
+                >
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <OutlinedInput
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    name="password"
+                    value={user.password}
+                    onChange={(event) => handleOnChange(event)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  {"password" in errors && (
+                    <FormHelperText>{errors["password"]}</FormHelperText>
+                  )}
+                </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }}>
-                <TextField
+                <FormControl
                   fullWidth
                   size="small"
-                  type="text"
-                  name="confirmPassword"
-                  label="Confirm password"
-                  value={user.confirmPassword}
-                  onChange={(event) => handleOnChange(event)}
-                />
+                  variant="outlined"
+                  error={user.password !== user.confirmPassword}
+                >
+                  <InputLabel htmlFor="password">Confirm password</InputLabel>
+                  <OutlinedInput
+                    type={showPassword ? "text" : "password"}
+                    label="Confirm password"
+                    name="confirmPassword"
+                    value={user.confirmPassword}
+                    onChange={(event) => handleOnChange(event)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  {user.password !== user.confirmPassword && (
+                    <FormHelperText>Password doesn&apos;t match</FormHelperText>
+                  )}
+                </FormControl>
               </Grid>
               <Grid size={{ xs: 12 }} textAlign={"right"}>
                 <Button

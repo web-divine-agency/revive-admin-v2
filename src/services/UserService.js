@@ -72,4 +72,16 @@ export default {
       },
     });
   },
+
+  delete: (userId, payload, token) => {
+    return axios({
+      method: "DELETE",
+      baseURL: url.userService,
+      url: `/admin/users/${userId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
 };
