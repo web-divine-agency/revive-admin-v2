@@ -121,7 +121,11 @@ export default function UsersList() {
   };
 
   const handleDeleteUser = () => {
-    UserService.delete(selectedUser.id, {}, authUser?.token)
+    UserService.delete(
+      selectedUser.id,
+      { auth_id: authUser?.id },
+      authUser?.token
+    )
       .then(() => {
         handleListUsers();
         setUserDeleteModalOpen(false);

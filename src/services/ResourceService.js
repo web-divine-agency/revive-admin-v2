@@ -117,7 +117,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.resourceService,
-      url: `/admin/resource-categories/${resourceCategoryId}`,
+      url: `/portal/resource-categories/${resourceCategoryId}`,
       headers: {
         Authorization: token,
       },
