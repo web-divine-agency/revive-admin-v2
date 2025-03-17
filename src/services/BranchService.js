@@ -53,4 +53,42 @@ export default {
       },
     });
   },
+
+  /**
+   * Read branch
+   * @param {*} branchId
+   * @param {*} params
+   * @param {*} token
+   * @returns
+   */
+  read: (branchId, params, token) => {
+    return axios({
+      method: "GET",
+      baseURL: url.branchService,
+      url: `/portal/branches/${branchId}`,
+      params: params,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
+
+  /**
+   * Update branch
+   * @param {*} branchId
+   * @param {*} payload
+   * @param {*} token
+   * @returns
+   */
+  update: (branchId, payload, token) => {
+    return axios({
+      method: "PUT",
+      baseURL: url.branchService,
+      url: `/admin/branches/${branchId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

@@ -75,7 +75,7 @@ export default function BranchesList() {
       {
         last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
-        show: show || 5,
+        show: show || 10,
         find: find || "",
         name: selectedBranchName,
       },
@@ -218,7 +218,7 @@ export default function BranchesList() {
                         <Tooltip title="Edit" placement="top">
                           <IconButton
                             component={Link}
-                            to={`/branches/${selectedBranch.id}`}
+                            to={`/branches/${item.id}`}
                           >
                             <EditIcon color="blue" />
                           </IconButton>

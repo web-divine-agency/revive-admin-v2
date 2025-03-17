@@ -47,7 +47,7 @@ export default function ResourceCategoriesList() {
       {
         last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
-        show: show || 5,
+        show: show || 10,
         find: find || "",
       },
       authUser?.token

@@ -66,7 +66,7 @@ export default function UsersList() {
       {
         last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
-        show: show || 5,
+        show: show || 10,
         find: find || "",
         role: selectedRoleName,
         branch_id: branch_id,

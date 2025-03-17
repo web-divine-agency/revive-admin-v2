@@ -239,7 +239,6 @@ export default function BranchesCreate() {
                     onChange={(event) => handleOnChange(event)}
                   />
                 </Grid>
-
                 <Grid size={{ xs: 12 }}>
                   <Button
                     onClick={() => navigate("/branches")}

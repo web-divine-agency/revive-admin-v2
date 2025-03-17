@@ -48,7 +48,7 @@ export default function PermissionsList() {
       {
         last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
-        show: show || 5,
+        show: show || 10,
         find: find || "",
       },
       authUser?.token
@@ -83,15 +83,6 @@ export default function PermissionsList() {
           </Typography>
           <Paper variant="outlined">
             <Grid container spacing={2}>
-              <Grid size={{ xs: 12 }}>
-                <Button
-                  component={Link}
-                  to="/permissions/create"
-                  variant="contained"
-                >
-                  Add New Permission
-                </Button>
-              </Grid>
               <Grid size={{ xs: 12 }}>
                 <TableDefault
                   search={true}

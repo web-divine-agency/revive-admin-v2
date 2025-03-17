@@ -30,7 +30,7 @@ export default function TableDefault({
   filter,
   filters,
 }) {
-  const [show, setShow] = useState(5);
+  const [show, setShow] = useState(10);
   const [find, setFind] = useState("");
 
   const handleSearch = () => {
@@ -51,8 +51,8 @@ export default function TableDefault({
 
   const handleRefresh = () => {
     setFind("");
-    setShow(5);
-    onChangeData(moment().format("YYYYMMDDHHmmss"), "next", 5, "");
+    setShow(10);
+    onChangeData(moment().format("YYYYMMDDHHmmss"), "next", 10, "");
   };
 
   useEffect(() => {
@@ -117,14 +117,6 @@ export default function TableDefault({
           <Box className="pagination">
             <Box className="show-control">
               <Typography>Showing</Typography>
-              <Button
-                variant={show === 5 ? "contained" : "outlined"}
-                color="black"
-                disabled={!data?.length}
-                onClick={() => setShow(5)}
-              >
-                5
-              </Button>
               <Button
                 variant={show === 10 ? "contained" : "outlined"}
                 color="black"

@@ -45,7 +45,7 @@ function ResourcesLists() {
         category_id: searchParams.get("category_id"),
         last: last || moment().format("YYYYMMDDHHmmss"),
         direction: direction || "next",
-        show: show || 5,
+        show: show || 10,
         find: find || "",
       },
       authUser?.token
