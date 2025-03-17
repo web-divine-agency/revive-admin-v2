@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import moment from "moment";
 
@@ -39,6 +39,7 @@ import BranchService from "@/services/BranchService";
 
 export default function BranchesList() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { authUser } = useContext(Global);
 
@@ -111,13 +112,32 @@ export default function BranchesList() {
       });
   };
 
+  const handleDeleteBranch = () => {
+    BranchService.delete(selectedBranch.id, {}, authUser?.token)
+      .then(() => {
+        handleListBranches();
+        setBranchDeleteModalOpen(false);
+      })
+      .catch((error) => {
+        if (error.code === "ERR_NETWORK") {
+          snackbar(error.message, "error", 3000);
+        } else if (error.response.status === 401) {
+          navigate("/login");
+        } else {
+          snackbar("Oops! Something went wrong", "error", 3000);
+        }
+      });
+  };
+
   useEffect(() => {
     handleAllBranches();
   }, []);
 
   useEffect(() => {
-    handleListBranches();
-  }, [selectedBranchName]);
+    if (location.pathname === "/branches") {
+      handleListBranches();
+    }
+  }, [selectedBranchName, location.pathname]);
 
   const filtersEl = (
     <React.Fragment>
@@ -307,7 +327,11 @@ export default function BranchesList() {
             >
               Cancel
             </Button>
-            <Button variant="contained" color="red" onClick={() => {}}>
+            <Button
+              variant="contained"
+              color="red"
+              onClick={handleDeleteBranch}
+            >
               Delete
             </Button>
           </Box>

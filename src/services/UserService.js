@@ -73,6 +73,13 @@ export default {
     });
   },
 
+  /**
+   * Delete user
+   * @param {*} userId 
+   * @param {*} payload 
+   * @param {*} token 
+   * @returns 
+   */
   delete: (userId, payload, token) => {
     return axios({
       method: "DELETE",

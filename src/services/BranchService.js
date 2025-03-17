@@ -91,4 +91,23 @@ export default {
       },
     });
   },
+
+  /**
+   * Delete branch
+   * @param {*} branchId
+   * @param {*} payload
+   * @param {*} token
+   * @returns
+   */
+  delete: (branchId, payload, token) => {
+    return axios({
+      method: "DELETE",
+      baseURL: url.branchService,
+      url: `/admin/branches/${branchId}`,
+      data: payload,
+      headers: {
+        Authorization: token,
+      },
+    });
+  },
 };

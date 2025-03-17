@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import moment from "moment";
 
@@ -42,6 +42,7 @@ import BranchService from "@/services/BranchService";
 
 export default function UsersList() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { authUser } = useContext(Global);
 
@@ -139,12 +140,13 @@ export default function UsersList() {
   useEffect(() => {
     handleAllRoles();
     handleAllBranches();
-    handleListUsers();
   }, []);
 
   useEffect(() => {
-    handleListUsers();
-  }, [selectedRoleName, selectedBranchName]);
+    if (location.pathname === "/users") {
+      handleListUsers();
+    }
+  }, [selectedRoleName, selectedBranchName, location.pathname]);
 
   const filtersEl = (
     <React.Fragment>
