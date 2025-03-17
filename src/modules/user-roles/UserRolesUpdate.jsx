@@ -67,10 +67,6 @@ export default function UserRolesUpdate() {
     );
   };
 
-  useEffect(() => {
-    console.log(selectedPermissions);
-  }, [selectedPermissions]);
-
   const handleAllPermissions = () => {
     PermissionService.all(authUser?.token)
       .then((response) => {

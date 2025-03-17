@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import moment from "moment";
 
@@ -35,6 +35,7 @@ import RoleService from "@/services/RoleService";
 
 export default function UserRolesList() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { authUser } = useContext(Global);
 
@@ -89,8 +90,10 @@ export default function UserRolesList() {
   };
 
   useEffect(() => {
-    handleListUserRoles();
-  }, []);
+    if (location.pathname === "user-roles") {
+      handleListUserRoles();
+    }
+  }, [location.pathname]);
 
   return (
     <React.Fragment>
@@ -211,7 +214,6 @@ export default function UserRolesList() {
                         label="Role description"
                         value={selectedUserRole?.role_description}
                         slotProps={{ input: { readOnly: true } }}
-                        sx={{ minWidth: 256 }}
                       />
                     </Grid>
                   </Grid>

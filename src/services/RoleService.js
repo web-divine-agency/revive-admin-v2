@@ -63,7 +63,7 @@ export default {
     return axios({
       method: "GET",
       baseURL: url.userService,
-      url: `/admin/roles/${roleId}`,
+      url: `/portal/roles/${roleId}`,
       headers: {
         Authorization: token,
       },

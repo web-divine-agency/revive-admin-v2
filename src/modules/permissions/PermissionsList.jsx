@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import moment from "moment";
 
@@ -7,17 +7,13 @@ import {
   Box,
   Button,
   Container,
-  IconButton,
   Modal,
   Paper,
   TableCell,
   TableRow,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./Permissions.scss";
 
@@ -104,24 +100,7 @@ export default function PermissionsList() {
                         <Typography>{item.description}</Typography>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Edit" placement="top">
-                          <IconButton
-                            component={Link}
-                            to={`/permissions/${item.id}`}
-                          >
-                            <EditIcon color="blue" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete" placement="top">
-                          <IconButton
-                            onClick={() => {
-                              setSelectedPermission(item);
-                              setPermissionDeleteModalOpen(true);
-                            }}
-                          >
-                            <DeleteIcon color="red" />
-                          </IconButton>
-                        </Tooltip>
+                        <Typography>&nbsp;</Typography>
                       </TableCell>
                     </TableRow>
                   ))}
